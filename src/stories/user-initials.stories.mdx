@@ -1,0 +1,40 @@
+import { Meta, Story, Canvas, Source } from '@storybook/addon-docs';
+import UserInitials from '../components/user-initials.vue';
+import Vue from 'vue';
+import Vuex from 'vuex';
+Vue.use(Vuex);
+
+<Meta title="others/UserInitials" component={UserInitials} />
+
+## UserInitials
+
+> This component work with Store -> Profile -> Getters -> namePlain
+
+Example:
+<Source code={`<user-initials/>`} />
+
+### Default
+<Canvas>
+  <Story name="Default view">
+    {{
+      components: { UserInitials },
+      template: `<user-initials/>`,
+      store: new Vuex.Store({
+        modules: {
+          Profile: {
+            namespaced: true,
+            getters: {
+              namePlain() {
+                return {
+                  first: 'Fake',
+                  last: 'User'
+                };
+              },
+            },
+          },
+        }
+      }),
+    }}
+  </Story>
+</Canvas>
+

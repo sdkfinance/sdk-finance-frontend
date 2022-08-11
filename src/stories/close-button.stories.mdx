@@ -1,0 +1,23 @@
+import { Meta, Story, Canvas, Source } from '@storybook/addon-docs';
+import CloseButton from '@/components/close-button.vue';
+
+<Meta title="others/CloseButton" component={CloseButton}/>
+
+export const Template = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { CloseButton },
+  template: `<close-button></close-button>`,
+});
+
+
+## CloseButton
+
+Example:
+<Source code={`<close-button></close-button>`}></Source>
+
+### Default
+<Canvas>
+  <Story name="Default view">
+    { Template.bind({}) }
+  </Story>
+</Canvas>

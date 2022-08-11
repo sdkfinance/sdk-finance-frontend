@@ -1,0 +1,45 @@
+import { Meta, Story, Canvas, Source, ArgsTable } from '@storybook/addon-docs';
+import AppStepController from '@/components/ui-kit/app-step-controller.vue'
+
+<Meta title="ui-kit/AppStepController" component={AppStepController}/>
+
+export const Template = (args, { argTypes }) => ({
+    props: Object.keys(argTypes),
+    components: { AppStepController },
+    template: `
+   <app-step-controller
+        total-steps="2"
+        back-name="/"
+        is-close-visible>
+        <template #default="{ currentStep, nextStep, goToBackPage }">
+          <div class="max-w-540 ml-auto mr-auto">
+            Current step is: {{ currentStep }} <button @click="nextStep"> Next step </button>
+          </div>
+        </template>
+    </app-step-controller>`,
+});
+
+
+## AppStepController
+
+Example:
+<Source code={`
+<app-step-controller
+    total-steps="2"
+    back-name="/"
+    is-close-visible>
+    <template #default="{ currentStep, nextStep, goToBackPage }">
+      Current step is: {{ currentStep }} <button @click="nextStep"> Next step </button>
+    </template>
+</app-step-controller>
+`}/>
+
+### Default
+<Canvas>
+    <Story name="Default view" args={{ value: '', }}>
+        { Template.bind({}) }
+    </Story>
+</Canvas>
+
+## Props
+<ArgsTable story="Default view" />

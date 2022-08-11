@@ -1,0 +1,16 @@
+import { Meta, Canvas, Story } from '@storybook/addon-docs';
+import AppIconsList from '@/components/ui-kit/app-icons-list.vue';
+
+<Meta title="icons/List of icons"  component={AppIconsList}/>
+
+export const Template = () => ({
+    components: {AppIconsList},
+    template: `<app-icons-list />`,
+});
+
+# Icons list
+<Canvas>
+    <Story name="Default view">
+        { Template.bind({}) }
+    </Story>
+</Canvas>

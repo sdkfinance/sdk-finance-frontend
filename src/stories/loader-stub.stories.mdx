@@ -1,0 +1,26 @@
+import { Meta, Story, Canvas, ArgsTable, Source } from '@storybook/addon-docs';
+import LoaderStub from '@/components/loader-stub.vue';
+
+<Meta title="others/LoaderStub" component={LoaderStub}/>
+
+export const Template = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { LoaderStub },
+  template: `<loader-stub :height="height"></loader-stub>`,
+});
+
+
+## LoaderStub
+
+Example:
+<Source code={`<loader-stub :height="height">Your content</loader-stub>`}></Source>
+
+### Default
+<Canvas>
+  <Story name="Default view" args={{ height: '200px' }}>
+    { Template.bind({}) }
+  </Story>
+</Canvas>
+
+## Props
+<ArgsTable story="Default view" />

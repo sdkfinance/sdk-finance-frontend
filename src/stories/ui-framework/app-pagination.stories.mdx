@@ -1,0 +1,26 @@
+import { Meta, Story, Canvas, Source, ArgsTable } from '@storybook/addon-docs';
+import AppPagination from '@/components/ui-framework/app-pagination.vue'
+
+<Meta title="ui-framework/AppPagination" component={AppPagination} />
+
+export const Template = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { AppPagination },
+  template: '<app-pagination :current-page="currentPage" :page-size="pageSize" :total="total"/>',
+});
+
+
+## AppPagination
+
+Example:
+<Source code={`<app-pagination :current-page="currentPage" :page-size="pageSize" :total="total"/>`} ></Source>
+
+### Default
+<Canvas>
+  <Story name="Default view" args={{ currentPage: 1, pageSize: 10, total: 50 }}>
+    { Template.bind({}) }
+  </Story>
+</Canvas>
+
+## Props
+<ArgsTable story="Default view" />

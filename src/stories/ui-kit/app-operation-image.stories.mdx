@@ -1,0 +1,73 @@
+import { Meta, Story, Canvas, Source, ArgsTable } from '@storybook/addon-docs';
+import AppOperationImage from '@/components/ui-kit/app-operation-image.vue';
+
+<Meta title="ui-kit/AppOperationImage" component={AppOperationImage}/>
+
+export const Template = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { AppOperationImage },
+  template: `<app-operation-image
+                :image="image"
+                :alt="alt"
+                :size="size"
+                :backgroundColor="backgroundColor"
+                :textColor="textColor"
+                :initials="initials"
+                :has-error="hasError"
+                :has-shadow="hasShadow"
+             />`,
+});
+
+## AppOperationImage
+
+Example:
+<Source code={
+  `<app-operation-image
+      :image="image"
+      :alt="alt"
+      :size="size"
+      :backgroundColor="backgroundColor"
+      :textColor="textColor"
+      :initials="initials"
+      :has-error="hasError"
+      :has-shadow="hasShadow"
+   />`
+}/>
+
+backgroundColor and textColor props should be tailwind classes
+
+### Default
+<Canvas>
+  <Story name="Default view" args={{ image: 'https://picsum.photos/42' }}>
+    { Template.bind({}) }
+  </Story>
+</Canvas>
+
+### Default without image
+<Canvas>
+  <Story name="Default without image" args={{
+      backgroundColor: 'blue-accent',
+      textColor: 'green-tint',
+      initials: 'BD'
+  }}>
+    { Template.bind({}) }
+  </Story>
+</Canvas>
+
+### Large sized
+<Canvas>
+  <Story name="Large sized" args={{ image: 'https://picsum.photos/64', size: 'lg' }}>
+    { Template.bind({}) }
+  </Story>
+</Canvas>
+
+
+### Error state
+<Canvas>
+  <Story name="Error state" args={{ image: 'https://picsum.photos/42', hasError: true }}>
+    { Template.bind({}) }
+  </Story>
+</Canvas>
+
+## Props
+<ArgsTable story="Default view" />

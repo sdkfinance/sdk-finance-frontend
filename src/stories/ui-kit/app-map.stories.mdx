@@ -1,0 +1,46 @@
+import { Meta, Story, Canvas, Source, ArgsTable } from '@storybook/addon-docs';
+import AppMap from '@/components/ui-kit/app-map.vue'
+const mapData = [
+    {
+        id: 1,
+        gpsCoordinates: { lat: 50.435245, lng: 30.502813 },
+    },
+    {
+        id: 2,
+        gpsCoordinates: { lat: 50.401775, lng: 30.408228 },
+    },
+    {
+        id: 3,
+        gpsCoordinates: { lat: 50.428138, lng: 30.638082 },
+    },
+    {
+        id: 4,
+        gpsCoordinates: { lat: 50.496327, lng: 30.605638 },
+    },
+];
+
+<Meta title="ui-kit/AppMap" component={AppMap}/>
+
+export const Template = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { AppMap },
+  template: `
+    <div>
+       <app-map :data="mapData" wrapper-class="h-324"/>
+    </div>`,
+});
+
+
+## AppMap
+Example:
+<Source code={`<app-map :data="mapData" wrapper-class="h-324"/>`}/>
+
+### Default
+<Canvas>
+  <Story name="Default view" args={{ mapData }}>
+    { Template.bind({}) }
+  </Story>
+</Canvas>
+
+## Props
+<ArgsTable story="Default view" />

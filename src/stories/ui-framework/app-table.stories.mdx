@@ -1,0 +1,132 @@
+import { Meta, Story, Canvas, ArgsTable, Source } from '@storybook/addon-docs';
+import AppTable from '@/components/ui-framework/app-table.vue';
+const date = new Date().toLocaleDateString();
+const data = [
+  {
+    name: 'Name 1',
+    date,
+    simpleColumn: 'Simple column 1'
+  },
+  {
+    name: 'Name 2',
+    date,
+    simpleColumn: 'Simple column 2'
+  },
+  {
+    name: 'Name 3',
+    date,
+    simpleColumn: 'Simple column 3'
+  },
+];
+const columns = [
+  {
+      prop: 'name',
+      label: 'Name',
+  },
+  {
+      prop: 'date',
+      label: 'Date',
+  },
+  {
+      prop: 'simpleColumn',
+      label: 'Simple',
+  },
+];
+
+<Meta title="ui-framework/AppTable" component={AppTable}/>
+
+export const Template = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { AppTable },
+  template: `
+    <app-table
+      :data="data"
+      :is-loading="isLoading"
+      :is-secondary="isSecondary"
+      :is-border-none="isBorderNone"
+      :is-light-head="isLightHead"
+      :is-medium-font="isMediumFont"
+      :columns="columns"/>
+  `,
+});
+
+export const TemplateWithScopedSlot = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { AppTable },
+  template: `
+    <app-table
+      :data="data"
+      :is-loading="isLoading"
+      :columns="columns">
+      <template #date="{scope}">
+        {{ scope.row.date }} -  slot with prom name - date
+      </template>
+    </app-table>
+  `,
+});
+
+## AppTable
+
+Example:
+<Source code={`
+  <app-table
+    :data="data"
+    :is-loading="isLoading"
+    :columns="columns"/>
+`}/>
+
+### Default
+<Canvas>
+  <Story name="Default view" args={{ data, columns, isLoading: false, }}>
+    { Template.bind({}) }
+  </Story>
+</Canvas>
+
+
+### With loading
+<Canvas>
+  <Story name="With loading view" args={{ data, columns, isLoading: true, }}>
+    { Template.bind({}) }
+  </Story>
+</Canvas>
+
+### With slot
+#### For all props auto created slot with name = prop.name
+<Canvas>
+  <Story name="With slot" args={{ data, columns, isLoading: false, }}>
+    { TemplateWithScopedSlot.bind({}) }
+  </Story>
+</Canvas>
+
+### Secondary view
+<Canvas>
+    <Story name="Secondary view" args={{ data, columns, isSecondary: true}}>
+        { Template.bind({}) }
+    </Story>
+</Canvas>
+
+### Without borders view
+<Canvas>
+    <Story name="Without borders view" args={{ data, columns, isBorderNone: true}}>
+        { Template.bind({}) }
+    </Story>
+</Canvas>
+
+### Light Head view
+<Canvas>
+    <Story name="Light Head view" args={{ data, columns, isLightHead: true}}>
+        { Template.bind({}) }
+    </Story>
+</Canvas>
+
+### Medium Font view
+<Canvas>
+    <Story name="Medium Font view" args={{ data, columns, isMediumFont: true}}>
+        { Template.bind({}) }
+    </Story>
+</Canvas>
+
+
+
+## Props
+<ArgsTable story="Default view" />

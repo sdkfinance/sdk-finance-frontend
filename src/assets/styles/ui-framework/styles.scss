@@ -1,0 +1,7 @@
+@import '../tools/variables';
+@import 'variables';
+@import '~element-ui/packages/theme-chalk/src/index';
+
+.el-loading-spinner svg {
+  display: inline-block;
+}

@@ -1,0 +1,56 @@
+import { Meta, Story, Canvas, ArgsTable, Source } from '@storybook/addon-docs';
+import AppSwitch from '@/components/ui-framework/app-switch.vue';
+
+<Meta title="ui-framework/AppSwitch" component={AppSwitch}/>
+
+export const Template = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { AppSwitch },
+  template: `<app-switch
+    v-model="value"
+    :label="label"
+    :enableLabel="enableLabel"
+    :disable-label="disableLabel"
+    :is-dynamic-label-color="isDynamicLabelColor"
+    :is-label-after="isLabelAfter">
+</app-switch>`,
+});
+
+
+## AppSwitch
+
+Example:
+<Source code={`<app-switch v-model="value" :label="label" :is-label-after="isLabelAfter"></app-switch>`}/>
+
+### Default
+<Canvas>
+  <Story name="Default view" args={{ value: false, label: '', isLabelAfter: false  }}>
+    { Template.bind({}) }
+  </Story>
+</Canvas>
+
+### With label default
+<Canvas>
+  <Story name="With label default" args={{ value: false, label: 'Label before control', isLabelAfter: false }}>
+    { Template.bind({}) }
+  </Story>
+</Canvas>
+
+### With label for different status
+<Canvas>
+  <Story name="With label for different status" args={{ value: false, disableLabel: 'form.label.' +
+      'two_factor_auth_disabled', enableLabel: 'form.label.two_factor_auth_enabled', isDynamicLabelColor: true,
+    isLabelAfter: false }}>
+    { Template.bind({}) }
+  </Story>
+</Canvas>
+
+### With label after control
+<Canvas>
+  <Story name="With label after control" args={{ value: false, label: 'Label after control', isLabelAfter: true }}>
+    { Template.bind({}) }
+  </Story>
+</Canvas>
+
+## Props
+<ArgsTable story="Default view" />

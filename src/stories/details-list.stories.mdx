@@ -1,0 +1,68 @@
+import { Meta, Story, Canvas, ArgsTable, Source } from '@storybook/addon-docs';
+import DetailsList from '@/components/details-list.vue';
+const details = [
+  {
+    label: 'form.label.amount',
+    param: 'amount',
+    value: 100,
+  },
+  {
+    label: 'form.label.description',
+    param: 'description',
+    value: 'Some text',
+  },
+  {
+    label: 'form.label.status',
+    param: 'status',
+    value: 'Some text',
+    hide: true,
+  },
+  {
+    label: 'form.label.request_id',
+    param: 'requestIdentifier',
+    value: 'Some text',
+  },
+  {
+    label: 'form.label.request_status',
+    param: 'requestStatus',
+    value: 'Some text',
+  },
+];
+
+<Meta title="others/DetailsList" component={DetailsList}/>
+
+export const Template = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { DetailsList },
+  template: `<details-list :title="title" :details="details"></details-list>`,
+});
+
+
+## DetailsList
+
+Example:
+<Source code={`<details-list :title="title" :details="details"></details-list>`}/>
+
+### Default
+<Canvas>
+  <Story name="Default view" args={{ title: 'Details title', details }}>
+    { Template.bind({}) }
+  </Story>
+</Canvas>
+
+## Props
+<ArgsTable story="Default view" />
+
+## Details example
+
+```js
+[
+  {
+    label: 'form.label.amount', // string or i18n variable
+    param: 'amount', // string, use for named slots
+    value: 100, // any
+    hide: true,
+  }
+]
+
+```

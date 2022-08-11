@@ -1,0 +1,61 @@
+import { Meta, Story, Canvas, ArgsTable, Source } from '@storybook/addon-docs';
+import DataGridClient from '@/components/data-grid-client.vue';
+import AppTable from '@/components/ui-framework/app-table.vue';
+const date = new Date().toLocaleDateString();
+const data = new Array(50).fill({
+    name: 'Name',
+    date,
+    simpleColumn: 'Simple column'
+});
+const columns = [
+  {
+      prop: 'name',
+      label: 'Name',
+  },
+  {
+      prop: 'date',
+      label: 'Date',
+  },
+  {
+      prop: 'simpleColumn',
+      label: 'Simple',
+  },
+];
+
+<Meta title="others/DataGridClient" component={DataGridClient}/>
+
+export const Template = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { DataGridClient, AppTable },
+  template: `
+   <data-grid-client :records="data" :page-size="pageSize">
+      <template #default="{ records }">
+        <app-table
+          :data="records"
+          :is-loading="false"
+          :columns="columns"/>
+      </template>
+    </data-grid-client>
+  `,
+});
+
+## DataGridClient
+
+Example:
+<Source code={`
+  <data-grid-client :records="data" :page-size="pageSize">
+    <template #default="{ records }">
+      Your table
+    </template>
+  </data-grid-client>
+`}></Source>
+
+### Default
+<Canvas>
+  <Story name="Default view" args={{ data, columns, pageSize: 10 }}>
+    { Template.bind({}) }
+  </Story>
+</Canvas>
+
+## Props
+<ArgsTable story="Default view" />

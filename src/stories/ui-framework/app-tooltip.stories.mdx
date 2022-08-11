@@ -1,0 +1,71 @@
+import { ArgsTable, Canvas, Meta, Source, Story } from '@storybook/addon-docs';
+import AppTooltip from '@/components/ui-framework/app-tooltip.vue';
+
+
+<Meta title="ui-framework/AppTooltip" component={AppTooltip} />
+
+export const Template = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { AppTooltip },
+  template: `
+      <app-tooltip
+        :placement="placement"
+        :effect="effect">
+        <template #content>
+          Some content
+        </template>
+        <button>Hover me!</button>
+      </app-tooltip>
+    `,
+});
+
+
+## AppTooltip
+
+Example:
+<Source code={`
+<app-tooltip
+    :placement="placement"
+    :effect="effect">
+    <template #content>
+      Some content
+    </template>
+    <button>Hover me!</button>
+</app-tooltip>
+`}/>
+
+
+### Default
+<Canvas>
+  <Story name="Default view" args={{ placement: 'top', effect: 'dark' }}>
+    { Template.bind({}) }
+  </Story>
+</Canvas>
+
+### Bottom position + light
+<Canvas>
+  <Story name="Bottom + trigger click" args={{ placement: 'bottom',effect: 'light' }}>
+    { Template.bind({}) }
+  </Story>
+</Canvas>
+
+## List of placement
+```js
+[
+    'top',
+    'top-start',
+    'top-end',
+    'bottom',
+    'bottom-start',
+    'bottom-end',
+    'left',
+    'left-start',
+    'left-end',
+    'right',
+    'right-start',
+    'right-end',
+]
+```
+
+## Props
+<ArgsTable story="Default view" />

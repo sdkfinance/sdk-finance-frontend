@@ -1,0 +1,114 @@
+.tabs {
+  display: flex;
+  margin-bottom: 40px;
+
+  &--secondary {
+    width: 100%;
+    border-bottom: 1px solid $blue-300;
+
+    .tabs__link {
+      display: inline-flex;
+      align-items: center;
+      position: relative;
+      background: none;
+      color: $blue-700;
+      font-size: 16px;
+      padding-bottom: 8px;
+      cursor: pointer;
+
+      .badge {
+        margin-left: 8px;
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 12px;
+        right: 12px;
+        display: inline-block;
+        width: calc(100% - 24px);
+        height: 2px;
+        background-color: $primary-color;
+        transition: 0.5s;
+        opacity: 0;
+        transform: translateY(100%);
+      }
+
+      &:hover {
+        color: $primary-color;
+        background-color: initial;
+      }
+
+      &.router-link-active,
+      &.is-active {
+        color: $primary-color;
+        background-color: initial;
+
+        &::after {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    }
+  }
+
+  &__link {
+    display: inline-block;
+    line-height: 38px;
+    padding: 0 12px;
+    background-color: $input-color;
+    color: $placeholder-color;
+    font-size: 12px;
+    transition: background-color 0.5s, color 0.5s;
+
+    @media screen and (max-width: 599px) {
+      display: none !important;
+    }
+
+    &:first-of-type {
+      border-top-left-radius: 5px;
+      border-bottom-left-radius: 5px;
+    }
+
+    &:last-of-type {
+      border-top-right-radius: 5px;
+      border-bottom-right-radius: 5px;
+    }
+
+    &:hover {
+      color: $primary-color;
+      background-color: $secondary-color;
+    }
+
+    &.router-link-active,
+    &.is-active {
+      color: #fff;
+      background-color: $primary-color;
+    }
+
+    &.disabled {
+      @apply opacity-20 cursor-not-allowed pointer-events-none;
+    }
+  }
+
+  &--medium {
+    .tabs__link {
+      font-size: 14px;
+    }
+  }
+
+  &__select {
+    display: none;
+    flex-grow: 1;
+    margin-bottom: 17px;
+
+    @media screen and (max-width: 599px) {
+      display: block;
+    }
+  }
+
+  &__icon {
+    margin-right: 8px;
+  }
+}

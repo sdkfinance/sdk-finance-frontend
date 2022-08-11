@@ -1,0 +1,39 @@
+import { ArgsTable, Canvas, Meta, Source, Story } from '@storybook/addon-docs';
+import AppSmartCard from '@/components/ui-kit/app-smart-card.vue';
+
+<Meta title="ui-kit/AppSmartCard" component={AppSmartCard} />
+
+export const Template = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { AppSmartCard },
+  template: `
+      <app-smart-card
+          :title="title"
+          :card-number="cardNumber"
+          :to="to"/>
+    `,
+});
+
+
+## AppSmartCard
+
+Example:
+<Source code={`
+    <app-smart-card
+      :title="title"
+      :card-number="cardNumber"
+      :to="to"/>
+`}/>
+
+
+
+### Default
+<Canvas>
+  <Story name="Default view" args={{ cardNumber: '9348-0316-3277-7833', title: 'Test smart card', to: ''}}>
+    { Template.bind({}) }
+  </Story>
+</Canvas>
+
+
+## Props
+<ArgsTable story="Default view" />

@@ -1,0 +1,62 @@
+import { Meta, Story, Canvas, ArgsTable, Source } from '@storybook/addon-docs';
+import AppModal from '@/components/ui-kit/modals/app-modal.vue';
+import AppFormWrapper from '@/components/ui-kit/modals/app-form-wrapper.vue';
+import AppButton from '@/components/ui-framework/app-button.vue';
+
+<Meta title="ui-kit/modals/AppFormWrapper" component={AppFormWrapper}/>
+
+export const Template = (args, { argTypes }) => ({
+    props: Object.keys(argTypes),
+    components: { AppModal, AppButton, AppFormWrapper },
+    methods: {
+        async openModal() {
+            const isSubmit = await this.$refs.appModal.open();
+            console.log({isSubmit})
+        }
+    },
+    template: `
+    <div>
+      <app-modal ref="appModal"
+          :is-full-width="isFullWidth"
+          :is-centred="isCentred"
+        >
+        <template v-slot="{ onSubmit }">
+           <app-form-wrapper>
+            <template #title>
+               Form title
+            </template>
+            Form content
+            <app-button @click="onSubmit">Submit</app-button>
+           </app-form-wrapper>
+        </template>
+      </app-modal>
+      <app-button @click="openModal">Open modal</app-button>
+    </div>
+  `,
+});
+
+
+## AppFormWrapper
+### Wrapper for fullscreen modal form
+
+
+Example:
+<Source code={`
+    <app-form-wrapper>
+        <template v-slot:title>
+           Form title
+        </template>
+        Form content
+        <app-button @click="onSubmit">Submit</app-button>
+    </app-form-wrapper>
+`}/>
+
+### Default view
+<Canvas style={{ position: 'relative' }}>
+    <Story name="Warning type" args={{  isFullWidth: true, isCentred: true }}>
+        { Template.bind({}) }
+    </Story>
+</Canvas>
+
+## Props
+<ArgsTable story="Default view" />

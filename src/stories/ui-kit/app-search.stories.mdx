@@ -1,0 +1,29 @@
+import { Meta, Story, Canvas, Source, ArgsTable } from '@storybook/addon-docs';
+import AppSearch from '@/components/ui-kit/app-search'
+
+<Meta title="ui-kit/AppSearch" component={AppSearch}/>
+
+export const Template = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { AppSearch },
+  template: `<app-search v-model="search"/>`,
+  data: () => ({
+    search: ''
+  })
+});
+
+
+## AppSearch
+
+Example:
+  <Source code={`<app-search v-model="search"/>`}></Source>
+
+### Default
+<Canvas>
+<Story name="Default view">
+  { Template.bind({}) }
+</Story>
+</Canvas>
+
+## Props
+<ArgsTable story="Default view" />

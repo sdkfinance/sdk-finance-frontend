@@ -1,0 +1,113 @@
+import { ArgsTable, Canvas, Meta, Source, Story } from '@storybook/addon-docs';
+import AppBreadcrumbs from '@/components/ui-kit/app-breadcrumbs.vue';
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+Vue.use(VueRouter);
+const fakeComponent = {
+    template: '<div>Some component</div>',
+};
+const routersMock =  [
+    {
+        path: '/link1',
+        name: 'some-route-name',
+        component: fakeComponent,
+        meta: {
+            translation: 'First parent',
+        }
+    },
+    {
+        path: '/link2',
+        name: 'some-route-name-2',
+        component: fakeComponent,
+        meta: {
+            translation: 'Second parent',
+            layout: {
+                breadcrumbs: {
+                    parent: 'some-route-name',
+                }
+            }
+        }
+    },
+    {
+        path: '/link3',
+        name: 'some-route-name-3',
+        component: fakeComponent,
+        meta: {
+            translation: 'Current page',
+            layout: {
+                breadcrumbs: {
+                    parent: 'some-route-name-2',
+                }
+            }
+        }
+    },
+];
+
+<Meta title="ui-kit/AppBreadcrumbs" component={AppBreadcrumbs}/>
+
+export const Template = () => ({
+    components: { AppBreadcrumbs },
+    router: new VueRouter({
+        mode: 'history',
+        routes: routersMock,
+    }),
+    created() {
+        this.$router.push({name: 'some-route-name-3'})
+    },
+    template: `
+        <div>
+          <app-breadcrumbs current-page-label="some page" />
+        </div>
+  `,
+});
+
+## AppBreadcrumbs
+For use this component, you have to add some changes for router config:
+1. Add parent name to **meta -> layout -> breadcrumbs -> parent**
+example:
+```js
+{
+    meta: {
+      layout: {
+        breadcrumbs: {
+          parent: 'some-route-name',
+        }
+      }
+    }
+}
+```
+2. Component provide 2 slot types for each route name(optional), example:
+```js
+<app-breadcrumbs current-page-label="some page">
+    <template #{ROUTE_NAME}="{route}">
+        some custom link
+    </template>
+    <template #{ROUTE_NAME}__label="{route}">
+        some custom label
+    </template>
+<app-breadcrumbs>
+```
+
+Example:
+<Source code={
+    `<app-breadcrumbs current-page-label="some page">
+      <template v-slot:some-route-name="{route}">
+        <router-link :to={route.path}>
+            Custom label
+        </router-link>
+      </template>
+      <template v-slot:some-route-name__label="{route}">
+        Custom label
+      </template>
+</app-breadcrumbs>`
+}/>
+
+### Default
+<Canvas>
+    <Story name="Default view">
+        { Template.bind({}) }
+    </Story>
+</Canvas>
+
+## Props
+<ArgsTable story="Default view" />

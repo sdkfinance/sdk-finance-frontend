@@ -1,0 +1,80 @@
+.el-input .el-input__inner,
+.el-textarea__inner {
+  transition: background-color 0.5s, border-color 0.5s;
+
+  @apply bg-white border border-blue-400 px-14 py-11 text-base text-gray-500 font-medium rounded-8 leading-5 caret-blue-accent;
+
+  &::placeholder {
+    @apply text-blue-500;
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 3px #d1ddfb;
+
+    @apply border-blue-accent outline-none;
+  }
+}
+
+.el-form-item.is-error .el-input__inner,
+.el-form-item.is-error .el-input__inner:focus,
+.el-form-item.is-error .el-textarea__inner,
+.el-form-item.is-error .el-textarea__inner:focus {
+  box-shadow: 0 0 0 3px #ffdadc;
+
+  @apply border-red-error caret-red-warning;
+}
+
+.el-input {
+  .el-input__suffix {
+    @apply flex;
+
+    .el-input__suffix-inner {
+      @apply flex;
+    }
+  }
+
+  .el-icon-circle-close,
+  .el-icon-circle-check {
+    @apply hidden #{!important};
+  }
+
+  &.el-input--suffix .el-input__inner {
+    @apply pr-40 #{!important};
+
+    & + .el-input__suffix .el-input__icon {
+      @apply h-full flex items-center justify-center mr-5;
+    }
+  }
+
+  &.el-input--prefix .el-input__inner {
+    @apply pl-40;
+
+    & + .el-input__prefix .el-input__icon {
+      @apply h-full flex items-center ml-5;
+    }
+  }
+
+  &--medium .el-input__inner {
+    @apply px-8 py-6 rounded-6;
+  }
+
+  &--small .el-input__inner {
+    @apply px-8 py-4 rounded-4 text-sm h-25;
+  }
+}
+
+.el-input-number {
+  @apply flex w-full;
+
+  &--medium {
+    @apply flex;
+  }
+
+  & .el-input__inner {
+    @apply text-left;
+  }
+}
+
+.full-width {
+  @apply w-full;
+}

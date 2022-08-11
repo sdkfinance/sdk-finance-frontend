@@ -1,0 +1,1 @@
+export { CatalogModule } from './Catalog';

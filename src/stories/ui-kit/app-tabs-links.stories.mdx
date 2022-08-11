@@ -1,0 +1,134 @@
+import { Meta, Story, Canvas, ArgsTable, Source } from '@storybook/addon-docs';
+import AppTabLinks from '@/components/ui-kit/app-tab-links.vue';
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+Vue.use(VueRouter);
+const tabs = [
+  {
+    name: 'Link 1',
+    meta: {
+      translation: 'Link 1'
+    }
+  },
+  {
+    name: 'Link 2',
+    meta: {
+      translation: 'Link 2',
+    }
+  }
+];
+const tabsWithBadge = [
+  {
+    name: 'Link 1',
+    meta: {
+      translation: 'Link 1'
+    }
+  },
+  {
+    name: 'Link 2',
+    meta: {
+      translation: 'Link 2',
+      badge: {
+        status: 'new',
+      },
+    }
+  }
+];
+const fakeComponent = {
+  template: '<div>{{ text }}</div>',
+  props: ['text']
+};
+const routersMock =  [
+    { path: '/link1', name: 'Link 1', component: fakeComponent, props: { text: 'Link 1 content'} },
+    { path: '/link2', name: 'Link 2', component: fakeComponent, props: { text: 'Link 2 content'} },
+];
+
+<Meta title="ui-kit/AppTabLinks" component={AppTabLinks} />
+
+export const Template = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { AppTabLinks },
+  router: new VueRouter({
+    mode: 'history',
+    routes: routersMock,
+  }),
+  template: `
+      <div>
+        <app-tab-links
+          :tabs="tabs"
+          :hide-for-single="hideForSingle"
+          :secondary="secondary"/>
+        <router-view />
+      </div>
+    `,
+});
+
+
+## AppTabLinks
+
+Example:
+<Source code={
+  `<app-tab-links
+      :tabs="tabs"
+      :hide-for-single="hideForSingle"
+      :secondary="secondary"/>
+`}/>
+
+
+## Tab config example
+```js
+[
+   {
+    name: 'Link 1',
+    meta: {
+      translation: 'Link 1'
+    }
+  },
+  {
+    name: 'Link 2',
+    meta: {
+      translation: 'Link 2',
+      badge: {
+        status: 'new',
+      },
+    }
+  }
+]
+```
+
+### Default
+<Canvas>
+  <Story name="Default view" args={{ hideForSingle: false, secondary: false, tabs }}>
+    { Template.bind({}) }
+  </Story>
+</Canvas>
+
+
+### Secondary view
+<Canvas>
+  <Story name="Secondary view" args={{ hideForSingle: false, secondary: true, tabs }}>
+    { Template.bind({}) }
+  </Story>
+</Canvas>
+
+### With badge
+<Canvas>
+  <Story name="With badge view" args={{ hideForSingle: false, secondary: true, tabs: tabsWithBadge }}>
+    { Template.bind({}) }
+  </Story>
+</Canvas>
+
+### Medium size
+<Canvas>
+    <Story name="Medium size view" args={{
+        hideForSingle: false,
+        secondary: true,
+        tabs: tabs,
+        size: 'medium'
+    }}>
+        { Template.bind({}) }
+    </Story>
+</Canvas>
+
+## Props
+<ArgsTable story="Default view" />

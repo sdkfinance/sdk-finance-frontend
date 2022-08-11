@@ -1,0 +1,29 @@
+import { Meta, Story, Canvas, Source, ArgsTable } from '@storybook/addon-docs/blocks';
+import AppDateRangeSelect from '@/components/ui-kit/app-date-range-select.vue'
+
+<Meta title="ui-kit/AppDateRangeSelect" component={AppDateRangeSelect}/>
+
+export const Template = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { AppDateRangeSelect },
+  template: `  <app-date-range-select @change="onChange"/>`,
+});
+
+
+## AppDateRangeSelect
+
+Example:
+<Source code={`<app-date-range-select @change="onChange"/>`}></Source>
+
+Using like filter on page. Component emit event 'change' with array with ranges: startDate, endDate.
+
+### Default
+<Canvas>
+  <Story name="Default view">
+    { Template.bind({}) }
+  </Story>
+</Canvas>
+
+
+## Props
+<ArgsTable story="Default view" />

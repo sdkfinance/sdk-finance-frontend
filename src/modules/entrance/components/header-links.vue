@@ -18,12 +18,6 @@
     </div>
 
     <div class="header-entrance__group">
-      <router-link
-        class="header-entrance__link"
-        :to="{ name: 'dashboards-list'}">
-        {{ $t('pages.entrance.payment_dashboard') }}
-      </router-link>
-
       <a
         href="/swagger/"
         class="header-entrance__link"

@@ -48,7 +48,7 @@ import {
 import { Input } from 'element-ui';
 import { IPlainObject } from '@/types/interfaces';
 
-const sizeValidator = (size: string): boolean => ['medium', 'small', 'mini', ''].includes(size);
+const sizeValidator = (size: string): boolean => ['big', 'medium', 'small', 'mini', ''].includes(size);
 
 export type TInputValue = string | number;
 

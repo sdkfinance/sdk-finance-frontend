@@ -133,6 +133,7 @@ const en: LocaleMessages = {
   },
 
   action: {
+    back_to_sdk_finance_website: 'Back to SDK.finance website',
     sell: 'Sell',
     buy: 'Buy',
     block_account: 'Block account',
@@ -248,7 +249,9 @@ const en: LocaleMessages = {
     approve_profile: 'Approve profile',
     decline_profile: 'Decline profile',
     reject_passport: 'Reject passport',
+    reject_identity_document: 'Reject identity document',
     approve_passport: 'Approve passport',
+    approve_identity_document: 'Approve identity document',
     approve_tax_id: 'Approve Tax ID number',
     reject_tax_id: 'Reject Tax ID number',
     reset_kyc_status: 'Reset KYC status',
@@ -603,6 +606,7 @@ const en: LocaleMessages = {
     user_profile_kyc: {
       all_documents_must_be_approved: 'All documents must be approved to complete KYC for the user.',
       kyc_status: 'KYC status',
+      identity_document: 'Identity document',
       passport: 'Passport',
       tax_id_number: 'Tax ID number',
       status: 'Status',
@@ -1203,13 +1207,14 @@ const en: LocaleMessages = {
 
   form: {
     label: {
+      identity_document: 'Identity document',
       old_password: 'Old password',
       sell_amount: 'Sell amount',
       buy_amount: 'Buy amount',
       otp_code: 'Input OTP-code',
       or_input_tax_id: 'Or input Tax ID number manually',
       input_tx_id_manually: 'Input Tax ID manually',
-      input_tax_id: 'Input Tax ID number number',
+      input_tax_id: 'Input Tax ID number',
       recipient: 'Recipient',
       sold_amount: 'Sold amount',
       bought_amount: 'Bought amount',

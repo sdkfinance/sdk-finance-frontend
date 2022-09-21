@@ -8,7 +8,7 @@
       :tip="config.tip"
       :file-url="passportFileUrl"
       file-type="passport"
-      label="form.label.passport"
+      label="form.label.identity_document"
       :on-success="onSuccessHandler"/>
 
     <app-upload

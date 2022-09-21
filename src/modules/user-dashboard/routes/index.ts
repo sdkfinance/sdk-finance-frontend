@@ -4,7 +4,7 @@ import BaseLayout from '@/layouts/base-layout.vue';
 import { ACCOUNT_CHILDREN } from '@/modules/user-dashboard/routes/ACCOUNT_CHILDREN';
 import { TOTAL_BALANCE_CHILDREN } from '@/modules/user-dashboard/routes/TOTAL_BALANCE_CHILDREN';
 import { CARD_CHILDREN } from '@/modules/user-dashboard/routes/CARD_CHILDREN';
-import { PAYMENT_OPERATIONS } from '@/modules/user-dashboard/routes/PAYMENT_OPERATIONS';
+import { ROLES } from '@/constants';
 
 const TotalBalancePage: AsyncComponent = () => import(
   /* webpackChunkName: 'user-dashboard-main' */
@@ -64,7 +64,6 @@ export const USER_DASHBOARD_CHILDREN: IRouteConfig[] = [
     children: CARD_CHILDREN,
     redirect: CARD_CHILDREN[0],
   },
-  ...PAYMENT_OPERATIONS,
 ];
 
 export const USER_DASHBOARD: IRouteConfig = {
@@ -75,6 +74,9 @@ export const USER_DASHBOARD: IRouteConfig = {
     baseLayoutConfig: {
       componentName: 'UserDashboardLayout',
     },
+  },
+  meta: {
+    permission: [ROLES.individual],
   },
   redirect: USER_DASHBOARD_CHILDREN[0],
   children: USER_DASHBOARD_CHILDREN,

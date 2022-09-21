@@ -18,7 +18,10 @@ module.exports = ({ config }) => {
         {
           loader: 'sass-loader',
           options: {
-            additionalData: `@import "~@/assets/styles/tools/index.scss";`
+            additionalData: `@import "~@/assets/styles/tools/index.scss";`,
+            sassOptions: {
+              quietDeps: true
+            }
           }
         },
       ],

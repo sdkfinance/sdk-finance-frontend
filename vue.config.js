@@ -26,6 +26,9 @@ module.exports = {
     loaderOptions: {
       scss: {
         additionalData: '@import "~@/assets/styles/tools/index.scss";',
+        sassOptions: {
+          quietDeps: true,
+        },
       },
     },
   },

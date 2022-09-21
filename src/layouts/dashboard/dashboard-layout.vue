@@ -1,5 +1,7 @@
 <template>
   <div class="main-container">
+    <HeaderBackLink class="main-container__header"/>
+
     <dashboard-menu :routes="availableRoutes"/>
 
     <transition name="page">
@@ -11,11 +13,13 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { getAvailableDashboardRoutes } from '@/router/dashboard';
+import HeaderBackLink from '@/layouts/components/header-back-link.vue';
 import DashboardMenu from './components/dashboard-menu.vue';
 
 @Component({
   components: {
     DashboardMenu,
+    HeaderBackLink,
   },
 })
 
@@ -32,6 +36,14 @@ export default class DashboardLayout extends Vue {
 .main-container {
   min-height: 100vh;
   display: flex;
+
+  &__header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+  }
 }
 
 .main-wrapper {
@@ -45,6 +57,7 @@ export default class DashboardLayout extends Vue {
   overflow: auto;
   padding: 32px;
   max-width: 1920px;
+  margin-top: 44px;
 
   @media only screen and (max-width: 1366px) {
     max-width: 1280px;

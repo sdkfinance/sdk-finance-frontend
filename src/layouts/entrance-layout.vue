@@ -1,44 +1,47 @@
 <template>
-  <div class="entrance">
-    <header class="entrance__header">
-      <header-links
-        class="hidden md:flex header-entrance"
-        :is-top-logo-visible="isTopLogoVisible"/>
+  <div class="entrance-container">
+    <header-back-link/>
+    <div class="entrance">
+      <header class="entrance__header">
+        <header-links
+          class="hidden md:flex header-entrance"
+          :is-top-logo-visible="isTopLogoVisible"/>
 
-      <header-mobile
-        class="flex-grow md:flex-grow-0"
-        :is-top-logo-visible="isTopLogoVisible"/>
-      <p class="md:hidden text-blue-600 ml-30">
-        <i
-          class="icon-dropdown"
-          @click="openModal"/>
-      </p>
+        <header-mobile
+          class="flex-grow md:flex-grow-0"
+          :is-top-logo-visible="isTopLogoVisible"/>
+        <p class="md:hidden text-blue-600 ml-30">
+          <i
+            class="icon-dropdown"
+            @click="openModal"/>
+        </p>
 
-      <app-modal
-        ref="entranceModal"
-        is-full-width>
-        <template #default>
-          <div class="entrance-modal">
-            <header-mobile
-              :is-top-logo-visible="isTopLogoVisible"
-              class="max-w-310 mt-5 -ml-5"/>
-            <header-links :is-top-logo-visible="isTopLogoVisible"/>
-            <footer-links/>
-          </div>
-        </template>
-      </app-modal>
-    </header>
+        <app-modal
+          ref="entranceModal"
+          is-full-width>
+          <template #default>
+            <div class="entrance-modal">
+              <header-mobile
+                :is-top-logo-visible="isTopLogoVisible"
+                class="max-w-310 mt-5 -ml-5"/>
+              <header-links :is-top-logo-visible="isTopLogoVisible"/>
+              <footer-links/>
+            </div>
+          </template>
+        </app-modal>
+      </header>
 
-    <slot>
-      <router-view/>
-    </slot>
+      <slot>
+        <router-view/>
+      </slot>
 
-    <footer class="footer-entrance">
-      <footer-links class="hidden md:flex"/>
-      <p class="footer-entrance__copyright">
-        {{ $t('pages.entrance.copyright', { date: currentYear }) }}
-      </p>
-    </footer>
+      <footer class="footer-entrance">
+        <footer-links class="hidden md:flex"/>
+        <p class="footer-entrance__copyright">
+          {{ $t('pages.entrance.copyright', { date: currentYear }) }}
+        </p>
+      </footer>
+    </div>
   </div>
 </template>
 
@@ -51,9 +54,11 @@ import AppModal from '@/components/ui-kit/modals/app-modal.vue';
 import HeaderLinks from '@/modules/entrance/components/header-links.vue';
 import HeaderMobile from '@/modules/entrance/components/header-mobile.vue';
 import FooterLinks from '@/modules/entrance/components/footer-links.vue';
+import HeaderBackLink from '@/layouts/components/header-back-link.vue';
 
 @Component({
   components: {
+    HeaderBackLink,
     HeaderLinks,
     HeaderMobile,
     FooterLinks,
@@ -81,8 +86,14 @@ export default class EntranceLayout extends Vue {
   @apply inline-block text-left text-base mb-16;
 }
 
+.entrance-container {
+  @apply h-screen bg-gray-200;
+}
+
 .entrance {
-  @apply flex flex-col py-30 px-25 md:px-40 bg-gray-200 w-screen h-screen;
+  @apply flex flex-col py-30 px-25 md:px-40 h-full;
+
+  height: calc(100% - 44px);
 
   &__header {
     @apply flex;
@@ -157,7 +168,7 @@ export default class EntranceLayout extends Vue {
   @apply flex flex-grow flex-col md:justify-center items-center w-full mx-auto md:max-w-350;
 
   .entrance-form__footer {
-    @apply text-base;
+    @apply text-base mb-20;
 
     a {
       @apply underline text-blue-600;

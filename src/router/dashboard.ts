@@ -7,7 +7,7 @@ import { CONTRACTS_OLD } from '@/modules/contracts-old/routes';
 // import { CONTRACTS } from '@/modules/contracts/routes';
 import { WALLETS } from '@/modules/wallets/routes';
 import { CURRENCIES } from '@/modules/currency/routes';
-import { CURRENCY_EXCHANGE } from '@/modules/currency-exchange/routes';
+// import { CURRENCY_EXCHANGE } from '@/modules/currency-exchange/routes';
 import { SYSTEM_OPERATIONS } from '@/modules/system-operations/routes';
 import { CONTACTS } from '@/modules/contacts/routes';
 // import { LOCALIZATION } from '@/modules/localization/routes';
@@ -32,6 +32,7 @@ import { KYC } from '@/modules/kyc/routes';
 
 const BaseLayout = () => import(/* webpackChunkName: 'dashboard' */ '@/layouts/base-layout.vue');
 
+// @ts-ignore
 export const DASHBOARD_ROUTES: IRouteConfig[] = [
   USERS,
   // ...CUSTOMERS,
@@ -48,7 +49,7 @@ export const DASHBOARD_ROUTES: IRouteConfig[] = [
   // TRANSFERS,
   VOUCHERS,
   CURRENCIES,
-  CURRENCY_EXCHANGE,
+  // CURRENCY_EXCHANGE,
   // PIN_RECOVERY,
   GATE_SETTINGS,
   // VARIABLES,

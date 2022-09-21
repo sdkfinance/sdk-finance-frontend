@@ -6,6 +6,7 @@ import { DASHBOARD_NAMES } from '@/router';
 type TPermission = Function | Array<string> | undefined;
 
 const roleCheck = (permission: TPermission, userRole: string | undefined): boolean => {
+
   if (typeof permission === 'function') {
     return !!permission(userRole);
   }
@@ -23,12 +24,15 @@ export const checkUserProfilePermission = (permission: TPermission): boolean => 
 
 export const checkPermission = (permission: TPermission): boolean => roleCheck(permission, UserInstance.role);
 
-export const permissionGuard: routeMiddleware = ({ to, next }) => {
+export const permissionGuard: routeMiddleware = ({ to, next, abort }) => {
+  const { permission: rootPermission } = to?.matched?.[0]?.meta || {};
   const { permission, userProfilePermission } = to?.meta || {};
 
-  if (checkPermission(permission) && checkUserProfilePermission(userProfilePermission)) return next();
+  if (checkPermission(permission || rootPermission) && checkUserProfilePermission(userProfilePermission)) {
+    return next();
+  }
 
-  return next({
+  return abort({
     name: DASHBOARD_NAMES[UserInstance.role] || DASHBOARD_NAMES.DEFAULT,
     query: to.query,
   });

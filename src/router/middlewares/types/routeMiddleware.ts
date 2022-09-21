@@ -6,6 +6,7 @@ export interface IRouteMiddlewareContext {
   to: Route;
   from: Route;
   next: NavigationGuardNext;
+  abort: NavigationGuardNext;
   store: StoreOptions<IPlainObject>;
 }
 

@@ -2,6 +2,8 @@ import { AsyncComponent } from 'vue';
 import { redirectLogged } from '@/router/middlewares/redirectLogged';
 import { IRouteConfig } from '@/types/interfaces';
 
+const isDemoMode = process.env.VUE_APP_DEMO_MODE === 'true';
+
 const EntranceLayout: AsyncComponent = () => import(
   /* webpackChunkName: 'entrance-layout' */ '@/layouts/entrance-layout.vue'
 );
@@ -32,7 +34,7 @@ const ConfirmByOtp: AsyncComponent = () => import(
 
 const ENTRANCE_CHILDREN: IRouteConfig[] = [
   {
-    path: '',
+    path: 'sign-in',
     name: 'sign-in',
     component: SignInRole,
     meta: {
@@ -92,6 +94,6 @@ export const ENTRANCE: IRouteConfig = {
   path: '/',
   name: 'entrance',
   component: EntranceLayout,
-  redirect: ENTRANCE_CHILDREN[0],
+  redirect: isDemoMode ? ENTRANCE_CHILDREN[0] : ENTRANCE_CHILDREN[1],
   children: ENTRANCE_CHILDREN,
 };

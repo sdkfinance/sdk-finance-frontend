@@ -14,7 +14,7 @@
       :rules="rules"
       @submit.native.prevent="handleForm">
       <router-link
-        :to="{ name: 'sign-in' }"
+        :to="{ name: 'entrance' }"
         class="back-pointer">
         <i class="icon-arrow-left"/>
         {{ $t('action.back') }}

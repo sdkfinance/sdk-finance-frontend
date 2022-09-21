@@ -36,7 +36,7 @@ import { UserCoins } from '@/store/modules';
 import AppButtonsMobile from '@/components/ui-kit/app-buttons-mobile.vue';
 import { ACCOUNT_CHILDREN } from '@/modules/user-dashboard/routes/ACCOUNT_CHILDREN';
 import { ICoin, ICoinIssuer } from '@/services/requests/organizations/Coin.types';
-import FrequentlyUsedActivities from '@/components/frequently-used-activities.vue';
+import FrequentlyUsedActivities from '@/modules/user-dashboard/components/frequently-used-activities.vue';
 
 interface IRouterView {
   updateData?: Function;

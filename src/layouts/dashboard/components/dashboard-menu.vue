@@ -34,7 +34,7 @@ export default class DashboardMenu extends Vue {
   box-shadow: 0 4px 12px rgba(161, 182, 198, 0.2);
 
   &__box {
-    @apply flex flex-col fixed top-0 bottom-0 left-0 w-310 h-screen bg-white ;
+    @apply flex flex-col fixed bottom-0 left-0 w-310 h-screen bg-white top-44;
   }
 
   .el-loading-mask {

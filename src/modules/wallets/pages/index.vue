@@ -24,9 +24,8 @@
         </div>
         <main-actions
           @currency-exchange="isCurrencyExchangeVisible = true"
-          @withdrawal="isWithdrawalModalVisible = true"
           @transfer-to-wallet="openTransferModal"
-          @add-wallet="openCreateWalletModal"
+          @add-wallet="openAddAccountModal"
           @top-up="openTopUpModal"/>
       </div>
       <templates-block
@@ -44,15 +43,24 @@
       :coins-list="coinsData"
       :is-loading="isWalletLoading"
       @on-exchange="refreshData"/>
-    <modal
-      v-model="isCreateWalletModalVisible"
-      :title="$t('pages.wallets.modal.create_wallet')"
-      width="380px">
-      <create-wallet-form
-        :issuer-list="filteredIssuerList"
-        :is-loading="isLoadingModalData"
-        @submit="onWalletCreated"/>
-    </modal>
+    <!--    <modal-->
+    <!--      v-model="isCreateWalletModalVisible"-->
+    <!--      :title="$t('pages.wallets.modal.create_wallet')"-->
+    <!--      width="380px">-->
+    <!--      <create-wallet-form-->
+    <!--        :issuer-list="filteredIssuerList"-->
+    <!--        :is-loading="isLoadingModalData"-->
+    <!--        @submit="onWalletCreated"/>-->
+    <!--    </modal>-->
+    <app-modal
+      ref="accountFormModal"
+      modal-body-class="max-w-520"
+      is-full-width>
+      <template #default="{onSubmit}">
+        <account-form-modal
+          @submit="onSubmit"/>
+      </template>
+    </app-modal>
     <modal
       v-model="isTopUpModalVisible"
       :title="topUpModalTitle"
@@ -62,15 +70,6 @@
         :coins-list="coinsData"
         :is-loading="isWalletLoading"
         @submit="onTopUpCreated"/>
-    </modal>
-    <modal
-      v-model="isWithdrawalModalVisible"
-      :title="$t('pages.wallets.modal.withdrawal')"
-      width="380px">
-      <withdrawal-form
-        :coins-list="coinsData"
-        :is-loading="isWalletLoading"
-        @submit="refreshData"/>
     </modal>
     <confirm-modal
       ref="deleteWalletModal"
@@ -97,6 +96,8 @@ import TemplatesBlock from '@/modules/wallets/components/blocks/templates-block.
 import SubscriptionsBlock from '@/modules/wallets/components/blocks/subscriptions-block.vue';
 import OperationsBlock from '@/modules/wallets/components/blocks/operations-block.vue';
 import CurrencyExchangeBlock from '@/modules/wallets/components/blocks/currency-exchange-block.vue';
+import AppModal from '@/components/ui-kit/modals/app-modal.vue';
+import AccountFormModal from '@/shared-components/account-form-modal.vue';
 
 @Component({
   components: {
@@ -113,9 +114,13 @@ import CurrencyExchangeBlock from '@/modules/wallets/components/blocks/currency-
     SubscriptionsBlock,
     OperationsBlock,
     CurrencyExchangeBlock,
+    AppModal,
+    AccountFormModal,
   },
 })
 export default class WalletsPage extends Vue {
+
+  @Ref('accountFormModal') readonly accountFormModal!: AppModal;
 
   @Ref('deleteWalletModal') readonly deleteWalletModal!: ConfirmModal;
 
@@ -132,8 +137,6 @@ export default class WalletsPage extends Vue {
   protected isTopUpModalVisible: boolean = false;
 
   protected isCurrencyExchangeVisible: boolean = false;
-
-  protected isWithdrawalModalVisible: boolean = false;
 
   protected isTopUpFinished: boolean = false;
 
@@ -196,23 +199,17 @@ export default class WalletsPage extends Vue {
     await this.fetchWallets();
   }
 
-  protected async openCreateWalletModal(): Promise<void> {
-    this.isCreateWalletModalVisible = true;
-    if (CatalogModule.issuerList.length) return;
+  protected async openAddAccountModal(): Promise<void> {
+    const isSubmitted = await this.accountFormModal.open();
 
-    this.isLoadingModalData = true;
-    await CatalogModule.fetchIssuers();
-    this.isLoadingModalData = false;
+    if (isSubmitted) {
+      await this.fetchWallets();
+    }
   }
 
   protected openTopUpModal(): void {
     this.isTopUpFinished = false;
     this.isTopUpModalVisible = true;
-  }
-
-  protected onWalletCreated(): void {
-    this.isCreateWalletModalVisible = false;
-    this.fetchWallets();
   }
 
   protected onTopUpCreated(): void {

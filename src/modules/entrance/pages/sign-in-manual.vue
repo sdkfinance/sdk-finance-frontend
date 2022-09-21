@@ -14,6 +14,7 @@
       :rules="rules"
       @submit.native.prevent="handleAuth">
       <router-link
+        v-if="isDemoMode"
         :to="{ name: 'sign-in' }"
         class="back-pointer">
         <i class="icon-arrow-left"/>
@@ -141,6 +142,10 @@ export default class SignInManual extends Vue {
 
   protected get role(): string {
     return this.userDataModule.role;
+  }
+
+  protected get isDemoMode(): boolean {
+    return process.env.VUE_APP_DEMO_MODE === 'true';
   }
 
   protected isOtpSend: boolean = false;

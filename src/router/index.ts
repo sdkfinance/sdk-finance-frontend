@@ -9,7 +9,7 @@ import { ENTRANCE } from '@/modules/entrance/routes/entrance';
 import { MAINTENANCE } from '@/modules/maintenance/routes';
 import { DASHBOARDS_POWER_BI } from '@/modules/dashboards-power-bi/routes';
 import { USER_DASHBOARD } from '@/modules/user-dashboard/routes';
-
+import { PAYMENT_OPERATIONS } from '@/modules/payments/routes';
 import { ROLES } from '@/constants';
 import { IPlainObject } from '@/types/interfaces';
 import { DASHBOARD } from './dashboard';
@@ -27,6 +27,7 @@ const routes: RouteConfig[] = [
   DASHBOARD,
   USER_DASHBOARD,
   MAINTENANCE,
+  PAYMENT_OPERATIONS,
   {
     path: '*',
     redirect: '/',
@@ -61,12 +62,13 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   const middleware = to?.meta?.middleware || [];
 
-  const middlewares = [...middleware, permissionGuard, defaultGuard];
+  const middlewares = [...middleware, defaultGuard, permissionGuard];
   const context = {
     to,
     from,
     next,
     store,
+    abort: next,
   };
 
   return middlewares[0]({

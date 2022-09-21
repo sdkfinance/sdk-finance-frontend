@@ -49,7 +49,7 @@ import AppSelect from '@/components/ui-framework/app-select/app-select.vue';
 import { ICoin } from '@/services/requests/organizations/Coin.types';
 import AppModal from '@/components/ui-kit/modals/app-modal.vue';
 import ExchangeFormModal from '@/modules/user-dashboard/components/exchange-form-modal.vue';
-import FrequentlyUsedActivities from '@/components/frequently-used-activities.vue';
+import FrequentlyUsedActivities from '@/modules/user-dashboard/components/frequently-used-activities.vue';
 
 interface IRouterView {
   updateData?: Function;

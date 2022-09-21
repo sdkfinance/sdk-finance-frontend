@@ -35,7 +35,7 @@
         <div class="kyc-section">
           <div class="kyc-section__header">
             <h2 class="profile-kyc__headline">
-              {{ $t('pages.user_profile_kyc.passport') }}
+              {{ $t('pages.user_profile_kyc.identity_document') }}
             </h2>
             <div class="headline-controls">
               <app-button
@@ -43,14 +43,14 @@
                 :disabled="isPassportApproved || isPassportDeclined"
                 size="small"
                 @click.prevent.stop="declineDocument(passportData)">
-                {{ $t('action.reject_passport') }}
+                {{ $t('action.reject_identity_document') }}
               </app-button>
               <app-button
                 v-if="passportData"
                 :disabled="isPassportApproved || isPassportDeclined"
                 size="small"
                 @click.prevent.stop="approveDocument(passportData)">
-                {{ $t('action.approve_passport') }}
+                {{ $t('action.approve_identity_document') }}
               </app-button>
             </div>
           </div>

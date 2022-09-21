@@ -47,7 +47,7 @@ import { Component, Vue, Ref } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
 import AppWalletCard from '@/components/ui-kit/app-wallet-card.vue';
 import AppButton from '@/components/ui-framework/app-button.vue';
-import AccountFormModal from '@/modules/user-dashboard/components/account-form-modal.vue';
+import AccountFormModal from '@/shared-components/account-form-modal.vue';
 import { UserCoins } from '@/store/modules';
 import { ICoin } from '@/services/requests/organizations/Coin.types';
 import AppModal from '@/components/ui-kit/modals/app-modal.vue';

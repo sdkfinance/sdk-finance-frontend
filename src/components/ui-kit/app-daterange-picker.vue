@@ -12,11 +12,13 @@
 </template>
 
 <script lang="ts">
+import 'vue2-daterange-picker/dist/vue2-daterange-picker.css';
+
 import {
-  Component, Emit, Model, Prop, Ref, Vue,
+  Component, Emit, Prop, Ref, Vue,
 } from 'vue-property-decorator';
 import DateRangePicker from 'vue2-daterange-picker';
-import 'vue2-daterange-picker/dist/vue2-daterange-picker.css';
+
 import { IPlainObject } from '@/types/interfaces';
 import { checkMobile } from '@/utils';
 
@@ -29,7 +31,10 @@ export default class AppDaterangePicker extends Vue {
 
   @Ref('dateRangePicker') readonly dateRangePicker!: any;
 
-  @Model('change') readonly value!: string;
+  @Prop({
+    type: [Array, String],
+    default: '',
+  }) readonly value!: [] | string;
 
   @Prop({
     type: String,

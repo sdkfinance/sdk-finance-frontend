@@ -16,9 +16,10 @@ import {
   Prop,
   Vue,
 } from 'vue-property-decorator';
+
+import AppFilterWrapper from '@/components/ui-kit/app-data-controller/app-filter-wrapper.vue';
 import { IPlainObject } from '@/types/interfaces';
 import { IFilterEmitValue, ITableFilter } from '@/types/interfaces/TableFilters.interface';
-import AppFilterWrapper from '@/components/ui-kit/app-data-controller/app-filter-wrapper.vue';
 
 @Component({
   components: {

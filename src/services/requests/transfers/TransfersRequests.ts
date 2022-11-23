@@ -1,5 +1,4 @@
 import api from '@/services/api';
-
 import {
   ITransferBody,
   ITransferCalculateResponse, ITransfersApiResponse,

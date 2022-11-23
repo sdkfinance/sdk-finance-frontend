@@ -53,15 +53,16 @@ import { LocaleMessage } from 'vue-i18n';
 import {
   Component, Emit, Prop, Vue,
 } from 'vue-property-decorator';
-import { LocalStorageService } from '@/services/LocalStorageService';
-import { formatDate } from '@/utils';
-import AppTag from '@/components/ui-framework/app-tag.vue';
+
 import AppButton from '@/components/ui-framework/app-button.vue';
+import AppTag from '@/components/ui-framework/app-tag.vue';
+import { LocalStorageService } from '@/services/LocalStorageService';
 import {
   ITableFilter,
   TFilterOptions,
   TFilters, TSelectOptions,
 } from '@/types/interfaces/TableFilters.interface';
+import { formatDate } from '@/utils';
 
 interface IFilterValue {
   key: string;

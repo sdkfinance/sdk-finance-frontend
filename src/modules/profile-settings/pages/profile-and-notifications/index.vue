@@ -33,17 +33,18 @@
 </template>
 
 <script lang="ts">
+import { LocaleMessages } from 'vue-i18n';
 import { Component, Vue } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
-import { LocaleMessages } from 'vue-i18n';
+
 import FormBlock from '@/components/form-block.vue';
-import { IUserInfoResponse } from '@/services/requests/profiles/UserProfile.types';
 import LoaderStub from '@/components/loader-stub.vue';
 import config from '@/config';
-import ProfileForm from '@/modules/user-profile/pages/user-profile-and-business/components/profile-form.vue';
-import { Profile } from '@/store/modules';
 import ProfileLoginForm from '@/modules/user-profile/pages/user-login-and-security/components/login-form.vue';
 import ProfileSecurityForm from '@/modules/user-profile/pages/user-login-and-security/components/security-form.vue';
+import ProfileForm from '@/modules/user-profile/pages/user-profile-and-business/components/profile-form.vue';
+import { IUserInfoResponse } from '@/services/requests/profiles/UserProfile.types';
+import { Profile } from '@/store/modules';
 import { IPlainObject } from '@/types/interfaces';
 
 @Component({

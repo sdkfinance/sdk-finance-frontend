@@ -154,48 +154,50 @@
 
 <script lang="ts">
 import {
-  Component, Prop, Emit, Ref, Vue, Watch,
+  Component, Emit, Prop, Ref, Vue, Watch,
 } from 'vue-property-decorator';
+
+import DynamicForm from '@/components/dynamic-form.vue';
+import AppButton from '@/components/ui-framework/app-button.vue';
 import AppForm from '@/components/ui-framework/app-form.vue';
 import AppFormItem from '@/components/ui-framework/app-form-item.vue';
 import AppInput from '@/components/ui-framework/app-input.vue';
 import AppSelect from '@/components/ui-framework/app-select/app-select.vue';
-import AppButton from '@/components/ui-framework/app-button.vue';
-import DynamicForm from '@/components/dynamic-form.vue';
+import AppSwitch from '@/components/ui-framework/app-switch.vue';
 import ButtonsGroup from '@/components/ui-kit/app-buttons-group.vue';
-import WithdrawalSuccess from '@/modules/wallets/components/forms/withdrawal-form/withdrawal-success.vue';
+import { ROLES } from '@/constants';
 import BankForm from '@/modules/wallets/components/forms/withdrawal-form/bank-form.vue';
 import CommissionBlock from '@/modules/wallets/components/forms/withdrawal-form/commission-block.vue';
-import { IPlainObject, IDynamicField } from '@/types/interfaces';
-import { errorNotification } from '@/utils';
-import {
-  SimpleNumberRangeValidationRule,
-  SimpleNumberValidationRule,
-  OnChangeRequiredValidationRule,
-  OnlyLetterValidator,
-  MixMaxValidation,
-  AddressValidator,
-  IbanValidator,
-  BicValidator,
-  SwiftValidator,
-  SimpleRequiredValidationRule,
-} from '@/rules/validation';
-import {
-  GateRequests,
-} from '@/services/requests/gate/GateRequests';
-import { BankWithdrawalsRequests, CashDeskRequests, ProfileRequests } from '@/services/requests';
+import WithdrawalSuccess from '@/modules/wallets/components/forms/withdrawal-form/withdrawal-success.vue';
 import {
   IWithdrawalCommissionBlock,
   IWithdrawalForm,
   IWithdrawalSuccessData,
   TWithdrawalFormResetFields,
 } from '@/modules/wallets/types/Withdrawal.types';
+import {
+  AddressValidator,
+  BicValidator,
+  IbanValidator,
+  MixMaxValidation,
+  OnChangeRequiredValidationRule,
+  OnlyLetterValidator,
+  SimpleNumberRangeValidationRule,
+  SimpleNumberValidationRule,
+  SimpleRequiredValidationRule,
+  SwiftValidator,
+} from '@/rules/validation';
+import { BankWithdrawalsRequests, CashDeskRequests, ProfileRequests } from '@/services/requests';
 import { ICashDeskRecord } from '@/services/requests/cash-desk/CashDesk.types';
 import { IGateSubmitPayerBody, IPaymentProviderRecord } from '@/services/requests/gate/Gate.types';
-import AppSwitch from '@/components/ui-framework/app-switch.vue';
+import {
+  GateRequests,
+} from '@/services/requests/gate/GateRequests';
 import { IUserBankAccount, IUserBankAccountRecord } from '@/services/requests/profiles/UserProfile.types';
 import { UserInstance } from '@/services/UserService';
-import { ROLES } from '@/constants';
+import { IDynamicField, IPlainObject } from '@/types/interfaces';
+import { errorNotification } from '@/utils';
+
 import { withdrawalMethodsList } from './withdrawalMethods';
 
 @Component({

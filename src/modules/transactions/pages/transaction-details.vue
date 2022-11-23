@@ -51,12 +51,13 @@
 import {
   Component, Vue,
 } from 'vue-property-decorator';
+
 import AppBreadcrumbs from '@/components/ui-kit/app-breadcrumbs.vue';
 import DashboardContentLayout from '@/layouts/dashboard/dashboard-content-layout.vue';
+import { TransactionsRequests } from '@/services/requests';
 import {
   IGetTransactionApiResponse,
 } from '@/services/requests/transactions/Transactions.types';
-import { TransactionsRequests } from '@/services/requests';
 import { errorNotification } from '@/utils';
 
 @Component({

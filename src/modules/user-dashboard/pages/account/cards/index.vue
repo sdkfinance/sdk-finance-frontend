@@ -44,18 +44,20 @@
 
 <script lang="ts">
 import {
-  Component, Vue, Ref, Prop,
+  Component, Prop,
+  Ref, Vue,
 } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
+
+import AppButton from '@/components/ui-framework/app-button.vue';
+import AppCardProgress from '@/components/ui-kit/app-card-progress.vue';
+import AppSmartCard from '@/components/ui-kit/app-smart-card.vue';
 import AppWalletCard from '@/components/ui-kit/app-wallet-card.vue';
 import AppModal from '@/components/ui-kit/modals/app-modal.vue';
-import AppButton from '@/components/ui-framework/app-button.vue';
-import AppSmartCard from '@/components/ui-kit/app-smart-card.vue';
-import { UserCoins } from '@/store/modules';
+import SmartCardForm from '@/modules/user-dashboard/pages/account/cards/components/smart-card-form.vue';
 import { ICoin } from '@/services/requests/organizations/Coin.types';
 import { ISmartCardShort } from '@/services/requests/smart-cards/SmartCards.types';
-import AppCardProgress from '@/components/ui-kit/app-card-progress.vue';
-import SmartCardForm from '@/modules/user-dashboard/pages/account/cards/components/smart-card-form.vue';
+import { UserCoins } from '@/store/modules';
 
 @Component({
   components: {

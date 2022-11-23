@@ -1,8 +1,8 @@
-import { IApiResponse } from '@/types/interfaces';
 import { COIN_TYPES } from '@/constants';
-import { IPaymentProviderRecord } from '@/services/requests/gate/Gate.types';
-import { IIssuer } from '@/services/requests/exchange-rates/ExchangeRates.types';
 import { TTopUpMethod } from '@/constants/top-up-methods';
+import { IIssuer } from '@/services/requests/exchange-rates/ExchangeRates.types';
+import { IPaymentProviderRecord } from '@/services/requests/gate/Gate.types';
+import { IApiResponse } from '@/types/interfaces';
 
 export type TCoinType = keyof typeof COIN_TYPES;
 

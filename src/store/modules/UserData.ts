@@ -1,14 +1,15 @@
+import { Store } from 'vuex';
 import {
   Action,
   Module,
   Mutation,
   VuexModule,
 } from 'vuex-module-decorators';
+
 import router from '@/router';
 import { LocalStorageService } from '@/services/LocalStorageService';
 import { AuthRequests } from '@/services/requests';
 import { ILogin, ILoginConfirm } from '@/services/requests/auth/Auth.types';
-import { Store } from 'vuex';
 
 interface AuthData {
   token: {
@@ -113,6 +114,7 @@ export class UserData extends VuexModule {
 
   @Action({ rawError: true })
   public logout(): void {
+    this.context.commit('UserCoins/RESET_USER_COINS_DATA', null, { root: true });
     this.context.commit('RESET', null);
     router.push({ name: 'entrance' }).catch(() => {});
   }

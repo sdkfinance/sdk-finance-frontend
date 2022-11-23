@@ -14,9 +14,10 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { ITableColumn } from '@/types/interfaces';
-import AppTableForm from '@/components/ui-kit/app-table/app-table-form.vue';
+
 import AppInput from '@/components/ui-framework/app-input.vue';
+import AppTableForm from '@/components/ui-kit/app-table/app-table-form.vue';
+import { ITableColumn } from '@/types/interfaces';
 
 @Component({
   components: {

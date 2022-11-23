@@ -12,11 +12,13 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { GateProviderRequests } from '@/services/requests';
-import { errorNotification } from '@/utils';
-import { IGateSetting } from '@/services/requests/gate-providers/GateProviders.types';
+
 import DashboardContentLayout from '@/layouts/dashboard/dashboard-content-layout.vue';
+import { GateProviderRequests } from '@/services/requests';
+import { IGateSetting } from '@/services/requests/gate-providers/GateProviders.types';
 import { IPlainObject } from '@/types/interfaces';
+import { errorNotification } from '@/utils';
+
 import ProvidersTable from '../components/providers-table.vue';
 
 @Component({

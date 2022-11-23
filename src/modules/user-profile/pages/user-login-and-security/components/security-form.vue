@@ -43,21 +43,23 @@
 
 <script lang="ts">
 import {
-  Component, Prop, Ref, Vue, Emit,
+  Component, Emit,
+  Prop, Ref, Vue,
 } from 'vue-property-decorator';
-import AppForm from '@/components/ui-framework/app-form.vue';
-import AppButton from '@/components/ui-framework/app-button.vue';
-import AppSwitch from '@/components/ui-framework/app-switch.vue';
+
 import SwitchBlock from '@/components/switch-block.vue';
-import { UserInfoRequests, ProfileRequests } from '@/services/requests';
+import AppButton from '@/components/ui-framework/app-button.vue';
+import AppForm from '@/components/ui-framework/app-form.vue';
+import AppSwitch from '@/components/ui-framework/app-switch.vue';
+import { ProfileRequests, UserInfoRequests } from '@/services/requests';
+import { IUserInfoResponse, IUserSecurity } from '@/services/requests/profiles/UserProfile.types';
+import { IApiResponse } from '@/types/interfaces';
 import {
   clearEmptyValue,
   cloneDeep,
-  successNotification,
   errorNotification,
+  successNotification,
 } from '@/utils';
-import { IUserSecurity, IUserInfoResponse } from '@/services/requests/profiles/UserProfile.types';
-import { IApiResponse } from '@/types/interfaces';
 
 const setForm = (userSecurity: IUserSecurity): IUserSecurity => {
   const {

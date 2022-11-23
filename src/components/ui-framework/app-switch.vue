@@ -22,10 +22,11 @@
 </template>
 
 <script lang="ts">
-import {
-  Component, Prop, Model, Vue,
-} from 'vue-property-decorator';
 import { Switch } from 'element-ui';
+import {
+  Component, Model, Prop, Vue,
+} from 'vue-property-decorator';
+
 import { IPlainObject } from '@/types/interfaces';
 
 @Component({
@@ -89,7 +90,6 @@ export default class AppSwitch extends Vue {
 </script>
 
 <style lang="scss">
-
 .app-switch {
   display: inline-flex;
   align-items: center;

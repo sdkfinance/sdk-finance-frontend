@@ -10,7 +10,11 @@
           {{ mainTitle }}
         </div>
         <div class="card-head__subtitle">
-          {{ subtitle }}
+          <span
+            class="card-head__subtitle-item"
+            @click.prevent="copyData(subtitle)">
+            {{ subtitle }}
+          </span>
         </div>
       </div>
 
@@ -31,13 +35,17 @@
 </template>
 
 <script lang="ts">
-import {
-  Component, Vue, Prop,
-} from 'vue-property-decorator';
 import { LocaleMessages } from 'vue-i18n';
+import {
+  Component, Prop,
+  Vue,
+} from 'vue-property-decorator';
 import { RawLocation } from 'vue-router';
-import { prefixedMoneyAmount } from '@/utils/moneyAmountFormat';
+
 import { WALLET_FLOW_TYPES } from '@/constants/wallet-flow-types';
+import { errorNotification, successNotification } from '@/utils';
+import { copyToClipboard } from '@/utils/copyToClipboard';
+import { prefixedMoneyAmount } from '@/utils/moneyAmountFormat';
 
 const inImg = require('@/assets/images/flow/in.png');
 const outImg = require('@/assets/images/flow/out.png');
@@ -69,6 +77,15 @@ export default class AppWalletCard extends Vue {
   @Prop({ type: String, validator: flowValidator, default: WALLET_FLOW_TYPES.default }) readonly moneyFlow!: keyof typeof WALLET_FLOW_TYPES;
 
   protected iconPlaceholder = iconPlaceholder;
+
+  protected copyData(text: string): void {
+    try {
+      copyToClipboard(text);
+      successNotification('notification.copied');
+    } catch (error) {
+      errorNotification('notification.copy_failed');
+    }
+  }
 
   protected get formattedAmountValue(): string {
     return prefixedMoneyAmount(+this.value.toFixed(2), this.prefixSymbol);
@@ -104,9 +121,8 @@ export default class AppWalletCard extends Vue {
 </script>
 
 <style lang="scss">
-
 .coin-card {
-  box-shadow: 0 4px 12px rgba(161, 182, 198, 0.2);
+  box-shadow: 0 4px 12px rgb(161 182 198 / 20%);
 
   @apply w-full md:w-324 lg:w-268 h-148 transition duration-500 ease-in-out rounded-lg bg-white flex flex-col justify-between py-16
     px-20;
@@ -115,7 +131,7 @@ export default class AppWalletCard extends Vue {
     @apply cursor-pointer;
 
     &:hover {
-      box-shadow: 0 4px 12px rgba(161, 182, 198, 0.5);
+      box-shadow: 0 4px 12px rgb(161 182 198 / 50%);
     }
   }
 
@@ -152,7 +168,11 @@ export default class AppWalletCard extends Vue {
     }
 
     &__subtitle {
-      @apply text-blue-500 font-medium text-sm max-h-32 leading-4;
+      @apply text-blue-500 font-medium text-sm max-h-32 leading-4 flex flex-col overflow-visible;
+
+      &-item:hover {
+        @apply bg-gray-350 text-blue-accent transition duration-200 ease-in-out;
+      }
     }
   }
 }

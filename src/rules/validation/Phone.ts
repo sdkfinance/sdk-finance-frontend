@@ -1,5 +1,5 @@
-import RegExp from '@/rules/validation/RegExp';
 import Phone from '@/rules/regexp/Phone';
+import RegExp from '@/rules/validation/RegExp';
 
 export const PhoneValidator = (
   required: boolean = false,

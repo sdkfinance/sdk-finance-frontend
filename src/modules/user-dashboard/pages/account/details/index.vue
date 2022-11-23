@@ -4,10 +4,11 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { errorNotification } from '@/utils';
-import { IUserBankAccount, IUserBankAccountRecord } from '@/services/requests/profiles/UserProfile.types';
-import { BankAccountsRequests } from '@/services/requests/bank-accounts/BankAccountsRequests';
+
 import AccountDetailsBlock from '@/modules/user-dashboard/components/account-details-block.vue';
+import { BankAccountsRequests } from '@/services/requests/bank-accounts/BankAccountsRequests';
+import { IUserBankAccount, IUserBankAccountRecord } from '@/services/requests/profiles/UserProfile.types';
+import { errorNotification } from '@/utils';
 
 @Component({
   inheritAttrs: false,

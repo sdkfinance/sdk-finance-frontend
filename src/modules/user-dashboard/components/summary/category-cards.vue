@@ -31,11 +31,12 @@
 import {
   Component, Prop, Vue,
 } from 'vue-property-decorator';
+
 import AppTable from '@/components/ui-framework/app-table.vue';
-import { IPlainObject } from '@/types/interfaces';
-import AppTableInfo from '@/components/ui-kit/app-table/app-table-info.vue';
 import AppProgressBar from '@/components/ui-kit/app-progress-bar.vue';
 import AppTableAmount from '@/components/ui-kit/app-table/app-table-amount.vue';
+import AppTableInfo from '@/components/ui-kit/app-table/app-table-info.vue';
+import { IPlainObject } from '@/types/interfaces';
 
 @Component({
   components: {

@@ -21,12 +21,14 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+
 import FormBlock from '@/components/form-block.vue';
+import LoaderStub from '@/components/loader-stub.vue';
+import config from '@/config';
 import { UserInfoRequests } from '@/services/requests';
 import { IUserInfoResponse } from '@/services/requests/profiles/UserProfile.types';
 import { errorNotification } from '@/utils';
-import LoaderStub from '@/components/loader-stub.vue';
-import config from '@/config';
+
 import UserLoginForm from './components/login-form.vue';
 import UserSecurityForm from './components/security-form.vue';
 

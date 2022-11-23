@@ -26,12 +26,13 @@
 import {
   Component, Emit, Prop, Vue,
 } from 'vue-property-decorator';
-import AppTable from '@/components/ui-framework/app-table.vue';
+
 import AppButton from '@/components/ui-framework/app-button.vue';
-import { ITableColumn } from '@/types/interfaces';
+import AppTable from '@/components/ui-framework/app-table.vue';
+import { ROLES } from '@/constants';
 import { IExchangeRatesRecord } from '@/services/requests/exchange-rates/ExchangeRates.types';
 import { UserInstance } from '@/services/UserService';
-import { ROLES } from '@/constants';
+import { ITableColumn } from '@/types/interfaces';
 
 @Component({
   components: {

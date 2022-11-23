@@ -15,6 +15,7 @@
 import {
   Component, Prop, Vue,
 } from 'vue-property-decorator';
+
 import { IPlainObject, IRouteConfig } from '@/types/interfaces';
 
 @Component

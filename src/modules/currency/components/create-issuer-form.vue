@@ -67,22 +67,23 @@
 
 <script lang="ts">
 import {
-  Component, Prop, Emit, Ref, Vue,
+  Component, Emit, Prop, Ref, Vue,
 } from 'vue-property-decorator';
+
+import AppButton from '@/components/ui-framework/app-button.vue';
 import AppForm from '@/components/ui-framework/app-form.vue';
 import AppFormItem from '@/components/ui-framework/app-form-item.vue';
 import AppInput from '@/components/ui-framework/app-input.vue';
 import AppSelect from '@/components/ui-framework/app-select/app-select.vue';
-import AppButton from '@/components/ui-framework/app-button.vue';
 import {
-  SimpleRequiredValidationRule,
   OnChangeRequiredValidationRule,
   SimpleNumberValidationRule,
+  SimpleRequiredValidationRule,
 } from '@/rules/validation';
 import { IssuersRequests } from '@/services/requests';
-import { successNotification, errorNotification } from '@/utils';
-import { IIssuer } from '@/services/requests/issuers/Issuers.types';
 import { ICurrency } from '@/services/requests/currencies/Currency.types';
+import { IIssuer } from '@/services/requests/issuers/Issuers.types';
+import { errorNotification, successNotification } from '@/utils';
 
 @Component({
   components: {

@@ -28,11 +28,12 @@
 import {
   Component, Emit, Prop, Vue,
 } from 'vue-property-decorator';
-import AppTable from '@/components/ui-framework/app-table.vue';
-import { ITableColumn } from '@/types/interfaces';
+
 import AppButton from '@/components/ui-framework/app-button.vue';
-import { TCommissionValue } from '@/services/requests/contracts/Commissions.types';
+import AppTable from '@/components/ui-framework/app-table.vue';
 import { renderCommission } from '@/modules/contracts-old/utils/renderCommission';
+import { TCommissionValue } from '@/services/requests/contracts/Commissions.types';
+import { ITableColumn } from '@/types/interfaces';
 
 @Component({
   components: {

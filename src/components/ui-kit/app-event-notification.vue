@@ -27,8 +27,9 @@
 import {
   Component, Prop, Vue,
 } from 'vue-property-decorator';
-import AppButton from '@/components/ui-framework/app-button.vue';
 import { RawLocation } from 'vue-router';
+
+import AppButton from '@/components/ui-framework/app-button.vue';
 
 @Component({
   components: {

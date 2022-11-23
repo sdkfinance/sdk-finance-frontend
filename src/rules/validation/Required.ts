@@ -1,4 +1,5 @@
 import { LocaleMessage } from 'vue-i18n';
+
 import { i18n } from '@/i18n';
 
 const RequiredValidationRule = (message: string, trigger: string) => ({

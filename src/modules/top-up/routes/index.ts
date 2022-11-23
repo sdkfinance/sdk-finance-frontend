@@ -1,6 +1,7 @@
 import { AsyncComponent } from 'vue';
-import { IRouteConfig } from '@/types/interfaces';
+
 import { ROLES } from '@/constants';
+import { IRouteConfig } from '@/types/interfaces';
 
 const BaseTabsLayout: AsyncComponent = () => import(/* webpackChunkName: 'top-up-execute' */
   '@/layouts/base-tabs-layout.vue'

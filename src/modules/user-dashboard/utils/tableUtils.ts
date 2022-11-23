@@ -1,6 +1,7 @@
-import { IPlainObject } from '@/types/interfaces';
 import dayjs from 'dayjs';
+
 import { translate } from '@/i18n';
+import { IPlainObject } from '@/types/interfaces';
 
 const toDay = dayjs().format('DD.MM.YYYY');
 const yesterday = dayjs().add(-1, 'day').format('DD.MM.YYYY');

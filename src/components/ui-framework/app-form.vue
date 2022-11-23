@@ -11,16 +11,19 @@
 </template>
 
 <script lang="ts">
-import {
-  Component, Ref, Prop, Vue, Watch, Provide,
-} from 'vue-property-decorator';
 import { Form } from 'element-ui';
 import {
-  validateForm, validateFormField, clearValidate, getDeepKeys,
-} from '@/utils';
-import { IPlainObject } from '@/types/interfaces';
+  Component, Prop, Provide,
+  Ref, Vue, Watch,
+} from 'vue-property-decorator';
+
 import { serverFormErrors } from '@/constants/symbols';
+import { IPlainObject } from '@/types/interfaces';
 import { TServerError } from '@/types/interfaces/ServerError.interface';
+import {
+  clearValidate, getDeepKeys,
+  validateForm, validateFormField,
+} from '@/utils';
 
 const state: IPlainObject = Vue.observable({ errors: {} });
 

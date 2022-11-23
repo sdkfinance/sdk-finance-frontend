@@ -20,6 +20,7 @@
 
 <script lang="ts">
 import { Component, Emit, Prop } from 'vue-property-decorator';
+
 import SelectFilterMixin from '@/components/data-table/filters/selectFilterMixin';
 import AppSelect from '@/components/ui-framework/app-select/app-select.vue';
 import { IFilterEmitValue } from '@/types/interfaces/TableFilters.interface';

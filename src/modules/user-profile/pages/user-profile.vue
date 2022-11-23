@@ -47,17 +47,19 @@
 <script lang="ts">
 import { Component, Ref, Vue } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
-import { IRouteConfig } from '@/types/interfaces';
-import MainHead from '@/components/main-head.vue';
-import TabLinks from '@/components/ui-kit/app-tab-links.vue';
-import { IUserInfoResponse } from '@/services/requests/profiles/UserProfile.types';
-import { UserProfile } from '@/store/modules';
-import DashboardContentLayout from '@/layouts/dashboard/dashboard-content-layout.vue';
-import AppButton from '@/components/ui-framework/app-button.vue';
-import { UsersRequests } from '@/services/requests';
-import { errorNotification, successNotification } from '@/utils';
+
 import ConfirmModal from '@/components/confirm-modal.vue';
+import MainHead from '@/components/main-head.vue';
+import AppButton from '@/components/ui-framework/app-button.vue';
+import TabLinks from '@/components/ui-kit/app-tab-links.vue';
+import DashboardContentLayout from '@/layouts/dashboard/dashboard-content-layout.vue';
+import { UsersRequests } from '@/services/requests';
+import { IUserInfoResponse } from '@/services/requests/profiles/UserProfile.types';
 import { IUserRecord } from '@/services/requests/users/Users.types';
+import { UserProfile } from '@/store/modules';
+import { IRouteConfig } from '@/types/interfaces';
+import { errorNotification, successNotification } from '@/utils';
+
 import { USER_PROFILE_CHILDREN } from '../routes/index';
 
 @Component({

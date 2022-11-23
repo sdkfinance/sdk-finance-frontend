@@ -1,6 +1,7 @@
 import { AsyncComponent } from 'vue';
-import { IRouteConfig } from '@/types/interfaces';
+
 import { ROLES } from '@/constants';
+import { IRouteConfig } from '@/types/interfaces';
 
 const Localization: AsyncComponent = () => import(/* webpackChunkName: 'localization' */ '@/modules/localization/pages/localization.vue');
 

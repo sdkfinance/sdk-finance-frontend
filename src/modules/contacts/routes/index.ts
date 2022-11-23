@@ -1,4 +1,5 @@
 import { AsyncComponent } from 'vue';
+
 import { IRouteConfig } from '@/types/interfaces';
 
 const BasePageLayout: AsyncComponent = () => import(/* webpackChunkName: 'base-page-layout' */ '@/layouts/base-page-layout.vue');

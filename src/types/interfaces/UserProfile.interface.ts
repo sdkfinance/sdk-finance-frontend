@@ -1,5 +1,5 @@
-import { IProfile } from '@/types/interfaces/Profile.interface';
 import { IPlainObject } from '@/types/interfaces/PlainObject.interface';
+import { IProfile } from '@/types/interfaces/Profile.interface';
 
 interface IUserRole {
   code: string;

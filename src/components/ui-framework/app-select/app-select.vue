@@ -69,12 +69,13 @@
 </template>
 
 <script lang="ts">
-import {
-  Component, Prop, Emit, Vue,
-} from 'vue-property-decorator';
-import { Select, Option } from 'element-ui';
+import { Option, Select } from 'element-ui';
+import { isEmpty, isEqual } from 'lodash';
 import { LocaleMessage } from 'vue-i18n';
-import { isEqual, isEmpty } from 'lodash';
+import {
+  Component, Emit, Prop, Vue,
+} from 'vue-property-decorator';
+
 import { getProp } from '@/utils';
 
 const sizeValidator = (size: string): boolean => ['medium', 'small', 'mini', ''].includes(size);
@@ -200,7 +201,7 @@ export default class AppSelect extends Vue {
 </script>
 
 <style lang="scss">
-@import "~@/assets/styles/parts/_input";
+@import "~@/assets/styles/parts/input";
 
 .el-select {
   @apply w-full;
@@ -232,7 +233,7 @@ export default class AppSelect extends Vue {
 .el-select-dropdown.is-multiple {
   @apply rounded-sm mt-3;
 
-  box-shadow: 0 0 16px rgba(224, 237, 255, 0.7);
+  box-shadow: 0 0 16px rgb(224 237 255 / 70%);
 
   .popper__arrow {
     @apply hidden;

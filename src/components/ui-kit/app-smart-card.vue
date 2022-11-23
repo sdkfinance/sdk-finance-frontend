@@ -22,8 +22,9 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { RawLocation } from 'vue-router';
-import AppProgressBar from '@/components/ui-kit/app-progress-bar.vue';
+
 import AppCardProgress from '@/components/ui-kit/app-card-progress.vue';
+import AppProgressBar from '@/components/ui-kit/app-progress-bar.vue';
 import { getDisplayCardNumber } from '@/modules/user-dashboard/utils/getDisplayCardNumber';
 
 @Component({
@@ -49,7 +50,7 @@ export default class AppSmartCard extends Vue {
 
 <style lang="scss">
 .app-smart-card {
-  box-shadow: 0 4px 12px rgba(161, 182, 198, 0.2);
+  box-shadow: 0 4px 12px rgb(161 182 198 / 20%);
 
   @apply w-full md:w-324 lg:w-268 h-148 h-148 transition duration-500 ease-in-out cursor-pointer rounded-lg bg-white py-16
     px-20;

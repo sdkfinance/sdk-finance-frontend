@@ -20,6 +20,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+
 import ContractsLayout from '@/modules/contracts-old/layouts/contacts-layout.vue';
 
 @Component({

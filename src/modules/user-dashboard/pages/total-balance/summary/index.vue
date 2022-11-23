@@ -35,20 +35,21 @@
 </template>
 
 <script lang="ts">
+import { ChartData } from 'chart.js';
 import {
   Component, Vue,
 } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
-import { ChartData } from 'chart.js';
+
+import AppChartDonut from '@/components/ui-kit/app-charts/app-chart-donut.vue';
 import AppChartLine from '@/components/ui-kit/app-charts/app-chart-line.vue';
 import AppChartSummaryData from '@/components/ui-kit/app-charts/app-chart-summary-data.vue';
 import { ISummaryChartData } from '@/components/ui-kit/app-charts/types/charts.types';
-import { UserCoins } from '@/store/modules';
 import { chartColors, getDynamicColor } from '@/components/ui-kit/colors';
-import AppChartDonut from '@/components/ui-kit/app-charts/app-chart-donut.vue';
+import PageSubtitle from '@/modules/user-dashboard/components/page-subtitle.vue';
 import SummaryCards from '@/modules/user-dashboard/components/summary/summary-cards.vue';
 import SummarySpending from '@/modules/user-dashboard/components/summary/summary-spending.vue';
-import PageSubtitle from '@/modules/user-dashboard/components/page-subtitle.vue';
+import { UserCoins } from '@/store/modules';
 
 @Component({
   components: {

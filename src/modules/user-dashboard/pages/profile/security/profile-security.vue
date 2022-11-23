@@ -63,16 +63,18 @@ import {
   Component, Ref, Vue,
 } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
-import AppForm from '@/components/ui-framework/app-form.vue';
+
 import AppButton from '@/components/ui-framework/app-button.vue';
+import AppForm from '@/components/ui-framework/app-form.vue';
 import AppSwitch from '@/components/ui-framework/app-switch.vue';
+import AppTooltip from '@/components/ui-framework/app-tooltip.vue';
 import { IUserSecurity } from '@/services/requests/profiles/UserProfile.types';
-import {
-  successNotification, errorNotification,
-} from '@/utils';
 import { Profile } from '@/store/modules';
 import { IPlainObject } from '@/types/interfaces';
-import AppTooltip from '@/components/ui-framework/app-tooltip.vue';
+import {
+  errorNotification,
+  successNotification,
+} from '@/utils';
 
 @Component({
   components: {

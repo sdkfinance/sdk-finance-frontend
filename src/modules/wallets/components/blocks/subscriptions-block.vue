@@ -44,15 +44,16 @@
 import {
   Component, Ref, Vue,
 } from 'vue-property-decorator';
-import SubscriptionCard from '@/modules/wallets/components/cards/subscription-card.vue';
+
 import AppCarousel from '@/components/app-carousel.vue';
-import NoDataPlaceholder from '@/components/no-data-placeholder.vue';
-import Modal from '@/components/modal.vue';
-import CreateSubscriptionForm from '@/modules/wallets/components/forms/create-subscription-form.vue';
 import ConfirmModal from '@/components/confirm-modal.vue';
-import { errorNotification, successNotification } from '@/utils';
+import Modal from '@/components/modal.vue';
+import NoDataPlaceholder from '@/components/no-data-placeholder.vue';
+import SubscriptionCard from '@/modules/wallets/components/cards/subscription-card.vue';
+import CreateSubscriptionForm from '@/modules/wallets/components/forms/create-subscription-form.vue';
 import { SubscriptionsRequests } from '@/services/requests';
 import { ISubscriptionRecord } from '@/services/requests/subscriptions/Subscriptions.types';
+import { errorNotification, successNotification } from '@/utils';
 
 @Component({
   components: {

@@ -1,5 +1,6 @@
-import { saveAs } from 'file-saver';
 import { AxiosRequestConfig } from 'axios';
+import { saveAs } from 'file-saver';
+
 import api from '@/services/api';
 
 const exportTo = async (

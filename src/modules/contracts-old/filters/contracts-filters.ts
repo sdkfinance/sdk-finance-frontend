@@ -1,5 +1,5 @@
-import { ITableFilter } from '@/types/interfaces/TableFilters.interface';
 import { PERSON_TYPES } from '@/constants';
+import { ITableFilter } from '@/types/interfaces/TableFilters.interface';
 
 export const contractsFilters: ITableFilter[] = [
   {

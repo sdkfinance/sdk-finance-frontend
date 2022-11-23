@@ -3,19 +3,23 @@ import AppMap from '@/components/ui-kit/app-map.vue'
 const mapData = [
     {
         id: 1,
-        gpsCoordinates: { lat: 50.435245, lng: 30.502813 },
+        lat: 50.435245,
+        lng: 30.502813,
     },
     {
         id: 2,
-        gpsCoordinates: { lat: 50.401775, lng: 30.408228 },
+        lat: 50.401775,
+        lng: 30.408228 ,
     },
     {
         id: 3,
-        gpsCoordinates: { lat: 50.428138, lng: 30.638082 },
+        lat: 50.428138,
+        lng: 30.638082 ,
     },
     {
         id: 4,
-        gpsCoordinates: { lat: 50.496327, lng: 30.605638 },
+        lat: 50.496327,
+        lng: 30.605638 ,
     },
 ];
 
@@ -26,18 +30,18 @@ export const Template = (args, { argTypes }) => ({
   components: { AppMap },
   template: `
     <div>
-       <app-map :data="mapData" wrapper-class="h-324"/>
+       <app-map :data="mapData" style="height: 324px" lat-property="lat" lng-property="lng"/>
     </div>`,
 });
 
 
 ## AppMap
 Example:
-<Source code={`<app-map :data="mapData" wrapper-class="h-324"/>`}/>
+<Source code={`<app-map :data="mapData" wrapper-class="h-324" lat-property="lat" lng-property="lng"/>`}/>
 
 ### Default
 <Canvas>
-  <Story name="Default view" args={{ mapData }}>
+  <Story name="Default view" args={{ mapData }} height="400px">
     { Template.bind({}) }
   </Story>
 </Canvas>

@@ -1,6 +1,7 @@
 import { AsyncComponent } from 'vue';
-import { IRouteConfig } from '@/types/interfaces';
+
 import { ROLES } from '@/constants';
+import { IRouteConfig } from '@/types/interfaces';
 
 const Variables: AsyncComponent = () => import(/* webpackChunkName: 'variables' */ '@/modules/variables/pages/variables.vue');
 

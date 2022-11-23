@@ -37,12 +37,13 @@
 import {
   Component, Emit, Prop, Vue,
 } from 'vue-property-decorator';
+
 import AppTable from '@/components/ui-framework/app-table.vue';
-import { IPlainObject, ITableColumn } from '@/types/interfaces';
-import AppTableInfo from '@/components/ui-kit/app-table/app-table-info.vue';
 import AppTableAmount from '@/components/ui-kit/app-table/app-table-amount.vue';
-import { getSeparatorSpan, getSeparatorColumnClass, addSeparator } from '@/modules/user-dashboard/utils/tableUtils';
+import AppTableInfo from '@/components/ui-kit/app-table/app-table-info.vue';
+import { addSeparator, getSeparatorColumnClass, getSeparatorSpan } from '@/modules/user-dashboard/utils/tableUtils';
 import { IComputedInvoicesRecord, IInvoicesRecord } from '@/services/requests/invoices/Invoices.types';
+import { IPlainObject, ITableColumn } from '@/types/interfaces';
 
 @Component({
   components: {

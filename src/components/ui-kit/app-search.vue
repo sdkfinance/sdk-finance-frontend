@@ -21,8 +21,10 @@
 
 <script lang="ts">
 import {
-  Vue, Component, Emit, Ref, Prop,
+  Component, Emit, Prop,
+  Ref, Vue,
 } from 'vue-property-decorator';
+
 import AppInput from '@/components/ui-framework/app-input.vue';
 
 type TInputValue = string | number;

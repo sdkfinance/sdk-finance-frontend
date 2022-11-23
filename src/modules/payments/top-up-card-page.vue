@@ -111,14 +111,20 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Ref } from 'vue-property-decorator';
+import { Component, Ref, Vue } from 'vue-property-decorator';
 import { mask } from 'vue-the-mask';
-import AppStepController from '@/components/ui-kit/app-step-controller.vue';
+
 import AppButton from '@/components/ui-framework/app-button.vue';
-import AppFormWrapper from '@/components/ui-kit/modals/app-form-wrapper.vue';
-import AppStepProgress from '@/components/ui-kit/app-step-progress.vue';
+import AppForm from '@/components/ui-framework/app-form.vue';
+import AppFormItem from '@/components/ui-framework/app-form-item.vue';
 import AppInput from '@/components/ui-framework/app-input.vue';
-import { IPlainObject } from '@/types/interfaces';
+import AppInputCardNumber from '@/components/ui-kit/app-input-card-number.vue';
+import AppStepController from '@/components/ui-kit/app-step-controller.vue';
+import AppStepProgress from '@/components/ui-kit/app-step-progress.vue';
+import AppFormWrapper from '@/components/ui-kit/modals/app-form-wrapper.vue';
+import AppInfoModal, { InfoModalTypes } from '@/components/ui-kit/modals/app-info-modal.vue';
+import AppModal from '@/components/ui-kit/modals/app-modal.vue';
+import AccountSelect from '@/modules/user-dashboard/components/account-select.vue';
 import {
   CardNumberValidator,
   ExpDateValidator,
@@ -126,15 +132,10 @@ import {
   OnChangeRequiredValidationRule,
   SimpleNumberValidationRule,
 } from '@/rules/validation';
-import AppForm from '@/components/ui-framework/app-form.vue';
-import AppFormItem from '@/components/ui-framework/app-form-item.vue';
-import AccountSelect from '@/modules/user-dashboard/components/account-select.vue';
-import AppModal from '@/components/ui-kit/modals/app-modal.vue';
-import AppInfoModal, { InfoModalTypes } from '@/components/ui-kit/modals/app-info-modal.vue';
 import { GateRequests } from '@/services/requests';
 import { IGateCreateTransactionBody, IPaymentProviderRecord } from '@/services/requests/gate/Gate.types';
+import { IPlainObject } from '@/types/interfaces';
 import { errorNotification } from '@/utils';
-import AppInputCardNumber from '@/components/ui-kit/app-input-card-number.vue';
 
 @Component({
   components: {

@@ -18,8 +18,9 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { IRouteConfig } from '@/types/interfaces';
+
 import DashboardNavItem from '@/layouts/dashboard/components/dashboard-nav-item.vue';
+import { IRouteConfig } from '@/types/interfaces';
 
 @Component({
   components: {

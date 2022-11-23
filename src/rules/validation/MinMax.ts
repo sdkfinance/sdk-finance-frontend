@@ -1,4 +1,5 @@
 import { LocaleMessage } from 'vue-i18n';
+
 import { i18n } from '@/i18n';
 
 export const MixMaxValidation = (min: number | null = null, max: number | null = null, trigger: string = 'blur'): any[] => {

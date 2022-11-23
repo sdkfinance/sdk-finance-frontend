@@ -49,13 +49,14 @@
 </template>
 
 <script lang="ts">
+import { Upload } from 'element-ui';
 import {
   Component, Prop, Ref, Vue, Watch,
 } from 'vue-property-decorator';
-import { Upload } from 'element-ui';
+
+import { getAuthHeader } from '@/services/api';
 import { IPlainObject } from '@/types/interfaces';
 import { errorNotification } from '@/utils';
-import { getAuthHeader } from '@/services/api';
 
 @Component({
   components: {

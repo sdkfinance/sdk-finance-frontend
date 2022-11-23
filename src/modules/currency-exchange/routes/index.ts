@@ -1,4 +1,5 @@
 import { AsyncComponent } from 'vue';
+
 import { ROLES } from '@/constants';
 import { IRouteConfig } from '@/types/interfaces';
 

@@ -27,14 +27,16 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import AppButton from '@/components/ui-framework/app-button.vue';
+
 import Modal from '@/components/modal.vue';
-import { CurrencyRequests } from '@/services/requests';
-import { errorNotification } from '@/utils';
-import { ICurrency } from '@/services/requests/currencies/Currency.types';
-import DashboardContentLayout from '@/layouts/dashboard/dashboard-content-layout.vue';
+import AppButton from '@/components/ui-framework/app-button.vue';
 import AppTabLinks from '@/components/ui-kit/app-tab-links.vue';
+import DashboardContentLayout from '@/layouts/dashboard/dashboard-content-layout.vue';
 import { CURRENCIES_CHILDREN } from '@/modules/currency/routes';
+import { CurrencyRequests } from '@/services/requests';
+import { ICurrency } from '@/services/requests/currencies/Currency.types';
+import { errorNotification } from '@/utils';
+
 import CreateForm from '../components/create-form.vue';
 import CurrencyTable from '../components/currency-table.vue';
 
@@ -73,11 +75,6 @@ export default class CurrencyPage extends Vue {
   }
 
   protected openCreateCurrencyModal(): void {
-    if (process.env.VUE_APP_DEMO_MODE) {
-      errorNotification('notification.no_available_on_demo_mode');
-      return;
-    }
-
     this.isCreateCurrencyModalVisible = true;
   }
 

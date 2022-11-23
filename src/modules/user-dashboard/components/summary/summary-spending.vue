@@ -27,26 +27,27 @@
 
 <script lang="ts">
 
+import dayjs, { Dayjs } from 'dayjs';
 import {
   Component, Vue, Watch,
 } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
-import dayjs, { Dayjs } from 'dayjs';
+
+import AppDateRangeSelect from '@/components/ui-kit/app-date-range-select.vue';
+import { categoryColors, getDynamicColor } from '@/components/ui-kit/colors';
+import PageSubtitle from '@/modules/user-dashboard/components/page-subtitle.vue';
 import CategoryCards from '@/modules/user-dashboard/components/summary/category-cards.vue';
-import { ITransactionCategoryRecord } from '@/services/requests/transaction-categories/TransactionCategories.types';
+import CategoryTable from '@/modules/user-dashboard/components/summary/category-table.vue';
+import { ReportsRequests } from '@/services/requests';
 import {
   IReportsCoinOutflowsRecord,
   IReportsCoinOutflowsRecordClient,
 } from '@/services/requests/reports/Reports.types';
-import Catalog from '@/store/modules/dynamic/Catalog';
-import { categoryColors, getDynamicColor } from '@/components/ui-kit/colors';
-import { ReportsRequests } from '@/services/requests';
-import { checkMobile, errorNotification } from '@/utils';
-import CategoryTable from '@/modules/user-dashboard/components/summary/category-table.vue';
+import { ITransactionCategoryRecord } from '@/services/requests/transaction-categories/TransactionCategories.types';
 import { UserCoins } from '@/store/modules';
-import PageSubtitle from '@/modules/user-dashboard/components/page-subtitle.vue';
+import Catalog from '@/store/modules/dynamic/Catalog';
 import { IPlainObject } from '@/types/interfaces';
-import AppDateRangeSelect from '@/components/ui-kit/app-date-range-select.vue';
+import { checkMobile, errorNotification } from '@/utils';
 
 const DEFAULT_MONTH_PERIOD: [Dayjs, Dayjs] = [
   dayjs().startOf('month'),

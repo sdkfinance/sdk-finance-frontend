@@ -48,7 +48,7 @@ export default class AppCardPreview extends Vue {
 .app-card-preview {
   @apply w-268 h-168 flex flex-col justify-between rounded-lg px-16 py-16 overflow-hidden bg-center bg-cover;
 
-  filter: drop-shadow(0 12px 25px rgba(15, 51, 107, 0.25));
+  filter: drop-shadow(0 12px 25px rgb(15 51 107 / 25%));
 
   &__haeder {
     &-icon {

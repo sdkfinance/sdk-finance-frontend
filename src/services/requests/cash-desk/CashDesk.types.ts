@@ -1,6 +1,6 @@
-import { IIssuer } from '@/services/requests/exchange-rates/ExchangeRates.types';
-import { ICurrency } from '@/services/requests/currencies/Currency.types';
 import { IClientCoin } from '@/services/requests/bank-withdrawals/Withdrawal.interface';
+import { ICurrency } from '@/services/requests/currencies/Currency.types';
+import { IIssuer } from '@/services/requests/exchange-rates/ExchangeRates.types';
 import { ITransactionsRecord } from '@/services/requests/transactions/Transactions.types';
 
 export interface IIssuerFull {

@@ -76,17 +76,18 @@ import {
   Ref,
   Vue, Watch,
 } from 'vue-property-decorator';
+
+import AppButton from '@/components/ui-framework/app-button.vue';
 import AppForm from '@/components/ui-framework/app-form.vue';
 import AppFormItem from '@/components/ui-framework/app-form-item.vue';
-import AppSelect from '@/components/ui-framework/app-select/app-select.vue';
 import AppInput from '@/components/ui-framework/app-input.vue';
-import AppButton from '@/components/ui-framework/app-button.vue';
-import { SimpleRequiredValidationRule, SimpleNumberValidationRule } from '@/rules/validation';
+import AppSelect from '@/components/ui-framework/app-select/app-select.vue';
+import { SimpleNumberValidationRule, SimpleRequiredValidationRule } from '@/rules/validation';
 import { VouchersRequests, WalletsRequests } from '@/services/requests';
-import { errorNotification, successNotification } from '@/utils';
 import { IWalletRecord } from '@/services/requests/coins/Wallets.types';
-import { IVoucherNew, IVoucherCreated } from '@/services/requests/prepaid-coins/Vouchers.interface';
+import { IVoucherCreated, IVoucherNew } from '@/services/requests/prepaid-coins/Vouchers.interface';
 import { IPlainObject } from '@/types/interfaces';
+import { errorNotification, successNotification } from '@/utils';
 
 @Component({
   components: {

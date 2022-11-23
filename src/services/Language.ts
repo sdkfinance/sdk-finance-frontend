@@ -1,11 +1,11 @@
-import { LocalStorageService } from '@/services/LocalStorageService';
+import { LANGUAGES } from '@/constants';
+import { LANGUAGE_CODES } from '@/constants/languages';
 import { i18n, messages } from '@/i18n';
 import api from '@/services/api';
-import { LANGUAGES } from '@/constants';
-import { IOption } from '@/types/interfaces/Options.interface';
+import { LocalStorageService } from '@/services/LocalStorageService';
 import { I18nRequests } from '@/services/requests/i18n/I18nRequests';
-import { LANGUAGE_CODES } from '@/constants/languages';
 import { IPlainObject } from '@/types/interfaces';
+import { IOption } from '@/types/interfaces/Options.interface';
 
 export class LanguageService {
 

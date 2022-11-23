@@ -26,14 +26,15 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
+
 import AppStepController from '@/components/ui-kit/app-step-controller.vue';
 import AppFormWrapper from '@/components/ui-kit/modals/app-form-wrapper.vue';
-import { IPlainObject } from '@/types/interfaces';
-import AccountSelect from '@/modules/user-dashboard/components/account-select.vue';
 import AccountDetailsBlock from '@/modules/user-dashboard/components/account-details-block.vue';
-import { IUserBankAccountRecord } from '@/services/requests/profiles/UserProfile.types';
+import AccountSelect from '@/modules/user-dashboard/components/account-select.vue';
 import { BankAccountsRequests } from '@/services/requests/bank-accounts/BankAccountsRequests';
+import { IUserBankAccountRecord } from '@/services/requests/profiles/UserProfile.types';
+import { IPlainObject } from '@/types/interfaces';
 import { errorNotification } from '@/utils';
 
 @Component({

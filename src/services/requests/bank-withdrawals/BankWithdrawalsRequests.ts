@@ -1,5 +1,4 @@
 import api from '@/services/api';
-import { IApiResponse } from '@/types/interfaces';
 import {
   IBankWithdrawalBody,
   IBankWithdrawalCommissionResponse,
@@ -9,6 +8,7 @@ import {
   IWithdrawalOptions,
   IWithdrawalRecordsResponse,
 } from '@/services/requests/bank-withdrawals/Withdrawal.interface';
+import { IApiResponse } from '@/types/interfaces';
 
 export const BankWithdrawalsRequests = {
 

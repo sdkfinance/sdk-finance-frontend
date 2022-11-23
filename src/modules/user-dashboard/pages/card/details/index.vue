@@ -30,12 +30,13 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+
 import AppButton from '@/components/ui-framework/app-button.vue';
-import { errorNotification, successNotification } from '@/utils';
 import AppSimpleDetailsCard from '@/components/ui-kit/app-simple-details-card.vue';
-import { IDetailsValue } from '@/types/interfaces';
-import { copyToClipboard } from '@/utils/copyToClipboard';
 import { ISmartCardRecord } from '@/services/requests/smart-cards/SmartCards.types';
+import { IDetailsValue } from '@/types/interfaces';
+import { errorNotification, successNotification } from '@/utils';
+import { copyToClipboard } from '@/utils/copyToClipboard';
 
 @Component({
   components: {

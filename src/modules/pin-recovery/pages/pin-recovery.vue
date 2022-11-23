@@ -11,7 +11,9 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+
 import MainHead from '@/components/main-head.vue';
+
 import RecoveryForm from '../components/recovery-form.vue';
 
 @Component({

@@ -1,6 +1,6 @@
 <template>
   <div class="entrance-container">
-    <header-back-link/>
+    <header-top-line/>
     <div class="entrance">
       <header class="entrance__header">
         <header-links
@@ -49,16 +49,17 @@
 import {
   Component, Prop, Ref, Vue,
 } from 'vue-property-decorator';
+
 import LanguageSelect from '@/components/language-select.vue';
 import AppModal from '@/components/ui-kit/modals/app-modal.vue';
+import HeaderTopLine from '@/layouts/components/header-top-line.vue';
+import FooterLinks from '@/modules/entrance/components/footer-links.vue';
 import HeaderLinks from '@/modules/entrance/components/header-links.vue';
 import HeaderMobile from '@/modules/entrance/components/header-mobile.vue';
-import FooterLinks from '@/modules/entrance/components/footer-links.vue';
-import HeaderBackLink from '@/layouts/components/header-back-link.vue';
 
 @Component({
   components: {
-    HeaderBackLink,
+    HeaderTopLine,
     HeaderLinks,
     HeaderMobile,
     FooterLinks,

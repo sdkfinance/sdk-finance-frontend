@@ -41,17 +41,18 @@
 
 <script lang="ts">
 import { Component, Ref, Vue } from 'vue-property-decorator';
-import ContractsLayout from '@/modules/contracts-old/layouts/contacts-layout.vue';
-import TabLinks from '@/components/ui-kit/app-tab-links.vue';
+
+import Modal from '@/components/modal.vue';
 import AppButton from '@/components/ui-framework/app-button.vue';
 import AppForm from '@/components/ui-framework/app-form.vue';
-import { ContractsRequests } from '@/services/requests';
-import { errorNotification, successNotification } from '@/utils';
-import Modal from '@/components/modal.vue';
-import { ILimitBody, ILimitsRecord } from '@/services/requests/contracts/Commissions.types';
-import LimitsTable from '@/modules/contracts-old/pages/details/components/system/limits-table.vue';
+import TabLinks from '@/components/ui-kit/app-tab-links.vue';
+import ContractsLayout from '@/modules/contracts-old/layouts/contacts-layout.vue';
 import LimitsForm from '@/modules/contracts-old/pages/details/components/limits-form.vue';
+import LimitsTable from '@/modules/contracts-old/pages/details/components/system/limits-table.vue';
 import { getContractChildrenRoutesByLevel } from '@/modules/contracts-old/utils/getContractChildrenRoutesByLevel';
+import { ContractsRequests } from '@/services/requests';
+import { ILimitBody, ILimitsRecord } from '@/services/requests/contracts/Commissions.types';
+import { errorNotification, successNotification } from '@/utils';
 
 @Component({
   components: {

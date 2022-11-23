@@ -1,5 +1,5 @@
-import { IApiResponse, IPaginationRequestOptions, IPaginationResponse } from '@/types/interfaces';
 import { IWalletOwner } from '@/services/requests/coins/Wallets.types';
+import { IApiResponse, IPaginationRequestOptions, IPaginationResponse } from '@/types/interfaces';
 
 export interface IBankAccountDetails {
   bankAccountNumber: string;

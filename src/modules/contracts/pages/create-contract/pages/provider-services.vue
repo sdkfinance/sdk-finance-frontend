@@ -13,10 +13,11 @@
 <script lang="ts">
 
 import { Component, Vue } from 'vue-property-decorator';
+
+import AppBreadcrumbs from '@/components/ui-kit/app-breadcrumbs.vue';
+import DashboardContentLayout from '@/layouts/dashboard/dashboard-content-layout.vue';
 import ProviderServicesTable from '@/modules/contracts/pages/create-contract/components/provider-services-table.vue';
 import { IPlainObject } from '@/types/interfaces';
-import DashboardContentLayout from '@/layouts/dashboard/dashboard-content-layout.vue';
-import AppBreadcrumbs from '@/components/ui-kit/app-breadcrumbs.vue';
 
 @Component({
   components: { AppBreadcrumbs, DashboardContentLayout, ProviderServicesTable },

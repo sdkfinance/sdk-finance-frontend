@@ -89,39 +89,40 @@
 </template>
 
 <script lang="ts">
+import { debounce } from 'lodash';
+import { LocaleMessage } from 'vue-i18n';
 import {
-  Vue, Component, Prop, Ref, Watch,
+  Component, Prop, Ref, Vue, Watch,
 } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
-import { LocaleMessage } from 'vue-i18n';
-import { debounce } from 'lodash';
+
+import AppButton from '@/components/ui-framework/app-button.vue';
+import AppForm from '@/components/ui-framework/app-form.vue';
+import AppFormItem from '@/components/ui-framework/app-form-item.vue';
+import AppInput from '@/components/ui-framework/app-input.vue';
+import AppSelect from '@/components/ui-framework/app-select/app-select.vue';
+import AppSelectCustomOption from '@/components/ui-framework/app-select/app-select-custom-option.vue';
+import AppStepController from '@/components/ui-kit/app-step-controller.vue';
+import AppFormWrapper from '@/components/ui-kit/modals/app-form-wrapper.vue';
+import AppInfoModal, { InfoModalTypes } from '@/components/ui-kit/modals/app-info-modal.vue';
+import AppModal from '@/components/ui-kit/modals/app-modal.vue';
+import config from '@/config';
+import AccountSelect from '@/modules/user-dashboard/components/account-select.vue';
+import OperationCommission from '@/modules/user-dashboard/components/operation-commission.vue';
 import {
   NumberRangeValidationRule,
   OnChangeRequiredValidationRule,
 } from '@/rules/validation';
-import AppStepController from '@/components/ui-kit/app-step-controller.vue';
-import AppButton from '@/components/ui-framework/app-button.vue';
-import AppForm from '@/components/ui-framework/app-form.vue';
-import AppInput from '@/components/ui-framework/app-input.vue';
-import AppFormItem from '@/components/ui-framework/app-form-item.vue';
-import AppSelect from '@/components/ui-framework/app-select/app-select.vue';
-import { errorNotification } from '@/utils';
-import AppFormWrapper from '@/components/ui-kit/modals/app-form-wrapper.vue';
-import AppSelectCustomOption from '@/components/ui-framework/app-select/app-select-custom-option.vue';
-import AppInfoModal, { InfoModalTypes } from '@/components/ui-kit/modals/app-info-modal.vue';
-import AppModal from '@/components/ui-kit/modals/app-modal.vue';
-import { IPlainObject } from '@/types/interfaces';
-import { ICoin } from '@/services/requests/organizations/Coin.types';
-import { UserCoins } from '@/store/modules';
-import { ExchangeRequests } from '@/services/requests/exchange/ExchangeRequests';
-import OperationCommission from '@/modules/user-dashboard/components/operation-commission.vue';
 import {
   IExchangeCalculateResponse,
   IExchangePayload,
   IExchangeSuccess,
 } from '@/services/requests/exchange/Exchange.types';
-import AccountSelect from '@/modules/user-dashboard/components/account-select.vue';
-import config from '@/config';
+import { ExchangeRequests } from '@/services/requests/exchange/ExchangeRequests';
+import { ICoin } from '@/services/requests/organizations/Coin.types';
+import { UserCoins } from '@/store/modules';
+import { IPlainObject } from '@/types/interfaces';
+import { errorNotification } from '@/utils';
 
 @Component({
   components: {

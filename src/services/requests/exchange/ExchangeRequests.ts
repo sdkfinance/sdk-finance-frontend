@@ -1,8 +1,8 @@
 import api from '@/services/api';
-
 import {
+  IExchangeCalculateApiResponse,
   IExchangePayload,
-  IExchangeSuccessResponseApiResponse, IExchangeCalculateApiResponse,
+  IExchangeSuccessResponseApiResponse,
 } from '@/services/requests/exchange/Exchange.types';
 
 export const ExchangeRequests = {

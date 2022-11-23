@@ -1,6 +1,6 @@
 import api from '@/services/api';
-import { ITransactionsSingleApiResponse } from '@/services/requests/transactions/Transactions.types';
 import { IGateInvestmentsBody } from '@/services/requests/gate-investments/GateInvestments.types';
+import { ITransactionsSingleApiResponse } from '@/services/requests/transactions/Transactions.types';
 
 export const GateInvestmentsRequests = {
 

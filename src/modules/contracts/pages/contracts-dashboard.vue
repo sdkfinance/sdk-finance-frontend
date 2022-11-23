@@ -148,23 +148,24 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
 import { ChartData } from 'chart.js';
-import AppDropdown from '@/components/ui-framework/app-dropdown.vue';
-import { IPlainObject } from '@/types/interfaces';
-import AppSelect from '@/components/ui-framework/app-select/app-select.vue';
-import AppStatsBadge from '@/components/ui-kit/app-stats-badge.vue';
-import AppCurrencyDropdown from '@/modules/contracts/components/app-currency-dropdown.vue';
-import AppDateRangeSelect from '@/components/ui-kit/app-date-range-select.vue';
-import AppSwitch from '@/components/ui-framework/app-switch.vue';
-import ContractChartBox from '@/modules/contracts/components/contract-chart-box.vue';
-import AppChartDonut from '@/components/ui-kit/app-charts/app-chart-donut.vue';
-import AppChartData from '@/components/ui-kit/app-charts/app-chart-data.vue';
-import AppChartBar from '@/components/ui-kit/app-charts/app-chart-bar.vue';
-import { IOption } from '@/types/interfaces/Options.interface';
+import { Component, Vue } from 'vue-property-decorator';
+
 import AppButton from '@/components/ui-framework/app-button.vue';
-import DashboardContentLayout from '@/layouts/dashboard/dashboard-content-layout.vue';
+import AppDropdown from '@/components/ui-framework/app-dropdown.vue';
+import AppSelect from '@/components/ui-framework/app-select/app-select.vue';
+import AppSwitch from '@/components/ui-framework/app-switch.vue';
+import AppChartBar from '@/components/ui-kit/app-charts/app-chart-bar.vue';
+import AppChartData from '@/components/ui-kit/app-charts/app-chart-data.vue';
+import AppChartDonut from '@/components/ui-kit/app-charts/app-chart-donut.vue';
+import AppDateRangeSelect from '@/components/ui-kit/app-date-range-select.vue';
+import AppStatsBadge from '@/components/ui-kit/app-stats-badge.vue';
 import AppTabs, { ITab } from '@/components/ui-kit/app-tabs.vue';
+import DashboardContentLayout from '@/layouts/dashboard/dashboard-content-layout.vue';
+import AppCurrencyDropdown from '@/modules/contracts/components/app-currency-dropdown.vue';
+import ContractChartBox from '@/modules/contracts/components/contract-chart-box.vue';
+import { IPlainObject } from '@/types/interfaces';
+import { IOption } from '@/types/interfaces/Options.interface';
 
 const chartData = {
   labels: ['Contract 1', 'Contract 2', 'Contract 3'],

@@ -22,10 +22,10 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { IPlainObject, ITableColumn } from '@/types/interfaces';
 
-import AppTable from '@/components/ui-framework/app-table.vue';
 import AppButton from '@/components/ui-framework/app-button.vue';
+import AppTable from '@/components/ui-framework/app-table.vue';
+import { IPlainObject, ITableColumn } from '@/types/interfaces';
 
 @Component({
   components: { AppButton, AppTable },

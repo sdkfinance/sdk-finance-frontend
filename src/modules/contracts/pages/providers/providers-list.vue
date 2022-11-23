@@ -9,8 +9,9 @@
 <script lang="ts">
 
 import { Component, Vue } from 'vue-property-decorator';
-import { IPlainObject } from '@/types/interfaces';
+
 import ProvidersListTable from '@/modules/contracts/pages/providers/components/providers-list-table.vue';
+import { IPlainObject } from '@/types/interfaces';
 
 @Component({
   components: {

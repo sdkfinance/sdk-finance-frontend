@@ -19,7 +19,8 @@
 
 <script lang="ts">
 import {
-  Component, Vue, Prop,
+  Component, Prop,
+  Vue,
 } from 'vue-property-decorator';
 
 @Component

@@ -102,16 +102,17 @@ import {
   Ref,
   Vue,
 } from 'vue-property-decorator';
+
+import AppButton from '@/components/ui-framework/app-button.vue';
 import AppForm from '@/components/ui-framework/app-form.vue';
 import AppFormItem from '@/components/ui-framework/app-form-item.vue';
 import AppInput from '@/components/ui-framework/app-input.vue';
-import AppButton from '@/components/ui-framework/app-button.vue';
+import { SimpleNumberValidationRule, SimpleRequiredValidationRule } from '@/rules/validation';
 import { VouchersRequests, WalletsRequests } from '@/services/requests';
-import { SimpleRequiredValidationRule, SimpleNumberValidationRule } from '@/rules/validation';
-import { errorNotification } from '@/utils';
-import { IVoucherRedeem, IPostVoucherRedeemForm } from '@/services/requests/prepaid-coins/Vouchers.interface';
-import { IPlainObject } from '@/types/interfaces';
 import { IWalletRecord } from '@/services/requests/coins/Wallets.types';
+import { IPostVoucherRedeemForm, IVoucherRedeem } from '@/services/requests/prepaid-coins/Vouchers.interface';
+import { IPlainObject } from '@/types/interfaces';
+import { errorNotification } from '@/utils';
 
 const formStepsList = {
   voucher: 'voucher',

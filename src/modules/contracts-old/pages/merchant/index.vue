@@ -25,15 +25,16 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+
+import Modal from '@/components/modal.vue';
+import AppButton from '@/components/ui-framework/app-button.vue';
+import CustomContractForm from '@/modules/contracts-old/components/custom-contract-form.vue';
 import ContractsLayout from '@/modules/contracts-old/layouts/contacts-layout.vue';
 import Contacts from '@/modules/contracts-old/pages/contracts.vue';
-import AppButton from '@/components/ui-framework/app-button.vue';
+import { CONTRACTS_CHILDREN } from '@/modules/contracts-old/routes';
 import {
   IContractsFilter,
 } from '@/services/requests/contracts/Contracts.types';
-import { CONTRACTS_CHILDREN } from '@/modules/contracts-old/routes';
-import Modal from '@/components/modal.vue';
-import CustomContractForm from '@/modules/contracts-old/components/custom-contract-form.vue';
 
 @Component({
   components: {

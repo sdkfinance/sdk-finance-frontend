@@ -20,6 +20,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+
 import { IInformationDetails } from '@/types/interfaces/InformationDetails.interface';
 
 @Component

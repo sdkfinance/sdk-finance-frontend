@@ -12,9 +12,10 @@ import { mixins } from 'vue-class-component';
 import {
   Component, Emit, Model, Ref, Watch,
 } from 'vue-property-decorator';
+
+import FilterTypeMixin from '@/components/data-table/filters/filterTypeMixin';
 import AppInput from '@/components/ui-framework/app-input.vue';
 import { IFilterEmitValue } from '@/types/interfaces/TableFilters.interface';
-import FilterTypeMixin from '@/components/data-table/filters/filterTypeMixin';
 
 type TValue = string | undefined | null;
 

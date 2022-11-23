@@ -1,6 +1,5 @@
-import { IGetCoinApiResponse } from '@/services/requests/organizations/Coin.types';
-
 import api from '@/services/api';
+import { IGetCoinApiResponse } from '@/services/requests/organizations/Coin.types';
 import {
   IGetOrganizationsApiResponse,
   IGetOrganizationsOptions,

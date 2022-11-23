@@ -26,8 +26,9 @@
 
 <script lang="ts">
 import {
-  Component, Prop, Emit, Vue,
+  Component, Emit, Prop, Vue,
 } from 'vue-property-decorator';
+
 import Modal from '@/components/modal.vue';
 import AppButton from '@/components/ui-framework/app-button.vue';
 

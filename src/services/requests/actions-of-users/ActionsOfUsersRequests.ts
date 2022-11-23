@@ -1,9 +1,8 @@
 import api from '@/services/api';
-
 import {
-  IGetActionsOfUsersApiResponse,
-  IActionsOfUsersOptions,
   IActionsApiResponse,
+  IActionsOfUsersOptions,
+  IGetActionsOfUsersApiResponse,
 } from '@/services/requests/actions-of-users/ActionsOfUsers.types';
 
 export const ActionsOfUsersRequests = {

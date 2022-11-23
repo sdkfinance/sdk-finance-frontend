@@ -17,14 +17,15 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+
+import DetailsList from '@/components/details-list.vue';
 import {
   ITransactionsRecord,
   ITransactionsTransaction,
   TTarget,
 } from '@/services/requests/transactions/Transactions.types';
-import DetailsList from '@/components/details-list.vue';
 import { IDetailsValue } from '@/types/interfaces';
-import { getDefaultDate, getAmountWithCurrency } from '@/utils';
+import { getAmountWithCurrency, getDefaultDate } from '@/utils';
 
 @Component({
   components: {

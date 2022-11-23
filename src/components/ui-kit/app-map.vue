@@ -38,13 +38,14 @@
 </template>
 
 <script lang="ts">
+import { googleMaps } from 'gmap-vue';
+import GmapCluster from 'gmap-vue/dist/components/cluster';
+import GmapMap from 'gmap-vue/dist/components/map.vue';
+import GmapMarker from 'gmap-vue/dist/components/marker';
 import {
   Component, Emit, Prop, Ref, Vue, Watch,
 } from 'vue-property-decorator';
-import { googleMaps } from 'gmap-vue';
-import GmapMap from 'gmap-vue/dist/components/map.vue';
-import GmapMarker from 'gmap-vue/dist/components/marker';
-import GmapCluster from 'gmap-vue/dist/components/cluster';
+
 import { IPlainObject } from '@/types/interfaces';
 import { getProp } from '@/utils';
 
@@ -149,7 +150,7 @@ export default class AppMap extends Vue {
   }
 
   &__cluster {
-    filter: drop-shadow(0 4px 6px rgba(27, 85, 233, 0.6));
+    filter: drop-shadow(0 4px 6px rgb(27 85 233 / 60%));
 
     @apply flex items-center text-center w-24 h-24 rounded-full bg-blue-accent text-white text-base;
 

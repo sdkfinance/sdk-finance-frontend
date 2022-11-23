@@ -32,18 +32,19 @@
 
 <script lang="ts">
 import { Component, Ref, Vue } from 'vue-property-decorator';
+
 import AppDataTable from '@/components/data-table/app-data-table.vue';
 import MainHead from '@/components/main-head.vue';
 import Modal from '@/components/modal.vue';
-import { PointsOfSaleRequests } from '@/services/requests';
-import { errorNotification } from '@/utils';
 import AppButton from '@/components/ui-framework/app-button.vue';
 import PointsOfSaleForm from '@/modules/points-of-sale/components/points-of-sale-modal-form.vue';
+import PointsOfSaleTable from '@/modules/points-of-sale/components/points-of-sale-table.vue';
+import { PointsOfSaleRequests } from '@/services/requests';
 import {
   IPointOfSaleRecord,
   IPointsOfSaleRecordsResponse,
 } from '@/services/requests/points-of-sale/PointsOfSale.types';
-import PointsOfSaleTable from '@/modules/points-of-sale/components/points-of-sale-table.vue';
+import { errorNotification } from '@/utils';
 
 @Component({
   components: {
@@ -68,15 +69,15 @@ export default class PointsOfSalePage extends Vue {
   protected async fetchData(): Promise<IPointsOfSaleRecordsResponse> {
     this.isLoading = true;
 
-    const { response, error } = await PointsOfSaleRequests.getRecords();
+    const request = await PointsOfSaleRequests.getRecords();
 
     this.isLoading = false;
 
-    if (error) {
-      errorNotification(error);
+    if (request.error) {
+      errorNotification(request.error);
     }
 
-    return { response, error };
+    return request;
   }
 
 }

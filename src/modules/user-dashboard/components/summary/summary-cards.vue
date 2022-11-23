@@ -23,17 +23,18 @@ import {
   Component, Prop, Vue, Watch,
 } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
-import { IPlainObject } from '@/types/interfaces';
-import AppWalletCard from '@/components/ui-kit/app-wallet-card.vue';
+
 import AppDateRangeSelect from '@/components/ui-kit/app-date-range-select.vue';
+import AppWalletCard from '@/components/ui-kit/app-wallet-card.vue';
+import { WALLET_FLOW_TYPES } from '@/constants/wallet-flow-types';
 import PageSubtitle from '@/modules/user-dashboard/components/page-subtitle.vue';
 import { ReportsRequests } from '@/services/requests';
-import { errorNotification } from '@/utils';
-import { UserCoins } from '@/store/modules';
-import { WALLET_FLOW_TYPES } from '@/constants/wallet-flow-types';
 import {
   IReportsCoinOutflowsRecordClient,
 } from '@/services/requests/reports/Reports.types';
+import { UserCoins } from '@/store/modules';
+import { IPlainObject } from '@/types/interfaces';
+import { errorNotification } from '@/utils';
 
 @Component({
   components: { PageSubtitle, AppDateRangeSelect, AppWalletCard },

@@ -21,23 +21,24 @@
 
 <script lang="ts">
 import {
-  Vue,
   Component,
   Emit,
   Model,
   Prop,
+  Vue,
   Watch,
 } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
+
+import TableFilters from '@/components/data-table/table-filters.vue';
 import AppPagination from '@/components/ui-framework/app-pagination.vue';
 import { UserData } from '@/store/modules';
-import { IFilterEmitValue, TFilters } from '@/types/interfaces/TableFilters.interface';
-import { IPaginationResponse } from '@/types/interfaces/PaginationResponse.interface';
+import { IPlainObject } from '@/types/interfaces';
 import { IApiResponse } from '@/types/interfaces/ApiResponse.interface';
 import { IPaginationRequestOptions } from '@/types/interfaces/PaginationRequest.interface';
-import TableFilters from '@/components/data-table/table-filters.vue';
+import { IPaginationResponse } from '@/types/interfaces/PaginationResponse.interface';
+import { IFilterEmitValue, TFilters } from '@/types/interfaces/TableFilters.interface';
 import { getDecodedParams, isEmptyValue, serializeValues } from '@/utils';
-import { IPlainObject } from '@/types/interfaces';
 
 type OnLoadApiResponse = IPaginationResponse<any>
 type OnLoadResponse = IApiResponse<OnLoadApiResponse>;
@@ -221,7 +222,7 @@ export default class AppDataTable extends Vue {
     this.isLoading = false;
 
     if (error) {
-      return { response: null, error };
+      return { response, error };
     }
 
     const {

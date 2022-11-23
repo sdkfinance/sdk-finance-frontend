@@ -1,5 +1,5 @@
-import { ITableFilter } from '@/types/interfaces/TableFilters.interface';
 import { ROLES_ARRAY } from '@/constants';
+import { ITableFilter } from '@/types/interfaces/TableFilters.interface';
 
 const getRoles = () => ROLES_ARRAY.reduce((acc, { label, value }) => ({ ...acc, [value]: label }), {});
 

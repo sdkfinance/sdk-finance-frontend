@@ -43,8 +43,9 @@
 
 <script lang="ts">
 import {
-  Component, Emit, Prop, Model, Vue,
+  Component, Emit, Model, Prop, Vue,
 } from 'vue-property-decorator';
+
 import Modal from '@/components/modal.vue';
 import CurrencyExchangeForm from '@/modules/wallets/components/forms/currency-exchange-form.vue';
 import { IExchangeSuccess } from '@/services/requests/exchange/Exchange.types';

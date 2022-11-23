@@ -21,16 +21,17 @@
 
 <script lang="ts">
 import { Component, Ref, Vue } from 'vue-property-decorator';
+
 import AppButton from '@/components/ui-framework/app-button.vue';
-import OperationsTable from '@/modules/contracts/pages/internal-operations/components/operations-table.vue';
-import { CatalogsRequests } from '@/services/requests';
-import { errorNotification } from '@/utils';
+import AppForm from '@/components/ui-framework/app-form.vue';
+import AppBreadcrumbs from '@/components/ui-kit/app-breadcrumbs.vue';
 import DashboardContentLayout from '@/layouts/dashboard/dashboard-content-layout.vue';
 import EditOperationsTableForm from '@/modules/contracts/pages/internal-operations/components/edit-operations-table-form.vue';
-import AppForm from '@/components/ui-framework/app-form.vue';
-import { IPlainObject } from '@/types/interfaces';
+import OperationsTable from '@/modules/contracts/pages/internal-operations/components/operations-table.vue';
 import { SimpleRequiredValidationRule } from '@/rules/validation';
-import AppBreadcrumbs from '@/components/ui-kit/app-breadcrumbs.vue';
+import { CatalogsRequests } from '@/services/requests';
+import { IPlainObject } from '@/types/interfaces';
+import { errorNotification } from '@/utils';
 
 @Component({
   components: {

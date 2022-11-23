@@ -36,8 +36,9 @@
 import {
   Component, Prop, Vue, Watch,
 } from 'vue-property-decorator';
-import { ISummaryChartData } from '@/components/ui-kit/app-charts/types/charts.types';
+
 import AppChartData from '@/components/ui-kit/app-charts/app-chart-summary-data.vue';
+import { ISummaryChartData } from '@/components/ui-kit/app-charts/types/charts.types';
 import { chartColors, getDynamicColor } from '@/components/ui-kit/colors';
 
 const ANIMATION_DELAY: number = 500;

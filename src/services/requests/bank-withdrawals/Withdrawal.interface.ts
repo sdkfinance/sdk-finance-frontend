@@ -1,5 +1,5 @@
-import { IApiResponse, IPaginationRequestOptions } from '@/types/interfaces';
 import { ITransactionsTransaction } from '@/services/requests/transactions/Transactions.types';
+import { IApiResponse, IPaginationRequestOptions } from '@/types/interfaces';
 
 export interface IBankInfo {
   address: string;

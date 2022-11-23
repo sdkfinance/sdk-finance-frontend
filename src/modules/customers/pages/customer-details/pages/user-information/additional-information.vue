@@ -32,10 +32,10 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { IInformationDetails } from '@/types/interfaces/InformationDetails.interface';
 
-import InformationDetails from '@/modules/customers/pages/customer-details/components/information-details.vue';
 import AppButton from '@/components/ui-framework/app-button.vue';
+import InformationDetails from '@/modules/customers/pages/customer-details/components/information-details.vue';
+import { IInformationDetails } from '@/types/interfaces/InformationDetails.interface';
 
 @Component({
   components: { AppButton, InformationDetails },

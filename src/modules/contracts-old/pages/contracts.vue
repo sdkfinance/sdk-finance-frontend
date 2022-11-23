@@ -15,17 +15,18 @@
 
 <script lang="ts">
 import {
-  Component, Ref, Prop, Vue,
+  Component, Prop, Ref, Vue,
 } from 'vue-property-decorator';
+
 import AppDataTable from '@/components/data-table/app-data-table.vue';
+import ContractsTable from '@/modules/contracts-old/components/contracts-table.vue';
+import { contractsFilters } from '@/modules/contracts-old/filters/contracts-filters';
 import { ContractsRequests } from '@/services/requests';
-import { errorNotification } from '@/utils';
 import {
   IContractRecord,
   IContractsFilter,
 } from '@/services/requests/contracts/Contracts.types';
-import { contractsFilters } from '@/modules/contracts-old/filters/contracts-filters';
-import ContractsTable from '@/modules/contracts-old/components/contracts-table.vue';
+import { errorNotification } from '@/utils';
 
 @Component({
   components: {

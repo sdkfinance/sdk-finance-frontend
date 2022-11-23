@@ -1,7 +1,8 @@
 import RegExpValidationRule from '@/rules/validation/RegExp';
+
+import EmailRegExp from '../regexp/Email';
 import FormattedPhoneRegExp from '../regexp/FormattedPhone';
 import PhoneRegExp from '../regexp/Phone';
-import EmailRegExp from '../regexp/Email';
 
 export const EmailOrPhoneValidationRule = (required: boolean = true, trigger: string = 'blur') => RegExpValidationRule(
   'validation.please_input_email_or_phone',

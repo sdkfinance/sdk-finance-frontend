@@ -37,22 +37,22 @@
 import {
   Component, Ref, Vue,
 } from 'vue-property-decorator';
+
+import AppButton from '@/components/ui-framework/app-button.vue';
 import AppForm from '@/components/ui-framework/app-form.vue';
 import AppFormItem from '@/components/ui-framework/app-form-item.vue';
 import AppInput from '@/components/ui-framework/app-input.vue';
-import AppButton from '@/components/ui-framework/app-button.vue';
 import {
-  SimpleRequiredValidationRule,
-  SecondFieldMatchValidationRule,
   PasswordValidationRule,
+  SecondFieldMatchValidationRule,
+  SimpleRequiredValidationRule,
 } from '@/rules/validation';
-
 import { ProfileRequests } from '@/services/requests';
-import { successNotification, errorNotification } from '@/utils';
 import {
   IUserPassword,
 } from '@/services/requests/profiles/UserProfile.types';
 import { IPlainObject } from '@/types/interfaces';
+import { errorNotification, successNotification } from '@/utils';
 
 @Component({
   components: {

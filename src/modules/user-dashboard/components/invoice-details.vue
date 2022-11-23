@@ -70,21 +70,23 @@
 </template>
 
 <script lang="ts">
-import {
-  Vue, Component, Ref, Prop, Emit,
-} from 'vue-property-decorator';
 import dayjs from 'dayjs';
-import AppModal from '@/components/ui-kit/modals/app-modal.vue';
+import {
+  Component, Emit,
+  Prop, Ref, Vue,
+} from 'vue-property-decorator';
+import { getModule } from 'vuex-module-decorators';
+
 import DetailsListForm from '@/components/details-list.vue';
 import AppActionButton from '@/components/ui-kit/app-action-button.vue';
 import AppActionGroup from '@/components/ui-kit/app-action-group.vue';
 import AppBadge from '@/components/ui-kit/app-badge.vue';
 import AppOperationImage from '@/components/ui-kit/app-operation-image.vue';
+import AppModal from '@/components/ui-kit/modals/app-modal.vue';
 import PendingInvoiceForm from '@/modules/user-dashboard/components/pending-invoice-form.vue';
-import { IDetailsValue, IPlainObject } from '@/types/interfaces';
-import { getModule } from 'vuex-module-decorators';
-import { UserCoins } from '@/store/modules';
 import { ICoin } from '@/services/requests/organizations/Coin.types';
+import { UserCoins } from '@/store/modules';
+import { IDetailsValue, IPlainObject } from '@/types/interfaces';
 
 const iconPlaceholder = require('@/assets/icons/empty-category.svg');
 

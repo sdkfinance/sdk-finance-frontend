@@ -52,15 +52,16 @@
 
 <script lang="ts">
 import {
-  Component, Prop, Emit, Vue,
+  Component, Emit, Prop, Vue,
 } from 'vue-property-decorator';
-import AppTable from '@/components/ui-framework/app-table.vue';
+
 import AppButton from '@/components/ui-framework/app-button.vue';
-import { ITableColumn } from '@/types/interfaces';
-import { ITransactionsRecord } from '@/services/requests/transactions/Transactions.types';
-import config from '@/config';
-import { getProp } from '@/utils';
+import AppTable from '@/components/ui-framework/app-table.vue';
 import AppBadge from '@/components/ui-kit/app-badge.vue';
+import config from '@/config';
+import { ITransactionsRecord } from '@/services/requests/transactions/Transactions.types';
+import { ITableColumn } from '@/types/interfaces';
+import { getProp } from '@/utils';
 
 @Component({
   components: {

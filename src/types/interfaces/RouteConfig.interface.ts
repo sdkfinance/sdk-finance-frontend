@@ -1,6 +1,7 @@
 // eslint-disable-next-line import/no-unresolved
-import { RouteConfigMultipleViews, RouteConfigSingleView } from 'vue-router/types/router';
 import { LocaleMessage } from 'vue-i18n';
+import { RouteConfigMultipleViews, RouteConfigSingleView } from 'vue-router/types/router';
+
 import { TRole } from '@/constants/roles';
 import { IPlainObject } from '@/types/interfaces/PlainObject.interface';
 // It's temporary solution, next relies vue router add generic type for type meta data;

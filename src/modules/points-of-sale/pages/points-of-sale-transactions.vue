@@ -73,31 +73,31 @@ import {
   Vue,
 } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
-import AppButton from '@/components/ui-framework/app-button.vue';
-import MainHead from '@/components/main-head.vue';
+
+import ConfirmModal from '@/components/confirm-modal.vue';
 import AppDataTable from '@/components/data-table/app-data-table.vue';
+import DetailsList from '@/components/details-list.vue';
+import MainHead from '@/components/main-head.vue';
 import Modal from '@/components/modal.vue';
-import { errorNotification } from '@/utils';
-
+import AppButton from '@/components/ui-framework/app-button.vue';
 import PointsOfSaleForm from '@/modules/points-of-sale/components/points-of-sale-modal-form.vue';
-import { IPointOfSaleRecord } from '@/services/requests/points-of-sale/PointsOfSale.types';
 import PointsOfSaleTable from '@/modules/points-of-sale/components/points-of-sale-table.vue';
+import TransactionsForm from '@/modules/transactions/components/transactions-form.vue';
+import TransactionsTable from '@/modules/transactions/components/transactions-table.vue';
 import { CurrencyRequests, PointsOfSaleRequests } from '@/services/requests';
-
+import { ICurrency } from '@/services/requests/currencies/Currency.types';
+import { IPointOfSaleRecord } from '@/services/requests/points-of-sale/PointsOfSale.types';
+import { ITransactionCategoryRecord } from '@/services/requests/transaction-categories/TransactionCategories.types';
 import {
   IGetTransactionsApiResponse, ITransactionsFilter,
   ITransactionsOptions,
   ITransactionsRecord,
 } from '@/services/requests/transactions/Transactions.types';
-import { ICurrency } from '@/services/requests/currencies/Currency.types';
-import { ITableFilter } from '@/types/interfaces/TableFilters.interface';
-import TransactionsForm from '@/modules/transactions/components/transactions-form.vue';
-import TransactionsTable from '@/modules/transactions/components/transactions-table.vue';
-import DetailsList from '@/components/details-list.vue';
-import { IDetailsValue } from '@/types/interfaces';
-import ConfirmModal from '@/components/confirm-modal.vue';
-import { ITransactionCategoryRecord } from '@/services/requests/transaction-categories/TransactionCategories.types';
 import Catalog from '@/store/modules/dynamic/Catalog';
+import { IDetailsValue } from '@/types/interfaces';
+import { ITableFilter } from '@/types/interfaces/TableFilters.interface';
+import { errorNotification } from '@/utils';
+
 import { transactionsFilters } from '../../transactions/filters/filters';
 
 @Component({
@@ -233,15 +233,17 @@ export default class PointsOfSalePage extends Vue {
   protected async fetchData(params: ITransactionsOptions): Promise<IGetTransactionsApiResponse> {
     this.isLoading = true;
 
-    const { response, error } = await PointsOfSaleRequests.getTransactionRecordByPos(
+    const request = await PointsOfSaleRequests.getTransactionRecordByPos(
       { ...params, filter: { ...this.defaultFilter, ...params.filter } },
       this.id,
     );
     this.isLoading = false;
 
-    if (error) errorNotification(error);
+    if (request.error) {
+      errorNotification(request.error);
+    }
 
-    return { response, error };
+    return request;
   }
 
   public async fetchCurrency(): Promise<void> {

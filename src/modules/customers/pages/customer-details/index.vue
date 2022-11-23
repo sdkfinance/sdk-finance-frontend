@@ -26,14 +26,14 @@
 </template>
 
 <script lang="ts">
+import { AsyncComponent } from 'vue';
 import { Component, Vue } from 'vue-property-decorator';
 
-import { AsyncComponent } from 'vue';
-import AppTabLinks from '@/components/ui-kit/app-tab-links.vue';
-import DashboardContentLayout from '@/layouts/dashboard/dashboard-content-layout.vue';
 import AppButton from '@/components/ui-framework/app-button.vue';
 import AppBreadcrumbs from '@/components/ui-kit/app-breadcrumbs.vue';
+import AppTabLinks from '@/components/ui-kit/app-tab-links.vue';
 import AppTabs, { ITab } from '@/components/ui-kit/app-tabs.vue';
+import DashboardContentLayout from '@/layouts/dashboard/dashboard-content-layout.vue';
 
 const DisputesList: AsyncComponent = () => import('@/modules/customers/pages/customer-details/pages/disputes.vue');
 const CustomerTransactions: AsyncComponent = () => import('@/modules/customers/pages/customer-details/pages/customer-transactions.vue');

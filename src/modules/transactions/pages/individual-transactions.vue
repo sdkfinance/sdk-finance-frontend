@@ -7,10 +7,12 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+
 import DetailsList from '@/components/details-list.vue';
-import { IGetTransactionsApiResponse, ITransactionsRecord } from '@/services/requests/transactions/Transactions.types';
 import { TransactionsRequests } from '@/services/requests';
+import { IGetTransactionsApiResponse, ITransactionsRecord } from '@/services/requests/transactions/Transactions.types';
 import { errorNotification } from '@/utils';
+
 import TransactionsTable from '../components/transactions-table.vue';
 
 @Component({

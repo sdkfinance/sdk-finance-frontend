@@ -65,17 +65,18 @@
 import {
   Component, Emit, Prop, Ref, Vue,
 } from 'vue-property-decorator';
-import TemplateCard from '@/modules/wallets/components/cards/template-card.vue';
+
 import AppCarousel from '@/components/app-carousel.vue';
 import ConfirmModal from '@/components/confirm-modal.vue';
 import Modal from '@/components/modal.vue';
+import NoDataPlaceholder from '@/components/no-data-placeholder.vue';
+import TemplateCard from '@/modules/wallets/components/cards/template-card.vue';
 import TransferTemplateForm from '@/modules/wallets/components/forms/transfer-template-form.vue';
 import TransferToWalletForm from '@/modules/wallets/components/forms/transfer-to-wallet-form.vue';
-import NoDataPlaceholder from '@/components/no-data-placeholder.vue';
+import { IWalletRecord } from '@/services/requests/coins/Wallets.types';
 import { ITransferTemplateRecord } from '@/services/requests/templates/Templates.types';
 import { TemplatesRequests } from '@/services/requests/templates/TemplatesRequests';
 import { errorNotification, successNotification } from '@/utils';
-import { IWalletRecord } from '@/services/requests/coins/Wallets.types';
 
 @Component({
   components: {

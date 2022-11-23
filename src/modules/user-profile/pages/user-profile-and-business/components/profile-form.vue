@@ -48,18 +48,20 @@ import {
   Component, Prop, Ref, Vue,
 } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
+
+import AppButton from '@/components/ui-framework/app-button.vue';
 import AppForm from '@/components/ui-framework/app-form.vue';
 import AppFormItem from '@/components/ui-framework/app-form-item.vue';
 import AppInput from '@/components/ui-framework/app-input.vue';
-import AppButton from '@/components/ui-framework/app-button.vue';
-import { UserInfoRequests } from '@/services/requests';
 import { SimpleRequiredValidationRule } from '@/rules/validation';
-import {
-  clearEmptyValue, cloneDeep, successNotification, errorNotification,
-} from '@/utils';
+import { UserInfoRequests } from '@/services/requests';
 import { IUserInfo } from '@/services/requests/profiles/UserProfile.types';
 import { Profile } from '@/store/modules';
 import { IApiResponse } from '@/types/interfaces';
+import {
+  clearEmptyValue, cloneDeep, errorNotification,
+  successNotification,
+} from '@/utils';
 
 const setForm = (userInfo: IUserInfo): IUserInfo => {
   const { namePlain, nameIntl, description } = userInfo || {};

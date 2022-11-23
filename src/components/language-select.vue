@@ -6,18 +6,17 @@
     option-value="value"
     title-classes="text-blue-600"
     @click="changeLanguage">
-    <template>
-      <img
-        class="language-select__icon"
-        :src="`/images/flags/${currentLanguage}.svg`"
-        alt="flag">
-      {{ currentLanguage.toUpperCase() }}
-    </template>
+    <img
+      class="language-select__icon"
+      :src="`/images/flags/${currentLanguage}.svg`"
+      alt="flag">
+    {{ currentLanguage.toUpperCase() }}
   </app-dropdown>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+
 import AppDropdown from '@/components/ui-framework/app-dropdown.vue';
 import { LanguageService } from '@/services/Language';
 

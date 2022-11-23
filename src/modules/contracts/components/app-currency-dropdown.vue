@@ -17,10 +17,12 @@
 
 <script lang="ts">
 import {
-  Component, Vue, Prop,
+  Component, Prop,
+  Vue,
 } from 'vue-property-decorator';
-import { IPlainObject } from '@/types/interfaces';
+
 import AppSelect from '@/components/ui-framework/app-select/app-select.vue';
+import { IPlainObject } from '@/types/interfaces';
 
 @Component({
   components: {

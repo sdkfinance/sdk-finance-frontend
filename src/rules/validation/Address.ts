@@ -1,5 +1,5 @@
-import RegExp from '@/rules/validation/RegExp';
 import Address from '@/rules/regexp/Address';
+import RegExp from '@/rules/validation/RegExp';
 
 export const AddressValidator = (
   required: boolean = false,

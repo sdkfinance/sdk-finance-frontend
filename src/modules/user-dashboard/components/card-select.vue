@@ -29,8 +29,9 @@
 import {
   Component, Emit, Prop, Vue,
 } from 'vue-property-decorator';
-import AppSelectCustomOption from '@/components/ui-framework/app-select/app-select-custom-option.vue';
+
 import AppSelect from '@/components/ui-framework/app-select/app-select.vue';
+import AppSelectCustomOption from '@/components/ui-framework/app-select/app-select-custom-option.vue';
 import { ISmartCardRecord } from '@/services/requests/smart-cards/SmartCards.types';
 import { SmartCardsRequests } from '@/services/requests/smart-cards/SmartCardsRequests';
 import { errorNotification } from '@/utils';

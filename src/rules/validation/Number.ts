@@ -1,4 +1,5 @@
 import { LocaleMessage } from 'vue-i18n';
+
 import { i18n } from '@/i18n';
 
 export const SimpleNumberValidationRule = (required: boolean = true, message: string = 'validation.invalid_integer_value') => [

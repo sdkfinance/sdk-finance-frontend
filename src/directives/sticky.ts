@@ -11,19 +11,19 @@ const observer = (stickyEl: HTMLElement): IntersectionObserver => new Intersecti
 export const onSticky = () => ({
   bind(el: HTMLElement, binding: VNodeDirective, vNode: VNode): void {
     setTimeout(() => {
+      // eslint-disable-next-line no-unused-expressions
+      vNode?.context?.$nextTick(() => {
+        const parentEl = el.parentNode || el.parentElement;
+        const targetEl = document.createElement('div');
         // eslint-disable-next-line no-unused-expressions
-        vNode?.context?.$nextTick(() => {
-          const parentEl = el.parentNode || el.parentElement;
-          const targetEl = document.createElement('div');
-          // eslint-disable-next-line no-unused-expressions
-          parentEl?.insertBefore(targetEl, el);
-          // @ts-ignore
-          // eslint-disable-next-line no-underscore-dangle
-          el.__sticky__observer__ = observer(el);
-          // @ts-ignore
-          // eslint-disable-next-line no-underscore-dangle
-          el.__sticky__observer__.observe(targetEl);
-        });
+        parentEl?.insertBefore(targetEl, el);
+        // @ts-ignore
+        // eslint-disable-next-line no-underscore-dangle
+        el.__sticky__observer__ = observer(el);
+        // @ts-ignore
+        // eslint-disable-next-line no-underscore-dangle
+        el.__sticky__observer__.observe(targetEl);
+      });
     }, 0);
   },
   unbind(el: HTMLElement): void {

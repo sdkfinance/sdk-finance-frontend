@@ -60,19 +60,19 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
-import { SimpleRequiredValidationRule } from '@/rules/validation';
-import { IPlainObject, IUploadConfig } from '@/types/interfaces';
-import { ProfileDocumentsRequests } from '@/services/requests';
-import { apiConfig } from '@/services/api';
-import { errorNotification, successNotification } from '@/utils';
-import { UserData } from '@/store/modules';
-import AppSwitch from '@/components/ui-framework/app-switch.vue';
 
-import AppUpload from '@/components/ui-framework/app-upload.vue';
-import AppInput from '@/components/ui-framework/app-input.vue';
 import AppButton from '@/components/ui-framework/app-button.vue';
 import AppForm from '@/components/ui-framework/app-form.vue';
 import AppFormItem from '@/components/ui-framework/app-form-item.vue';
+import AppInput from '@/components/ui-framework/app-input.vue';
+import AppSwitch from '@/components/ui-framework/app-switch.vue';
+import AppUpload from '@/components/ui-framework/app-upload.vue';
+import { SimpleRequiredValidationRule } from '@/rules/validation';
+import { apiConfig } from '@/services/api';
+import { ProfileDocumentsRequests } from '@/services/requests';
+import { UserData } from '@/store/modules';
+import { IPlainObject, IUploadConfig } from '@/types/interfaces';
+import { errorNotification, successNotification } from '@/utils';
 
 @Component({
   components: {

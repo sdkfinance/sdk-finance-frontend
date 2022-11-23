@@ -90,21 +90,22 @@
 
 <script lang="ts">
 import {
-  Component, Prop, Emit, Ref, Vue,
+  Component, Emit, Prop, Ref, Vue,
 } from 'vue-property-decorator';
+
+import AppButton from '@/components/ui-framework/app-button.vue';
 import AppForm from '@/components/ui-framework/app-form.vue';
 import AppFormItem from '@/components/ui-framework/app-form-item.vue';
 import AppInput from '@/components/ui-framework/app-input.vue';
 import AppSelect from '@/components/ui-framework/app-select/app-select.vue';
-import AppButton from '@/components/ui-framework/app-button.vue';
 import AppSwitch from '@/components/ui-framework/app-switch.vue';
-import { OnChangeRequiredValidationRule, NumberRangeValidationRule } from '@/rules/validation';
-import { IPlainObject } from '@/types/interfaces';
 import { COMMISSION_TYPES_ARRAY } from '@/constants';
-import { ICommissionBody } from '@/services/requests/contracts/Commissions.types';
 import { amountRulesParams, percentRulesParams } from '@/modules/contracts-old/constants';
+import { NumberRangeValidationRule, OnChangeRequiredValidationRule } from '@/rules/validation';
 import { ContractsRequests } from '@/services/requests';
-import { errorNotification, successNotification, cloneDeep } from '@/utils';
+import { ICommissionBody } from '@/services/requests/contracts/Commissions.types';
+import { IPlainObject } from '@/types/interfaces';
+import { cloneDeep, errorNotification, successNotification } from '@/utils';
 
 @Component({
   components: {

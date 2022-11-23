@@ -36,14 +36,15 @@
 import {
   Component, Emit, Prop, Vue,
 } from 'vue-property-decorator';
+
 import DetailsList from '@/components/details-list.vue';
-import { IDetailsValue } from '@/types/interfaces';
-import { getDefaultDate } from '@/utils';
+import AppButton from '@/components/ui-framework/app-button.vue';
+import ButtonsGroup from '@/components/ui-kit/app-buttons-group.vue';
+import { CONFIRM_ENUM } from '@/constants/enums';
 import { IWithdrawalRecord } from '@/services/requests/bank-withdrawals/Withdrawal.interface';
 import { ITransactionsTransaction } from '@/services/requests/transactions/Transactions.types';
-import AppButton from '@/components/ui-framework/app-button.vue';
-import { CONFIRM_ENUM } from '@/constants/enums';
-import ButtonsGroup from '@/components/ui-kit/app-buttons-group.vue';
+import { IDetailsValue } from '@/types/interfaces';
+import { getDefaultDate } from '@/utils';
 
 @Component({
   components: {

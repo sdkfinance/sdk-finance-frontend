@@ -1,52 +1,52 @@
 export const ACCOUNTS = [
   {
     label: 'Administrator',
-    login: 'administrator@sdk.finance',
+    login: 'administrator@sdkfinance.tech',
     password: '1',
   },
   {
     label: 'CFO',
-    login: 'cfo@sdk.finance',
+    login: 'cfo@sdkfinance.tech',
     password: '1',
   },
   {
     label: 'Individual',
-    login: 'individual@sdk.finance',
+    login: 'individual@sdkfinance.tech',
     password: '1',
   },
   {
     label: 'Merchant',
-    login: 'Merchant@sdk.finance',
+    login: 'Merchant@sdkfinance.tech',
     password: '1',
   },
   {
     label: 'Compliance manager',
-    login: 'compliance_manager@sdk.finance',
+    login: 'compliance_manager@sdkfinance.tech',
     password: '1',
   },
   {
     label: 'Compliance specialist',
-    login: 'compliance_specialist@sdk.finance',
+    login: 'compliance_specialist@sdkfinance.tech',
     password: '1',
   },
   {
     label: 'Customer support',
-    login: 'customer_support@sdk.finance',
+    login: 'customer_support@sdkfinance.tech',
     password: '1',
   },
   {
     label: 'Antifraud specialist',
-    login: 'antifraud_specialist@sdk.finance',
+    login: 'antifraud_specialist@sdkfinance.tech',
     password: '1',
   },
   {
     label: 'Accountant',
-    login: 'accountant@sdk.finance',
+    login: 'accountant@sdkfinance.tech',
     password: '1',
   },
   {
     label: 'Cashier',
-    login: 'cashier@sdk.finance',
+    login: 'cashier@sdkfinance.tech',
     password: '1',
   },
 ];

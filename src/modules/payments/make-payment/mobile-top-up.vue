@@ -109,31 +109,32 @@
 </template>
 
 <script lang="ts">
+import { debounce } from 'lodash';
 import {
-  Vue, Component, Ref, Watch,
+  Component, Ref, Vue, Watch,
 } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
-import { debounce } from 'lodash';
-import AppStepController from '@/components/ui-kit/app-step-controller.vue';
+
 import AppButton from '@/components/ui-framework/app-button.vue';
 import AppForm from '@/components/ui-framework/app-form.vue';
-import AppInput from '@/components/ui-framework/app-input.vue';
 import AppFormItem from '@/components/ui-framework/app-form-item.vue';
-import AppFormWrapper from '@/components/ui-kit/modals/app-form-wrapper.vue';
+import AppInput from '@/components/ui-framework/app-input.vue';
 import AppSelectCustomOption from '@/components/ui-framework/app-select/app-select-custom-option.vue';
-import AppInfoModal, { InfoModalTypes } from '@/components/ui-kit/modals/app-info-modal.vue';
-import AppModal from '@/components/ui-kit/modals/app-modal.vue';
-import { IPlainObject } from '@/types/interfaces';
 import AppCustomSelect from '@/components/ui-kit/app-custom-select/app-custom-select.vue';
 import AppCustomSelectOption from '@/components/ui-kit/app-custom-select/app-custom-select-option.vue';
-import { OnChangeRequiredValidationRule, SimpleNumberValidationRule } from '@/rules/validation';
-import AccountSelect from '@/modules/user-dashboard/components/account-select.vue';
+import AppStepController from '@/components/ui-kit/app-step-controller.vue';
+import { categoryColors } from '@/components/ui-kit/colors';
+import AppFormWrapper from '@/components/ui-kit/modals/app-form-wrapper.vue';
+import AppInfoModal, { InfoModalTypes } from '@/components/ui-kit/modals/app-info-modal.vue';
+import AppModal from '@/components/ui-kit/modals/app-modal.vue';
+import config from '@/config';
 import MobileTransferDetails
   from '@/modules/payments/make-payment/components/mobile-transfer-details.vue';
-import { Profile } from '@/store/modules';
+import AccountSelect from '@/modules/user-dashboard/components/account-select.vue';
 import OperationCommission from '@/modules/user-dashboard/components/operation-commission.vue';
-import { categoryColors } from '@/components/ui-kit/colors';
-import config from '@/config';
+import { OnChangeRequiredValidationRule, SimpleNumberValidationRule } from '@/rules/validation';
+import { Profile } from '@/store/modules';
+import { IPlainObject } from '@/types/interfaces';
 import { getProp } from '@/utils';
 
 @Component({

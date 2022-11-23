@@ -58,24 +58,25 @@
 
 <script lang="ts">
 import { Component, Ref, Vue } from 'vue-property-decorator';
-import ContractsLayout from '@/modules/contracts-old/layouts/contacts-layout.vue';
-import AppButton from '@/components/ui-framework/app-button.vue';
-import SystemDetailsTable from '@/modules/contracts-old/pages/details/components/system/system-details-table.vue';
-import { IPlainObject } from '@/types/interfaces';
-import { OnChangeRequiredValidationRule, SimpleRequiredValidationRule } from '@/rules/validation';
-import AppForm from '@/components/ui-framework/app-form.vue';
-import { ContractsRequests } from '@/services/requests';
-import { errorNotification, successNotification } from '@/utils';
-import AppInfoBlock from '@/modules/contracts-old/components/app-info-block.vue';
+
+import ConfirmModal from '@/components/confirm-modal.vue';
 import Modal from '@/components/modal.vue';
+import AppButton from '@/components/ui-framework/app-button.vue';
+import AppForm from '@/components/ui-framework/app-form.vue';
+import AppInfoBlock from '@/modules/contracts-old/components/app-info-block.vue';
+import ContractsLayout from '@/modules/contracts-old/layouts/contacts-layout.vue';
 import CommissionRuleForm from '@/modules/contracts-old/pages/details/components/system/commission-rule-form.vue';
+import SystemDetailsTable from '@/modules/contracts-old/pages/details/components/system/system-details-table.vue';
+import { getContractChildrenRoutesByLevel } from '@/modules/contracts-old/utils/getContractChildrenRoutesByLevel';
+import { OnChangeRequiredValidationRule, SimpleRequiredValidationRule } from '@/rules/validation';
+import { ContractsRequests } from '@/services/requests';
 import {
   ICommissionRule,
   ICommissionRuleCondition,
   ICommissionRuleConditionPayload,
 } from '@/services/requests/contracts/Commissions.types';
-import { getContractChildrenRoutesByLevel } from '@/modules/contracts-old/utils/getContractChildrenRoutesByLevel';
-import ConfirmModal from '@/components/confirm-modal.vue';
+import { IPlainObject } from '@/types/interfaces';
+import { errorNotification, successNotification } from '@/utils';
 
 @Component({
   components: {

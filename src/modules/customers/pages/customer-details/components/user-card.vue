@@ -30,11 +30,11 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { IInformationDetails } from '@/types/interfaces/InformationDetails.interface';
 
 import AppButton from '@/components/ui-framework/app-button.vue';
 import AppBadge from '@/components/ui-kit/app-badge.vue';
 import AppSocialLinks, { ISocialLinks } from '@/components/ui-kit/app-social-links.vue';
+import { IInformationDetails } from '@/types/interfaces/InformationDetails.interface';
 
 @Component({
   components: { AppSocialLinks, AppBadge, AppButton },

@@ -29,17 +29,18 @@
 </template>
 
 <script lang="ts">
-import DashboardContentLayout from '@/layouts/dashboard/dashboard-content-layout.vue';
-import AppTabs, { ITab } from '@/components/ui-kit/app-tabs.vue';
 import {
   Component, Ref, Vue, Watch,
 } from 'vue-property-decorator';
+
 import AppDataTable from '@/components/data-table/app-data-table.vue';
-import { IGetUsersApiResponse, IGetUsersOptions } from '@/services/requests/users/Users.types';
-import { UsersRequests } from '@/services/requests';
-import { errorNotification } from '@/utils';
-import { kycFilters } from '@/modules/kyc/filters/filters';
+import AppTabs, { ITab } from '@/components/ui-kit/app-tabs.vue';
+import DashboardContentLayout from '@/layouts/dashboard/dashboard-content-layout.vue';
 import KycTable from '@/modules/kyc/components/kyc-table.vue';
+import { kycFilters } from '@/modules/kyc/filters/filters';
+import { UsersRequests } from '@/services/requests';
+import { IGetUsersApiResponse, IGetUsersOptions } from '@/services/requests/users/Users.types';
+import { errorNotification } from '@/utils';
 
 @Component({
   components: {
@@ -82,7 +83,7 @@ export default class KYC extends Vue {
   protected async fetchData(options: IGetUsersOptions): Promise<IGetUsersApiResponse> {
     this.isNeedToApprove = options.filter?.identificationStatus === 'pending';
 
-    const { response, error } = await UsersRequests.getUsers({
+    const request = await UsersRequests.getUsers({
       ...options,
       filter: {
         ...options.filter,
@@ -95,13 +96,13 @@ export default class KYC extends Vue {
       },
     });
 
-    if (error) {
-      errorNotification(error);
+    if (request.error) {
+      errorNotification(request.error);
     }
 
-    this.totalRecords = response?.totalRecords || 0;
+    this.totalRecords = request.response?.totalRecords || 0;
 
-    return { response, error };
+    return request;
   }
 
 }

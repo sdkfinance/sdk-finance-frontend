@@ -79,25 +79,26 @@
 
 <script lang="ts">
 import { Component, Ref, Vue } from 'vue-property-decorator';
-import MainHead from '@/components/main-head.vue';
+
 import AppCarousel from '@/components/app-carousel.vue';
+import ConfirmModal from '@/components/confirm-modal.vue';
+import MainHead from '@/components/main-head.vue';
+import Modal from '@/components/modal.vue';
+import AppModal from '@/components/ui-kit/modals/app-modal.vue';
+import CurrencyExchangeBlock from '@/modules/wallets/components/blocks/currency-exchange-block.vue';
+import OperationsBlock from '@/modules/wallets/components/blocks/operations-block.vue';
+import SubscriptionsBlock from '@/modules/wallets/components/blocks/subscriptions-block.vue';
+import TemplatesBlock from '@/modules/wallets/components/blocks/templates-block.vue';
 import WalletCard from '@/modules/wallets/components/cards/wallet-card.vue';
-import MainActions from '@/modules/wallets/components/main-actions.vue';
 import CreateWalletForm from '@/modules/wallets/components/forms/create-wallet-form.vue';
 import TopUpForm from '@/modules/wallets/components/forms/top-up-form.vue';
 import WithdrawalForm from '@/modules/wallets/components/forms/withdrawal-form/index.vue';
-import ConfirmModal from '@/components/confirm-modal.vue';
-import Modal from '@/components/modal.vue';
+import MainActions from '@/modules/wallets/components/main-actions.vue';
 import { WalletsRequests } from '@/services/requests';
-import { errorNotification, successNotification } from '@/utils';
 import { IWalletRecord } from '@/services/requests/coins/Wallets.types';
-import { CatalogModule } from '@/store/modules/dynamic';
-import TemplatesBlock from '@/modules/wallets/components/blocks/templates-block.vue';
-import SubscriptionsBlock from '@/modules/wallets/components/blocks/subscriptions-block.vue';
-import OperationsBlock from '@/modules/wallets/components/blocks/operations-block.vue';
-import CurrencyExchangeBlock from '@/modules/wallets/components/blocks/currency-exchange-block.vue';
-import AppModal from '@/components/ui-kit/modals/app-modal.vue';
 import AccountFormModal from '@/shared-components/account-form-modal.vue';
+import { CatalogModule } from '@/store/modules/dynamic';
+import { errorNotification, successNotification } from '@/utils';
 
 @Component({
   components: {

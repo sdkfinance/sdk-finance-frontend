@@ -17,11 +17,12 @@
 
 <script lang="ts">
 
+import creditCardType from 'credit-card-type';
 import {
   Component, Emit, Prop, Vue,
 } from 'vue-property-decorator';
-import creditCardType from 'credit-card-type';
 import { mask } from 'vue-the-mask';
+
 import AppInput, { TInputValue } from '@/components/ui-framework/app-input.vue';
 import { IPlainObject } from '@/types/interfaces';
 

@@ -19,12 +19,13 @@
 
 <script lang="ts">
 import {
-  Component, Prop, Emit, Vue,
+  Component, Emit, Prop, Vue,
 } from 'vue-property-decorator';
-import AppTable from '@/components/ui-framework/app-table.vue';
+
 import AppButton from '@/components/ui-framework/app-button.vue';
-import { ITableColumn } from '@/types/interfaces';
+import AppTable from '@/components/ui-framework/app-table.vue';
 import { IBankAccountRecord } from '@/services/requests/bank-accounts/BankAccounts.types';
+import { ITableColumn } from '@/types/interfaces';
 
 @Component({
   components: {

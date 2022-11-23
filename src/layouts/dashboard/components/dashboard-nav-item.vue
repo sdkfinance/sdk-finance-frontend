@@ -34,6 +34,7 @@
 import {
   Component, Prop, Vue, Watch,
 } from 'vue-property-decorator';
+
 import { IRouteConfig } from '@/types/interfaces';
 
 @Component
@@ -92,13 +93,13 @@ export default class DashboardNavItem extends Vue {
     @apply ml-auto w-11 h-11;
 
     &::before {
-      content: '';
+      content: "";
 
       @apply flex h-2 w-full rounded-lg bg-blue-600;
     }
 
     &::after {
-      content: '';
+      content: "";
 
       @apply flex h-2 w-full rounded-lg bg-blue-600 transform transition rotate-90 -translate-y-2;
     }

@@ -40,8 +40,10 @@
 
 <script lang="ts">
 import {
-  Component, Prop, Watch, Model, Emit, Vue,
+  Component, Emit, Model, Prop, Vue,
+  Watch,
 } from 'vue-property-decorator';
+
 import CloseButton from '@/components/close-button.vue';
 
 function preventDefault(e: Event) {
@@ -115,7 +117,6 @@ export default class Modal extends Vue {
 </script>
 
 <style lang="scss">
-
 .modal-overlay {
   overflow: hidden !important;
   transition: opacity 0.2s;
@@ -220,7 +221,7 @@ export default class Modal extends Vue {
     .el-form-item__label {
       flex-basis: auto;
       padding: 0;
-      margin: 0 0 12px 0;
+      margin: 0 0 12px;
     }
   }
 

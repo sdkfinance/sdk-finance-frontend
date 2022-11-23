@@ -42,10 +42,12 @@
 </template>
 
 <script lang="ts">
-import {
-  Component, Prop, Emit, Vue, Ref,
-} from 'vue-property-decorator';
 import { Input } from 'element-ui';
+import {
+  Component, Emit, Prop, Ref,
+  Vue,
+} from 'vue-property-decorator';
+
 import { IPlainObject } from '@/types/interfaces';
 
 const sizeValidator = (size: string): boolean => ['big', 'medium', 'small', 'mini', ''].includes(size);

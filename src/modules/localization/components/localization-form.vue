@@ -32,17 +32,19 @@
 
 <script lang="ts">
 import {
-  Component, Prop, Watch, Emit, Ref, Vue,
+  Component, Emit, Prop, Ref, Vue,
+  Watch,
 } from 'vue-property-decorator';
+
+import AppButton from '@/components/ui-framework/app-button.vue';
 import AppForm from '@/components/ui-framework/app-form.vue';
 import AppFormItem from '@/components/ui-framework/app-form-item.vue';
 import AppInput from '@/components/ui-framework/app-input.vue';
-import AppButton from '@/components/ui-framework/app-button.vue';
 import { SimpleRequiredValidationRule } from '@/rules/validation';
-import { IPlainObject } from '@/types/interfaces';
 import {
   ILocalization,
 } from '@/services/requests/i18n-records/Localization.interface';
+import { IPlainObject } from '@/types/interfaces';
 
 @Component({
   components: {

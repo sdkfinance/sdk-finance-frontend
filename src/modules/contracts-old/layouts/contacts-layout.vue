@@ -23,10 +23,11 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+
 import TabLinks from '@/components/ui-kit/app-tab-links.vue';
-import { IRouteConfig } from '@/types/interfaces';
-import { LocalStorageService } from '@/services/LocalStorageService';
 import DashboardContentLayout from '@/layouts/dashboard/dashboard-content-layout.vue';
+import { LocalStorageService } from '@/services/LocalStorageService';
+import { IRouteConfig } from '@/types/interfaces';
 
 @Component({
   components: {

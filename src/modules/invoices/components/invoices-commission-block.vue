@@ -26,6 +26,7 @@
 import {
   Component, Prop, Vue,
 } from 'vue-property-decorator';
+
 import { IInvoicesCommissionBlock } from '@/services/requests/invoices/Invoices.types';
 
 @Component

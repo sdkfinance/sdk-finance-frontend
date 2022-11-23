@@ -48,13 +48,15 @@
 </template>
 
 <script lang="ts">
-import {
-  Component, Vue, Prop, Emit,
-} from 'vue-property-decorator';
 import { LocaleMessage } from 'vue-i18n';
+import {
+  Component, Emit,
+  Prop, Vue,
+} from 'vue-property-decorator';
+
 import AppButton from '@/components/ui-framework/app-button.vue';
-import { getDefaultDate } from '@/utils';
 import { ICommissionRule } from '@/services/requests/contracts/Commissions.types';
+import { getDefaultDate } from '@/utils';
 
 @Component({
   components: {

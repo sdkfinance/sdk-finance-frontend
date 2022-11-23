@@ -1,12 +1,11 @@
 import api from '@/services/api';
-import { IApiResponse, IPlainObject } from '@/types/interfaces';
-
 import {
   IGetLocalizationsApiResponse,
-  ILocalizationOptions,
   ILocalizationCreateBody,
+  ILocalizationOptions,
   ILocalizationUpdateBody,
 } from '@/services/requests/i18n-records/Localization.interface';
+import { IApiResponse, IPlainObject } from '@/types/interfaces';
 
 export const LocalizationRequests = {
 

@@ -15,6 +15,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+
 import AppTabs, { ITab } from '@/components/ui-kit/app-tabs.vue';
 import AppFormWrapper from '@/components/ui-kit/modals/app-form-wrapper.vue';
 import MakePaymentForm from '@/modules/user-dashboard/components/make-payment/make-payment-form.vue';

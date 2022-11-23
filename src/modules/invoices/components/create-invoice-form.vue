@@ -150,29 +150,31 @@
 
 <script lang="ts">
 import {
-  Component, Vue, Ref, Emit, Watch, Prop,
+  Component, Emit, Prop,
+  Ref, Vue, Watch,
 } from 'vue-property-decorator';
+
+import AppButton from '@/components/ui-framework/app-button.vue';
+import AppDatePicker from '@/components/ui-framework/app-date-picker.vue';
+import AppForm from '@/components/ui-framework/app-form.vue';
 import AppFormItem from '@/components/ui-framework/app-form-item.vue';
+import AppInput from '@/components/ui-framework/app-input.vue';
+import AppSelect from '@/components/ui-framework/app-select/app-select.vue';
+import AppSwitch from '@/components/ui-framework/app-switch.vue';
+import InvoicesCommissionBlock from '@/modules/invoices/components/invoices-commission-block.vue';
+import InvoicesCreatedBlock from '@/modules/invoices/components/invoices-created-block.vue';
+import { OnChangeRequiredValidationRule, SimpleRequiredValidationRule } from '@/rules/validation';
+import { InvoicesRequests, InvoicesTemplatesRequests, WalletsRequests } from '@/services/requests';
+import { IWalletRecord } from '@/services/requests/coins/Wallets.types';
+import { IInvoiceTemplatesRecord } from '@/services/requests/invoice-templates/InvoicesTemplates.types';
 import {
   IInvoiceCreate,
   IInvoicesCommissionBlock,
   IInvoicesRecord,
 } from '@/services/requests/invoices/Invoices.types';
-import AppForm from '@/components/ui-framework/app-form.vue';
-import AppSwitch from '@/components/ui-framework/app-switch.vue';
-import AppSelect from '@/components/ui-framework/app-select/app-select.vue';
-import AppInput from '@/components/ui-framework/app-input.vue';
-import AppButton from '@/components/ui-framework/app-button.vue';
-import AppDatePicker from '@/components/ui-framework/app-date-picker.vue';
-import InvoicesCommissionBlock from '@/modules/invoices/components/invoices-commission-block.vue';
-import { InvoicesRequests, InvoicesTemplatesRequests, WalletsRequests } from '@/services/requests';
-import { errorNotification } from '@/utils';
 import { IPlainObject } from '@/types/interfaces';
-import { OnChangeRequiredValidationRule, SimpleRequiredValidationRule } from '@/rules/validation';
-import InvoicesCreatedBlock from '@/modules/invoices/components/invoices-created-block.vue';
-import { IInvoiceTemplatesRecord } from '@/services/requests/invoice-templates/InvoicesTemplates.types';
 import { TServerError } from '@/types/interfaces/ServerError.interface';
-import { IWalletRecord } from '@/services/requests/coins/Wallets.types';
+import { errorNotification } from '@/utils';
 
 @Component({
   components: {
@@ -444,7 +446,7 @@ export default class CreateInvoiceForm extends Vue {
       this.isLoading = false;
     }
 
-    this.createdInvoiceRecord = response?.invoice || [];
+    this.createdInvoiceRecord = response.invoice || [];
     this.isInvoiceCreated = true;
     this.onCreated();
   }

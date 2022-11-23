@@ -1,6 +1,6 @@
 import api from '@/services/api';
+import { IAccountSettingRequest, IGateSettingResponse } from '@/services/requests/gate-providers/GateProviders.types';
 import { IApiResponse } from '@/types/interfaces';
-import { IGateSettingResponse, IAccountSettingRequest } from '@/services/requests/gate-providers/GateProviders.types';
 
 export const GateProviderRequests = {
 

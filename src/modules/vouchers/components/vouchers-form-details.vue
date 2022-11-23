@@ -8,8 +8,9 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { IVouchersRecord } from '@/services/requests/prepaid-coins/Vouchers.interface';
+
 import DetailsList from '@/components/details-list.vue';
+import { IVouchersRecord } from '@/services/requests/prepaid-coins/Vouchers.interface';
 import { IDetailsValue } from '@/types/interfaces';
 import { getDefaultDate } from '@/utils';
 

@@ -30,16 +30,17 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
+
 import MainHead from '@/components/main-head.vue';
-import CurrencyTabs from '@/modules/currency-exchange/components/currency-tabs.vue';
 import Modal from '@/components/modal.vue';
-import { IIssuer } from '@/services/requests/issuers/Issuers.types';
-import { IPlainObject } from '@/types/interfaces';
-import { ExchangeRatesRequests, IssuersRequests } from '@/services/requests';
-import { errorNotification } from '@/utils';
-import { IExchangeRatesRecord, IExchangeRatesViewBody } from '@/services/requests/exchange-rates/ExchangeRates.types';
 import CurrencyExchangeEditForm from '@/modules/currency-exchange/components/currency-exchange-edit-form.vue';
 import CurrencyExchangeTable from '@/modules/currency-exchange/components/currency-exchange-table.vue';
+import CurrencyTabs from '@/modules/currency-exchange/components/currency-tabs.vue';
+import { ExchangeRatesRequests, IssuersRequests } from '@/services/requests';
+import { IExchangeRatesRecord, IExchangeRatesViewBody } from '@/services/requests/exchange-rates/ExchangeRates.types';
+import { IIssuer } from '@/services/requests/issuers/Issuers.types';
+import { IPlainObject } from '@/types/interfaces';
+import { errorNotification } from '@/utils';
 
 @Component({
   components: {

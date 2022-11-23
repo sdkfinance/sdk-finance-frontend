@@ -34,7 +34,7 @@ export default class Modal extends Vue {
   &::before {
     @extend %center;
 
-    content: '';
+    content: "";
     height: 16px;
     width: 2px;
     background-color: #8e9caf;

@@ -117,25 +117,26 @@
 
 <script lang="ts">
 import {
-  Component, Vue, Ref, Emit, Prop, Watch,
+  Component, Emit, Prop, Ref, Vue, Watch,
 } from 'vue-property-decorator';
-import AppFormItem from '@/components/ui-framework/app-form-item.vue';
-import AppForm from '@/components/ui-framework/app-form.vue';
-import AppSwitch from '@/components/ui-framework/app-switch.vue';
-import AppSelect from '@/components/ui-framework/app-select/app-select.vue';
-import AppInput from '@/components/ui-framework/app-input.vue';
+
 import AppButton from '@/components/ui-framework/app-button.vue';
 import AppDatePicker from '@/components/ui-framework/app-date-picker.vue';
-import { InvoicesTemplatesRequests, WalletsRequests } from '@/services/requests';
-import { errorNotification } from '@/utils';
-import { IPlainObject } from '@/types/interfaces';
+import AppForm from '@/components/ui-framework/app-form.vue';
+import AppFormItem from '@/components/ui-framework/app-form-item.vue';
+import AppInput from '@/components/ui-framework/app-input.vue';
+import AppSelect from '@/components/ui-framework/app-select/app-select.vue';
+import AppSwitch from '@/components/ui-framework/app-switch.vue';
 import { OnChangeRequiredValidationRule, SimpleRequiredValidationRule } from '@/rules/validation';
+import { InvoicesTemplatesRequests, WalletsRequests } from '@/services/requests';
+import { IWalletRecord } from '@/services/requests/coins/Wallets.types';
 import {
   IInvoiceTemplatesRecord,
   IInvoiceTemplateUpdate,
 } from '@/services/requests/invoice-templates/InvoicesTemplates.types';
+import { IPlainObject } from '@/types/interfaces';
 import { TServerError } from '@/types/interfaces/ServerError.interface';
-import { IWalletRecord } from '@/services/requests/coins/Wallets.types';
+import { errorNotification } from '@/utils';
 
 @Component({
   components: {

@@ -21,6 +21,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+
 import ActionButton from '@/modules/wallets/components/action-button.vue';
 import { IPlainObject } from '@/types/interfaces';
 

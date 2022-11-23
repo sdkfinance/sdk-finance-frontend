@@ -26,7 +26,24 @@
         option-label="currency.name"
         option-value="id"
         placeholder="placeholder.select.select"
-        label="form.label.currency">
+        :label="isMultiCurrency ? 'form.label.source_currency' : 'form.label.currency'">
+        <template #option="{scope}">
+          {{ scope.currency.name }} ({{ scope.currency.code }})
+        </template>
+      </app-select>
+    </app-form-item>
+
+    <app-form-item
+      v-if="isMultiCurrency"
+      prop="destinationIssuerId">
+      <app-select
+        v-model="form.destinationIssuerId"
+        :options="filteredIssuerList"
+        full-width
+        option-label="currency.name"
+        option-value="id"
+        placeholder="placeholder.select.select"
+        :label="isMultiCurrency ? 'form.label.destination_currency' : 'form.label.currency'">
         <template #option="{scope}">
           {{ scope.currency.name }} ({{ scope.currency.code }})
         </template>
@@ -44,23 +61,24 @@
 
 <script lang="ts">
 import {
-  Component, Prop, Emit, Ref, Vue,
+  Component, Emit, Prop, Ref, Vue, Watch,
 } from 'vue-property-decorator';
+
+import AppButton from '@/components/ui-framework/app-button.vue';
 import AppForm from '@/components/ui-framework/app-form.vue';
 import AppFormItem from '@/components/ui-framework/app-form-item.vue';
 import AppSelect from '@/components/ui-framework/app-select/app-select.vue';
-import AppButton from '@/components/ui-framework/app-button.vue';
-import { OnChangeRequiredValidationRule } from '@/rules/validation';
-import { IPlainObject } from '@/types/interfaces';
 import { COMMISSION_DIRECTION_ARRAY } from '@/constants';
+import { OnChangeRequiredValidationRule } from '@/rules/validation';
+import { ContractsRequests } from '@/services/requests';
+import { IOperationFlowRecord } from '@/services/requests/catalogs/Catalogs.types';
 import {
   ICommissionRecord,
   ICreateSystemCommission,
 } from '@/services/requests/contracts/Commissions.types';
-import { ContractsRequests } from '@/services/requests';
-import { errorNotification, successNotification } from '@/utils';
 import { IIssuer } from '@/services/requests/issuers/Issuers.types';
-import { IOperationFlowRecord } from '@/services/requests/catalogs/Catalogs.types';
+import { IPlainObject } from '@/types/interfaces';
+import { errorNotification, successNotification } from '@/utils';
 
 @Component({
   components: {
@@ -82,6 +100,13 @@ export default class CommissionForm extends Vue {
 
   @Prop({ type: Object, default: () => ({}) }) readonly formData!: Required<ICommissionRecord>;
 
+  @Watch('form', { deep: true })
+  onFormChanged() {
+    if (this.form.destinationIssuerId === this.form.issuerId) {
+      this.form.destinationIssuerId = '';
+    }
+  }
+
   readonly commissionDirectionList = COMMISSION_DIRECTION_ARRAY;
 
   protected isLoading: boolean = false;
@@ -90,9 +115,18 @@ export default class CommissionForm extends Vue {
     return this.isLoading || this.isLoadingData;
   }
 
+  protected get filteredIssuerList(): IIssuer[] {
+    return this.issuerList.filter(({ id }) => id !== this.form.issuerId);
+  }
+
+  protected get isMultiCurrency(): boolean {
+    return this.operationFlowList.find(({ id }) => id === this.form.operationFlowId)?.isMultiCurrency || false;
+  }
+
   protected form: ICreateSystemCommission = {
     issuerId: '',
     operationFlowId: '',
+    destinationIssuerId: '',
     srcParticipantSpecification: {
       type: 'no',
       value: null,
@@ -106,15 +140,12 @@ export default class CommissionForm extends Vue {
   protected rules: IPlainObject = {
     issuerId: OnChangeRequiredValidationRule(),
     operationFlowId: OnChangeRequiredValidationRule(),
+    destinationIssuerId: OnChangeRequiredValidationRule(),
   }
 
   @Emit('submit')
   protected onSubmit(): boolean {
     return true;
-  }
-
-  protected create(contractId: string) {
-    return ContractsRequests.createCommission(contractId, this.form);
   }
 
   protected async handleForm(): Promise<void> {
@@ -124,7 +155,13 @@ export default class CommissionForm extends Vue {
 
     const { contractId } = this.$route.params;
 
-    const { error } = await ContractsRequests.createCommission(contractId, this.form);
+    const { issuerId: sourceIssuerId, ...rest } = this.form;
+
+    const payload = { sourceIssuerId, ...rest };
+
+    const { error } = this.isMultiCurrency
+      ? await ContractsRequests.createCommissionMultiCurrency(contractId, payload)
+      : await ContractsRequests.createCommission(contractId, this.form);
 
     if (error) {
       errorNotification(error);

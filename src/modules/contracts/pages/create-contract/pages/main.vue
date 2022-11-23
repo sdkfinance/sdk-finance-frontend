@@ -37,13 +37,14 @@
 import {
   Component, Emit, Ref, Vue,
 } from 'vue-property-decorator';
+
 import AppButton from '@/components/ui-framework/app-button.vue';
 import AppForm from '@/components/ui-framework/app-form.vue';
 import AppFormItem from '@/components/ui-framework/app-form-item.vue';
 import AppInput from '@/components/ui-framework/app-input.vue';
+import AppSelect from '@/components/ui-framework/app-select/app-select.vue';
 import { OnChangeRequiredValidationRule, SimpleRequiredValidationRule } from '@/rules/validation';
 import { IPlainObject } from '@/types/interfaces';
-import AppSelect from '@/components/ui-framework/app-select/app-select.vue';
 import { IOption } from '@/types/interfaces/Options.interface';
 
 @Component({

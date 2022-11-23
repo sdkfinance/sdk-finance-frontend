@@ -1,11 +1,13 @@
-import {
-  VuexModule, Module, Mutation, Action,
-} from 'vuex-module-decorators';
-import { ProfileRequests } from '@/services/requests';
-import { LocalStorageService } from '@/services/LocalStorageService';
-import { IProfile, IPlainObject, IApiResponse } from '@/types/interfaces';
-import { IUserInfo, IUserLogin, IUserSecurity } from '@/services/requests/profiles/UserProfile.types';
 import { Store } from 'vuex';
+import {
+  Action,
+  Module, Mutation, VuexModule,
+} from 'vuex-module-decorators';
+
+import { LocalStorageService } from '@/services/LocalStorageService';
+import { ProfileRequests } from '@/services/requests';
+import { IUserInfo, IUserLogin, IUserSecurity } from '@/services/requests/profiles/UserProfile.types';
+import { IApiResponse, IPlainObject, IProfile } from '@/types/interfaces';
 
 @Module({ namespaced: true, name: 'Profile', store: {} as Store<any> })
 export class Profile extends VuexModule {

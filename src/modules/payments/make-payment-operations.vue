@@ -26,8 +26,9 @@
 
 <script>
 import { Component, Vue } from 'vue-property-decorator';
-import PaymentOperationsLayout from '@/modules/user-dashboard/layouts/payment-operations-layout.vue';
+
 import AppListLink from '@/components/ui-kit/app-list-link.vue';
+import PaymentOperationsLayout from '@/modules/user-dashboard/layouts/payment-operations-layout.vue';
 
 @Component({
   components: { PaymentOperationsLayout, AppListLink },

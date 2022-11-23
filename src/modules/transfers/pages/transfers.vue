@@ -25,20 +25,22 @@
 
 <script lang="ts">
 import { Component, Ref, Vue } from 'vue-property-decorator';
+
 import AppDataTable from '@/components/data-table/app-data-table.vue';
 import Modal from '@/components/modal.vue';
+import DashboardContentLayout from '@/layouts/dashboard/dashboard-content-layout.vue';
 import { CurrencyRequests, TransactionsRequests } from '@/services/requests';
-import { errorNotification } from '@/utils';
+import { ICurrency } from '@/services/requests/currencies/Currency.types';
 import {
-  ITransfersRecord,
-  ITransfersOptions,
   IGetTransfersApiResponse,
+  ITransfersOptions,
+  ITransfersRecord,
 } from '@/services/requests/transfers/Transfers.types';
 import { ITableFilter } from '@/types/interfaces/TableFilters.interface';
-import { ICurrency } from '@/services/requests/currencies/Currency.types';
-import DashboardContentLayout from '@/layouts/dashboard/dashboard-content-layout.vue';
-import TransfersTable from '../components/transfers-table.vue';
+import { errorNotification } from '@/utils';
+
 import TransfersForm from '../components/transfers-form.vue';
+import TransfersTable from '../components/transfers-table.vue';
 import { transfersFilters } from '../filters/filters';
 
 @Component({

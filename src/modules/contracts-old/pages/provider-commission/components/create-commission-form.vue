@@ -43,19 +43,20 @@
 
 <script lang="ts">
 import {
-  Component, Prop, Emit, Ref, Vue,
+  Component, Emit, Prop, Ref, Vue,
 } from 'vue-property-decorator';
+
+import AppButton from '@/components/ui-framework/app-button.vue';
 import AppForm from '@/components/ui-framework/app-form.vue';
 import AppFormItem from '@/components/ui-framework/app-form-item.vue';
 import AppInput from '@/components/ui-framework/app-input.vue';
 import AppSelect from '@/components/ui-framework/app-select/app-select.vue';
-import AppButton from '@/components/ui-framework/app-button.vue';
 import { OnChangeRequiredValidationRule } from '@/rules/validation';
 import { ContractsRequests } from '@/services/requests';
-import { successNotification, errorNotification } from '@/utils';
 import { IProviderCreateBody } from '@/services/requests/contracts/Commissions.types';
 import { ICurrency } from '@/services/requests/currencies/Currency.types';
 import { IGateSetting } from '@/services/requests/gate-providers/GateProviders.types';
+import { errorNotification, successNotification } from '@/utils';
 
 @Component({
   components: {

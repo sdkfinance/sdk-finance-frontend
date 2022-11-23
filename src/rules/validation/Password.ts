@@ -1,7 +1,8 @@
 import { LocaleMessage } from 'vue-i18n';
+
 import { i18n } from '@/i18n';
-import { IPlainObject } from '@/types/interfaces';
 import PasswordRule from '@/rules/regexp/PasswordRule';
+import { IPlainObject } from '@/types/interfaces';
 
 export const PasswordValidationRule = () => ({
   get message(): LocaleMessage {

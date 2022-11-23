@@ -9,10 +9,12 @@
 </template>
 
 <script lang="ts">
-import {
-  Component, Prop, Vue, Inject,
-} from 'vue-property-decorator';
 import { FormItem } from 'element-ui';
+import {
+  Component, Inject,
+  Prop, Vue,
+} from 'vue-property-decorator';
+
 import { serverFormErrors } from '@/constants/symbols';
 import { IPlainObject } from '@/types/interfaces';
 

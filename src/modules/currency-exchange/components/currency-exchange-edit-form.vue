@@ -31,15 +31,16 @@
 import {
   Component, Emit, Prop, Ref, Vue,
 } from 'vue-property-decorator';
+
+import AppButton from '@/components/ui-framework/app-button.vue';
 import AppForm from '@/components/ui-framework/app-form.vue';
 import AppFormItem from '@/components/ui-framework/app-form-item.vue';
 import AppInput from '@/components/ui-framework/app-input.vue';
-import AppButton from '@/components/ui-framework/app-button.vue';
-import { IPlainObject } from '@/types/interfaces';
 import { SimpleNumberValidationRule } from '@/rules/validation';
 import { ExchangeRatesRequests } from '@/services/requests';
-import { errorNotification } from '@/utils';
 import { IExchangeRatesRecord, ISetExchangeRatePayload } from '@/services/requests/exchange-rates/ExchangeRates.types';
+import { IPlainObject } from '@/types/interfaces';
+import { errorNotification } from '@/utils';
 
 @Component({
   components: {

@@ -11,10 +11,10 @@
 </template>
 
 <script lang="ts">
+import { Pagination } from 'element-ui';
 import {
   Component, Emit, Prop, Vue,
 } from 'vue-property-decorator';
-import { Pagination } from 'element-ui';
 
 @Component({
   components: {

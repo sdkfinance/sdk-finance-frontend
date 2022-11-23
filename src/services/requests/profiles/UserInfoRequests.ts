@@ -1,10 +1,10 @@
 import api from '@/services/api';
 import {
-  IUserInfo,
+  IGetUserInfoApiResponse,
   IUserAddress,
   IUserBusiness,
+  IUserInfo,
   IUserSecurity,
-  IGetUserInfoApiResponse,
 } from '@/services/requests/profiles/UserProfile.types';
 import { IApiResponse } from '@/types/interfaces';
 

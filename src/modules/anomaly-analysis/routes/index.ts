@@ -1,6 +1,7 @@
 import { AsyncComponent } from 'vue';
-import { IRouteConfig } from '@/types/interfaces';
+
 import { ROLES } from '@/constants';
+import { IRouteConfig } from '@/types/interfaces';
 
 const AnomalyAnalysis: AsyncComponent = () => import(
   /* webpackChunkName: 'anomaly-analysis' */ '@/modules/anomaly-analysis/pages/anomaly-analysis.vue'

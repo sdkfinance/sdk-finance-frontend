@@ -26,23 +26,24 @@
 </template>
 
 <script lang="ts">
-import { Component, Ref, Vue } from 'vue-property-decorator';
 import { LocaleMessage } from 'vue-i18n';
+import { Component, Ref, Vue } from 'vue-property-decorator';
+
+import ConfirmModal from '@/components/confirm-modal.vue';
 import AppDataTable from '@/components/data-table/app-data-table.vue';
-import { BankWithdrawalsRequests } from '@/services/requests';
-import { errorNotification, successNotification } from '@/utils';
-import { withdrawalFilters } from '@/modules/withdrawal/filters/filters';
+import Modal from '@/components/modal.vue';
+import { CONFIRM_ENUM } from '@/constants/enums';
+import BankWithdrawalRequestsModal from '@/modules/withdrawal/components/bank-withdrawal-requests-modal.vue';
 import BankWithdrawalRequestsTable from '@/modules/withdrawal/components/bank-withdrawal-requests-table.vue';
+import { withdrawalFilters } from '@/modules/withdrawal/filters/filters';
+import { BankWithdrawalsRequests } from '@/services/requests';
 import {
   IWithdrawalOptions,
   IWithdrawalRecord,
   IWithdrawalRecordsResponse,
 } from '@/services/requests/bank-withdrawals/Withdrawal.interface';
-import Modal from '@/components/modal.vue';
-import BankWithdrawalRequestsModal from '@/modules/withdrawal/components/bank-withdrawal-requests-modal.vue';
 import { ITableFilter } from '@/types/interfaces/TableFilters.interface';
-import ConfirmModal from '@/components/confirm-modal.vue';
-import { CONFIRM_ENUM } from '@/constants/enums';
+import { errorNotification, successNotification } from '@/utils';
 
 @Component({
   components: {
@@ -108,14 +109,14 @@ export default class BankWithdrawalRequests extends Vue {
         ...params.filter,
       },
     };
-    const { response, error } = await BankWithdrawalsRequests.getRecords(options);
+    const request = await BankWithdrawalsRequests.getRecords(options);
     this.isLoading = false;
 
-    if (error) {
-      errorNotification(error);
+    if (request.error) {
+      errorNotification(request.error);
     }
 
-    return { response, error };
+    return request;
   }
 
   protected openModal(withdrawalRecord: IWithdrawalRecord): void {

@@ -26,11 +26,13 @@
 </template>
 
 <script lang="ts">
-import {
-  Component, Prop, Ref, Watch, Vue,
-} from 'vue-property-decorator';
-import Swiper, { SwiperOptions } from 'swiper';
 import 'swiper/swiper-bundle.css';
+
+import Swiper, { SwiperOptions } from 'swiper';
+import {
+  Component, Prop, Ref, Vue,
+  Watch,
+} from 'vue-property-decorator';
 
 @Component
 export default class AppCarousel extends Vue {
@@ -116,7 +118,7 @@ export default class AppCarousel extends Vue {
 
 <style lang="scss">
 @mixin opacity-slide($bcg) {
-  content: '';
+  content: "";
   display: block;
   position: absolute;
   top: 0;
@@ -150,7 +152,7 @@ export default class AppCarousel extends Vue {
   width: 44px;
   height: 44px;
   background: #fff;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgb(0 0 0 / 10%);
   color: $primary-color;
   font-size: 12px;
   cursor: pointer;

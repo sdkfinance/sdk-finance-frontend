@@ -35,7 +35,7 @@ export default class ActionButton extends Vue {
   padding: 12px;
   box-sizing: border-box;
   transition: box-shadow 0.5s;
-  margin: 0 6px 12px 6px;
+  margin: 0 6px 12px;
   max-width: 135px;
   cursor: pointer;
 

@@ -18,11 +18,12 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import DashboardContentLayout from '@/layouts/dashboard/dashboard-content-layout.vue';
-import AppTabLinks from '@/components/ui-kit/app-tab-links.vue';
-import { IRouteConfig } from '@/types/interfaces';
-import { CREATE_CONTRACT_CHILDREN } from '@/modules/contracts/routes/create-contracts';
+
 import AppBreadcrumbs from '@/components/ui-kit/app-breadcrumbs.vue';
+import AppTabLinks from '@/components/ui-kit/app-tab-links.vue';
+import DashboardContentLayout from '@/layouts/dashboard/dashboard-content-layout.vue';
+import { CREATE_CONTRACT_CHILDREN } from '@/modules/contracts/routes/create-contracts';
+import { IRouteConfig } from '@/types/interfaces';
 
 @Component({
   components: {

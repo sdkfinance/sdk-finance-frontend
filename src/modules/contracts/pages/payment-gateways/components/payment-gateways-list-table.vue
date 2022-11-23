@@ -39,9 +39,10 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+
+import AppButton from '@/components/ui-framework/app-button.vue';
 import AppTable from '@/components/ui-framework/app-table.vue';
 import AppBadge from '@/components/ui-kit/app-badge.vue';
-import AppButton from '@/components/ui-framework/app-button.vue';
 import { IPlainObject, ITableColumn } from '@/types/interfaces';
 import { getDisplayAmount } from '@/utils';
 

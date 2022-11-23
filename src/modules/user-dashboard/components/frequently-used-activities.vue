@@ -58,19 +58,20 @@
 </template>
 
 <script lang="ts">
+import { LocaleMessage } from 'vue-i18n';
 import {
-  Component, Vue, Ref, Prop, Emit,
+  Component, Emit,
+  Prop, Ref, Vue,
 } from 'vue-property-decorator';
 
-import { LocaleMessage } from 'vue-i18n';
-import AppModal from '@/components/ui-kit/modals/app-modal.vue';
+import AppButton from '@/components/ui-framework/app-button.vue';
 import AppButtonsMobile from '@/components/ui-kit/app-buttons-mobile.vue';
 import AppInfoModal, { InfoModalTypes } from '@/components/ui-kit/modals/app-info-modal.vue';
+import AppModal from '@/components/ui-kit/modals/app-modal.vue';
 import ExchangeFormModal from '@/modules/user-dashboard/components/exchange-form-modal.vue';
-import AppButton from '@/components/ui-framework/app-button.vue';
+import MakePayment from '@/modules/user-dashboard/components/make-payment/index.vue';
 import { IExchangeSuccess } from '@/services/requests/exchange/Exchange.types';
 import { ICoin } from '@/services/requests/organizations/Coin.types';
-import MakePayment from '@/modules/user-dashboard/components/make-payment/index.vue';
 import { IPlainObject } from '@/types/interfaces';
 
 @Component({

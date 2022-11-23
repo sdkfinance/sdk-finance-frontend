@@ -37,12 +37,13 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import AppTable from '@/components/ui-framework/app-table.vue';
-import { ITableColumn } from '@/types/interfaces';
+
 import AppButton from '@/components/ui-framework/app-button.vue';
+import AppTable from '@/components/ui-framework/app-table.vue';
 import AppBadge from '@/components/ui-kit/app-badge.vue';
-import { prefixedMoneyAmount } from '@/utils/moneyAmountFormat';
+import { ITableColumn } from '@/types/interfaces';
 import { formatDate } from '@/utils';
+import { prefixedMoneyAmount } from '@/utils/moneyAmountFormat';
 
 @Component({
   components: {

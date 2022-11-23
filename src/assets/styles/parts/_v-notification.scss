@@ -16,13 +16,13 @@
     &--error {
       width: 23px;
       height: 23px;
-      background-image: url('~@/assets/icons/notification-error.svg');
+      background-image: url("~@/assets/icons/notification-error.svg");
     }
 
     &--success {
       width: 19px;
       height: 19px;
-      background-image: url('~@/assets/icons/notification-success.svg');
+      background-image: url("~@/assets/icons/notification-success.svg");
     }
   }
 
@@ -34,7 +34,7 @@
   .el-notification__content {
     font-size: 12px;
     line-height: 17px;
-    margin: 0 0 0 0;
+    margin: 0;
     word-break: break-word;
     color: #000;
   }

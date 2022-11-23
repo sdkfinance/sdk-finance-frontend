@@ -13,8 +13,8 @@
 
 <script lang="ts">
 
-import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Popover } from 'element-ui';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component({
   components: {

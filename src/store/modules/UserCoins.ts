@@ -1,14 +1,14 @@
+import { Store } from 'vuex';
 import {
   Action,
   Module,
   Mutation,
   VuexModule,
 } from 'vuex-module-decorators';
-import { WalletsRequests, ReportsRequests } from '@/services/requests';
+
+import { ReportsRequests, WalletsRequests } from '@/services/requests';
 import { ICoin } from '@/services/requests/organizations/Coin.types';
 import { IReportsCoinDetails } from '@/services/requests/reports/Reports.types';
-import { IApiResponse } from '@/types/interfaces';
-import { Store } from 'vuex';
 
 @Module({ namespaced: true, name: 'UserCoins', store: {} as Store<any> })
 export class UserCoins extends VuexModule {
@@ -49,6 +49,14 @@ export class UserCoins extends VuexModule {
   }
 
   @Mutation
+  public RESET_USER_COINS_DATA() {
+    this.coinList = [];
+    this.coinDetails = [];
+    this.currency = '';
+    this.totalAmount = 0;
+  }
+
+  @Mutation
   public SET_USER_COIN_DETAILS(coinDetails: IReportsCoinDetails[]) {
     this.coinDetails = coinDetails;
   }
@@ -64,35 +72,35 @@ export class UserCoins extends VuexModule {
   }
 
   @Action
-  public async fetchCoins(forceUpdate: boolean = false): Promise<IApiResponse<any>> {
+  public async fetchCoins(forceUpdate: boolean = false) {
     if (this.coinList.length && !forceUpdate) {
       return { response: { coins: this.coinList }, error: null };
     }
 
-    const { response, error } = await WalletsRequests.getWallets();
+    const request = await WalletsRequests.getWallets();
 
-    if (response) {
-      const { coins } = response;
+    if (request.response) {
+      const { coins } = request.response;
 
       this.context.commit('SET_USER_COINS', coins);
     }
 
-    return { response, error };
+    return request;
   }
 
   @Action
   public async fetchCoinDetails(currency: string) {
-    const { response, error } = await ReportsRequests.getCoinDetails(currency);
+    const request = await ReportsRequests.getCoinDetails(currency);
 
-    if (response) {
-      const { roundedTotalAmount, coinsDetail, symbol } = response;
+    if (request.response) {
+      const { roundedTotalAmount, coinsDetail, symbol } = request.response;
 
       this.context.commit('SET_USER_COIN_DETAILS', coinsDetail.map((coin) => ({ ...coin, symbol })));
       this.context.commit('SET_USER_COIN_TOTAL_AMOUNT', roundedTotalAmount);
       this.context.commit('SET_USER_COIN_CURRENCY', currency);
     }
 
-    return { response, error };
+    return request;
   }
 
 }

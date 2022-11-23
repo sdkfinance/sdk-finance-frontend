@@ -1,5 +1,5 @@
-import { IApiResponse } from '@/types/interfaces';
 import api from '@/services/api';
+import { IApiResponse } from '@/types/interfaces';
 
 export const MediaFilesRequests = {
 

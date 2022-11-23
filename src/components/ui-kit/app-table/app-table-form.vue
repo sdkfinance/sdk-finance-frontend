@@ -56,13 +56,13 @@
 import {
   Component, Emit, Prop, Ref, Vue, Watch,
 } from 'vue-property-decorator';
-import { IPlainObject, ITableColumn } from '@/types/interfaces';
 
-import AppTable from '@/components/ui-framework/app-table.vue';
-import AppFormWrapper from '@/components/ui-kit/modals/app-form-wrapper.vue';
 import AppFormItem from '@/components/ui-framework/app-form-item.vue';
 import AppInput from '@/components/ui-framework/app-input.vue';
 import AppSelect from '@/components/ui-framework/app-select/app-select.vue';
+import AppTable from '@/components/ui-framework/app-table.vue';
+import AppFormWrapper from '@/components/ui-kit/modals/app-form-wrapper.vue';
+import { IPlainObject, ITableColumn } from '@/types/interfaces';
 
 @Component({
   components: {

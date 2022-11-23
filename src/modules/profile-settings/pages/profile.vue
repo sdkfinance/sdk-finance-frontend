@@ -14,9 +14,11 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+
 import MainHead from '@/components/main-head.vue';
 import TabLinks from '@/components/ui-kit/app-tab-links.vue';
 import { IRouteConfig } from '@/types/interfaces';
+
 import { PROFILE_CHILDREN } from '../routes/index';
 
 @Component({

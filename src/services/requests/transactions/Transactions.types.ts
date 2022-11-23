@@ -1,9 +1,9 @@
+import { IClientCoin } from '@/services/requests/bank-withdrawals/Withdrawal.interface';
 import {
   IApiResponse,
   IPaginationRequestOptions,
   IPaginationResponse,
 } from '@/types/interfaces';
-import { IClientCoin } from '@/services/requests/bank-withdrawals/Withdrawal.interface';
 
 export interface ITransactionsFilter {
   ids?: string[];

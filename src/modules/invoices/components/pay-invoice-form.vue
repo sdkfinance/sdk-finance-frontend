@@ -98,29 +98,30 @@
 
 <script lang="ts">
 import {
-  Component, Vue, Ref, Prop, Emit,
+  Component, Emit,
+  Prop, Ref, Vue,
 } from 'vue-property-decorator';
-import AppFormItem from '@/components/ui-framework/app-form-item.vue';
 
-import AppForm from '@/components/ui-framework/app-form.vue';
-import AppSwitch from '@/components/ui-framework/app-switch.vue';
-import AppSelect from '@/components/ui-framework/app-select/app-select.vue';
-import AppInput from '@/components/ui-framework/app-input.vue';
 import AppButton from '@/components/ui-framework/app-button.vue';
 import AppDatePicker from '@/components/ui-framework/app-date-picker.vue';
+import AppForm from '@/components/ui-framework/app-form.vue';
+import AppFormItem from '@/components/ui-framework/app-form-item.vue';
+import AppInput from '@/components/ui-framework/app-input.vue';
+import AppSelect from '@/components/ui-framework/app-select/app-select.vue';
+import AppSwitch from '@/components/ui-framework/app-switch.vue';
 import InvoicesCommissionBlock from '@/modules/invoices/components/invoices-commission-block.vue';
-import { InvoicesRequests, WalletsRequests } from '@/services/requests';
-import { errorNotification } from '@/utils';
 import InvoicesCreatedBlock from '@/modules/invoices/components/invoices-created-block.vue';
+import { OnChangeRequiredValidationRule } from '@/rules/validation';
+import { InvoicesRequests, WalletsRequests } from '@/services/requests';
+import { IWalletRecord } from '@/services/requests/coins/Wallets.types';
 import {
-  IInvoicesRecord,
   IInvoice,
-  IInvoiceCoin,
   IInvoiceCalculatedCommission,
+  IInvoiceCoin,
+  IInvoicesRecord,
 } from '@/services/requests/invoices/Invoices.types';
 import { IPlainObject } from '@/types/interfaces';
-import { OnChangeRequiredValidationRule } from '@/rules/validation';
-import { IWalletRecord } from '@/services/requests/coins/Wallets.types';
+import { errorNotification } from '@/utils';
 
 @Component({
   components: {

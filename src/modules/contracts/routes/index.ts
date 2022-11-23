@@ -1,10 +1,11 @@
 import { AsyncComponent } from 'vue';
-import { IRouteConfig } from '@/types/interfaces';
+
 import { ROLES } from '@/constants';
-import { PROVIDERS_ROUTES } from '@/modules/contracts/routes/providers';
-import { PAYMENT_GATEWAYS_ROUTES } from '@/modules/contracts/routes/payment-gateways';
 import { CREATE_CONTRACT } from '@/modules/contracts/routes/create-contracts';
 import { INTERNAL_OPERATIONS } from '@/modules/contracts/routes/internal-operations';
+import { PAYMENT_GATEWAYS_ROUTES } from '@/modules/contracts/routes/payment-gateways';
+import { PROVIDERS_ROUTES } from '@/modules/contracts/routes/providers';
+import { IRouteConfig } from '@/types/interfaces';
 
 const BasePageLayout: AsyncComponent = () => import(
   /* webpackChunkName: 'base-page-layout' */ '@/layouts/base-page-layout.vue'

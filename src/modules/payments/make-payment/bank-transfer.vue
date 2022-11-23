@@ -37,13 +37,15 @@
 
 <script lang="ts">
 import {
-  Vue, Component, Ref,
+  Component, Ref,
+  Vue,
 } from 'vue-property-decorator';
-import AppStepController from '@/components/ui-kit/app-step-controller.vue';
+
 import AppButton from '@/components/ui-framework/app-button.vue';
 import AppForm from '@/components/ui-framework/app-form.vue';
-import AppInput from '@/components/ui-framework/app-input.vue';
 import AppFormItem from '@/components/ui-framework/app-form-item.vue';
+import AppInput from '@/components/ui-framework/app-input.vue';
+import AppStepController from '@/components/ui-kit/app-step-controller.vue';
 import AppFormWrapper from '@/components/ui-kit/modals/app-form-wrapper.vue';
 import { IPlainObject } from '@/types/interfaces';
 import { successNotification } from '@/utils';

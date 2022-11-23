@@ -24,13 +24,15 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import AppInput from '@/components/ui-framework/app-input.vue';
+
 import DataGridClient from '@/components/data-grid-client.vue';
 import MainHead from '@/components/main-head.vue';
+import AppInput from '@/components/ui-framework/app-input.vue';
 import { VariablesRequests } from '@/services/requests';
-import { errorNotification, successNotification } from '@/utils';
 import { IVariable, IVariableResponse } from '@/services/requests/environment-variables/Variable.types';
 import { IPlainObject } from '@/types/interfaces';
+import { errorNotification, successNotification } from '@/utils';
+
 import VariablesTable from '../components/variables-table.vue';
 
 @Component({

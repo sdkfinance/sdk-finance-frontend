@@ -16,11 +16,12 @@
 import {
   Component, Prop, Vue,
 } from 'vue-property-decorator';
+
 import AppTable from '@/components/ui-framework/app-table.vue';
-import { IPlainObject, ITableColumn } from '@/types/interfaces';
-import { ITransactionsRecord } from '@/services/requests/transactions/Transactions.types';
-import { IWalletRecord } from '@/services/requests/coins/Wallets.types';
 import AmountColumn from '@/modules/wallets/components/columns/amount-column.vue';
+import { IWalletRecord } from '@/services/requests/coins/Wallets.types';
+import { ITransactionsRecord } from '@/services/requests/transactions/Transactions.types';
+import { IPlainObject, ITableColumn } from '@/types/interfaces';
 
 @Component({
   components: {
@@ -59,8 +60,8 @@ export default class TransfersTable extends Vue {
   protected getExchangeAmountData(data: ITransactionsRecord): IPlainObject {
     const { type, transactions } = data;
     const [OUT, IN] = transactions;
-    const { from: { issuer: { currency: fromCurrency } }, amount: amountFrom } = OUT;
-    const { to: { issuer: { currency: toCurrency } }, amount: amountTo } = IN;
+    const { from: { issuer: { currency: fromCurrency = '' } = {} } = {}, amount: amountFrom } = OUT || {};
+    const { to: { issuer: { currency: toCurrency = '' } = {} } = {}, amount: amountTo } = IN || {};
     return {
       type,
       amountFrom,

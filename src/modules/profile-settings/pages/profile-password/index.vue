@@ -11,8 +11,10 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+
 import FormBlock from '@/components/form-block.vue';
 import LoaderStub from '@/components/loader-stub.vue';
+
 import PasswordForm from './components/password-form.vue';
 
 @Component({

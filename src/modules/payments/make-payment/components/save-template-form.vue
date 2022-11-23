@@ -27,19 +27,21 @@
 
 <script lang="ts">
 import {
-  Vue, Component, Ref, Prop, Emit,
+  Component, Emit,
+  Prop, Ref, Vue,
 } from 'vue-property-decorator';
-import AppFormWrapper from '@/components/ui-kit/modals/app-form-wrapper.vue';
+
+import AppButton from '@/components/ui-framework/app-button.vue';
 import AppForm from '@/components/ui-framework/app-form.vue';
 import AppFormItem from '@/components/ui-framework/app-form-item.vue';
 import AppInput from '@/components/ui-framework/app-input.vue';
-import AppButton from '@/components/ui-framework/app-button.vue';
-import { IDetailsValue, IPlainObject } from '@/types/interfaces';
+import AppSimpleDetailsCard from '@/components/ui-kit/app-simple-details-card.vue';
+import AppFormWrapper from '@/components/ui-kit/modals/app-form-wrapper.vue';
 import { SimpleRequiredValidationRule } from '@/rules/validation';
 import { TemplatesRequests } from '@/services/requests/templates/TemplatesRequests';
-import { errorNotification, successNotification } from '@/utils';
 import { ITransferCalculateResponse } from '@/services/requests/transfers/Transfers.types';
-import AppSimpleDetailsCard from '@/components/ui-kit/app-simple-details-card.vue';
+import { IDetailsValue, IPlainObject } from '@/types/interfaces';
+import { errorNotification, successNotification } from '@/utils';
 
 @Component({
   components: {

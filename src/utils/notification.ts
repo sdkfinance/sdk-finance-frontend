@@ -1,9 +1,10 @@
-import { IPlainObject, IServerError } from '@/types/interfaces';
 import { Notification } from 'element-ui';
-import { LocaleMessage } from 'vue-i18n';
-import { i18n } from '@/i18n';
 // eslint-disable-next-line import/no-unresolved
 import { ElNotificationOptions } from 'element-ui/types/notification';
+import { LocaleMessage } from 'vue-i18n';
+
+import { i18n } from '@/i18n';
+import { IPlainObject, IServerError } from '@/types/interfaces';
 
 const notificationConfig = {
   position: 'top-right',

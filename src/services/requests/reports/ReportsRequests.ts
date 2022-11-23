@@ -1,10 +1,10 @@
 import api from '@/services/api';
 import {
   IReportMoneyFlow,
+  IReportMoneyFlowParams,
   IReportsCoinDetailsResponse,
   IReportsCoinOutflowsParams,
   IReportsCoinOutflowsResponse,
-  IReportMoneyFlowParams,
 } from '@/services/requests/reports/Reports.types';
 import { IApiResponse } from '@/types/interfaces';
 

@@ -1,11 +1,11 @@
 import api from '@/services/api';
-import { IApiResponse, IPlainObject } from '@/types/interfaces';
 import {
   ISmartCardActionResponse,
   ISmartCardCreatePayload,
   ISmartCardResponse,
   ISmartCardUpdatePayload,
 } from '@/services/requests/smart-cards/SmartCards.types';
+import { IApiResponse, IPlainObject } from '@/types/interfaces';
 
 export const SmartCardsRequests = {
 

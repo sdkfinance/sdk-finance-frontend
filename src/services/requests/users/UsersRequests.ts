@@ -1,11 +1,11 @@
-import { IApiResponse, IPlainObject } from '@/types/interfaces';
+import api from '@/services/api';
 import {
   IGetUsersApiResponse,
   IGetUsersOptions,
   IUserCreateBody,
   IUserValid,
 } from '@/services/requests/users/Users.types';
-import api from '@/services/api';
+import { IApiResponse, IPlainObject } from '@/types/interfaces';
 
 export const UsersRequests = {
 

@@ -1,6 +1,7 @@
 import { AsyncComponent } from 'vue';
-import { IRouteConfig } from '@/types/interfaces';
+
 import BaseLayout from '@/layouts/base-layout.vue';
+import { IRouteConfig } from '@/types/interfaces';
 
 const MakePaymentOperations: AsyncComponent = () => import(
   /* webpackChunkName: 'make-payment-operations' */

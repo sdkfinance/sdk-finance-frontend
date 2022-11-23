@@ -1,6 +1,7 @@
 import {
   Module, Mutation, VuexModule,
 } from 'vuex-module-decorators';
+
 import { IFilterEmitValue, TFilters } from '@/types/interfaces/TableFilters.interface';
 import deleteObjectEmptyFields from '@/utils/deleteObjectEmptyFields';
 

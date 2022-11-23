@@ -6,13 +6,14 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+
+import AppButton from '@/components/ui-framework/app-button.vue';
 import ContractsLayout from '@/modules/contracts-old/layouts/contacts-layout.vue';
 import Contacts from '@/modules/contracts-old/pages/contracts.vue';
-import AppButton from '@/components/ui-framework/app-button.vue';
+import { CONTRACTS_CHILDREN } from '@/modules/contracts-old/routes';
 import {
   IContractsFilter,
 } from '@/services/requests/contracts/Contracts.types';
-import { CONTRACTS_CHILDREN } from '@/modules/contracts-old/routes';
 
 @Component({
   components: {

@@ -4,7 +4,7 @@ declare module 'gmap-vue' {
     export const install: PluginFunction<{}>;
 
     export type googleMaps = typeof google.maps
-    /// <reference types="@types/googlemaps" />
+    /// <reference types="@types/google.maps" />
 }
 declare module 'gmap-vue/*';
 declare module 'gmap-vue/dist/components/marker';

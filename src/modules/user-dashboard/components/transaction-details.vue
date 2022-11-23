@@ -46,19 +46,21 @@
 </template>
 
 <script lang="ts">
-import {
-  Vue, Component, Ref, Prop, Emit,
-} from 'vue-property-decorator';
 import dayjs from 'dayjs';
-import AppModal from '@/components/ui-kit/modals/app-modal.vue';
+import {
+  Component, Emit,
+  Prop, Ref, Vue,
+} from 'vue-property-decorator';
+
 import DetailsListForm from '@/components/details-list.vue';
 import AppActionButton from '@/components/ui-kit/app-action-button.vue';
 import AppActionGroup from '@/components/ui-kit/app-action-group.vue';
 import AppBadge from '@/components/ui-kit/app-badge.vue';
 import AppOperationImage from '@/components/ui-kit/app-operation-image.vue';
+import AppModal from '@/components/ui-kit/modals/app-modal.vue';
+import { TRANSACTION_TYPES_ENUM } from '@/constants';
 import { ITransactionRecordComputed } from '@/services/requests/transactions/Transactions.types';
 import { IActionButton, IDetailsValue } from '@/types/interfaces';
-import { TRANSACTION_TYPES_ENUM } from '@/constants';
 
 const iconPlaceholder = require('@/assets/icons/empty-category.svg');
 

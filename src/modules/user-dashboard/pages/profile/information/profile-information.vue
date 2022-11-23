@@ -60,18 +60,20 @@ import {
   Component, Ref, Vue,
 } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
+
+import AppButton from '@/components/ui-framework/app-button.vue';
+import AppDatePicker from '@/components/ui-framework/app-date-picker.vue';
 import AppForm from '@/components/ui-framework/app-form.vue';
 import AppFormItem from '@/components/ui-framework/app-form-item.vue';
 import AppInput from '@/components/ui-framework/app-input.vue';
-import AppButton from '@/components/ui-framework/app-button.vue';
 import { PhoneValidator, SimpleRequiredValidationRule } from '@/rules/validation';
-import {
-  clearEmptyValue, cloneDeep, successNotification, errorNotification,
-} from '@/utils';
 import { IUserInfo } from '@/services/requests/profiles/UserProfile.types';
 import { Profile } from '@/store/modules';
 import { IApiResponse } from '@/types/interfaces';
-import AppDatePicker from '@/components/ui-framework/app-date-picker.vue';
+import {
+  clearEmptyValue, cloneDeep, errorNotification,
+  successNotification,
+} from '@/utils';
 
 @Component({
   components: {

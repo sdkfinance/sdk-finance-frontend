@@ -31,8 +31,8 @@
 
 Setup development environment on a local machine
 
-1. Install [Node.js](https://nodejs.org/) >= `v10.16.0` 
-2. Install NPM >= `6.14.9`
+1. Install [Node.js](https://nodejs.org/) = `v16.17` 
+2. Install NPM = `8.15`
 3. Import this project
 4. Checkout to `develop` branch.   
 5. Install dependencies `npm install`
@@ -64,8 +64,8 @@ npm run storybook
 
 ## Setup for production
 
-1. Install [Node.js](https://nodejs.org/) >= `v10.16.0`
-2. Install NPM >= `6.14.9`
+1. Install [Node.js](https://nodejs.org/) = `v16.17`
+2. Install NPM = `8.15`
 3. Import this project
 4. Checkout to `master` branch.
 5. Install dependencies `npm install`

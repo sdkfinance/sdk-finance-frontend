@@ -84,10 +84,10 @@ export default class TemplateTransferCard extends Vue {
     align-items: center;
     border-radius: 2px;
 
-    @include iconStyle('blue', $primary-color);
-    @include iconStyle('green', $green-color);
-    @include iconStyle('orange', $orange-color);
-    @include iconStyle('red', $red-color);
+    @include iconStyle("blue", $primary-color);
+    @include iconStyle("green", $green-color);
+    @include iconStyle("orange", $orange-color);
+    @include iconStyle("red", $red-color);
 
     img {
       width: 24px;

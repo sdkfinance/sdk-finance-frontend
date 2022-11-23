@@ -59,18 +59,20 @@
 
 <script lang="ts">
 import {
-  Component, Vue, Ref, Emit, Watch, Prop,
+  Component, Emit, Prop,
+  Ref, Vue, Watch,
 } from 'vue-property-decorator';
-import AppFormItem from '@/components/ui-framework/app-form-item.vue';
-import AppForm from '@/components/ui-framework/app-form.vue';
-import AppInput from '@/components/ui-framework/app-input.vue';
+
 import AppButton from '@/components/ui-framework/app-button.vue';
-import { errorNotification } from '@/utils';
-import { IApiResponse, IPlainObject } from '@/types/interfaces';
+import AppForm from '@/components/ui-framework/app-form.vue';
+import AppFormItem from '@/components/ui-framework/app-form-item.vue';
+import AppInput from '@/components/ui-framework/app-input.vue';
 import { OnlyLetterValidator, PhoneValidator, SimpleRequiredValidationRule } from '@/rules/validation';
-import { TServerError } from '@/types/interfaces/ServerError.interface';
 import { IContactPayload, IContactRecord } from '@/services/requests/contact-book/Contacts.types';
 import { ContactsRequests } from '@/services/requests/contact-book/ContactsRequests';
+import { IApiResponse, IPlainObject } from '@/types/interfaces';
+import { TServerError } from '@/types/interfaces/ServerError.interface';
+import { errorNotification } from '@/utils';
 
 @Component({
   components: {

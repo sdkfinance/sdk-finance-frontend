@@ -11,10 +11,10 @@
 </template>
 
 <script lang="ts">
+import { DatePicker } from 'element-ui';
 import {
   Component, Emit, Model, Prop, Ref, Vue,
 } from 'vue-property-decorator';
-import { DatePicker } from 'element-ui';
 
 @Component({
   components: {

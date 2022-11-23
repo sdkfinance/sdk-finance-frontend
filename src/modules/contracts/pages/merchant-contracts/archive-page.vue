@@ -12,6 +12,7 @@
 <script lang="ts">
 
 import { Component, Vue } from 'vue-property-decorator';
+
 import DashboardContentLayout from '@/layouts/dashboard/dashboard-content-layout.vue';
 import ContractsTable from '@/modules/contracts/pages/merchant-contracts/components/contracts-table.vue';
 import { IPlainObject } from '@/types/interfaces';

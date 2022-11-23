@@ -88,21 +88,22 @@ import {
   Ref,
   Vue,
 } from 'vue-property-decorator';
+
+import AppButton from '@/components/ui-framework/app-button.vue';
 import AppForm from '@/components/ui-framework/app-form.vue';
 import AppFormItem from '@/components/ui-framework/app-form-item.vue';
-import AppSelect from '@/components/ui-framework/app-select/app-select.vue';
 import AppInput from '@/components/ui-framework/app-input.vue';
-import AppButton from '@/components/ui-framework/app-button.vue';
-import { errorNotification, successNotification } from '@/utils';
-import { IPlainObject } from '@/types/interfaces';
+import AppSelect from '@/components/ui-framework/app-select/app-select.vue';
 import {
   EmailOrPhoneValidationRule,
-  SimpleRequiredValidationRule,
   SimpleNumberValidationRule,
+  SimpleRequiredValidationRule,
 } from '@/rules/validation';
 import { OrganizationsRequests, TopUpRequests, UsersRequests } from '@/services/requests';
 import { ITopUpCalculatePayload } from '@/services/requests/bank-top-ups/TopUp.types';
 import { ICoin } from '@/services/requests/organizations/Coin.types';
+import { IPlainObject } from '@/types/interfaces';
+import { errorNotification, successNotification } from '@/utils';
 
 type TExecuteStep = 'validate' | 'calculate';
 

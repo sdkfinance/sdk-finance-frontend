@@ -1,9 +1,9 @@
-import { ITransactionRecordComputed } from '@/services/requests/transactions/Transactions.types';
 import { categoryColors, getDynamicColor } from '@/components/ui-kit/colors';
-import { getTransactionDirection, isUserAreRecipient, getFormattedAmount } from '@/utils';
-import { IProfileContact } from '@/types/interfaces/Profile.interface';
-import { translate } from '@/i18n';
 import { TRANSACTION_TYPES_ENUM } from '@/constants';
+import { translate } from '@/i18n';
+import { ITransactionRecordComputed } from '@/services/requests/transactions/Transactions.types';
+import { IProfileContact } from '@/types/interfaces/Profile.interface';
+import { getFormattedAmount, getTransactionDirection, isUserAreRecipient } from '@/utils';
 
 const getColor = getDynamicColor(categoryColors);
 export const getTransactionsData = (transaction: ITransactionRecordComputed, profileContact: IProfileContact): ITransactionRecordComputed[] => {

@@ -23,10 +23,11 @@ import {
   Prop,
   Vue,
 } from 'vue-property-decorator';
-import AppTable from '@/components/ui-framework/app-table.vue';
-import { ITableColumn } from '@/types/interfaces';
+
 import AppButton from '@/components/ui-framework/app-button.vue';
+import AppTable from '@/components/ui-framework/app-table.vue';
 import { IWithdrawalRecord } from '@/services/requests/bank-withdrawals/Withdrawal.interface';
+import { ITableColumn } from '@/types/interfaces';
 
 @Component({
   components: {

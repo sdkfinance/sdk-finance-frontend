@@ -28,17 +28,19 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import ContractsLayout from '@/modules/contracts-old/layouts/contacts-layout.vue';
-import AppButton from '@/components/ui-framework/app-button.vue';
+
 import AppDataTable from '@/components/data-table/app-data-table.vue';
 import Modal from '@/components/modal.vue';
+import AppButton from '@/components/ui-framework/app-button.vue';
+import ContractsLayout from '@/modules/contracts-old/layouts/contacts-layout.vue';
+import { getContractChildrenRoutesByLevel } from '@/modules/contracts-old/utils/getContractChildrenRoutesByLevel';
 import { ContractsRequests } from '@/services/requests';
-import { errorNotification } from '@/utils';
 import {
   IProviderRecord, IProviderTableRecord,
 } from '@/services/requests/contracts/Commissions.types';
 import { CatalogModule } from '@/store/modules/dynamic';
-import { getContractChildrenRoutesByLevel } from '@/modules/contracts-old/utils/getContractChildrenRoutesByLevel';
+import { errorNotification } from '@/utils';
+
 import CreateCommissionForm from './components/create-commission-form.vue';
 import ProviderCommissionTable from './components/provider-commission-table.vue';
 

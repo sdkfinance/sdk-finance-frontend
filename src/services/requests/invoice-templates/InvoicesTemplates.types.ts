@@ -1,5 +1,5 @@
-import { IApiResponse } from '@/types/interfaces';
 import { IInvoiceCreate, IInvoiceData, IInvoiceDraft } from '@/services/requests/invoices/Invoices.types';
+import { IApiResponse } from '@/types/interfaces';
 
 export interface IInvoiceTemplatesRecord {
     id: string;

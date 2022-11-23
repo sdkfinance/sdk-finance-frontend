@@ -1,7 +1,7 @@
-import { IApiResponse } from '@/types/interfaces';
 import api from '@/services/api';
-import { ITransactionsFilter } from '@/services/requests/transactions/Transactions.types';
 import { IDataExportInfoResponse, IDataExportResponse } from '@/services/requests/data-export/DataExport.types';
+import { ITransactionsFilter } from '@/services/requests/transactions/Transactions.types';
+import { IApiResponse } from '@/types/interfaces';
 
 export const DataExportRequests = {
 

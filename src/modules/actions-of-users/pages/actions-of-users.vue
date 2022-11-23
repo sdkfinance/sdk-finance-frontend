@@ -30,24 +30,26 @@
 
 <script lang="ts">
 import {
-  Component, Ref, Prop, Vue,
+  Component, Prop, Ref, Vue,
 } from 'vue-property-decorator';
+
 import AppDataTable from '@/components/data-table/app-data-table.vue';
 import Modal from '@/components/modal.vue';
-import { ActionsOfUsersRequests } from '@/services/requests';
-import { errorNotification } from '@/utils';
-import {
-  IActionsOfUsersRecord,
-  IActionsOfUsersOptions,
-  IActionsOfUsersFilter,
-  IGetActionsOfUsersApiResponse,
-} from '@/services/requests/actions-of-users/ActionsOfUsers.types';
-import { ITableFilter } from '@/types/interfaces/TableFilters.interface';
-import { ICurrency } from '@/services/requests/currencies/Currency.types';
 import AppWalletCard from '@/components/ui-kit/app-wallet-card.vue';
 import DashboardContentLayout from '@/layouts/dashboard/dashboard-content-layout.vue';
-import ActionsOfUsersTable from '../components/actions-of-users-table.vue';
+import { ActionsOfUsersRequests } from '@/services/requests';
+import {
+  IActionsOfUsersFilter,
+  IActionsOfUsersOptions,
+  IActionsOfUsersRecord,
+  IGetActionsOfUsersApiResponse,
+} from '@/services/requests/actions-of-users/ActionsOfUsers.types';
+import { ICurrency } from '@/services/requests/currencies/Currency.types';
+import { ITableFilter } from '@/types/interfaces/TableFilters.interface';
+import { errorNotification } from '@/utils';
+
 import ActionsOfUsersForm from '../components/actions-of-users-form.vue';
+import ActionsOfUsersTable from '../components/actions-of-users-table.vue';
 import { actionsOfUsersFilters } from '../filters/filters';
 
 @Component({

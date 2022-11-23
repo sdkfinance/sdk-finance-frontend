@@ -16,10 +16,11 @@
 <script lang="ts">
 
 import { Component, Vue } from 'vue-property-decorator';
-import DashboardContentLayout from '@/layouts/dashboard/dashboard-content-layout.vue';
+
 import AppButton from '@/components/ui-framework/app-button.vue';
-import AppCurrencyDropdown from '@/modules/contracts/components/app-currency-dropdown.vue';
 import AppTabLinks from '@/components/ui-kit/app-tab-links.vue';
+import DashboardContentLayout from '@/layouts/dashboard/dashboard-content-layout.vue';
+import AppCurrencyDropdown from '@/modules/contracts/components/app-currency-dropdown.vue';
 import { INTERNAL_OPERATIONS_CHILDREN } from '@/modules/contracts/routes/internal-operations';
 import { IRouteConfig } from '@/types/interfaces';
 

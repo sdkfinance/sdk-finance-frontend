@@ -4,11 +4,12 @@
 </template>
 
 <script lang="ts">
-import { Component, Emit, Prop } from 'vue-property-decorator';
 import { mixins } from 'vue-class-component';
-import { IFilterEmitValue } from '@/types/interfaces/TableFilters.interface';
+import { Component, Emit, Prop } from 'vue-property-decorator';
+
 import FilterTypeMixin from '@/components/data-table/filters/filterTypeMixin';
 import AppDateRangeSelect from '@/components/ui-kit/app-date-range-select.vue';
+import { IFilterEmitValue } from '@/types/interfaces/TableFilters.interface';
 
 type TValue = string | boolean | any[];
 

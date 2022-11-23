@@ -49,24 +49,24 @@ import {
   Component, Ref, Vue, Watch,
 } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
-import AppDataController from '@/components/ui-kit/app-data-controller/app-data-controller.vue';
-import TransactionsTable from '@/modules/user-dashboard/components/transactions-table.vue';
-import { ITableFilter } from '@/types/interfaces/TableFilters.interface';
-import { InvoicesRequests } from '@/services/requests';
-import { errorNotification } from '@/utils';
-import { invoicesFilters } from '@/modules/user-dashboard/filters/invoices';
-import AppMap from '@/components/ui-kit/app-map.vue';
+
 import AppSwitch from '@/components/ui-framework/app-switch.vue';
-import { IPlainObject } from '@/types/interfaces';
-import { Profile } from '@/store/modules';
+import AppDataController from '@/components/ui-kit/app-data-controller/app-data-controller.vue';
+import AppMap from '@/components/ui-kit/app-map.vue';
+import DataDetails from '@/modules/user-dashboard/components/data-details.vue';
+import InvoiceDetails from '@/modules/user-dashboard/components/invoice-details.vue';
+import InvoicesTable from '@/modules/user-dashboard/components/invoices-table.vue';
+import { invoicesFilters } from '@/modules/user-dashboard/filters/invoices';
+import { InvoicesRequests } from '@/services/requests';
 import {
   IGetInvoicesApiResponse,
   IInvoicesFilter,
   IInvoicesOptions,
 } from '@/services/requests/invoices/Invoices.types';
-import InvoicesTable from '@/modules/user-dashboard/components/invoices-table.vue';
-import InvoiceDetails from '@/modules/user-dashboard/components/invoice-details.vue';
-import DataDetails from '@/modules/user-dashboard/components/data-details.vue';
+import { Profile } from '@/store/modules';
+import { IPlainObject } from '@/types/interfaces';
+import { ITableFilter } from '@/types/interfaces/TableFilters.interface';
+import { errorNotification } from '@/utils';
 
 @Component({
   inheritAttrs: false,
@@ -76,7 +76,6 @@ import DataDetails from '@/modules/user-dashboard/components/data-details.vue';
     AppMap,
     AppSwitch,
     AppDataController,
-    TransactionsTable,
   },
 })
 export default class InvoicesPage extends Vue {
@@ -119,7 +118,7 @@ export default class InvoicesPage extends Vue {
   protected async fetchData(params: IInvoicesOptions): Promise<IGetInvoicesApiResponse> {
     this.isLoading = true;
 
-    const { response, error } = await InvoicesRequests.getRecords({
+    const request = await InvoicesRequests.getRecords({
       ...params,
       filter: {
         ...this.defaultFilter,
@@ -130,11 +129,11 @@ export default class InvoicesPage extends Vue {
 
     this.isLoading = false;
 
-    if (error) {
-      errorNotification(error);
+    if (request.error) {
+      errorNotification(request.error);
     }
 
-    return { response, error };
+    return request;
   }
 
   public async updateData(): Promise<void> {

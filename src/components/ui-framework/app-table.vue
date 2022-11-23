@@ -38,17 +38,19 @@
 </template>
 
 <script lang="ts">
+import { Table, TableColumn } from 'element-ui';
 import {
   Component, Prop, Ref, Vue,
 } from 'vue-property-decorator';
-import { Table, TableColumn } from 'element-ui';
+
+import AppTooltip from '@/components/ui-framework/app-tooltip.vue';
+import config from '@/config';
 import { IPlainObject, ITableColumn } from '@/types/interfaces';
 import {
-  getProp, getDefaultDate, checkMobile, getDisplayAmount,
+  checkMobile, getDefaultDate, getDisplayAmount,
+  getProp,
 } from '@/utils';
-import config from '@/config';
 import { TDateType } from '@/utils/getDefaultDate';
-import AppTooltip from '@/components/ui-framework/app-tooltip.vue';
 
 @Component({
   components: {
@@ -168,11 +170,11 @@ export default class AppTable extends Vue {
 .el-table .sort-caret.ascending {
   position: absolute;
   top: 6px;
-  content: '';
+  content: "";
   right: 0;
   width: 10px;
   height: 6px;
-  background-image: url('~@/assets/icons/ascending.svg');
+  background-image: url("~@/assets/icons/ascending.svg");
 }
 
 .el-table .descending .sort-caret.descending,
@@ -183,11 +185,11 @@ export default class AppTable extends Vue {
 .el-table .sort-caret.descending {
   position: absolute;
   top: 20px;
-  content: '';
+  content: "";
   right: 0;
   width: 10px;
   height: 6px;
-  background-image: url('~@/assets/icons/descending.svg');
+  background-image: url("~@/assets/icons/descending.svg");
 }
 
 .el-table .cell {

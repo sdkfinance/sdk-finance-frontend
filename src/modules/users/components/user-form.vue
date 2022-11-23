@@ -56,19 +56,20 @@
 
 <script lang="ts">
 import {
-  Component, Prop, Emit, Ref, Vue,
+  Component, Emit, Prop, Ref, Vue,
 } from 'vue-property-decorator';
+
+import AppButton from '@/components/ui-framework/app-button.vue';
 import AppForm from '@/components/ui-framework/app-form.vue';
 import AppFormItem from '@/components/ui-framework/app-form-item.vue';
 import AppInput from '@/components/ui-framework/app-input.vue';
 import AppSelect from '@/components/ui-framework/app-select/app-select.vue';
-import AppButton from '@/components/ui-framework/app-button.vue';
 import AppSwitch from '@/components/ui-framework/app-switch.vue';
-import { OnChangeRequiredValidationRule, EmailOrPhoneValidationRule } from '@/rules/validation';
-import { IPlainObject } from '@/types/interfaces';
 import { ROLES, SIMPLE_ROLES_ARRAY } from '@/constants';
-import { IUserCreateBody } from '@/services/requests/users/Users.types';
+import { EmailOrPhoneValidationRule, OnChangeRequiredValidationRule } from '@/rules/validation';
 import { IOrganizationRecord } from '@/services/requests/organizations/Organizations.types';
+import { IUserCreateBody } from '@/services/requests/users/Users.types';
+import { IPlainObject } from '@/types/interfaces';
 
 @Component({
   components: {

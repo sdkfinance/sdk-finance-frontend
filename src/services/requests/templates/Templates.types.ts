@@ -1,6 +1,6 @@
 import { TCoinType } from '@/services/requests/coins/Wallets.types';
-import { IApiResponse, IPaginationRequestOptions, IPaginationResponse } from '@/types/interfaces';
 import { ITransferBody, TTransferPaymentType } from '@/services/requests/transfers/Transfers.types';
+import { IApiResponse, IPaginationRequestOptions, IPaginationResponse } from '@/types/interfaces';
 
 export interface ITransferIssuer {
   id: string;

@@ -9,13 +9,14 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
+
 import { Profile } from '@/store/modules';
 import { TRouteLayout } from '@/types/interfaces/RouteConfig.interface';
 
 @Component({
   components: {
     DashboardLayout: () => import(/* webpackChunkName: 'dashboard-layout' */ '@/layouts/dashboard/dashboard-layout.vue'),
-    SimpleLayout: () => import(/* webpackChunkName: 'dashboard-layout' */ '@/layouts/simple-layout.vue'),
+    SimpleLayout: () => import(/* webpackChunkName: 'simple-layout' */ '@/layouts/simple-layout.vue'),
     UserDashboardLayout: () => import(/* webpackChunkName: 'user-dashboard-layout' */ '@/modules/user-dashboard/layouts/user-dashboard-layout.vue'),
     BasePageLayout: () => import(/* webpackChunkName: 'base-page-layout' */ '@/layouts/base-page-layout.vue'),
   },

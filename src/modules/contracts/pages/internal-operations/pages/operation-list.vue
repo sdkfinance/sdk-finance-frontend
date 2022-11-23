@@ -13,11 +13,12 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+
 import AppButton from '@/components/ui-framework/app-button.vue';
 import OperationsTable from '@/modules/contracts/pages/internal-operations/components/operations-table.vue';
 import { CatalogsRequests } from '@/services/requests';
-import { errorNotification } from '@/utils';
 import { IOperationFlowRecord } from '@/services/requests/catalogs/Catalogs.types';
+import { errorNotification } from '@/utils';
 
 @Component({
   components: { OperationsTable, AppButton },

@@ -1,5 +1,5 @@
+import { EXPIRATION_TYPES, SUBSCRIPTION_TYPES } from '@/constants';
 import { IApiResponse } from '@/types/interfaces';
-import { SUBSCRIPTION_TYPES, EXPIRATION_TYPES } from '@/constants';
 
 export type TSubscriptionsType = keyof typeof SUBSCRIPTION_TYPES;
 export type TExpirationType = keyof typeof EXPIRATION_TYPES;

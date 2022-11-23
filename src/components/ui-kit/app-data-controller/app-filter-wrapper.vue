@@ -24,8 +24,9 @@ import {
   Prop,
   Vue,
 } from 'vue-property-decorator';
-import { IFilterEmitValue, ITableFilter } from '@/types/interfaces/TableFilters.interface';
+
 import { IPlainObject } from '@/types/interfaces';
+import { IFilterEmitValue, ITableFilter } from '@/types/interfaces/TableFilters.interface';
 
 @Component({
   components: {

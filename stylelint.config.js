@@ -1,8 +1,13 @@
 module.exports = {
-  extends: ['stylelint-config-standard', 'stylelint-config-recommended-scss'],
+  extends: [
+    'stylelint-config-standard',
+    'stylelint-config-recommended-scss',
+    'stylelint-config-recommended-vue',
+  ],
   ignoreFiles: [
     './src/assets/styles/ui-framework/**/*.scss',
     './src/assets/icomoon/**/*.css',
+    './public/index.html',
   ],
   rules: {
     'selector-pseudo-element-no-unknown': [
@@ -47,5 +52,9 @@ module.exports = {
     ],
     'declaration-block-trailing-semicolon': null,
     'no-descending-specificity': null,
+    'selector-class-pattern': null,
+    'max-line-length': 200,
+    'string-quotes': 'double',
+    'declaration-block-no-redundant-longhand-properties': null,
   },
 };

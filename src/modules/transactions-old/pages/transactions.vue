@@ -30,23 +30,25 @@
 
 <script lang="ts">
 import {
-  Component, Ref, Prop, Vue,
+  Component, Prop, Ref, Vue,
 } from 'vue-property-decorator';
+
 import AppDataTable from '@/components/data-table/app-data-table.vue';
 import Modal from '@/components/modal.vue';
-import { TransactionsRequests, CurrencyRequests } from '@/services/requests';
-import { errorNotification } from '@/utils';
+import DashboardContentLayout from '@/layouts/dashboard/dashboard-content-layout.vue';
+import { CurrencyRequests, TransactionsRequests } from '@/services/requests';
+import { ICurrency } from '@/services/requests/currencies/Currency.types';
 import {
-  ITransactionsRecord,
-  ITransactionsOptions,
-  ITransactionsFilter,
   IGetTransactionsApiResponse,
+  ITransactionsFilter,
+  ITransactionsOptions,
+  ITransactionsRecord,
 } from '@/services/requests/transactions/Transactions.types';
 import { ITableFilter } from '@/types/interfaces/TableFilters.interface';
-import { ICurrency } from '@/services/requests/currencies/Currency.types';
-import DashboardContentLayout from '@/layouts/dashboard/dashboard-content-layout.vue';
-import TransactionsTable from '../components/transactions-table.vue';
+import { errorNotification } from '@/utils';
+
 import TransactionsForm from '../components/transactions-form.vue';
+import TransactionsTable from '../components/transactions-table.vue';
 import { transactionsFilters } from '../filters/filters';
 
 @Component({

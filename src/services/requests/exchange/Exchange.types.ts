@@ -1,6 +1,6 @@
-import { IApiResponse } from '@/types/interfaces';
-import { ITransactionsTransaction } from '@/services/requests/transactions/Transactions.types';
 import { IIssuer } from '@/services/requests/exchange-rates/ExchangeRates.types';
+import { ITransactionsTransaction } from '@/services/requests/transactions/Transactions.types';
+import { IApiResponse } from '@/types/interfaces';
 
 export interface IExchangeCalculateResponse {
   topUpAmount: number;

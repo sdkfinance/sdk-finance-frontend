@@ -69,23 +69,24 @@
 
 <script lang="ts">
 import {
-  Component, Prop, Emit, Ref, Vue,
+  Component, Emit, Prop, Ref, Vue,
 } from 'vue-property-decorator';
+
+import AppButton from '@/components/ui-framework/app-button.vue';
 import AppForm from '@/components/ui-framework/app-form.vue';
 import AppFormItem from '@/components/ui-framework/app-form-item.vue';
 import AppInput from '@/components/ui-framework/app-input.vue';
 import AppSelect from '@/components/ui-framework/app-select/app-select.vue';
-import AppButton from '@/components/ui-framework/app-button.vue';
 import { OnChangeRequiredValidationRule, SimpleNumberRangeValidationRule } from '@/rules/validation';
-import { IPlainObject } from '@/types/interfaces';
-import { errorNotification } from '@/utils';
 import { IWalletRecord } from '@/services/requests/coins/Wallets.types';
-import { ExchangeRequests } from '@/services/requests/exchange/ExchangeRequests';
 import {
   IExchangeCalculateResponse,
   IExchangePayload,
   IExchangeSuccess,
 } from '@/services/requests/exchange/Exchange.types';
+import { ExchangeRequests } from '@/services/requests/exchange/ExchangeRequests';
+import { IPlainObject } from '@/types/interfaces';
+import { errorNotification } from '@/utils';
 
 @Component({
   components: {

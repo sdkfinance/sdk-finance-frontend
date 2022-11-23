@@ -46,14 +46,15 @@
 import {
   Component, Prop, Vue,
 } from 'vue-property-decorator';
-import AppTable from '@/components/ui-framework/app-table.vue';
+
 import AppButton from '@/components/ui-framework/app-button.vue';
-import { ITableColumn } from '@/types/interfaces';
+import AppTable from '@/components/ui-framework/app-table.vue';
+import AppBadge from '@/components/ui-kit/app-badge.vue';
 import config from '@/config';
 import {
   IUserRecord,
 } from '@/services/requests/users/Users.types';
-import AppBadge from '@/components/ui-kit/app-badge.vue';
+import { ITableColumn } from '@/types/interfaces';
 
 @Component({
   components: {

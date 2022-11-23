@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component
 export default class AppOperationImage extends Vue {
@@ -64,7 +64,7 @@ export default class AppOperationImage extends Vue {
   @apply bg-transparent relative mr-16 rounded-lg flex-shrink-0;
 
   &--shadow {
-    box-shadow: 0 5px 10px rgba(13, 44, 80, 0.2);
+    box-shadow: 0 5px 10px rgb(13 44 80 / 20%);
   }
 
   &__wrapper {

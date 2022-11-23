@@ -1,5 +1,4 @@
 import api from '@/services/api';
-import { IApiResponse } from '@/types/interfaces';
 import {
   ICalculateCommissionBody,
   ICalculateCommissionRecord,
@@ -11,6 +10,7 @@ import {
   IPaymentProviderBody,
   IPaymentProvidersResponse,
 } from '@/services/requests/gate/Gate.types';
+import { IApiResponse } from '@/types/interfaces';
 
 export const GateRequests = {
 

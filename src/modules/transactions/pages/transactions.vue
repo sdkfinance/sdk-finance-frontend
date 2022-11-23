@@ -16,9 +16,10 @@
 import {
   Component, Prop, Vue,
 } from 'vue-property-decorator';
-import DashboardContentLayout from '@/layouts/dashboard/dashboard-content-layout.vue';
+
 import MainHead from '@/components/main-head.vue';
 import TabLinks from '@/components/ui-kit/app-tab-links.vue';
+import DashboardContentLayout from '@/layouts/dashboard/dashboard-content-layout.vue';
 
 @Component({
   components: {

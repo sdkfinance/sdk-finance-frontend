@@ -10,11 +10,12 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+
+import DetailsList from '@/components/details-list.vue';
+import { ActionsOfUsersRequests } from '@/services/requests';
 import {
   IActionsRecord,
 } from '@/services/requests/actions-of-users/ActionsOfUsers.types';
-import { ActionsOfUsersRequests } from '@/services/requests';
-import DetailsList from '@/components/details-list.vue';
 import { IDetailsValue } from '@/types/interfaces';
 import { errorNotification } from '@/utils';
 

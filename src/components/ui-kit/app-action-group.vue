@@ -13,6 +13,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+
 import AppActionButton from '@/components/ui-kit/app-action-button.vue';
 import AppButtonsGroup from '@/components/ui-kit/app-buttons-group.vue';
 import { IActionButton } from '@/types/interfaces';

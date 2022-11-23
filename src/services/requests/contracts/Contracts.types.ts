@@ -1,6 +1,6 @@
-import { IApiResponse, IPaginationRequestOptions, IPaginationResponse } from '@/types/interfaces';
 import { PERSON_TYPES } from '@/constants';
 import { ILimitBody, ISystemCommissionBody } from '@/services/requests/contracts/Commissions.types';
+import { IApiResponse, IPaginationRequestOptions, IPaginationResponse } from '@/types/interfaces';
 
 export type TPersonTypes = keyof typeof PERSON_TYPES;
 

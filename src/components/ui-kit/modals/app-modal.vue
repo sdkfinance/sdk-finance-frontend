@@ -37,8 +37,10 @@
 
 <script lang="ts">
 import {
-  Component, Prop, Watch, Emit, Vue,
+  Component, Emit, Prop, Vue,
+  Watch,
 } from 'vue-property-decorator';
+
 import { IPlainObject } from '@/types/interfaces';
 
 function preventDefault(e: Event) {
@@ -166,11 +168,10 @@ export default class AppModal extends Vue {
 </script>
 
 <style lang="scss">
-
 .app-modal {
   @apply absolute overflow-y-visible inset-y-0 right-0 m-0 bg-white z-20 md:w-400 transform duration-500;
 
-  @media (max-width: theme('screens.sm')) {
+  @media (max-width: theme("screens.sm")) {
     @apply w-full #{!important};
   }
 

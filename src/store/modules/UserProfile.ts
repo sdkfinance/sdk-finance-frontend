@@ -1,9 +1,11 @@
+import { Store } from 'vuex';
 import {
-  VuexModule, Module, Mutation, Action,
+  Action,
+  Module, Mutation, VuexModule,
 } from 'vuex-module-decorators';
+
 import { UserInfoRequests } from '@/services/requests';
 import { IUserProfile } from '@/types/interfaces';
-import { Store } from 'vuex';
 
 @Module({ namespaced: true, name: 'UserProfile', store: {} as Store<any> })
 export class UserProfile extends VuexModule {

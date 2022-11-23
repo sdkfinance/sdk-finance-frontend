@@ -1,12 +1,12 @@
-import { IApiResponse } from '@/types/interfaces';
 import {
+  COIN_TYPES,
+  COMMISSION_DIRECTION,
   COMMISSION_TYPES,
+  QUALIFIER,
   TIME_UNITS,
   TRANSACTION_TYPES,
-  COIN_TYPES,
-  QUALIFIER,
-  COMMISSION_DIRECTION,
 } from '@/constants';
+import { IApiResponse } from '@/types/interfaces';
 
 export type TTxType = 'TOPUP' | 'REDEEM';
 export type TCommissionType = keyof typeof COMMISSION_TYPES;
@@ -126,8 +126,10 @@ export interface ICommissionRecord {
 }
 
 export interface ICreateSystemCommission {
-  issuerId: string;
+  issuerId?: string;
   operationFlowId: string;
+  sourceIssuerId?: string;
+  destinationIssuerId?: string;
   srcParticipantSpecification: {
     type: TSpecification;
     value?: string | null;

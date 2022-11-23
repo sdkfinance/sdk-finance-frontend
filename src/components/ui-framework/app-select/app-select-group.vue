@@ -19,8 +19,9 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Option, OptionGroup } from 'element-ui';
+import { Component, Prop, Vue } from 'vue-property-decorator';
+
 import { IPlainObject } from '@/types/interfaces';
 
 @Component({

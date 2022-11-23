@@ -1,9 +1,9 @@
 import api from '@/services/api';
-import { IApiResponse } from '@/types/interfaces';
 import {
-  IViewBankAccountsPayload,
-  IMyViewBankAccountsPayload, IBankAccountsApiResponse,
+  IBankAccountsApiResponse,
+  IMyViewBankAccountsPayload, IViewBankAccountsPayload,
 } from '@/services/requests/bank-accounts/BankAccounts.types';
+import { IApiResponse } from '@/types/interfaces';
 
 export const BankAccountsRequests = {
 

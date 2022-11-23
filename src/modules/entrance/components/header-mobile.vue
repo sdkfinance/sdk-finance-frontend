@@ -16,8 +16,9 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import HeaderLinks from '@/modules/entrance/components/header-links.vue';
+
 import LanguageSelect from '@/components/language-select.vue';
+import HeaderLinks from '@/modules/entrance/components/header-links.vue';
 
 @Component({
   components: {

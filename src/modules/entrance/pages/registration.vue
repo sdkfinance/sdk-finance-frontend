@@ -77,21 +77,23 @@
 </template>
 
 <script lang="ts">
-import {
-  Component, Vue, Ref,
-} from 'vue-property-decorator';
 import { LocaleMessage } from 'vue-i18n';
+import {
+  Component, Ref,
+  Vue,
+} from 'vue-property-decorator';
+
+import AppButton from '@/components/ui-framework/app-button.vue';
 import AppForm from '@/components/ui-framework/app-form.vue';
 import AppFormItem from '@/components/ui-framework/app-form-item.vue';
 import AppInput from '@/components/ui-framework/app-input.vue';
-import AppButton from '@/components/ui-framework/app-button.vue';
-import { EmailOrPhoneValidationRule, SimpleRequiredValidationRule } from '@/rules/validation';
-import { IRegisterUser } from '@/services/requests/auth/Auth.types';
-import { errorNotification } from '@/utils';
-import { AuthRequests } from '@/services/requests';
-import { IPlainObject } from '@/types/interfaces';
 import AppRadio from '@/components/ui-framework/app-radio.vue';
+import { EmailOrPhoneValidationRule, SimpleRequiredValidationRule } from '@/rules/validation';
+import { AuthRequests } from '@/services/requests';
+import { IRegisterUser } from '@/services/requests/auth/Auth.types';
+import { IPlainObject } from '@/types/interfaces';
 import { IOption } from '@/types/interfaces/Options.interface';
+import { errorNotification } from '@/utils';
 
 @Component({
   components: {

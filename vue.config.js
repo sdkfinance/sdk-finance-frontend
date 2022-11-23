@@ -31,11 +31,27 @@ module.exports = {
         },
       },
     },
+    extract: process.env.NODE_ENV === 'production' ? { ignoreOrder: true } : false,
   },
   configureWebpack: {
+    optimization: {
+      splitChunks: {
+        cacheGroups: {
+          styles: {
+            name: 'styles', // remove this line if you want get separated files
+            type: 'css/mini-extract',
+            priority: 10,
+            chunks: 'async',
+            minChunks: 1,
+            reuseExistingChunk: true,
+            enforce: true,
+          },
+        },
+      },
+    },
     plugins: [
       new StyleLintPlugin({
-        files: ['**/*.{vue,html,scss,sass}'],
+        files: ['**/*.{vue,scss,sass}'],
         fix: true,
       }),
     ],

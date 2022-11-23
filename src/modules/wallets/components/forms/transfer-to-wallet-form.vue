@@ -130,33 +130,34 @@
 </template>
 
 <script lang="ts">
-import {
-  Component, Prop, Emit, Ref, Vue,
-} from 'vue-property-decorator';
 import { LocaleMessage } from 'vue-i18n';
+import {
+  Component, Emit, Prop, Ref, Vue,
+} from 'vue-property-decorator';
+
+import AppButton from '@/components/ui-framework/app-button.vue';
 import AppForm from '@/components/ui-framework/app-form.vue';
 import AppFormItem from '@/components/ui-framework/app-form-item.vue';
 import AppInput from '@/components/ui-framework/app-input.vue';
 import AppSelect from '@/components/ui-framework/app-select/app-select.vue';
 import AppSwitch from '@/components/ui-framework/app-switch.vue';
-import AppButton from '@/components/ui-framework/app-button.vue';
 import {
-  OnChangeRequiredValidationRule,
-  SimpleRequiredValidationRule,
-  SimpleNumberRangeValidationRule,
   EmailOrPhoneValidationRule,
+  OnChangeRequiredValidationRule,
+  SimpleNumberRangeValidationRule,
+  SimpleRequiredValidationRule,
 } from '@/rules/validation';
-import { IPlainObject } from '@/types/interfaces';
-import { errorNotification, successNotification } from '@/utils';
-import { CatalogModule } from '@/store/modules/dynamic';
-import { ITransferTemplateRecord } from '@/services/requests/templates/Templates.types';
-import { TemplatesRequests } from '@/services/requests/templates/TemplatesRequests';
 import { TransfersRequests, WalletsRequests } from '@/services/requests';
-import { ITransferBody, ITransferCalculateResponse } from '@/services/requests/transfers/Transfers.types';
+import { IWalletRecord } from '@/services/requests/coins/Wallets.types';
 import { IContactRecord } from '@/services/requests/contact-book/Contacts.types';
 import { ContactsRequests } from '@/services/requests/contact-book/ContactsRequests';
-import { IWalletRecord } from '@/services/requests/coins/Wallets.types';
 import { IPaymentProviderRecord } from '@/services/requests/gate/Gate.types';
+import { ITransferTemplateRecord } from '@/services/requests/templates/Templates.types';
+import { TemplatesRequests } from '@/services/requests/templates/TemplatesRequests';
+import { ITransferBody, ITransferCalculateResponse } from '@/services/requests/transfers/Transfers.types';
+import { CatalogModule } from '@/store/modules/dynamic';
+import { IPlainObject } from '@/types/interfaces';
+import { errorNotification, successNotification } from '@/utils';
 
 interface IForm {
   name: string;

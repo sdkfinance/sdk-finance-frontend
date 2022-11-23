@@ -68,16 +68,17 @@
 
 <script lang="ts">
 import {
-  Component, Vue, Prop, Emit, Watch,
+  Component, Emit, Prop, Vue, Watch,
 } from 'vue-property-decorator';
+
+import TableFilters from '@/components/data-table/table-filters.vue';
 import AppButton from '@/components/ui-framework/app-button.vue';
 import AppSwitch from '@/components/ui-framework/app-switch.vue';
 import AppFilters from '@/components/ui-kit/app-data-controller/app-filters.vue';
+import AppSearch from '@/components/ui-kit/app-search.vue';
 import { IPlainObject } from '@/types/interfaces';
 import { IFilterEmitValue, ITableFilter } from '@/types/interfaces/TableFilters.interface';
 import { getDecodedParamValue, isEmptyValue, serializeValues } from '@/utils';
-import AppSearch from '@/components/ui-kit/app-search.vue';
-import TableFilters from '@/components/data-table/table-filters.vue';
 
 interface IPagination {
   page: number;

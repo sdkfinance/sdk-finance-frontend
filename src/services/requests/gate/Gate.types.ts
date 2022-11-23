@@ -1,7 +1,7 @@
-import { TTxType } from '@/services/requests/contracts/Commissions.types';
-import { IDynamicField } from '@/types/interfaces';
 import { IWalletRecord } from '@/services/requests/coins/Wallets.types';
+import { TTxType } from '@/services/requests/contracts/Commissions.types';
 import { ICurrency } from '@/services/requests/currencies/Currency.types';
+import { IDynamicField } from '@/types/interfaces';
 
 export interface IPaymentProviderRecord {
     gateProvider: {

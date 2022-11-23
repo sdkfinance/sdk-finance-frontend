@@ -25,7 +25,9 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+
 import { IDashboardsList } from '@/modules/dashboards-power-bi/types/dashboards.types';
+
 import { DASHBOARDS_LIST } from '../constants/dashboardsList';
 
 @Component

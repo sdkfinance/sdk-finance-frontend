@@ -15,10 +15,11 @@
 
 <script lang="ts">
 
-import { Component, Vue } from 'vue-property-decorator';
 import { ChartData } from 'chart.js';
-import AppChartDonut from '@/components/ui-kit/app-charts/app-chart-donut.vue';
+import { Component, Vue } from 'vue-property-decorator';
+
 import AppChartData from '@/components/ui-kit/app-charts/app-chart-data.vue';
+import AppChartDonut from '@/components/ui-kit/app-charts/app-chart-donut.vue';
 import { IPlainObject } from '@/types/interfaces';
 
 const chartData = {

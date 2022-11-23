@@ -1,15 +1,14 @@
 import api from '@/services/api';
-
 import {
+  ICalculateVoucherApiResponse,
+  ICreateVoucherApiResponse,
+  IGetVoucherActivatedApiResponse,
   IGetVouchersApiResponse,
   IPostVoucherApiResponse,
-  IGetVoucherActivatedApiResponse,
-  IVouchersOptions,
-  IVoucherNew,
-  ICreateVoucherApiResponse,
   IPostVoucherRedeem,
-  ICalculateVoucherApiResponse,
   IViewPrepaidVoucherResponse,
+  IVoucherNew,
+  IVouchersOptions,
 } from '@/services/requests/prepaid-coins/Vouchers.interface';
 import { IApiResponse } from '@/types/interfaces';
 

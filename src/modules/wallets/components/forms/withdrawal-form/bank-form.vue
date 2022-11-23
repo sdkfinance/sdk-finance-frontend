@@ -48,11 +48,12 @@
 
 <script lang="ts">
 import {
-  Component, Prop, Emit, Vue,
+  Component, Emit, Prop, Vue,
 } from 'vue-property-decorator';
-import { IPlainObject } from '@/types/interfaces';
+
 import AppFormItem from '@/components/ui-framework/app-form-item.vue';
 import AppInput from '@/components/ui-framework/app-input.vue';
+import { IPlainObject } from '@/types/interfaces';
 
 @Component({
   components: {

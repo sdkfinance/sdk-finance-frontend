@@ -52,7 +52,7 @@ export default class Maintenance extends Vue {
 
     .background-green {
       filter: blur(124px);
-      background: rgba(1, 189, 143, 0.2);
+      background: rgb(1 189 143 / 20%);
       border-radius: 50%;
       position: absolute;
       top: 0;

@@ -1,6 +1,6 @@
 import api, { apiConfig } from '@/services/api';
-import { IApiResponse, IPlainObject } from '@/types/interfaces';
 import { IProfileDocumentsResponse } from '@/services/requests/profiles/ProfileDocuments.types';
+import { IApiResponse, IPlainObject } from '@/types/interfaces';
 
 export const ProfileDocumentsRequests = {
 

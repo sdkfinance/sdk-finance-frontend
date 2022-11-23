@@ -9,12 +9,6 @@
           class="header-entrance__logo"
           alt="sdk.finance">
       </router-link>
-      <a
-        href="https://sdk.finance/?utm_source=sdkapp&utm_medium=sdkapp&utm_campaign=header-logo"
-        class="header-entrance__link"
-        target="_blank">
-        {{ $t('pages.entrance.learn_more_about_sdk') }}
-      </a>
     </div>
 
     <div class="header-entrance__group">

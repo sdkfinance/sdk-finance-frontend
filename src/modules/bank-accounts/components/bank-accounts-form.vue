@@ -20,11 +20,12 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+
 import DetailsList from '@/components/details-list.vue';
-import { IDetailsValue } from '@/types/interfaces';
-import { getDefaultDate } from '@/utils';
 import AppButton from '@/components/ui-framework/app-button.vue';
 import { IBankAccountRecord } from '@/services/requests/bank-accounts/BankAccounts.types';
+import { IDetailsValue } from '@/types/interfaces';
+import { getDefaultDate } from '@/utils';
 
 @Component({
   components: {

@@ -12,11 +12,13 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+
+import DashboardContentLayout from '@/layouts/dashboard/dashboard-content-layout.vue';
 import { GateProviderRequests } from '@/services/requests';
-import { successNotification, errorNotification } from '@/utils';
 import { IAccountSetting, IAccountSettingRequest } from '@/services/requests/gate-providers/GateProviders.types';
 import { IPlainObject } from '@/types/interfaces';
-import DashboardContentLayout from '@/layouts/dashboard/dashboard-content-layout.vue';
+import { errorNotification, successNotification } from '@/utils';
+
 import AccountSettingsTable from '../components/account-settings-table.vue';
 
 @Component({

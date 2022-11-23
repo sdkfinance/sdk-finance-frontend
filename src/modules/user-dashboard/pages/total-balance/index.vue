@@ -36,20 +36,21 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Ref } from 'vue-property-decorator';
+import { Component, Ref, Vue } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
-import AppTabLinks from '@/components/ui-kit/app-tab-links.vue';
-import { IRouteConfig } from '@/types/interfaces';
+
 import AppButton from '@/components/ui-framework/app-button.vue';
-import { prefixedMoneyAmount } from '@/utils/moneyAmountFormat';
-import { Profile, UserCoins } from '@/store/modules';
-import AppButtonsMobile from '@/components/ui-kit/app-buttons-mobile.vue';
-import { TOTAL_BALANCE_CHILDREN } from '@/modules/user-dashboard/routes/TOTAL_BALANCE_CHILDREN';
 import AppSelect from '@/components/ui-framework/app-select/app-select.vue';
-import { ICoin } from '@/services/requests/organizations/Coin.types';
+import AppButtonsMobile from '@/components/ui-kit/app-buttons-mobile.vue';
+import AppTabLinks from '@/components/ui-kit/app-tab-links.vue';
 import AppModal from '@/components/ui-kit/modals/app-modal.vue';
 import ExchangeFormModal from '@/modules/user-dashboard/components/exchange-form-modal.vue';
 import FrequentlyUsedActivities from '@/modules/user-dashboard/components/frequently-used-activities.vue';
+import { TOTAL_BALANCE_CHILDREN } from '@/modules/user-dashboard/routes/TOTAL_BALANCE_CHILDREN';
+import { ICoin } from '@/services/requests/organizations/Coin.types';
+import { Profile, UserCoins } from '@/store/modules';
+import { IRouteConfig } from '@/types/interfaces';
+import { prefixedMoneyAmount } from '@/utils/moneyAmountFormat';
 
 interface IRouterView {
   updateData?: Function;

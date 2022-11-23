@@ -35,9 +35,10 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+
+import AppButton from '@/components/ui-framework/app-button.vue';
 import AppTable from '@/components/ui-framework/app-table.vue';
 import { ITableColumn } from '@/types/interfaces';
-import AppButton from '@/components/ui-framework/app-button.vue';
 import { getProp } from '@/utils';
 
 @Component({

@@ -12,11 +12,12 @@
 import {
   Component, Vue,
 } from 'vue-property-decorator';
-import CategoryTable from '@/modules/user-dashboard/components/summary/category-table.vue';
+
+import PageSubtitle from '@/modules/user-dashboard/components/page-subtitle.vue';
 import CategoryCards from '@/modules/user-dashboard/components/summary/category-cards.vue';
+import CategoryTable from '@/modules/user-dashboard/components/summary/category-table.vue';
 import SummaryCards from '@/modules/user-dashboard/components/summary/summary-cards.vue';
 import SummarySpending from '@/modules/user-dashboard/components/summary/summary-spending.vue';
-import PageSubtitle from '@/modules/user-dashboard/components/page-subtitle.vue';
 
 @Component({
   components: {

@@ -11,7 +11,9 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+
 import MainHead from '@/components/main-head.vue';
+
 import OperationForm from '../components/operation-form.vue';
 
 @Component({

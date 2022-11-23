@@ -21,9 +21,10 @@
 <script lang="ts">
 
 import { Component, Prop, Vue } from 'vue-property-decorator';
+
 import AppPopover from '@/components/ui-framework/app-popover.vue';
-import { copyToClipboard } from '@/utils/copyToClipboard';
 import { errorNotification, successNotification } from '@/utils';
+import { copyToClipboard } from '@/utils/copyToClipboard';
 
 @Component({
   components: { AppPopover },

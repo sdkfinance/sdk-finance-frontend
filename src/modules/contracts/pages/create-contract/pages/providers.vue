@@ -7,6 +7,7 @@
 <script lang="ts">
 
 import { Component, Vue } from 'vue-property-decorator';
+
 import ProvidersTable from '@/modules/contracts/pages/create-contract/components/providers-table.vue';
 import { IPlainObject } from '@/types/interfaces';
 

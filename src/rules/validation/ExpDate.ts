@@ -1,5 +1,5 @@
-import RegExp from '@/rules/validation/RegExp';
 import ExpDate from '@/rules/regexp/ExpDate';
+import RegExp from '@/rules/validation/RegExp';
 
 export const ExpDateValidator = (
   required: boolean = false,

@@ -31,15 +31,17 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+
 import FormBlock from '@/components/form-block.vue';
+import LoaderStub from '@/components/loader-stub.vue';
+import config from '@/config';
 import { UserInfoRequests } from '@/services/requests';
 import { IUserInfoResponse } from '@/services/requests/profiles/UserProfile.types';
 import { errorNotification } from '@/utils';
-import LoaderStub from '@/components/loader-stub.vue';
-import config from '@/config';
-import UserProfileForm from './components/profile-form.vue';
+
 import UserAddressForm from './components/address-form.vue';
 import UserBusinessForm from './components/business-form.vue';
+import UserProfileForm from './components/profile-form.vue';
 
 @Component({
   components: {

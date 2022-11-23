@@ -84,19 +84,21 @@
 
 <script lang="ts">
 import {
-  Component, Vue, Watch, Ref,
+  Component, Ref,
+  Vue, Watch,
 } from 'vue-property-decorator';
+
+import AppButton from '@/components/ui-framework/app-button.vue';
 import AppForm from '@/components/ui-framework/app-form.vue';
 import AppFormItem from '@/components/ui-framework/app-form-item.vue';
 import AppInput from '@/components/ui-framework/app-input.vue';
-import AppButton from '@/components/ui-framework/app-button.vue';
-import { EmailOrPhoneValidationRule, PasswordValidationRule, SimpleRequiredValidationRule } from '@/rules/validation';
-import { IPasswordRecoveryConfirmBody } from '@/services/requests/auth/Auth.types';
-import { errorNotification } from '@/utils';
-import { AuthRequests } from '@/services/requests';
-import { IPlainObject } from '@/types/interfaces';
-import RecoverySuccess from '@/modules/entrance/components/recover-password/recovery-success.vue';
 import AppInputHint from '@/components/ui-kit/app-input-hint.vue';
+import RecoverySuccess from '@/modules/entrance/components/recover-password/recovery-success.vue';
+import { EmailOrPhoneValidationRule, PasswordValidationRule, SimpleRequiredValidationRule } from '@/rules/validation';
+import { AuthRequests } from '@/services/requests';
+import { IPasswordRecoveryConfirmBody } from '@/services/requests/auth/Auth.types';
+import { IPlainObject } from '@/types/interfaces';
+import { errorNotification } from '@/utils';
 
 @Component({
   components: {

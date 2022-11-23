@@ -41,6 +41,7 @@ import {
   Prop,
   Vue,
 } from 'vue-property-decorator';
+
 import AppFilterWrapper from '@/components/data-table/app-filter-wrapper.vue';
 import AppFoldedFilter from '@/components/data-table/app-folded-filter.vue';
 import TableFiltersView from '@/components/data-table/table-filters-view.vue';

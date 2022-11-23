@@ -1,4 +1,4 @@
-import { Meta, Story, Canvas, Source, ArgsTable } from '@storybook/addon-docs/blocks';
+import { Meta, Story, Canvas, Source, ArgsTable } from '@storybook/addon-docs';
 import AppDateRangeSelect from '@/components/ui-kit/app-date-range-select.vue'
 
 <Meta title="ui-kit/AppDateRangeSelect" component={AppDateRangeSelect}/>
@@ -18,8 +18,8 @@ Example:
 Using like filter on page. Component emit event 'change' with array with ranges: startDate, endDate.
 
 ### Default
-<Canvas>
-  <Story name="Default view">
+<Canvas >
+  <Story name="Default view" height="400px">
     { Template.bind({}) }
   </Story>
 </Canvas>

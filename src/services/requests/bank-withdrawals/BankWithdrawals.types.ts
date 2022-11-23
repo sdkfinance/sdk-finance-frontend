@@ -1,5 +1,5 @@
-import { ITransactionsTransaction } from '@/services/requests/transactions/Transactions.types';
 import { IIssuer } from '@/services/requests/exchange-rates/ExchangeRates.types';
+import { ITransactionsTransaction } from '@/services/requests/transactions/Transactions.types';
 
 export interface IBankWithdrawalDetails {
     name: string | null;

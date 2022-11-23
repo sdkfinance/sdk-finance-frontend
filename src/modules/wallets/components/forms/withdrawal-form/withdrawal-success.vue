@@ -43,7 +43,9 @@
 import {
   Component, Prop, Vue,
 } from 'vue-property-decorator';
+
 import { IWithdrawalSuccessData } from '@/modules/wallets/types/Withdrawal.types';
+
 import { withdrawalMethods } from './withdrawalMethods';
 
 @Component

@@ -49,28 +49,29 @@ import {
   Component, Ref, Vue, Watch,
 } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
+
+import AppSwitch from '@/components/ui-framework/app-switch.vue';
 import AppDataController from '@/components/ui-kit/app-data-controller/app-data-controller.vue';
+import AppMap from '@/components/ui-kit/app-map.vue';
+import DataDetails from '@/modules/user-dashboard/components/data-details.vue';
+import TransactionDetails from '@/modules/user-dashboard/components/transaction-details.vue';
 import TransactionsTable from '@/modules/user-dashboard/components/transactions-table.vue';
-import { ITableFilter } from '@/types/interfaces/TableFilters.interface';
+import { transactionsFilters } from '@/modules/user-dashboard/filters/transactions';
+import { getTransactionsData } from '@/modules/user-dashboard/utils/getComputedTransactionData';
+import { TransactionsRequests } from '@/services/requests';
+import { DataExportRequests } from '@/services/requests/data-export/DataExport.requests';
 import {
   IGetTransactionsComputedApiResponse,
   ITransactionRecordComputed, ITransactionsFilter,
   ITransactionsOptions,
   ITransactionsRecord,
 } from '@/services/requests/transactions/Transactions.types';
-import { TransactionsRequests } from '@/services/requests';
-import { errorNotification, cloneDeep } from '@/utils';
-import { transactionsFilters } from '@/modules/user-dashboard/filters/transactions';
-import TransactionDetails from '@/modules/user-dashboard/components/transaction-details.vue';
-import AppMap from '@/components/ui-kit/app-map.vue';
-import AppSwitch from '@/components/ui-framework/app-switch.vue';
-import { IPlainObject } from '@/types/interfaces';
-import { getExportFile } from '@/utils/getExportFile';
-import { DataExportRequests } from '@/services/requests/data-export/DataExport.requests';
-import { getTransactionsData } from '@/modules/user-dashboard/utils/getComputedTransactionData';
-import { IProfileContact } from '@/types/interfaces/Profile.interface';
 import { Profile } from '@/store/modules';
-import DataDetails from '@/modules/user-dashboard/components/data-details.vue';
+import { IPlainObject } from '@/types/interfaces';
+import { IProfileContact } from '@/types/interfaces/Profile.interface';
+import { ITableFilter } from '@/types/interfaces/TableFilters.interface';
+import { cloneDeep, errorNotification } from '@/utils';
+import { getExportFile } from '@/utils/getExportFile';
 
 @Component({
   inheritAttrs: false,

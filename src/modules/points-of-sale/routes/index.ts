@@ -1,6 +1,7 @@
 import { AsyncComponent } from 'vue';
-import { IRouteConfig } from '@/types/interfaces';
+
 import { ROLES } from '@/constants';
+import { IRouteConfig } from '@/types/interfaces';
 
 const BasePageLayout: AsyncComponent = () => import(/* webpackChunkName: 'base-page-layout' */ '@/layouts/base-page-layout.vue');
 const PointsOfSale: AsyncComponent = () => import(/* webpackChunkName: 'points-of-sale' */ '@/modules/points-of-sale/pages/points-of-sale.vue');

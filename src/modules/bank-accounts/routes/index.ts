@@ -1,6 +1,7 @@
 import { AsyncComponent } from 'vue';
-import { IRouteConfig } from '@/types/interfaces';
+
 import { ROLES } from '@/constants';
+import { IRouteConfig } from '@/types/interfaces';
 
 const BankAccounts: AsyncComponent = () => import(
   /* webpackChunkName: 'bank-accounts' */ '@/modules/bank-accounts/pages/bank-accounts.vue'

@@ -56,11 +56,12 @@
 import {
   Component, Emit, Prop, Vue, Watch,
 } from 'vue-property-decorator';
-import { checkPermission, checkUserProfilePermission } from '@/router/middlewares/permissionGuard';
-import AppBadge from '@/components/ui-kit/app-badge.vue';
+
 import AppSelect from '@/components/ui-framework/app-select/app-select.vue';
-import { IMetaConfig } from '@/types/interfaces/RouteConfig.interface';
 import AppSelectCustomOption from '@/components/ui-framework/app-select/app-select-custom-option.vue';
+import AppBadge from '@/components/ui-kit/app-badge.vue';
+import { checkPermission, checkUserProfilePermission } from '@/router/middlewares/permissionGuard';
+import { IMetaConfig } from '@/types/interfaces/RouteConfig.interface';
 
 export interface ITab extends IMetaConfig{
   value: any;
@@ -160,5 +161,5 @@ export default class AppTabs extends Vue {
 </script>
 
 <style lang="scss">
-@import "~@/assets/styles/parts/_tabs";
+@import "~@/assets/styles/parts/tabs";
 </style>

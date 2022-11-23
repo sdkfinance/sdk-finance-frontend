@@ -6,10 +6,12 @@
 </template>
 
 <script lang="ts">
-import {
-  Component, Vue, Prop,
-} from 'vue-property-decorator';
 import { LocaleMessage } from 'vue-i18n';
+import {
+  Component, Prop,
+  Vue,
+} from 'vue-property-decorator';
+
 import { BADGE_STATUSES } from '@/constants/badge-statuses';
 
 const CLASS_LIST = {

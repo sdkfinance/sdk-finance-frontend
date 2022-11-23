@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex, { StoreOptions } from 'vuex';
+
 import * as modules from './modules/index';
 
 Vue.use(Vuex);

@@ -40,19 +40,20 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
-import AppTabLinks from '@/components/ui-kit/app-tab-links.vue';
-import { IRouteConfig } from '@/types/interfaces';
+
 import AppButton from '@/components/ui-framework/app-button.vue';
 import AppButtonsMobile from '@/components/ui-kit/app-buttons-mobile.vue';
-import { CARD_CHILDREN } from '@/modules/user-dashboard/routes/CARD_CHILDREN';
+import AppCardPreview from '@/components/ui-kit/app-card-preview.vue';
 import AppCardProgress from '@/components/ui-kit/app-card-progress.vue';
+import AppTabLinks from '@/components/ui-kit/app-tab-links.vue';
+import { CARD_CHILDREN } from '@/modules/user-dashboard/routes/CARD_CHILDREN';
 import { getDisplayCardNumber } from '@/modules/user-dashboard/utils/getDisplayCardNumber';
-import { SmartCardsRequests } from '@/services/requests/smart-cards/SmartCardsRequests';
-import { errorNotification } from '@/utils';
-import { UserCoins } from '@/store/modules';
 import { ICoin } from '@/services/requests/organizations/Coin.types';
 import { ISmartCardRecord } from '@/services/requests/smart-cards/SmartCards.types';
-import AppCardPreview from '@/components/ui-kit/app-card-preview.vue';
+import { SmartCardsRequests } from '@/services/requests/smart-cards/SmartCardsRequests';
+import { UserCoins } from '@/store/modules';
+import { IRouteConfig } from '@/types/interfaces';
+import { errorNotification } from '@/utils';
 
 @Component({
   components: {
@@ -131,7 +132,7 @@ export default class CardPage extends Vue {
 
     @apply flex-1 mr-32;
 
-    @media (max-width: theme('screens.sm')) {
+    @media (max-width: theme("screens.sm")) {
       margin-right: calc(10% + 32px);
     }
   }
@@ -139,7 +140,7 @@ export default class CardPage extends Vue {
   &__card {
     @apply absolute sm:static flex-shrink-0;
 
-    @media (max-width: theme('screens.sm')) {
+    @media (max-width: theme("screens.sm")) {
       left: 90%;
     }
   }

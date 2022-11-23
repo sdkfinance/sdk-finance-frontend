@@ -86,11 +86,23 @@
 import {
   Component, Ref, Vue,
 } from 'vue-property-decorator';
+
+import AppButton from '@/components/ui-framework/app-button.vue';
 import AppForm from '@/components/ui-framework/app-form.vue';
 import AppFormItem from '@/components/ui-framework/app-form-item.vue';
 import AppInput from '@/components/ui-framework/app-input.vue';
 import AppSelect from '@/components/ui-framework/app-select/app-select.vue';
-import AppButton from '@/components/ui-framework/app-button.vue';
+import { ROLES } from '@/constants';
+import {
+  IOperationForm,
+  TOperationFormFields,
+} from '@/modules/system-operations/types/SystemOperations.types';
+import {
+  MixMaxValidation,
+  OnChangeRequiredValidationRule,
+  OnlyLetterValidator,
+  SimpleNumberValidationRule,
+} from '@/rules/validation';
 import {
   CollectsRequests,
   GateInvestmentsRequests,
@@ -98,23 +110,12 @@ import {
   InvestmentsRequests,
   OrganizationsRequests,
 } from '@/services/requests';
-import { errorNotification } from '@/utils';
-import {
-  IOperationForm,
-  TOperationFormFields,
-} from '@/modules/system-operations/types/SystemOperations.types';
 import { ICoin } from '@/services/requests/organizations/Coin.types';
-import { IPlainObject } from '@/types/interfaces';
-import { ITransactionsRecord } from '@/services/requests/transactions/Transactions.types';
-import {
-  OnChangeRequiredValidationRule,
-  SimpleNumberValidationRule,
-  OnlyLetterValidator,
-  MixMaxValidation,
-} from '@/rules/validation';
 import { IGetOrganizationsOptions, IOrganizationRecord } from '@/services/requests/organizations/Organizations.types';
+import { ITransactionsRecord } from '@/services/requests/transactions/Transactions.types';
 import { UserInstance } from '@/services/UserService';
-import { ROLES } from '@/constants';
+import { IPlainObject } from '@/types/interfaces';
+import { errorNotification } from '@/utils';
 
 @Component({
   components: {

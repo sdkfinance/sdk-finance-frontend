@@ -1,5 +1,5 @@
-import { IRouteConfig } from '@/types/interfaces';
 import { ROLES } from '@/constants';
+import { IRouteConfig } from '@/types/interfaces';
 
 const Users = () => import(/* webpackChunkName: 'users' */ '@/modules/users/pages/users.vue');
 

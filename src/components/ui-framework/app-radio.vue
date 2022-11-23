@@ -12,10 +12,11 @@
 </template>
 
 <script lang="ts">
+import { Radio, RadioGroup } from 'element-ui';
 import {
-  Component, Prop, Emit, Vue,
+  Component, Emit, Prop, Vue,
 } from 'vue-property-decorator';
-import { RadioGroup, Radio } from 'element-ui';
+
 import { IOption } from '@/types/interfaces/Options.interface';
 
 @Component({

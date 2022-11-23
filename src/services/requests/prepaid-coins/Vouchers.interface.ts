@@ -1,9 +1,9 @@
+import { COIN_TYPES } from '@/constants';
 import {
   IApiResponse,
   IPaginationRequestOptions,
   IPaginationResponse,
 } from '@/types/interfaces';
-import { COIN_TYPES } from '@/constants';
 
 export interface IVouchersFilter {
   createdAtFrom?: string;

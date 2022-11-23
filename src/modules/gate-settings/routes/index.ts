@@ -1,6 +1,7 @@
 import { AsyncComponent } from 'vue';
-import { IRouteConfig } from '@/types/interfaces';
+
 import { ROLES } from '@/constants';
+import { IRouteConfig } from '@/types/interfaces';
 
 const GateSettings: AsyncComponent = () => import(/* webpackChunkName: 'gate-settings' */ '@/modules/gate-settings/pages/gate-settings.vue');
 const AccountSettings: AsyncComponent = () => import(/* webpackChunkName: 'gate-settings' */ '@/modules/gate-settings/pages/account-settings.vue');

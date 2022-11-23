@@ -1,13 +1,14 @@
 import { AsyncComponent } from 'vue';
-import { IRouteConfig } from '@/types/interfaces';
+
+import { ROLES } from '@/constants';
 import BaseLayout from '@/layouts/base-layout.vue';
 import { ACCOUNT_CHILDREN } from '@/modules/user-dashboard/routes/ACCOUNT_CHILDREN';
-import { TOTAL_BALANCE_CHILDREN } from '@/modules/user-dashboard/routes/TOTAL_BALANCE_CHILDREN';
 import { CARD_CHILDREN } from '@/modules/user-dashboard/routes/CARD_CHILDREN';
-import { ROLES } from '@/constants';
+import { TOTAL_BALANCE_CHILDREN } from '@/modules/user-dashboard/routes/TOTAL_BALANCE_CHILDREN';
+import { IRouteConfig } from '@/types/interfaces';
 
 const TotalBalancePage: AsyncComponent = () => import(
-  /* webpackChunkName: 'user-dashboard-main' */
+  /* webpackChunkName: 'user-dashboard-total' */
   '@/modules/user-dashboard/pages/total-balance/index.vue'
 );
 

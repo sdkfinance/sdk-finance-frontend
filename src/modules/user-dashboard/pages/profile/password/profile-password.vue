@@ -35,16 +35,17 @@
 
 <script lang="ts">
 import { Component, Ref, Vue } from 'vue-property-decorator';
-import { PasswordValidationRule, SimpleRequiredValidationRule } from '@/rules/validation';
-import { IPlainObject } from '@/types/interfaces';
-import { ProfileRequests } from '@/services/requests';
-import { errorNotification, successNotification } from '@/utils';
-import AppInput from '@/components/ui-framework/app-input.vue';
+
 import AppButton from '@/components/ui-framework/app-button.vue';
 import AppForm from '@/components/ui-framework/app-form.vue';
 import AppFormItem from '@/components/ui-framework/app-form-item.vue';
-import { IUserPassword } from '@/services/requests/profiles/UserProfile.types';
+import AppInput from '@/components/ui-framework/app-input.vue';
 import AppInputHint from '@/components/ui-kit/app-input-hint.vue';
+import { PasswordValidationRule, SimpleRequiredValidationRule } from '@/rules/validation';
+import { ProfileRequests } from '@/services/requests';
+import { IUserPassword } from '@/services/requests/profiles/UserProfile.types';
+import { IPlainObject } from '@/types/interfaces';
+import { errorNotification, successNotification } from '@/utils';
 
 @Component({
   components: {

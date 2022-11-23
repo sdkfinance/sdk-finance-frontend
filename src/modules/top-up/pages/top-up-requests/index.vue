@@ -27,23 +27,24 @@
 </template>
 
 <script lang="ts">
-import { Component, Ref, Vue } from 'vue-property-decorator';
 import { LocaleMessage } from 'vue-i18n';
+import { Component, Ref, Vue } from 'vue-property-decorator';
+
+import ConfirmModal from '@/components/confirm-modal.vue';
 import AppDataTable from '@/components/data-table/app-data-table.vue';
-import { errorNotification, successNotification } from '@/utils';
 import Modal from '@/components/modal.vue';
-import TopUpRequestsTable from '@/modules/top-up/components/top-up-requests-table.vue';
+import { CONFIRM_ENUM } from '@/constants/enums';
 import TopUpRequestsModal from '@/modules/top-up/components/top-up-requests-modal.vue';
-import { ITableFilter } from '@/types/interfaces/TableFilters.interface';
+import TopUpRequestsTable from '@/modules/top-up/components/top-up-requests-table.vue';
 import { topUpFilters } from '@/modules/top-up/filters/filters';
+import { TopUpRequests } from '@/services/requests';
 import {
   ITopUpFilters,
   ITopUpRecord,
   ITopUpRecordsApiResponse,
 } from '@/services/requests/bank-top-ups/TopUp.types';
-import { TopUpRequests } from '@/services/requests';
-import ConfirmModal from '@/components/confirm-modal.vue';
-import { CONFIRM_ENUM } from '@/constants/enums';
+import { ITableFilter } from '@/types/interfaces/TableFilters.interface';
+import { errorNotification, successNotification } from '@/utils';
 
 @Component({
   components: {
@@ -79,14 +80,14 @@ export default class TopUpRequestsView extends Vue {
 
   protected async fetchData(params: ITopUpFilters): Promise<ITopUpRecordsApiResponse> {
     this.isLoading = true;
-    const { response, error } = await TopUpRequests.getRecords(params);
+    const request = await TopUpRequests.getRecords(params);
     this.isLoading = false;
 
-    if (error) {
-      errorNotification(error);
+    if (request.error) {
+      errorNotification(request.error);
     }
 
-    return { response, error };
+    return request;
   }
 
   protected async onUserTriggerTopUp(

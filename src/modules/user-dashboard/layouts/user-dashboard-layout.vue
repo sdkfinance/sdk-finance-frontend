@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header-back-link/>
+    <header-top-line/>
     <div
       v-resize:throttle="calculateOffset"
       class="user-dashboard">
@@ -68,13 +68,14 @@ import {
   Component, Prop, Ref, Vue,
 } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
-import { Profile, UserData } from '@/store/modules';
+
 import AppDropdown from '@/components/ui-framework/app-dropdown.vue';
-import { IPlainObject } from '@/types/interfaces';
-import AppModal from '@/components/ui-kit/modals/app-modal.vue';
-import UserProfile from '@/modules/user-dashboard/pages/profile/index.vue';
 import AppNotificationController from '@/components/ui-kit/app-notification-controller.vue';
-import HeaderBackLink from '@/layouts/components/header-back-link.vue';
+import AppModal from '@/components/ui-kit/modals/app-modal.vue';
+import HeaderTopLine from '@/layouts/components/header-top-line.vue';
+import UserProfile from '@/modules/user-dashboard/pages/profile/index.vue';
+import { Profile, UserData } from '@/store/modules';
+import { IPlainObject } from '@/types/interfaces';
 
 enum actionTypes {
   route,
@@ -92,7 +93,7 @@ type TOptionCommand = {
     UserProfile,
     AppModal,
     AppDropdown,
-    HeaderBackLink,
+    HeaderTopLine,
   },
 })
 export default class UserDashboardLayout extends Vue {

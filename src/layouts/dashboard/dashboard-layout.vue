@@ -1,6 +1,6 @@
 <template>
   <div class="main-container">
-    <HeaderBackLink class="main-container__header"/>
+    <header-top-line class="main-container__header"/>
 
     <dashboard-menu :routes="availableRoutes"/>
 
@@ -12,14 +12,16 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+
+import HeaderTopLine from '@/layouts/components/header-top-line.vue';
 import { getAvailableDashboardRoutes } from '@/router/dashboard';
-import HeaderBackLink from '@/layouts/components/header-back-link.vue';
+
 import DashboardMenu from './components/dashboard-menu.vue';
 
 @Component({
   components: {
     DashboardMenu,
-    HeaderBackLink,
+    HeaderTopLine,
   },
 })
 

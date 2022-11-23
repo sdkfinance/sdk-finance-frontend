@@ -11,6 +11,7 @@
 
 <script lang="ts">
 import { Component, Emit, Model } from 'vue-property-decorator';
+
 import FilterTypeMixin from '@/components/data-table/filters/filterTypeMixin';
 import AppDatePicker from '@/components/ui-framework/app-date-picker.vue';
 import { IFilterEmitValue, IFilterRange, TFilterRange } from '@/types/interfaces/TableFilters.interface';

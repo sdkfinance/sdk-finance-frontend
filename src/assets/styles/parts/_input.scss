@@ -2,7 +2,8 @@
 .el-textarea__inner {
   transition: background-color 0.5s, border-color 0.5s;
 
-  @apply bg-white border border-blue-400 px-14 py-11 text-base text-gray-500 font-medium rounded-8 leading-5 caret-blue-accent;
+  @apply bg-white border border-blue-400 px-14;
+  @apply py-11 text-base text-gray-500 font-medium rounded-8 leading-5 caret-blue-accent;
 
   &::placeholder {
     @apply text-blue-500;

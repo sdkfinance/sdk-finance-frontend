@@ -1,5 +1,5 @@
-import RegExp from '@/rules/validation/RegExp';
 import SWIFT from '@/rules/regexp/SWIFT';
+import RegExp from '@/rules/validation/RegExp';
 
 export const SwiftValidator = (
   trigger: string = 'blur',

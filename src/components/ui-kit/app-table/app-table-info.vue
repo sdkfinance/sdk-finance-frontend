@@ -39,10 +39,11 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator';
+
+import AppOperationImage from '@/components/ui-kit/app-operation-image.vue';
 import { BADGE_STATUSES } from '@/constants/badge-statuses';
 import { formatTime } from '@/utils';
-import AppOperationImage from '@/components/ui-kit/app-operation-image.vue';
 
 const iconPlaceholder = require('@/assets/icons/empty-category.svg');
 

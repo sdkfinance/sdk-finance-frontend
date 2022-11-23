@@ -27,16 +27,17 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Ref } from 'vue-property-decorator';
+import { Component, Ref, Vue } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
-import AppTabLinks from '@/components/ui-kit/app-tab-links.vue';
-import { IRouteConfig } from '@/types/interfaces';
+
 import AppButton from '@/components/ui-framework/app-button.vue';
-import { UserCoins } from '@/store/modules';
 import AppButtonsMobile from '@/components/ui-kit/app-buttons-mobile.vue';
+import AppTabLinks from '@/components/ui-kit/app-tab-links.vue';
+import FrequentlyUsedActivities from '@/modules/user-dashboard/components/frequently-used-activities.vue';
 import { ACCOUNT_CHILDREN } from '@/modules/user-dashboard/routes/ACCOUNT_CHILDREN';
 import { ICoin, ICoinIssuer } from '@/services/requests/organizations/Coin.types';
-import FrequentlyUsedActivities from '@/modules/user-dashboard/components/frequently-used-activities.vue';
+import { UserCoins } from '@/store/modules';
+import { IRouteConfig } from '@/types/interfaces';
 
 interface IRouterView {
   updateData?: Function;

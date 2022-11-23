@@ -35,15 +35,16 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { IRouteConfig } from '@/types/interfaces';
-import { checkPermission, checkUserProfilePermission } from '@/router/middlewares/permissionGuard';
-import AppBadge from '@/components/ui-kit/app-badge.vue';
+
 import AppSelect from '@/components/ui-framework/app-select/app-select.vue';
+import AppBadge from '@/components/ui-kit/app-badge.vue';
+import { checkPermission, checkUserProfilePermission } from '@/router/middlewares/permissionGuard';
+import { IRouteConfig } from '@/types/interfaces';
 
 @Component({
   components: {
-    AppBadge,
     AppSelect,
+    AppBadge,
   },
 })
 export default class AppTabLinks extends Vue {
@@ -94,5 +95,5 @@ export default class AppTabLinks extends Vue {
 </script>
 
 <style lang="scss">
-@import "~@/assets/styles/parts/_tabs";
+@import "~@/assets/styles/parts/tabs";
 </style>

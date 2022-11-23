@@ -20,6 +20,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+
 import MainHead from '@/components/main-head.vue';
 import TabLinks from '@/components/ui-kit/app-tab-links.vue';
 import { IRouteConfig } from '@/types/interfaces';

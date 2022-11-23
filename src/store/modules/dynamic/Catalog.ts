@@ -1,20 +1,23 @@
 import {
-  VuexModule, Module, Mutation, Action, getModule,
+  Action, getModule,
+  Module, Mutation, VuexModule,
 } from 'vuex-module-decorators';
+
 import {
-  CurrencyRequests, GateProviderRequests, IssuersRequests, CatalogsRequests, GateRequests,
+  CatalogsRequests, CurrencyRequests, GateProviderRequests, GateRequests,
+  IssuersRequests,
 } from '@/services/requests';
+import { IOperationFlowRecord } from '@/services/requests/catalogs/Catalogs.types';
 import { ICurrency } from '@/services/requests/currencies/Currency.types';
+import { IPaymentProviderBody, IPaymentProviderRecord } from '@/services/requests/gate/Gate.types';
 import { IGateSetting } from '@/services/requests/gate-providers/GateProviders.types';
 import { IIssuer } from '@/services/requests/issuers/Issuers.types';
-import { IOperationFlowRecord } from '@/services/requests/catalogs/Catalogs.types';
-import store from '@/store';
-import { IApiResponse } from '@/types/interfaces';
-import { IPaymentProviderBody, IPaymentProviderRecord } from '@/services/requests/gate/Gate.types';
-import { TransactionCategoriesRequests } from '@/services/requests/transaction-categories/TransactionCategoriesRequests';
 import {
   ITransactionCategoryRecord,
 } from '@/services/requests/transaction-categories/TransactionCategories.types';
+import { TransactionCategoriesRequests } from '@/services/requests/transaction-categories/TransactionCategoriesRequests';
+import store from '@/store';
+import { IApiResponse } from '@/types/interfaces';
 
 @Module({
   dynamic: true, namespaced: true, store, name: 'Catalog',
@@ -64,53 +67,53 @@ export default class Catalog extends VuexModule {
     }
 
     @Action
-    public async fetchCurrency(): Promise<IApiResponse<any>> {
-      const { response, error } = await CurrencyRequests.getCurrencies();
+    public async fetchCurrency() {
+      const request = await CurrencyRequests.getCurrencies();
 
-      const payload = response?.currencies || [];
+      const payload = request.response?.currencies || [];
       this.context.commit('SET_CURRENCY', payload);
 
-      return { response, error };
+      return request;
     }
 
     @Action
-    public async fetchProvidersAccounts(): Promise<IApiResponse<any>> {
-      const { response, error } = await GateProviderRequests.getProviders();
+    public async fetchProvidersAccounts() {
+      const request = await GateProviderRequests.getProviders();
 
-      const payload = response?.records || [];
+      const payload = request.response?.records || [];
       this.context.commit('SET_PROVIDER_ACCOUNTS', payload);
 
-      return { response, error };
+      return request;
     }
 
     @Action
-    public async fetchIssuers(): Promise<IApiResponse<any>> {
-      const { response, error } = await IssuersRequests.getIssuers();
+    public async fetchIssuers() {
+      const request = await IssuersRequests.getIssuers();
 
-      const payload = response?.records || [];
+      const payload = request.response?.records || [];
       this.context.commit('SET_ISSUERS', payload);
 
-      return { response, error };
+      return request;
     }
 
     @Action
     public async fetchOperationFlows(): Promise<IApiResponse<any>> {
-      const { response, error } = await CatalogsRequests.getOperationFlows();
+      const data = await CatalogsRequests.getOperationFlows();
 
-      const payload = response?.records || [];
+      const payload = data.response?.records || [];
       this.context.commit('SET_OPERATION_FLOWS', payload);
 
-      return { response, error };
+      return data;
     }
 
     @Action
-    public async fetchPaymentProviders(data: IPaymentProviderBody): Promise<IApiResponse<any>> {
-      const { response, error } = await GateRequests.getPaymentProviders(data);
+    public async fetchPaymentProviders(data: IPaymentProviderBody) {
+      const request = await GateRequests.getPaymentProviders(data);
 
-      const payload = response?.records || [];
+      const payload = request.response?.records || [];
       this.context.commit('SET_PAYMENT_PROVIDERS', payload);
 
-      return { response, error };
+      return request;
     }
 
     @Action

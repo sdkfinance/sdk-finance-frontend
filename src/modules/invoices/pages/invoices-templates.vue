@@ -35,17 +35,19 @@
 import {
   Component, Ref, Vue,
 } from 'vue-property-decorator';
-import AppDataTable from '@/components/data-table/app-data-table.vue';
-import AppButton from '@/components/ui-framework/app-button.vue';
-import Modal from '@/components/modal.vue';
-import { InvoicesTemplatesRequests } from '@/services/requests';
-import { errorNotification, successNotification } from '@/utils';
-import BaseTabsLayout from '@/layouts/base-tabs-layout.vue';
+
 import ConfirmModal from '@/components/confirm-modal.vue';
+import AppDataTable from '@/components/data-table/app-data-table.vue';
+import Modal from '@/components/modal.vue';
+import AppButton from '@/components/ui-framework/app-button.vue';
+import BaseTabsLayout from '@/layouts/base-tabs-layout.vue';
+import { InvoicesTemplatesRequests } from '@/services/requests';
 import { IInvoiceTemplatesRecord } from '@/services/requests/invoice-templates/InvoicesTemplates.types';
-import InvoicesTemplatesTable from '../components/invoices-templates-table.vue';
-import InvoiceTemplateForm from '../components/invoice-template-form.vue';
+import { errorNotification, successNotification } from '@/utils';
+
 import CreateInvoiceForm from '../components/create-invoice-form.vue';
+import InvoiceTemplateForm from '../components/invoice-template-form.vue';
+import InvoicesTemplatesTable from '../components/invoices-templates-table.vue';
 import { INVOICES_CHILDREN } from '../routes/index';
 
 @Component({

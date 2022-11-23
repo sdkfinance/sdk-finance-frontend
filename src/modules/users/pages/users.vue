@@ -38,21 +38,23 @@
 import {
   Component, Ref, Vue, Watch,
 } from 'vue-property-decorator';
+
 import AppDataTable from '@/components/data-table/app-data-table.vue';
-import UserTable from '@/modules/users/components/user-table.vue';
-import UserForm from '@/modules/users/components/user-form.vue';
 import Modal from '@/components/modal.vue';
 import AppButton from '@/components/ui-framework/app-button.vue';
-import {
-  IUserRecord, IGetUsersApiResponse, IGetUsersOptions, IUserCreateBody,
-} from '@/services/requests/users/Users.types';
-import { UsersRequests, OrganizationsRequests } from '@/services/requests';
-import { errorNotification, successNotification } from '@/utils';
-import { IOrganizationRecord } from '@/services/requests/organizations/Organizations.types';
-import DashboardContentLayout from '@/layouts/dashboard/dashboard-content-layout.vue';
 import AppTabs, { ITab } from '@/components/ui-kit/app-tabs.vue';
 import { ROLES } from '@/constants';
+import DashboardContentLayout from '@/layouts/dashboard/dashboard-content-layout.vue';
+import UserForm from '@/modules/users/components/user-form.vue';
+import UserTable from '@/modules/users/components/user-table.vue';
 import { usersFilters } from '@/modules/users/filters/users-filters';
+import { OrganizationsRequests, UsersRequests } from '@/services/requests';
+import { IOrganizationRecord } from '@/services/requests/organizations/Organizations.types';
+import {
+  IGetUsersApiResponse, IGetUsersOptions, IUserCreateBody,
+  IUserRecord,
+} from '@/services/requests/users/Users.types';
+import { errorNotification, successNotification } from '@/utils';
 
 @Component({
   components: {
@@ -79,7 +81,7 @@ export default class Users extends Vue {
 
   protected organizationsList: IOrganizationRecord[] = [];
 
-  protected currentRole: string = '';
+  protected currentRole: string = 'individual';
 
   protected isCreateModalShow: boolean = false;
 
@@ -120,7 +122,7 @@ export default class Users extends Vue {
   }
 
   protected async fetchData(options: IGetUsersOptions): Promise<IGetUsersApiResponse> {
-    const { response, error } = await UsersRequests.getUsers({
+    const request = await UsersRequests.getUsers({
       ...options,
       filter: {
         ...options.filter,
@@ -128,11 +130,11 @@ export default class Users extends Vue {
       },
     });
 
-    if (error) {
-      errorNotification(error);
+    if (request.error) {
+      errorNotification(request.error);
     }
 
-    return { response, error };
+    return request;
   }
 
   protected async getOrganizations(): Promise<void> {

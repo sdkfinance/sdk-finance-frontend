@@ -20,6 +20,7 @@ import {
   Prop,
   Vue,
 } from 'vue-property-decorator';
+
 import { IFilterEmitValue, ITableFilter } from '@/types/interfaces/TableFilters.interface';
 
 @Component({

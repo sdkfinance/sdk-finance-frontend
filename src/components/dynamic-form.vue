@@ -24,13 +24,15 @@
 
 <script lang="ts">
 import {
-  Component, Prop, Watch, Ref, Vue,
+  Component, Prop, Ref, Vue,
+  Watch,
 } from 'vue-property-decorator';
+
 import AppForm from '@/components/ui-framework/app-form.vue';
 import AppFormItem from '@/components/ui-framework/app-form-item.vue';
 import AppInput from '@/components/ui-framework/app-input.vue';
-import { IDynamicField, IPlainObject } from '@/types/interfaces';
 import { IGatePayerField } from '@/services/requests/gate/Gate.types';
+import { IDynamicField, IPlainObject } from '@/types/interfaces';
 
 @Component({
   components: {

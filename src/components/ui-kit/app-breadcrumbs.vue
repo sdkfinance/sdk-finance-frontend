@@ -28,8 +28,8 @@
 <script lang="ts">
 
 import { Component, Prop, Vue } from 'vue-property-decorator';
-// eslint-disable-next-line import/no-unresolved
-import { RouteRecord } from 'vue-router/types/router';
+import type { RouteRecord } from 'vue-router/types/router';
+
 import { IPlainObject } from '@/types/interfaces';
 
 @Component
@@ -77,7 +77,7 @@ export default class AppBreadcrumbs extends Vue {
 
   &__item {
     &::after {
-      content: '/';
+      content: "/";
 
       @apply inline-block ml-8 mr-8;
     }
@@ -86,7 +86,7 @@ export default class AppBreadcrumbs extends Vue {
       @apply text-blue-600;
 
       &::after {
-        content: '';
+        content: "";
       }
     }
   }

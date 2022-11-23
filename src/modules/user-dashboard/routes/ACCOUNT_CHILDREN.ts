@@ -1,12 +1,13 @@
 import { AsyncComponent } from 'vue';
+
 import { IRouteConfig } from '@/types/interfaces';
 
 const SummaryPage: AsyncComponent = () => import(
-  /* webpackChunkName: 'user-dashboard-account-summary' */
+  /* webpackChunkName: 'user-dashboard-summary' */
   '@/modules/user-dashboard/pages/account/summary/index.vue'
 );
 const TransactionPage: AsyncComponent = () => import(
-  /* webpackChunkName: 'user-dashboard-account-transactions' */
+  /* webpackChunkName: 'user-dashboard-transactions' */
   '@/modules/user-dashboard/pages/total-balance/transactions/index.vue'
 );
 const CardsPage: AsyncComponent = () => import(

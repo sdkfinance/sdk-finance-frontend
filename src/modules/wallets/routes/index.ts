@@ -1,6 +1,7 @@
 import { AsyncComponent } from 'vue';
-import { IRouteConfig } from '@/types/interfaces';
+
 import { ROLES } from '@/constants';
+import { IRouteConfig } from '@/types/interfaces';
 
 const Wallets: AsyncComponent = () => import(/* webpackChunkName: 'wallets' */ '@/modules/wallets/pages/index.vue');
 

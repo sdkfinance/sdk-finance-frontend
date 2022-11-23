@@ -1207,6 +1207,8 @@ const en: LocaleMessages = {
 
   form: {
     label: {
+      source_currency: 'Source currency',
+      destination_currency: 'Destination currency',
       identity_document: 'Identity document',
       old_password: 'Old password',
       sell_amount: 'Sell amount',

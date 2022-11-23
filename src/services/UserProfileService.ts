@@ -1,6 +1,6 @@
 import { TRole } from '@/constants/roles';
-import store from '@/store';
 import { User } from '@/services/User';
+import store from '@/store';
 
 class UserProfileService extends User {
 

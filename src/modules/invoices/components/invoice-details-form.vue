@@ -33,14 +33,15 @@
 import {
   Component, Emit, Prop, Vue,
 } from 'vue-property-decorator';
+
+import DetailsList from '@/components/details-list.vue';
+import AppButton from '@/components/ui-framework/app-button.vue';
+import { ROLES } from '@/constants';
 import {
   IInvoicesRecord,
 } from '@/services/requests/invoices/Invoices.types';
-import AppButton from '@/components/ui-framework/app-button.vue';
-import DetailsList from '@/components/details-list.vue';
-import { IDetailsValue } from '@/types/interfaces';
 import { UserInstance } from '@/services/UserService';
-import { ROLES } from '@/constants';
+import { IDetailsValue } from '@/types/interfaces';
 
 @Component({
   components: {

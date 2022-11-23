@@ -45,18 +45,20 @@ import {
   Component, Ref, Vue,
 } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
+
+import AppButton from '@/components/ui-framework/app-button.vue';
+import AppDatePicker from '@/components/ui-framework/app-date-picker.vue';
 import AppForm from '@/components/ui-framework/app-form.vue';
 import AppFormItem from '@/components/ui-framework/app-form-item.vue';
 import AppInput from '@/components/ui-framework/app-input.vue';
-import AppButton from '@/components/ui-framework/app-button.vue';
 import { PhoneValidator } from '@/rules/validation';
-import {
-  successNotification, errorNotification,
-} from '@/utils';
+import { ProfileRequests } from '@/services/requests';
 import { IUserLogin } from '@/services/requests/profiles/UserProfile.types';
 import { Profile } from '@/store/modules';
-import AppDatePicker from '@/components/ui-framework/app-date-picker.vue';
-import { ProfileRequests } from '@/services/requests';
+import {
+  errorNotification,
+  successNotification,
+} from '@/utils';
 
 export interface IUserLoginDetails {
   phoneNumber?: string;

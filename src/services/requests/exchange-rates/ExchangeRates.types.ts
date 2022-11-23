@@ -1,5 +1,5 @@
-import { IApiResponse } from '@/types/interfaces';
 import { ITransactionsTransaction } from '@/services/requests/transactions/Transactions.types';
+import { IApiResponse } from '@/types/interfaces';
 
 export interface IExchangeRatesViewBody {
     inIssuerId: string;

@@ -26,6 +26,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+
 import AppProgressBar from '@/components/ui-kit/app-progress-bar.vue';
 
 @Component({

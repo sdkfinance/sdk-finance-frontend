@@ -11,6 +11,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+
 import AppTable from '@/components/ui-framework/app-table.vue';
 import { ITableColumn } from '@/types/interfaces';
 

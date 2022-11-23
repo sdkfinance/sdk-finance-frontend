@@ -104,29 +104,29 @@
 
 <script lang="ts">
 import {
-  Component, Prop, Emit, Ref, Vue,
+  Component, Emit, Prop, Ref, Vue,
 } from 'vue-property-decorator';
+
+import DynamicForm from '@/components/dynamic-form.vue';
+import AppButton from '@/components/ui-framework/app-button.vue';
 import AppForm from '@/components/ui-framework/app-form.vue';
 import AppFormItem from '@/components/ui-framework/app-form-item.vue';
 import AppInput from '@/components/ui-framework/app-input.vue';
 import AppSelect from '@/components/ui-framework/app-select/app-select.vue';
-import AppButton from '@/components/ui-framework/app-button.vue';
-import DynamicForm from '@/components/dynamic-form.vue';
 import ButtonsGroup from '@/components/ui-kit/app-buttons-group.vue';
-import CommissionBlock from '@/modules/wallets/components/forms/withdrawal-form/commission-block.vue';
-import { IPlainObject, IDynamicField } from '@/types/interfaces';
-import { errorNotification } from '@/utils';
-import {
-  SimpleNumberRangeValidationRule,
-  OnChangeRequiredValidationRule,
-} from '@/rules/validation';
-
-import { IWithdrawalCommissionBlock } from '@/modules/wallets/types/Withdrawal.types';
-import { ITopUpForm } from '@/services/requests/coins/Wallets.types';
-import { IGateSubmitPayerBody, IPaymentProviderRecord } from '@/services/requests/gate/Gate.types';
-import { TopUpRequests, GateRequests } from '@/services/requests';
 import { TOP_UP_METHODS } from '@/constants';
 import { ITopUpOption } from '@/constants/top-up-methods';
+import CommissionBlock from '@/modules/wallets/components/forms/withdrawal-form/commission-block.vue';
+import { IWithdrawalCommissionBlock } from '@/modules/wallets/types/Withdrawal.types';
+import {
+  OnChangeRequiredValidationRule,
+  SimpleNumberRangeValidationRule,
+} from '@/rules/validation';
+import { GateRequests, TopUpRequests } from '@/services/requests';
+import { ITopUpForm } from '@/services/requests/coins/Wallets.types';
+import { IGateSubmitPayerBody, IPaymentProviderRecord } from '@/services/requests/gate/Gate.types';
+import { IDynamicField, IPlainObject } from '@/types/interfaces';
+import { errorNotification } from '@/utils';
 
 @Component({
   components: {

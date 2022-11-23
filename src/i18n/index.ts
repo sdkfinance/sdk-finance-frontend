@@ -1,7 +1,7 @@
-import Vue from 'vue';
-import VueI18n, { IVueI18n, LocaleMessages } from 'vue-i18n';
 import Element from 'element-ui';
 import locale from 'element-ui/lib/locale/lang/en';
+import Vue from 'vue';
+import VueI18n, { IVueI18n, LocaleMessages } from 'vue-i18n';
 
 import en from './en';
 

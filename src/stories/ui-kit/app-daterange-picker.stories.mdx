@@ -1,4 +1,4 @@
-import { Meta, Story, Canvas, Source, ArgsTable } from '@storybook/addon-docs/blocks';
+import { Meta, Story, Canvas, Source, ArgsTable } from '@storybook/addon-docs';
 import AppDaterangePicker from '@/components/ui-kit/app-daterange-picker.vue'
 
 <Meta title="ui-kit/AppDaterangePicker" component={AppDaterangePicker}/>
@@ -6,13 +6,12 @@ import AppDaterangePicker from '@/components/ui-kit/app-daterange-picker.vue'
 export const Template = (args, { argTypes }) => ({
   props: Object.keys(argTypes),
   components: { AppDaterangePicker },
-  template: `<app-daterange-picker :value="value"
-    :date-range="rangeValue"
+  template: `<app-daterange-picker :value="''"
+    :date-range="[]"
     auto-apply
-    :single-date-picker="visibilityModel"
+    :single-date-picker="false"
     :ranges="false"
-    always-show-calendars
-    @update="emitChange"/>`,
+    always-show-calendars/>`,
 });
 
 
@@ -26,13 +25,13 @@ Example:
     :single-date-picker="visibilityModel"
     :ranges="false"
     always-show-calendars
-    @update="emitChange"/>`}></Source>
+    @update="emitChange"/>`}/>
 
 Simple data-range picker.
 
 ### Default
 <Canvas>
-  <Story name="Default view">
+  <Story name="Default view" height="400px">
     { Template.bind({}) }
   </Story>
 </Canvas>

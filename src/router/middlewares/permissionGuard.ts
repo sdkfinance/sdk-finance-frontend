@@ -1,7 +1,7 @@
-import { routeMiddleware } from '@/router/middlewares/types/routeMiddleware';
-import { UserInstance } from '@/services/UserService';
-import { UserProfileInstance } from '@/services/UserProfileService';
 import { DASHBOARD_NAMES } from '@/router';
+import { routeMiddleware } from '@/router/middlewares/types/routeMiddleware';
+import { UserProfileInstance } from '@/services/UserProfileService';
+import { UserInstance } from '@/services/UserService';
 
 type TPermission = Function | Array<string> | undefined;
 

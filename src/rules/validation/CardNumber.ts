@@ -1,5 +1,5 @@
-import RegExp from '@/rules/validation/RegExp';
 import CardNumber from '@/rules/regexp/CardNumber';
+import RegExp from '@/rules/validation/RegExp';
 
 export const CardNumberValidator = (
   required: boolean = false,

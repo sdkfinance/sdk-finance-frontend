@@ -1,9 +1,10 @@
-import axios, { AxiosResponse, AxiosError } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import { getModule } from 'vuex-module-decorators';
+
 import { LocalStorageService } from '@/services/LocalStorageService';
 import store from '@/store';
-import { IPlainObject } from '@/types/interfaces';
 import { UserData } from '@/store/modules';
+import { IPlainObject } from '@/types/interfaces';
 
 declare module 'axios' {
   interface AxiosResponse<T = any> {
@@ -33,7 +34,7 @@ const createApiInstance = () => {
 
   api.interceptors.request.use(
     (options) => {
-      if (!options.headers.Authorization) {
+      if (!options?.headers?.Authorization) {
         options.headers = {
           ...options.headers,
           ...getAuthHeader(),

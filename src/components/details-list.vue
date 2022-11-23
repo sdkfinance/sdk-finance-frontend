@@ -29,8 +29,9 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
 import { LocaleMessage } from 'vue-i18n';
+import { Component, Prop, Vue } from 'vue-property-decorator';
+
 import { IDetailsValue } from '@/types/interfaces';
 
 @Component

@@ -57,15 +57,16 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
-import { UserData } from '@/store/modules';
-import AppForm from '@/components/ui-framework/app-form.vue';
+
 import AppButton from '@/components/ui-framework/app-button.vue';
-import AppSelect from '@/components/ui-framework/app-select/app-select.vue';
-import { IPlainObject } from '@/types/interfaces';
-import { errorNotification, successNotification } from '@/utils';
-import { ACCOUNTS, ROLES } from '@/constants';
+import AppForm from '@/components/ui-framework/app-form.vue';
 import AppFormItem from '@/components/ui-framework/app-form-item.vue';
 import AppInput from '@/components/ui-framework/app-input.vue';
+import AppSelect from '@/components/ui-framework/app-select/app-select.vue';
+import { ACCOUNTS, ROLES } from '@/constants';
+import { UserData } from '@/store/modules';
+import { IPlainObject } from '@/types/interfaces';
+import { errorNotification, successNotification } from '@/utils';
 
 const ACCOUNTS_PRODUCTION = ACCOUNTS.filter((account) => (
   ['Individual', 'Merchant', 'Administrator', 'Accountant', 'Compliance manager'].includes(account.label)));

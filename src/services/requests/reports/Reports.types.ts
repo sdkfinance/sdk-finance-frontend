@@ -1,5 +1,5 @@
-import { IApiResponse } from '@/types/interfaces';
 import { ITransactionCategoryRecord } from '@/services/requests/transaction-categories/TransactionCategories.types';
+import { IApiResponse } from '@/types/interfaces';
 
 export interface IReportsCoinOutflowsParams {
   currency?: string;

@@ -168,43 +168,45 @@
 </template>
 
 <script lang="ts">
-import {
-  Vue, Component, Ref, Watch, Prop,
-} from 'vue-property-decorator';
 import { debounce } from 'lodash';
-import AppStepController from '@/components/ui-kit/app-step-controller.vue';
+import {
+  Component, Prop,
+  Ref, Vue, Watch,
+} from 'vue-property-decorator';
+
 import AppButton from '@/components/ui-framework/app-button.vue';
 import AppForm from '@/components/ui-framework/app-form.vue';
-import AppInput from '@/components/ui-framework/app-input.vue';
 import AppFormItem from '@/components/ui-framework/app-form-item.vue';
+import AppInput from '@/components/ui-framework/app-input.vue';
 import AppSelect from '@/components/ui-framework/app-select/app-select.vue';
-import { errorNotification, getProp, successNotification } from '@/utils';
-import AppFormWrapper from '@/components/ui-kit/modals/app-form-wrapper.vue';
 import AppSelectCustomOption from '@/components/ui-framework/app-select/app-select-custom-option.vue';
+import AppCustomSelect from '@/components/ui-kit/app-custom-select/app-custom-select.vue';
+import AppCustomSelectOption from '@/components/ui-kit/app-custom-select/app-custom-select-option.vue';
+import AppInputCardNumber from '@/components/ui-kit/app-input-card-number.vue';
+import AppSimpleDetailsCard from '@/components/ui-kit/app-simple-details-card.vue';
+import AppStepController from '@/components/ui-kit/app-step-controller.vue';
+import AppFormWrapper from '@/components/ui-kit/modals/app-form-wrapper.vue';
 import AppInfoModal, { InfoModalTypes } from '@/components/ui-kit/modals/app-info-modal.vue';
 import AppModal from '@/components/ui-kit/modals/app-modal.vue';
-import { IPlainObject } from '@/types/interfaces';
+import config from '@/config';
+import { ROLES } from '@/constants';
+import SaveTemplateForm from '@/modules/payments/make-payment/components/save-template-form.vue';
+import TransferDetails from '@/modules/payments/make-payment/components/transfer-details.vue';
+import AccountSelect from '@/modules/user-dashboard/components/account-select.vue';
+import CardSelect from '@/modules/user-dashboard/components/card-select.vue';
 import OperationCommission from '@/modules/user-dashboard/components/operation-commission.vue';
-import { TemplatesRequests } from '@/services/requests/templates/TemplatesRequests';
+import { OnChangeRequiredValidationRule, SimpleNumberValidationRule } from '@/rules/validation';
 import { TransfersRequests } from '@/services/requests';
 import { ISmartCardRecord } from '@/services/requests/smart-cards/SmartCards.types';
 import { ITransferTemplateRecord } from '@/services/requests/templates/Templates.types';
+import { TemplatesRequests } from '@/services/requests/templates/TemplatesRequests';
 import {
   ITransferBody,
   ITransferCalculateResponse, TTransferPaymentType,
 } from '@/services/requests/transfers/Transfers.types';
-import AppCustomSelect from '@/components/ui-kit/app-custom-select/app-custom-select.vue';
-import AppCustomSelectOption from '@/components/ui-kit/app-custom-select/app-custom-select-option.vue';
-import { OnChangeRequiredValidationRule, SimpleNumberValidationRule } from '@/rules/validation';
-import AppInputCardNumber from '@/components/ui-kit/app-input-card-number.vue';
-import AppSimpleDetailsCard from '@/components/ui-kit/app-simple-details-card.vue';
-import TransferDetails from '@/modules/payments/make-payment/components/transfer-details.vue';
-import SaveTemplateForm from '@/modules/payments/make-payment/components/save-template-form.vue';
-import CardSelect from '@/modules/user-dashboard/components/card-select.vue';
-import AccountSelect from '@/modules/user-dashboard/components/account-select.vue';
-import config from '@/config';
 import { UserInstance } from '@/services/UserService';
-import { ROLES } from '@/constants';
+import { IPlainObject } from '@/types/interfaces';
+import { errorNotification, getProp, successNotification } from '@/utils';
 
 @Component({
   components: {

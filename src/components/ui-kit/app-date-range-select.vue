@@ -18,14 +18,16 @@
 </template>
 
 <script lang="ts">
-import {
-  Component, Vue, Ref, Emit, Model, Watch, Prop,
-} from 'vue-property-decorator';
 import dayjs from 'dayjs';
 import { isEqual } from 'lodash';
+import {
+  Component, Emit, Model, Prop,
+  Ref, Vue, Watch,
+} from 'vue-property-decorator';
+
 import AppSelect from '@/components/ui-framework/app-select/app-select.vue';
-import { IPlainObject } from '@/types/interfaces';
 import AppDaterangePicker from '@/components/ui-kit/app-daterange-picker.vue';
+import { IPlainObject } from '@/types/interfaces';
 
 const AVAILABLE_SELECT_TYPES = ['all', 'week', 'month', 'custom'] as const;
 type TAvailableSelectTypes = typeof AVAILABLE_SELECT_TYPES[number];
@@ -57,13 +59,13 @@ export default class AppDateRangeSelect extends Vue {
   @Prop({
     type: Array,
     default: () => AVAILABLE_SELECT_TYPES,
-    validator: (types) => selectTypesValidator(types, 'selectTypes'),
+    validator: (types: TAvailableSelectTypes[]) => selectTypesValidator(types, 'selectTypes'),
   }) readonly selectTypes!: TAvailableSelectTypes[];
 
   @Prop({
     type: Array,
     default: () => [],
-    validator: (types) => selectTypesValidator(types, 'excludeSelectTypes'),
+    validator: (types: TAvailableSelectTypes[]) => selectTypesValidator(types, 'excludeSelectTypes'),
   }) readonly excludeSelectTypes!: TAvailableSelectTypes[];
 
   @Emit('change')

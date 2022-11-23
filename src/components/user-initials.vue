@@ -7,7 +7,8 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
-import { Profile } from '@/store/modules/index';
+
+import { Profile } from '@/store/modules';
 import { IPlainObject } from '@/types/interfaces';
 
 @Component
@@ -29,7 +30,6 @@ export default class UserInitials extends Vue {
 </script>
 
 <style lang="scss" scoped>
-
 .user-initials {
   width: 32px;
   height: 32px;

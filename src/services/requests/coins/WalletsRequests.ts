@@ -1,4 +1,3 @@
-import { IApiResponse } from '@/types/interfaces';
 import api from '@/services/api';
 import {
   IGetWalletsApiResponse,
@@ -6,6 +5,7 @@ import {
   IWalletBody, IWalletGetByLoginPayload, IWalletGetByLoginResponse,
   IWalletRecord,
 } from '@/services/requests/coins/Wallets.types';
+import { IApiResponse } from '@/types/interfaces';
 
 export const WalletsRequests = {
 

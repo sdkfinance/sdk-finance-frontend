@@ -10,9 +10,10 @@
 import {
   Component, Prop, Vue, Watch,
 } from 'vue-property-decorator';
-import { InvoicesRequests } from '@/services/requests';
-import AppEventNotification from '@/components/ui-kit/app-event-notification.vue';
 import { Route } from 'vue-router';
+
+import AppEventNotification from '@/components/ui-kit/app-event-notification.vue';
+import { InvoicesRequests } from '@/services/requests';
 
 const updateTime: number = 300000;
 

@@ -1,6 +1,6 @@
-import { ITableFilter } from '@/types/interfaces/TableFilters.interface';
 import { ROLES } from '@/constants';
 import { UserInstance } from '@/services/UserService';
+import { ITableFilter } from '@/types/interfaces/TableFilters.interface';
 
 export const invoicesFilters: ITableFilter[] = [
   {

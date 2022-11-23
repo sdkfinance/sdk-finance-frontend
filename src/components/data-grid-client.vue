@@ -12,8 +12,10 @@
 
 <script lang="ts">
 import {
-  Component, Prop, Watch, Vue,
+  Component, Prop, Vue,
+  Watch,
 } from 'vue-property-decorator';
+
 import AppPagination from '@/components/ui-framework/app-pagination.vue';
 
 @Component({

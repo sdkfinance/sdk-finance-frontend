@@ -16,6 +16,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+
 import { ICommissionSettingRecord } from '@/services/requests/contracts/Commissions.types';
 
 @Component

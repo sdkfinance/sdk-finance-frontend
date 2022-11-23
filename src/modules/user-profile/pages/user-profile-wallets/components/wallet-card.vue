@@ -35,6 +35,7 @@
 import {
   Component, Prop, Vue,
 } from 'vue-property-decorator';
+
 import { ICoin } from '@/services/requests/organizations/Coin.types';
 
 @Component

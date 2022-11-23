@@ -14,11 +14,12 @@
 <script lang="ts">
 
 import { Component, Vue } from 'vue-property-decorator';
-import { IRouteConfig } from '@/types/interfaces';
-import DashboardContentLayout from '@/layouts/dashboard/dashboard-content-layout.vue';
+
 import AppBreadcrumbs from '@/components/ui-kit/app-breadcrumbs.vue';
-import { PROVIDERS_SERVICES_SETTINGS_CHILDREN } from '@/modules/contracts/routes/create-contracts';
 import AppTabLinks from '@/components/ui-kit/app-tab-links.vue';
+import DashboardContentLayout from '@/layouts/dashboard/dashboard-content-layout.vue';
+import { PROVIDERS_SERVICES_SETTINGS_CHILDREN } from '@/modules/contracts/routes/create-contracts';
+import { IRouteConfig } from '@/types/interfaces';
 
 @Component({
   components: {

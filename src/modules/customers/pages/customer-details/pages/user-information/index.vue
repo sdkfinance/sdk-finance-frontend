@@ -16,13 +16,14 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
 import { AsyncComponent } from 'vue';
-import { IInformationDetails } from '@/types/interfaces/InformationDetails.interface';
-import DashboardContentLayout from '@/layouts/dashboard/dashboard-content-layout.vue';
+import { Component, Vue } from 'vue-property-decorator';
+
 import AppTabLinks from '@/components/ui-kit/app-tab-links.vue';
-import UserCard from '@/modules/customers/pages/customer-details/components/user-card.vue';
 import AppTabs, { ITab } from '@/components/ui-kit/app-tabs.vue';
+import DashboardContentLayout from '@/layouts/dashboard/dashboard-content-layout.vue';
+import UserCard from '@/modules/customers/pages/customer-details/components/user-card.vue';
+import { IInformationDetails } from '@/types/interfaces/InformationDetails.interface';
 
 const AdditionalInformation: AsyncComponent = () => import(
   '@/modules/customers/pages/customer-details/pages/user-information/additional-information.vue'

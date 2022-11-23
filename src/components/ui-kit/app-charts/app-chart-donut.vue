@@ -14,11 +14,13 @@
 
 <script lang="ts">
 import {
-  Chart, ChartData, registerables, ChartOptions,
+  Chart, ChartData, ChartOptions,
+  registerables,
 } from 'chart.js';
 import {
-  Vue, Component, Ref, Prop, Watch,
+  Component, Prop, Ref, Vue, Watch,
 } from 'vue-property-decorator';
+
 import { IPlainObject } from '@/types/interfaces';
 
 const DEFAULT_OPTIONS: ChartOptions = {

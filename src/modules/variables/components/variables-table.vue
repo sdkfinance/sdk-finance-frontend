@@ -23,12 +23,13 @@
 
 <script lang="ts">
 import {
-  Component, Prop, Emit, Vue,
+  Component, Emit, Prop, Vue,
 } from 'vue-property-decorator';
-import AppTable from '@/components/ui-framework/app-table.vue';
+
 import AppButton from '@/components/ui-framework/app-button.vue';
 import AppInput from '@/components/ui-framework/app-input.vue';
-import { ITableColumn, IPlainObject } from '@/types/interfaces';
+import AppTable from '@/components/ui-framework/app-table.vue';
+import { IPlainObject, ITableColumn } from '@/types/interfaces';
 
 @Component({
   components: {

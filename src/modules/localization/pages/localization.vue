@@ -71,25 +71,27 @@
 
 <script lang="ts">
 import { Component, Ref, Vue } from 'vue-property-decorator';
+
+import ConfirmModal from '@/components/confirm-modal.vue';
 import AppDataTable from '@/components/data-table/app-data-table.vue';
-import AppButton from '@/components/ui-framework/app-button.vue';
-import ButtonsGroup from '@/components/ui-kit/app-buttons-group.vue';
 import FileUpload from '@/components/file-upload.vue';
 import MainHead from '@/components/main-head.vue';
 import Modal from '@/components/modal.vue';
-import ConfirmModal from '@/components/confirm-modal.vue';
+import AppButton from '@/components/ui-framework/app-button.vue';
+import ButtonsGroup from '@/components/ui-kit/app-buttons-group.vue';
 import { LocalizationRequests } from '@/services/requests';
-import { errorNotification, successNotification, exportTo } from '@/utils';
-import { IPlainObject } from '@/types/interfaces';
 import {
   ILocalization,
-  ILocalizationRecord,
   ILocalizationCreateBody,
+  ILocalizationRecord,
   ILocalizationUpdateBody,
   ILocalizationValue,
 } from '@/services/requests/i18n-records/Localization.interface';
-import LocalizationTable from '../components/localization-table.vue';
+import { IPlainObject } from '@/types/interfaces';
+import { errorNotification, exportTo, successNotification } from '@/utils';
+
 import LocalizationForm from '../components/localization-form.vue';
+import LocalizationTable from '../components/localization-table.vue';
 import { localizationFilters } from '../filters/filters';
 
 @Component({

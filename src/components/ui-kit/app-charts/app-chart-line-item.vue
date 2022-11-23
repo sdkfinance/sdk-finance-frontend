@@ -30,6 +30,7 @@
 import {
   Component, Prop, Vue, Watch,
 } from 'vue-property-decorator';
+
 import AppPopover from '@/components/ui-framework/app-popover.vue';
 
 const ANIMATION_DELAY: number = 500;
@@ -98,7 +99,7 @@ export default class AppChartLineItem extends Vue {
       @apply block w-full h-4 rounded-xl;
       @apply absolute inset-0 w-full bg-current;
 
-      content: '';
+      content: "";
       transition: height 0.3s, transform 0.3s, width 1s;
     }
 

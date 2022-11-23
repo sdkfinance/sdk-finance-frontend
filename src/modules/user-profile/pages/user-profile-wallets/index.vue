@@ -13,12 +13,14 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { OrganizationsRequests } from '@/services/requests';
-import { errorNotification } from '@/utils';
+
 import LoaderStub from '@/components/loader-stub.vue';
 import config from '@/config';
-import WalletCard from './components/wallet-card.vue';
+import { OrganizationsRequests } from '@/services/requests';
+import { errorNotification } from '@/utils';
+
 import { ICoin } from '../../../../services/requests/organizations/Coin.types';
+import WalletCard from './components/wallet-card.vue';
 
 @Component({
   components: {

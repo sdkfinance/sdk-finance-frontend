@@ -19,6 +19,7 @@
 import {
   Component, Emit, Prop, Vue,
 } from 'vue-property-decorator';
+
 import AppFilterWrapper from '@/components/data-table/app-filter-wrapper.vue';
 import AppSelect from '@/components/ui-framework/app-select/app-select.vue';
 import { ITableFilter, TFilters } from '@/types/interfaces/TableFilters.interface';

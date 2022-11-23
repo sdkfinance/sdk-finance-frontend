@@ -1,7 +1,8 @@
 import { AsyncComponent } from 'vue';
 import { Route } from 'vue-router';
-import { IRouteConfig } from '@/types/interfaces';
+
 import { ROLES } from '@/constants';
+import { IRouteConfig } from '@/types/interfaces';
 
 const UserProfile: AsyncComponent = () => import(/* webpackChunkName: 'user-profile' */
   '@/modules/user-profile/pages/user-profile.vue'

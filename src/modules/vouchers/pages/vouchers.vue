@@ -57,23 +57,25 @@
 </template>
 
 <script lang="ts">
-import { Component, Ref, Vue } from 'vue-property-decorator';
 import { LocaleMessage } from 'vue-i18n';
+import { Component, Ref, Vue } from 'vue-property-decorator';
+
 import AppDataTable from '@/components/data-table/app-data-table.vue';
 import MainHead from '@/components/main-head.vue';
 import Modal from '@/components/modal.vue';
 import AppButton from '@/components/ui-framework/app-button.vue';
-import { VouchersRequests } from '@/services/requests';
-import { errorNotification } from '@/utils';
-import {
-  IVouchersRecord,
-  IVouchersOptions,
-  IGetVouchersApiResponse,
-} from '@/services/requests/prepaid-coins/Vouchers.interface';
-import { IWalletRecord } from '@/services/requests/coins/Wallets.types';
-import { ITableFilter } from '@/types/interfaces/TableFilters.interface';
 import VouchersFormAdd from '@/modules/vouchers/components/vouchers-form-add.vue';
 import VouchersFormRedeem from '@/modules/vouchers/components/vouchers-form-redeem.vue';
+import { VouchersRequests } from '@/services/requests';
+import { IWalletRecord } from '@/services/requests/coins/Wallets.types';
+import {
+  IGetVouchersApiResponse,
+  IVouchersOptions,
+  IVouchersRecord,
+} from '@/services/requests/prepaid-coins/Vouchers.interface';
+import { ITableFilter } from '@/types/interfaces/TableFilters.interface';
+import { errorNotification } from '@/utils';
+
 import VouchersFormDetails from '../components/vouchers-form-details.vue';
 import VouchersTable from '../components/vouchers-table.vue';
 import { vouchersFilters } from '../filters/filters';
@@ -124,12 +126,15 @@ export default class VouchersPage extends Vue {
       sort: { createdAt: 'desc' },
     };
 
-    const { response, error } = await VouchersRequests.getVouchers(options);
+    const request = await VouchersRequests.getVouchers(options);
 
-    if (error) errorNotification(error);
+    if (request.error) {
+      errorNotification(request.error);
+    }
 
     this.isLoading = false;
-    return { response, error };
+
+    return request;
   }
 
   protected openVoucherDetailsModal(voucher: IVouchersRecord): void {

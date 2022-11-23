@@ -13,10 +13,11 @@
 </template>
 
 <script lang="ts">
+import { ChartData, ChartDataset } from 'chart.js';
 import {
   Component, Prop, Vue,
 } from 'vue-property-decorator';
-import { ChartData, ChartDataset } from 'chart.js';
+
 import AppChartLineItem from '@/components/ui-kit/app-charts/app-chart-line-item.vue';
 import { IPlainObject } from '@/types/interfaces';
 

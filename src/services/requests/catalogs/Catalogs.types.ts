@@ -1,6 +1,6 @@
 import {
-  TRANSACTION_TYPES,
   COIN_TYPES,
+  TRANSACTION_TYPES,
 } from '@/constants';
 import { IApiResponse } from '@/types/interfaces';
 
@@ -14,6 +14,7 @@ export interface IOperationFlowRecord {
     processType: string;
     srcCoinType: TCoinType;
     destCoinType: TCoinType;
+    isMultiCurrency: boolean;
 }
 
 export interface IBankCatalog {

@@ -1,5 +1,6 @@
 import { Component } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
+
 import FilterTypeMixin from '@/components/data-table/filters/filterTypeMixin';
 import { UserData } from '@/store/modules';
 

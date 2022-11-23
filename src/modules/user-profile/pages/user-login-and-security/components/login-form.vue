@@ -33,17 +33,19 @@
 
 <script lang="ts">
 import {
-  Component, Prop, Ref, Vue, Emit,
+  Component, Emit,
+  Prop, Ref, Vue,
 } from 'vue-property-decorator';
+
+import AppButton from '@/components/ui-framework/app-button.vue';
 import AppForm from '@/components/ui-framework/app-form.vue';
 import AppFormItem from '@/components/ui-framework/app-form-item.vue';
 import AppInput from '@/components/ui-framework/app-input.vue';
-import AppButton from '@/components/ui-framework/app-button.vue';
 import { SimpleRequiredValidationRule } from '@/rules/validation';
-import { UserInfoRequests, ProfileRequests } from '@/services/requests';
-import { successNotification, errorNotification } from '@/utils';
-import { IUserLogin, IUserInfoResponse } from '@/services/requests/profiles/UserProfile.types';
+import { ProfileRequests, UserInfoRequests } from '@/services/requests';
+import { IUserInfoResponse, IUserLogin } from '@/services/requests/profiles/UserProfile.types';
 import { IApiResponse } from '@/types/interfaces';
+import { errorNotification, successNotification } from '@/utils';
 
 const setForm = (userLogin: IUserLogin): IUserLogin => {
   const { phoneNumber, email } = userLogin || {};

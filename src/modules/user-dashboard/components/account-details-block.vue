@@ -20,12 +20,13 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import AppSimpleDetailsCard from '@/components/ui-kit/app-simple-details-card.vue';
+
 import AppButton from '@/components/ui-framework/app-button.vue';
-import { IDetailsValue } from '@/types/interfaces';
+import AppSimpleDetailsCard from '@/components/ui-kit/app-simple-details-card.vue';
 import { IUserBankAccountRecord } from '@/services/requests/profiles/UserProfile.types';
-import { copyToClipboard } from '@/utils/copyToClipboard';
+import { IDetailsValue } from '@/types/interfaces';
 import { errorNotification, successNotification } from '@/utils';
+import { copyToClipboard } from '@/utils/copyToClipboard';
 
 @Component({
   components: { AppButton, AppSimpleDetailsCard },

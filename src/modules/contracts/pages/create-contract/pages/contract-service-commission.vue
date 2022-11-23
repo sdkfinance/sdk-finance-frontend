@@ -26,16 +26,17 @@
 <script lang="ts">
 
 import { Component, Ref, Vue } from 'vue-property-decorator';
+
 import AppButton from '@/components/ui-framework/app-button.vue';
-import AppSwitch from '@/components/ui-framework/app-switch.vue';
 import AppForm from '@/components/ui-framework/app-form.vue';
+import AppSwitch from '@/components/ui-framework/app-switch.vue';
 import CommissionTypeTableForm
   from '@/modules/contracts/pages/create-contract/components/commission-type-table-form.vue';
-import { IPlainObject } from '@/types/interfaces';
-import { SimpleRequiredValidationRule } from '@/rules/validation';
+import LimitTypeTableForm from '@/modules/contracts/pages/create-contract/components/limit-type-table-form.vue';
 import RangeCommissionTableForm
   from '@/modules/contracts/pages/create-contract/components/range-commission-table-form.vue';
-import LimitTypeTableForm from '@/modules/contracts/pages/create-contract/components/limit-type-table-form.vue';
+import { SimpleRequiredValidationRule } from '@/rules/validation';
+import { IPlainObject } from '@/types/interfaces';
 
 @Component({
   components: {

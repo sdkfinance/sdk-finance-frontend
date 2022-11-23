@@ -20,8 +20,8 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Button } from 'element-ui';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 
 const BUTTON_SIZES = [
   'large',

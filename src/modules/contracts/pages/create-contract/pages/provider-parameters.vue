@@ -15,9 +15,10 @@
 <script lang="ts">
 
 import { Component, Vue } from 'vue-property-decorator';
+
+import AppButton from '@/components/ui-framework/app-button.vue';
 import CommissionTypeTable from '@/modules/contracts/pages/create-contract/components/commission-type-table.vue';
 import LimitTypeTable from '@/modules/contracts/pages/create-contract/components/limit-type-table.vue';
-import AppButton from '@/components/ui-framework/app-button.vue';
 
 @Component({
   components: { AppButton, LimitTypeTable, CommissionTypeTable },

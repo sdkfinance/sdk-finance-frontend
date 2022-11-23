@@ -1,5 +1,5 @@
-import { IApiResponse } from '@/types/interfaces';
 import { ISmartCardShort } from '@/services/requests/smart-cards/SmartCards.types';
+import { IApiResponse } from '@/types/interfaces';
 
 export interface ICoinIssuer {
   id: string;

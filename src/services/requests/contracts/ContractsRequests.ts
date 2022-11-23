@@ -1,11 +1,4 @@
-import {
-  ICustomContractBody,
-  IGetContractsApiResponse,
-  IGetContractsOptions,
-  ILimitBodyUpdate,
-  ISystemCommissionBodyUpdate,
-  ISystemLimitBody,
-} from '@/services/requests/contracts/Contracts.types';
+import api from '@/services/api';
 import {
   ICommissionBody,
   ICommissionGateProfileApiResponse,
@@ -21,7 +14,14 @@ import {
   IProviderCreateBody,
   IProvidersApiResponse,
 } from '@/services/requests/contracts/Commissions.types';
-import api from '@/services/api';
+import {
+  ICustomContractBody,
+  IGetContractsApiResponse,
+  IGetContractsOptions,
+  ILimitBodyUpdate,
+  ISystemCommissionBodyUpdate,
+  ISystemLimitBody,
+} from '@/services/requests/contracts/Contracts.types';
 
 export const ContractsRequests = {
 
@@ -107,6 +107,10 @@ export const ContractsRequests = {
 
   createCommission(contractId: string, data: ICreateSystemCommission): Promise<any> {
     return api.post(`/contracts/${contractId}/commission-profiles`, data);
+  },
+
+  createCommissionMultiCurrency(contractId: string, data: ICreateSystemCommission): Promise<any> {
+    return api.post(`/contracts/${contractId}/commission-profiles/multi-currency`, data);
   },
 
   updateCommission(contractId: string, profileId: string, data: ISystemCommissionBodyUpdate): Promise<any> {

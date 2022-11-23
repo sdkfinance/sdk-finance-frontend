@@ -1,4 +1,5 @@
 import { AsyncComponent } from 'vue';
+
 import { IRouteConfig } from '@/types/interfaces';
 
 const EntranceLayout: AsyncComponent = () => import(

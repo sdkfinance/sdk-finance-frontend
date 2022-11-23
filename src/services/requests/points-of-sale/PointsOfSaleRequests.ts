@@ -1,14 +1,13 @@
 import api from '@/services/api';
-
 import {
-  IPointsOfSaleEdit,
-  IPointsOfSaleCreate,
-  IPointsOfSaleResponse,
-  IPointsOfSaleRecordsResponse,
   IGetSpecificPointsOfSaleResponse,
+  IPointsOfSaleCreate,
+  IPointsOfSaleEdit,
+  IPointsOfSaleRecordsResponse,
+  IPointsOfSaleResponse,
 } from '@/services/requests/points-of-sale/PointsOfSale.types';
-import { IApiResponse, IPlainObject } from '@/types/interfaces';
 import { IGetTransactionsApiResponse, ITransactionsOptions } from '@/services/requests/transactions/Transactions.types';
+import { IApiResponse, IPlainObject } from '@/types/interfaces';
 
 export const PointsOfSaleRequests = {
 

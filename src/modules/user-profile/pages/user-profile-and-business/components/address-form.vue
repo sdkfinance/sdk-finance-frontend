@@ -58,18 +58,20 @@
 import {
   Component, Prop, Ref, Vue,
 } from 'vue-property-decorator';
+
+import AppButton from '@/components/ui-framework/app-button.vue';
 import AppForm from '@/components/ui-framework/app-form.vue';
 import AppFormItem from '@/components/ui-framework/app-form-item.vue';
 import AppInput from '@/components/ui-framework/app-input.vue';
-import AppButton from '@/components/ui-framework/app-button.vue';
 import AppSelect from '@/components/ui-framework/app-select/app-select.vue';
-import { UserInfoRequests } from '@/services/requests';
-import { MixMaxValidation } from '@/rules/validation';
-import {
-  clearEmptyValue, cloneDeep, successNotification, errorNotification,
-} from '@/utils';
 import { COUNTRIES } from '@/constants';
+import { MixMaxValidation } from '@/rules/validation';
+import { UserInfoRequests } from '@/services/requests';
 import { IUserAddress } from '@/services/requests/profiles/UserProfile.types';
+import {
+  clearEmptyValue, cloneDeep, errorNotification,
+  successNotification,
+} from '@/utils';
 
 const setForm = (userAddress: IUserAddress): IUserAddress => {
   const {

@@ -16,8 +16,9 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import DashboardContentLayout from '@/layouts/dashboard/dashboard-content-layout.vue';
+
 import AppButton from '@/components/ui-framework/app-button.vue';
+import DashboardContentLayout from '@/layouts/dashboard/dashboard-content-layout.vue';
 import CurrencyExchangesTable from '@/modules/contracts/pages/currency-exchange-contracts/components/currency-exchanges-table.vue';
 import { IPlainObject } from '@/types/interfaces';
 

@@ -36,12 +36,13 @@
 </template>
 
 <script lang="ts">
+import { Dropdown, DropdownItem, DropdownMenu } from 'element-ui';
 import {
-  Component, Prop, Emit, Vue,
+  Component, Emit, Prop, Vue,
 } from 'vue-property-decorator';
-import { Dropdown, DropdownMenu, DropdownItem } from 'element-ui';
-import { getProp } from '@/utils';
+
 import { IOption } from '@/types/interfaces/Options.interface';
+import { getProp } from '@/utils';
 
 type TOption = string | { [key: string]: any };
 type TLabelFunction = (label: TOption) => string;
@@ -69,7 +70,7 @@ export default class AppDropdown extends Vue {
 
   @Prop({ default: false, type: Boolean }) readonly secondary!: string;
 
-  @Prop({ default: '', type: String, validator: (value) => (value ? value.indexOf('px') !== -1 : true) }) readonly minWidth!: string;
+  @Prop({ default: '', type: String, validator: (value: string) => (value ? value.indexOf('px') !== -1 : true) }) readonly minWidth!: string;
 
   @Prop({
     default: '',

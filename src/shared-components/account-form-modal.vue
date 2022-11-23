@@ -42,22 +42,24 @@
 
 <script lang="ts">
 import {
-  Component, Emit, Vue, Ref,
+  Component, Emit, Ref,
+  Vue,
 } from 'vue-property-decorator';
-import { IPlainObject } from '@/types/interfaces';
-import { SimpleRequiredValidationRule } from '@/rules/validation';
-import { ICurrency } from '@/services/requests/currencies/Currency.types';
+
 import AppButton from '@/components/ui-framework/app-button.vue';
 import AppForm from '@/components/ui-framework/app-form.vue';
-import AppInput from '@/components/ui-framework/app-input.vue';
 import AppFormItem from '@/components/ui-framework/app-form-item.vue';
+import AppInput from '@/components/ui-framework/app-input.vue';
 import AppSelect from '@/components/ui-framework/app-select/app-select.vue';
-import { CatalogModule } from '@/store/modules/dynamic';
-import { WalletsRequests } from '@/services/requests';
-import { errorNotification, successNotification } from '@/utils';
-import { IIssuer } from '@/services/requests/issuers/Issuers.types';
-import { IWalletBody } from '@/services/requests/coins/Wallets.types';
 import AppFormWrapper from '@/components/ui-kit/modals/app-form-wrapper.vue';
+import { SimpleRequiredValidationRule } from '@/rules/validation';
+import { WalletsRequests } from '@/services/requests';
+import { IWalletBody } from '@/services/requests/coins/Wallets.types';
+import { ICurrency } from '@/services/requests/currencies/Currency.types';
+import { IIssuer } from '@/services/requests/issuers/Issuers.types';
+import { CatalogModule } from '@/store/modules/dynamic';
+import { IPlainObject } from '@/types/interfaces';
+import { errorNotification, successNotification } from '@/utils';
 
 @Component({
   components: {

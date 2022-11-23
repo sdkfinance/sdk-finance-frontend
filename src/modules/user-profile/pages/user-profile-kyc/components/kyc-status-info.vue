@@ -47,14 +47,16 @@
 </template>
 
 <script lang="ts">
+import { LocaleMessage } from 'vue-i18n';
 import {
-  Component, Vue, Prop,
+  Component, Prop,
+  Vue,
 } from 'vue-property-decorator';
-import { IUserProfileDocument } from '@/services/requests/profiles/ProfileDocuments.types';
+
 import AppBadge from '@/components/ui-kit/app-badge.vue';
 import config from '@/config';
+import { IUserProfileDocument } from '@/services/requests/profiles/ProfileDocuments.types';
 import { formatDate } from '@/utils';
-import { LocaleMessage } from 'vue-i18n';
 
 @Component({
   components: { AppBadge },

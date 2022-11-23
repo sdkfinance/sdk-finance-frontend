@@ -1,9 +1,9 @@
 import api from '@/services/api';
 import {
   IGetUserBankAccountApiResponse,
+  IMyUserBankAccountPayload, IUserBankAccountRecord, IUserInfo,
   IUserPassword,
   IUserSecurity,
-  IMyUserBankAccountPayload, IUserBankAccountRecord, IUserInfo,
 } from '@/services/requests/profiles/UserProfile.types';
 import { IApiResponse } from '@/types/interfaces';
 

@@ -35,13 +35,14 @@ import {
   Prop,
   Vue,
 } from 'vue-property-decorator';
+
 import DetailsList from '@/components/details-list.vue';
+import AppButton from '@/components/ui-framework/app-button.vue';
+import ButtonsGroup from '@/components/ui-kit/app-buttons-group.vue';
+import { CONFIRM_ENUM } from '@/constants/enums';
+import { ITopUpRecord } from '@/services/requests/bank-top-ups/TopUp.types';
 import { IDetailsValue } from '@/types/interfaces';
 import { getDefaultDate } from '@/utils';
-import { ITopUpRecord } from '@/services/requests/bank-top-ups/TopUp.types';
-import AppButton from '@/components/ui-framework/app-button.vue';
-import { CONFIRM_ENUM } from '@/constants/enums';
-import ButtonsGroup from '@/components/ui-kit/app-buttons-group.vue';
 
 type TUserAction = {
   requestId: number;

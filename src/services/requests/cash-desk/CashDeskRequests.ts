@@ -1,11 +1,11 @@
 import api from '@/services/api';
-import { IApiResponse } from '@/types/interfaces';
 import {
   ICashDeskBody,
   ICashDeskCommissionRecord,
   ICashDeskExecuteResponse,
   ICashDeskResponse,
 } from '@/services/requests/cash-desk/CashDesk.types';
+import { IApiResponse } from '@/types/interfaces';
 
 export const CashDeskRequests = {
 

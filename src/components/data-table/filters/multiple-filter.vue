@@ -11,6 +11,7 @@
 import {
   Component, Emit, Model, Ref,
 } from 'vue-property-decorator';
+
 import FilterTypeMixin from '@/components/data-table/filters/filterTypeMixin';
 import AppInput from '@/components/ui-framework/app-input.vue';
 import { IFilterEmitValue } from '@/types/interfaces/TableFilters.interface';

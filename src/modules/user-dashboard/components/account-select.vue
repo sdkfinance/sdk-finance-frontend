@@ -4,7 +4,7 @@
     full-width
     is-custom
     value-key="serial"
-    size="size"
+    :size="size"
     :placeholder="placeholder"
     :disabled="disabled"
     :label="label"
@@ -34,10 +34,11 @@ import {
   Component, Emit, Prop, Vue,
 } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
-import AppSelectCustomOption from '@/components/ui-framework/app-select/app-select-custom-option.vue';
+
 import AppSelect from '@/components/ui-framework/app-select/app-select.vue';
-import { UserCoins } from '@/store/modules';
+import AppSelectCustomOption from '@/components/ui-framework/app-select/app-select-custom-option.vue';
 import { ICoin } from '@/services/requests/organizations/Coin.types';
+import { UserCoins } from '@/store/modules';
 
 const sizeValidator = (size: string): boolean => ['medium', 'small', 'mini', ''].includes(size);
 

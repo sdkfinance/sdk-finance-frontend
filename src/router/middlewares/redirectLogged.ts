@@ -1,5 +1,6 @@
-import { UserInstance } from '@/services/UserService';
 import { DASHBOARD_NAMES } from '@/router';
+import { UserInstance } from '@/services/UserService';
+
 import { routeMiddleware } from './types/routeMiddleware';
 
 export const redirectLogged: routeMiddleware = ({ next, store }) => {

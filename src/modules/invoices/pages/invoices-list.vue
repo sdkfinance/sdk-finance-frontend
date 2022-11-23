@@ -52,27 +52,29 @@
 
 <script lang="ts">
 import { Component, Ref, Vue } from 'vue-property-decorator';
+
+import ConfirmModal from '@/components/confirm-modal.vue';
 import AppDataTable from '@/components/data-table/app-data-table.vue';
-import AppButton from '@/components/ui-framework/app-button.vue';
 import Modal from '@/components/modal.vue';
-import { ITableFilter } from '@/types/interfaces/TableFilters.interface';
+import AppButton from '@/components/ui-framework/app-button.vue';
+import { ROLES } from '@/constants';
+import BaseTabsLayout from '@/layouts/base-tabs-layout.vue';
+import { InvoicesRequests } from '@/services/requests';
 import {
   IGetInvoicesApiResponse,
   IInvoicesFilter,
   IInvoicesOptions,
   IInvoicesRecord,
 } from '@/services/requests/invoices/Invoices.types';
-import { InvoicesRequests } from '@/services/requests';
-import { errorNotification } from '@/utils';
 import { UserInstance } from '@/services/UserService';
-import { ROLES } from '@/constants';
-import BaseTabsLayout from '@/layouts/base-tabs-layout.vue';
-import ConfirmModal from '@/components/confirm-modal.vue';
-import InvoicesTable from '../components/invoices-table.vue';
+import { ITableFilter } from '@/types/interfaces/TableFilters.interface';
+import { errorNotification } from '@/utils';
+
+import CreateInvoiceForm from '../components/create-invoice-form.vue';
 import InvoiceDetailsForm from '../components/invoice-details-form.vue';
+import InvoicesTable from '../components/invoices-table.vue';
 import PayInvoiceForm from '../components/pay-invoice-form.vue';
 import { invoicesFilters } from '../filters/filters';
-import CreateInvoiceForm from '../components/create-invoice-form.vue';
 import { INVOICES_CHILDREN } from '../routes/index';
 
 @Component({

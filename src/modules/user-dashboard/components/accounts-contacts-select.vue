@@ -46,14 +46,15 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
-import AppSelect from '@/components/ui-framework/app-select/app-select.vue';
-import { IPlainObject } from '@/types/interfaces';
+
 import AppInput from '@/components/ui-framework/app-input.vue';
+import AppSelect from '@/components/ui-framework/app-select/app-select.vue';
+import AppSelectCustomOption from '@/components/ui-framework/app-select/app-select-custom-option.vue';
 import AppSelectGroup from '@/components/ui-framework/app-select/app-select-group.vue';
 import AppOptionItem from '@/components/ui-kit/app-custom-select/app-custom-select-option.vue';
 import { ICoin } from '@/services/requests/organizations/Coin.types';
-import AppSelectCustomOption from '@/components/ui-framework/app-select/app-select-custom-option.vue';
 import { UserCoins } from '@/store/modules';
+import { IPlainObject } from '@/types/interfaces';
 
 @Component({
   components: {

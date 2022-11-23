@@ -33,7 +33,7 @@ export default class AppListLink extends Vue {
 
 <style lang="scss">
 .app-list-link {
-  box-shadow: 0 2px 12px rgba(161, 182, 198, 0.2);
+  box-shadow: 0 2px 12px rgb(161 182 198 / 20%);
 
   @apply rounded-lg bg-white px-24 py-20 flex items-center mb-16;
 

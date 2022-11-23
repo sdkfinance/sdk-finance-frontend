@@ -15,12 +15,12 @@
 
 <script lang="ts">
 
-import { Component, Vue } from 'vue-property-decorator';
 import { ChartData } from 'chart.js';
-import { IPlainObject } from '@/types/interfaces';
+import { Component, Vue } from 'vue-property-decorator';
 
-import AppChartDonut from '@/components/ui-kit/app-charts/app-chart-donut.vue';
 import AppChartData from '@/components/ui-kit/app-charts/app-chart-data.vue';
+import AppChartDonut from '@/components/ui-kit/app-charts/app-chart-donut.vue';
+import { IPlainObject } from '@/types/interfaces';
 
 const chartData = {
   labels: ['Contract 1', 'Contract 2', 'Contract 3'],

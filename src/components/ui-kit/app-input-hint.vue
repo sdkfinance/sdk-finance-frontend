@@ -33,7 +33,7 @@ export default class AppInputHint extends Vue {}
     @apply flex items-center whitespace-nowrap ml-10 relative;
 
     &::before {
-      content: '';
+      content: "";
       left: -9px;
 
       @apply rounded-full bg-blue-accent w-4 h-4 mr-4 absolute;

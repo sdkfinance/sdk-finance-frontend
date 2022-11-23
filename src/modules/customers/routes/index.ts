@@ -1,12 +1,13 @@
 import { AsyncComponent } from 'vue';
+
 import { ROLES } from '@/constants';
-import { IRouteConfig } from '@/types/interfaces';
+import BasePageLayout from '@/layouts/base-page-layout.vue';
 import { ALL_CUSTOMERS_ROUTES } from '@/modules/customers/routes/all-customers';
-import { PENDING_USERS_ROUTES } from '@/modules/customers/routes/pending-users';
 import { BLOCK_LIST_ROUTES } from '@/modules/customers/routes/block-list';
 import { COHORT_ANALYTICS_ROUTES } from '@/modules/customers/routes/cohort-analytics';
 import { CUSTOMER_ACQUISITION_ROUTES } from '@/modules/customers/routes/customer-acquisition';
-import BasePageLayout from '@/layouts/base-page-layout.vue';
+import { PENDING_USERS_ROUTES } from '@/modules/customers/routes/pending-users';
+import { IRouteConfig } from '@/types/interfaces';
 
 const CustomerPageLayout: AsyncComponent = () => import(
   /* webpackChunkName: 'customer-page-layout' */ '@/modules/customers/pages/customer-details/index.vue'

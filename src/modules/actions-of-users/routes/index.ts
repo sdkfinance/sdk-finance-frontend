@@ -1,6 +1,7 @@
 import { AsyncComponent } from 'vue';
-import { IRouteConfig } from '@/types/interfaces';
+
 import { ROLES } from '@/constants';
+import { IRouteConfig } from '@/types/interfaces';
 
 const ActionsOfUsers: AsyncComponent = () => import(/* webpackChunkName: 'actions-of-users' */
   '@/modules/actions-of-users/pages/actions-of-users.vue'

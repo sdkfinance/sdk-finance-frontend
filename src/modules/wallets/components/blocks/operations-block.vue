@@ -20,12 +20,13 @@
 import {
   Component, Prop, Vue,
 } from 'vue-property-decorator';
-import TransfersTable from '@/modules/wallets/components/transfers-table.vue';
+
 import NoDataPlaceholder from '@/components/no-data-placeholder.vue';
+import TransfersTable from '@/modules/wallets/components/transfers-table.vue';
 import { TransactionsRequests } from '@/services/requests';
-import { errorNotification } from '@/utils';
-import { ITransactionsRecord, ITransactionsOptions } from '@/services/requests/transactions/Transactions.types';
 import { IWalletRecord } from '@/services/requests/coins/Wallets.types';
+import { ITransactionsOptions, ITransactionsRecord } from '@/services/requests/transactions/Transactions.types';
+import { errorNotification } from '@/utils';
 
 @Component({
   components: {

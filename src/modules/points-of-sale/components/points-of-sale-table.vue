@@ -33,11 +33,12 @@
 import {
   Component, Prop, Vue,
 } from 'vue-property-decorator';
-import AppTable from '@/components/ui-framework/app-table.vue';
+
 import AppButton from '@/components/ui-framework/app-button.vue';
-import { ITableColumn } from '@/types/interfaces';
+import AppTable from '@/components/ui-framework/app-table.vue';
 import config from '@/config';
 import { IPointOfSaleRecord } from '@/services/requests/points-of-sale/PointsOfSale.types';
+import { ITableColumn } from '@/types/interfaces';
 
 @Component({
   components: {

@@ -46,23 +46,24 @@
 import {
   Component, Ref, Vue,
 } from 'vue-property-decorator';
+
+import ConfirmModal from '@/components/confirm-modal.vue';
 import AppDataTable from '@/components/data-table/app-data-table.vue';
-import AppButton from '@/components/ui-framework/app-button.vue';
 import Modal from '@/components/modal.vue';
+import AppButton from '@/components/ui-framework/app-button.vue';
 import BaseTabsLayout from '@/layouts/base-tabs-layout.vue';
+import ContactForm from '@/modules/contacts/components/contact-form.vue';
+import ContactsTable from '@/modules/contacts/components/contacts-table.vue';
+import { contactsFilters } from '@/modules/contacts/filters/filters';
 import { CONTACTS_CHILDREN } from '@/modules/contacts/routes';
-import { ContactsRequests } from '@/services/requests/contact-book/ContactsRequests';
-import { errorNotification, successNotification } from '@/utils';
 import {
   IContactRecord,
   IGetContactsOptions,
   IGetContactsPaginateResponse,
 } from '@/services/requests/contact-book/Contacts.types';
-import { contactsFilters } from '@/modules/contacts/filters/filters';
+import { ContactsRequests } from '@/services/requests/contact-book/ContactsRequests';
 import { ITableFilter } from '@/types/interfaces/TableFilters.interface';
-import ContactsTable from '@/modules/contacts/components/contacts-table.vue';
-import ContactForm from '@/modules/contacts/components/contact-form.vue';
-import ConfirmModal from '@/components/confirm-modal.vue';
+import { errorNotification, successNotification } from '@/utils';
 
 @Component({
   components: {
@@ -97,14 +98,14 @@ export default class ContactsList extends Vue {
 
   protected async fetchData(options: IGetContactsOptions): Promise<IGetContactsPaginateResponse> {
     this.isLoading = true;
-    const { response, error } = await ContactsRequests.getRecords(options);
+    const request = await ContactsRequests.getRecords(options);
     this.isLoading = false;
 
-    if (error) {
-      errorNotification(error);
+    if (request.error) {
+      errorNotification(request.error);
     }
 
-    return { response, error };
+    return request;
 
   }
 

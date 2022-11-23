@@ -1,15 +1,14 @@
 import api from '@/services/api';
-
 import {
-  IGetInvoicesApiResponse,
-  IInvoiceCalculateCommissionOptions,
+  IGetCalcSpecInvoiceCommission,
+  IGetCreatedInvoiceResponse,
   IGetInvoiceCommission,
+  IGetInvoicesApiResponse,
+  IGetPayForInvoiceResponse,
+  IInvoiceCalculateCommissionOptions,
+  IInvoiceCoin,
   IInvoiceCreateOptions,
   IInvoicesOptions,
-  IGetCreatedInvoiceResponse,
-  IInvoiceCoin,
-  IGetCalcSpecInvoiceCommission,
-  IGetPayForInvoiceResponse,
 } from '@/services/requests/invoices/Invoices.types';
 import { IPlainObject } from '@/types/interfaces';
 

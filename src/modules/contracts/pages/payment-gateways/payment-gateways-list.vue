@@ -9,9 +9,10 @@
 <script lang="ts">
 
 import { Component, Vue } from 'vue-property-decorator';
-import { IPlainObject } from '@/types/interfaces';
+
 import PaymentGatewaysListTable
   from '@/modules/contracts/pages/payment-gateways/components/payment-gateways-list-table.vue';
+import { IPlainObject } from '@/types/interfaces';
 
 @Component({
   components: {

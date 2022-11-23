@@ -1,17 +1,18 @@
 import Vue from 'vue';
 import VueRouter, { Route, RouteConfig } from 'vue-router';
+
+import { ROLES } from '@/constants';
+import { DASHBOARDS_POWER_BI } from '@/modules/dashboards-power-bi/routes';
+import { ENTRANCE } from '@/modules/entrance/routes/entrance';
+import { MAINTENANCE } from '@/modules/maintenance/routes';
+import { PAYMENT_OPERATIONS } from '@/modules/payments/routes';
+import { USER_DASHBOARD } from '@/modules/user-dashboard/routes';
 import middlewarePipeline from '@/router/middlewarePipeline';
 import { defaultGuard } from '@/router/middlewares/defaultGuard';
 import { permissionGuard } from '@/router/middlewares/permissionGuard';
-
 import store from '@/store';
-import { ENTRANCE } from '@/modules/entrance/routes/entrance';
-import { MAINTENANCE } from '@/modules/maintenance/routes';
-import { DASHBOARDS_POWER_BI } from '@/modules/dashboards-power-bi/routes';
-import { USER_DASHBOARD } from '@/modules/user-dashboard/routes';
-import { PAYMENT_OPERATIONS } from '@/modules/payments/routes';
-import { ROLES } from '@/constants';
 import { IPlainObject } from '@/types/interfaces';
+
 import { DASHBOARD } from './dashboard';
 
 export const DASHBOARD_NAMES: IPlainObject = {

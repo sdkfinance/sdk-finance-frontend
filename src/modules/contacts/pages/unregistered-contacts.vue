@@ -13,9 +13,10 @@
 import {
   Component, Vue,
 } from 'vue-property-decorator';
+
 import BaseTabsLayout from '@/layouts/base-tabs-layout.vue';
-import { CONTACTS_CHILDREN } from '@/modules/contacts/routes';
 import ContactsTable from '@/modules/contacts/components/contacts-table.vue';
+import { CONTACTS_CHILDREN } from '@/modules/contacts/routes';
 import {
   IContactRecord,
 } from '@/services/requests/contact-book/Contacts.types';

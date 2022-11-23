@@ -25,10 +25,11 @@
 
 <script lang="ts">
 import {
-  Component, Prop, Emit, Vue,
+  Component, Emit, Prop, Vue,
 } from 'vue-property-decorator';
-import TemplateTransferCard from '@/modules/wallets/components/cards/template-transfer-card.vue';
+
 import AppButton from '@/components/ui-framework/app-button.vue';
+import TemplateTransferCard from '@/modules/wallets/components/cards/template-transfer-card.vue';
 import { ITransactionsRecord } from '@/services/requests/transactions/Transactions.types';
 
 @Component({

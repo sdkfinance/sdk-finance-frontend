@@ -29,20 +29,21 @@
 
 <script lang="ts">
 import { Component, Ref, Vue } from 'vue-property-decorator';
+
 import AppDataTable from '@/components/data-table/app-data-table.vue';
 import MainHead from '@/components/main-head.vue';
 import Modal from '@/components/modal.vue';
-import { BankAccountsRequests } from '@/services/requests/bank-accounts/BankAccountsRequests';
-import { errorNotification, successNotification } from '@/utils';
-import { ITableFilter } from '@/types/interfaces/TableFilters.interface';
+import BankAccountsForm from '@/modules/bank-accounts/components/bank-accounts-form.vue';
+import BankAccountsTable from '@/modules/bank-accounts/components/bank-accounts-table.vue';
+import { bankAccountFilters } from '@/modules/bank-accounts/filters/filters';
 import {
   IBankAccountRecord,
-  IViewBankAccountsPayload,
   IBankAccountsApiResponse,
+  IViewBankAccountsPayload,
 } from '@/services/requests/bank-accounts/BankAccounts.types';
-import { bankAccountFilters } from '@/modules/bank-accounts/filters/filters';
-import BankAccountsTable from '@/modules/bank-accounts/components/bank-accounts-table.vue';
-import BankAccountsForm from '@/modules/bank-accounts/components/bank-accounts-form.vue';
+import { BankAccountsRequests } from '@/services/requests/bank-accounts/BankAccountsRequests';
+import { ITableFilter } from '@/types/interfaces/TableFilters.interface';
+import { errorNotification, successNotification } from '@/utils';
 
 @Component({
   components: {

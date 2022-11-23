@@ -1,5 +1,4 @@
 import api from '@/services/api';
-import { IApiResponse } from '@/types/interfaces';
 import {
   IGetTransferTemplateApiResponse,
   ITransferTemplateBody,
@@ -10,6 +9,7 @@ import {
   ITransferTemplateSingleResponse,
 } from '@/services/requests/templates/Templates.types';
 import { ITransferCalculateResponse } from '@/services/requests/transfers/Transfers.types';
+import { IApiResponse } from '@/types/interfaces';
 
 export const TemplatesRequests = {
 

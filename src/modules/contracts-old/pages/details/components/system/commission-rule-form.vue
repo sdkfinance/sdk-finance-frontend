@@ -69,22 +69,23 @@
 
 <script lang="ts">
 import {
-  Component, Prop, Emit, Ref, Vue,
+  Component, Emit, Prop, Ref, Vue,
 } from 'vue-property-decorator';
+
+import AppButton from '@/components/ui-framework/app-button.vue';
+import AppDatePicker from '@/components/ui-framework/app-date-picker.vue';
 import AppForm from '@/components/ui-framework/app-form.vue';
 import AppFormItem from '@/components/ui-framework/app-form-item.vue';
-import AppSelect from '@/components/ui-framework/app-select/app-select.vue';
-import AppButton from '@/components/ui-framework/app-button.vue';
-import { OnChangeRequiredValidationRule } from '@/rules/validation';
-import { IPlainObject } from '@/types/interfaces';
-import { COMMISSION_DIRECTION_ARRAY } from '@/constants';
-import { ICommissionRule, ICommissionRulePayload } from '@/services/requests/contracts/Commissions.types';
-import { ContractsRequests } from '@/services/requests';
-import { errorNotification, successNotification } from '@/utils';
-import { IIssuer } from '@/services/requests/issuers/Issuers.types';
-import { IOperationFlowRecord } from '@/services/requests/catalogs/Catalogs.types';
 import AppInput from '@/components/ui-framework/app-input.vue';
-import AppDatePicker from '@/components/ui-framework/app-date-picker.vue';
+import AppSelect from '@/components/ui-framework/app-select/app-select.vue';
+import { COMMISSION_DIRECTION_ARRAY } from '@/constants';
+import { OnChangeRequiredValidationRule } from '@/rules/validation';
+import { ContractsRequests } from '@/services/requests';
+import { IOperationFlowRecord } from '@/services/requests/catalogs/Catalogs.types';
+import { ICommissionRule, ICommissionRulePayload } from '@/services/requests/contracts/Commissions.types';
+import { IIssuer } from '@/services/requests/issuers/Issuers.types';
+import { IPlainObject } from '@/types/interfaces';
+import { errorNotification, successNotification } from '@/utils';
 
 @Component({
   components: {

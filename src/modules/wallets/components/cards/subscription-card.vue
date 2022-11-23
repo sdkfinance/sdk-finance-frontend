@@ -36,9 +36,10 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
 import dayjs from 'dayjs';
 import { LocaleMessage } from 'vue-i18n';
+import { Component, Prop, Vue } from 'vue-property-decorator';
+
 import TemplateTransferCard from '@/modules/wallets/components/cards/template-transfer-card.vue';
 import {
   ISubscriptionRecord,

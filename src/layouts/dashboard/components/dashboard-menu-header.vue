@@ -32,6 +32,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
+
 import DashboardNavItem from '@/layouts/dashboard/components/dashboard-nav-item.vue';
 import { Profile, UserData } from '@/store/modules';
 

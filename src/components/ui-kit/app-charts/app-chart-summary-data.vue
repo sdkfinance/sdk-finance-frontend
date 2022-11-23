@@ -22,6 +22,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+
 import { ISummaryChartData } from '@/components/ui-kit/app-charts/types/charts.types';
 
 @Component

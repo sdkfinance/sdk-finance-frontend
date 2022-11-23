@@ -14,6 +14,7 @@ module.exports = {
     'plugin:vue/strongly-recommended',
     '@vue/typescript',
     'plugin:storybook/recommended',
+    'plugin:storybook/recommended',
   ],
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
@@ -69,10 +70,11 @@ module.exports = {
     '@typescript-eslint/member-delimiter-style': ['error'],
     'template-curly-spacing': ['error', 'never'],
     'no-use-before-define': 'off',
-    '@typescript-eslint/no-use-before-define': ['error'], // 'object-curly-newline': ['error', {
-    //   ImportDeclaration: { multiline: true },
-    // }],
-    // 'vue/v-on-function-call': ['error', 'never'],
+    '@typescript-eslint/no-use-before-define': ['error'],
+    'vue/valid-v-slot': ['error', {
+      allowModifiers: true,
+    }],
+    'simple-import-sort/imports': 'error',
 
   },
   parserOptions: {
@@ -82,11 +84,11 @@ module.exports = {
       legacyDecorators: true,
     },
   },
-  plugins: ['vue', 'json-format'],
+  plugins: ['vue', 'json-format', 'simple-import-sort'],
   settings: {
     'import/resolver': {
       node: {
-        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+        extensions: ['.js', '.jsx', '.ts', '.tsx', '.d.ts'],
         moduleDirectory: ['node_modules', 'src/'],
       },
       alias: {

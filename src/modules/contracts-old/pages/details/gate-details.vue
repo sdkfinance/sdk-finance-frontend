@@ -75,12 +75,12 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import DetailsLayout from '@/modules/contracts-old/pages/details/layouts/details-layout.vue';
-import AppButton from '@/components/ui-framework/app-button.vue';
+
 import AppDataTable from '@/components/data-table/app-data-table.vue';
 import Modal from '@/components/modal.vue';
+import AppButton from '@/components/ui-framework/app-button.vue';
+import DetailsLayout from '@/modules/contracts-old/pages/details/layouts/details-layout.vue';
 import { ContractsRequests } from '@/services/requests';
-import { errorNotification, successNotification } from '@/utils';
 import {
   ICommissionBody,
   ICommissionSettingRecord,
@@ -88,10 +88,12 @@ import {
   ILimitsRecord,
 } from '@/services/requests/contracts/Commissions.types';
 import { CatalogModule } from '@/store/modules/dynamic';
-import CommissionTable from './components/gate/commission-table.vue';
+import { errorNotification, successNotification } from '@/utils';
+
 import CommissionForm from './components/gate/commission-form.vue';
-import LimitsForm from './components/limits-form.vue';
+import CommissionTable from './components/gate/commission-table.vue';
 import LimitsTable from './components/gate/limits-table.vue';
+import LimitsForm from './components/limits-form.vue';
 
 @Component({
   components: {

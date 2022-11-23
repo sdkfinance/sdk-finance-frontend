@@ -44,13 +44,14 @@
 
 <script lang="ts">
 import {
-  Component, Prop, Emit, Vue,
+  Component, Emit, Prop, Vue,
 } from 'vue-property-decorator';
-import AppTable from '@/components/ui-framework/app-table.vue';
+
 import AppButton from '@/components/ui-framework/app-button.vue';
-import { ITableColumn } from '@/types/interfaces';
-import { IUserRecord } from '@/services/requests/users/Users.types';
+import AppTable from '@/components/ui-framework/app-table.vue';
 import config from '@/config';
+import { IUserRecord } from '@/services/requests/users/Users.types';
+import { ITableColumn } from '@/types/interfaces';
 
 @Component({
   components: {

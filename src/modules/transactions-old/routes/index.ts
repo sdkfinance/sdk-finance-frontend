@@ -1,6 +1,7 @@
 import { AsyncComponent } from 'vue';
-import { IRouteConfig } from '@/types/interfaces';
+
 import { ROLES } from '@/constants';
+import { IRouteConfig } from '@/types/interfaces';
 
 const TransactionsOld: AsyncComponent = () => import(/* webpackChunkName: 'transactions-old' */ '@/modules/transactions-old/pages/transactions.vue');
 

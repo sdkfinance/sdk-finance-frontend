@@ -15,10 +15,10 @@
 </template>
 
 <script lang="ts">
+import { Tag } from 'element-ui';
 import {
   Component, Emit, Prop, Vue,
 } from 'vue-property-decorator';
-import { Tag } from 'element-ui';
 
 @Component({
   components: {

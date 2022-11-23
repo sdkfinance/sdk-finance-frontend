@@ -43,15 +43,16 @@
 import {
   Component, Emit, Prop, Vue,
 } from 'vue-property-decorator';
+
 import AppTable from '@/components/ui-framework/app-table.vue';
-import { IPlainObject, ITableColumn } from '@/types/interfaces';
-import AppTableInfo from '@/components/ui-kit/app-table/app-table-info.vue';
 import AppTableAmount from '@/components/ui-kit/app-table/app-table-amount.vue';
+import AppTableInfo from '@/components/ui-kit/app-table/app-table-info.vue';
 import {
+  addSeparator,
   getSeparatorColumnClass,
   getSeparatorSpan,
-  addSeparator,
 } from '@/modules/user-dashboard/utils/tableUtils';
+import { IPlainObject, ITableColumn } from '@/types/interfaces';
 
 @Component({
   components: {

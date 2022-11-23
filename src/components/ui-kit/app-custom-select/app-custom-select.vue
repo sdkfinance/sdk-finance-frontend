@@ -66,11 +66,13 @@
 
 <script lang="ts">
 import {
-  Vue, Component, Prop, Emit, Watch, Ref,
+  Component, Emit, Prop, Ref,
+  Vue, Watch,
 } from 'vue-property-decorator';
+
 import AppInput from '@/components/ui-framework/app-input.vue';
-import { IPaginationResponse, IPlainObject } from '@/types/interfaces';
 import { categoryColors, getDynamicColor } from '@/components/ui-kit/colors';
+import { IPaginationResponse, IPlainObject } from '@/types/interfaces';
 import { errorNotification } from '@/utils';
 
 const DEFAULT_DROPDOWN_HEIGHT = 100;

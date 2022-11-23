@@ -22,20 +22,21 @@
 
 <script lang="ts">
 import { Component, Ref, Vue } from 'vue-property-decorator';
-import AppTable from '@/components/ui-framework/app-table.vue';
-import AppButton from '@/components/ui-framework/app-button.vue';
-import MainHead from '@/components/main-head.vue';
-import { ProfileRequests, UsersRequests } from '@/services/requests';
-import { errorNotification, successNotification } from '@/utils';
-import {
-  IUserRecord,
-  IGetUsersOptions,
-  IGetUsersApiResponse,
-} from '@/services/requests/users/Users.types';
+
 import AppDataTable from '@/components/data-table/app-data-table.vue';
+import MainHead from '@/components/main-head.vue';
+import AppButton from '@/components/ui-framework/app-button.vue';
+import AppTable from '@/components/ui-framework/app-table.vue';
 import IdentificationTable from '@/modules/identification/components/identification-table.vue';
-import { ITableFilter } from '@/types/interfaces/TableFilters.interface';
 import { identificationFilters } from '@/modules/identification/filters/filters';
+import { ProfileRequests, UsersRequests } from '@/services/requests';
+import {
+  IGetUsersApiResponse,
+  IGetUsersOptions,
+  IUserRecord,
+} from '@/services/requests/users/Users.types';
+import { ITableFilter } from '@/types/interfaces/TableFilters.interface';
+import { errorNotification, successNotification } from '@/utils';
 
 @Component({
   components: {
@@ -58,14 +59,14 @@ export default class Identification extends Vue {
 
   protected async fetchData(options: IGetUsersOptions): Promise<IGetUsersApiResponse> {
     this.isLoading = true;
-    const { response, error } = await UsersRequests.getUsers(options);
+    const request = await UsersRequests.getUsers(options);
     this.isLoading = false;
 
-    if (error) {
-      errorNotification(error);
+    if (request.error) {
+      errorNotification(request.error);
     }
 
-    return { response, error };
+    return request;
   }
 
   protected async onDecline(id: string): Promise<void> {

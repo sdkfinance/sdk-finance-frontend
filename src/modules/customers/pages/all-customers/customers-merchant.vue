@@ -7,6 +7,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+
 import CustomersTable from '@/modules/customers/components/customers-table.vue';
 import { IPlainObject } from '@/types/interfaces';
 

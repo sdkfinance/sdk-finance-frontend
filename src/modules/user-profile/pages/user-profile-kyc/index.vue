@@ -152,21 +152,22 @@
 </template>
 
 <script lang="ts">
+import { LocaleMessage } from 'vue-i18n';
 import { Component, Ref, Vue } from 'vue-property-decorator';
-import { ProfileDocumentsRequests, ProfileRequests } from '@/services/requests';
-import { IUserInfoResponse } from '@/services/requests/profiles/UserProfile.types';
-import { errorNotification, successNotification } from '@/utils';
+import { getModule } from 'vuex-module-decorators';
+
+import ConfirmModal from '@/components/confirm-modal.vue';
 import LoaderStub from '@/components/loader-stub.vue';
 import AppButton from '@/components/ui-framework/app-button.vue';
-import KycStatusInfo from '@/modules/user-profile/pages/user-profile-kyc/components/kyc-status-info.vue';
-import AppBadge from '@/components/ui-kit/app-badge.vue';
-import { getModule } from 'vuex-module-decorators';
-import { UserProfile } from '@/store/modules';
-import { IUserProfileDocument } from '@/services/requests/profiles/ProfileDocuments.types';
-import ConfirmModal from '@/components/confirm-modal.vue';
-import { LocaleMessage } from 'vue-i18n';
-import { copyToClipboard } from '@/utils/copyToClipboard';
 import AppImage from '@/components/ui-framework/app-image.vue';
+import AppBadge from '@/components/ui-kit/app-badge.vue';
+import KycStatusInfo from '@/modules/user-profile/pages/user-profile-kyc/components/kyc-status-info.vue';
+import { ProfileDocumentsRequests, ProfileRequests } from '@/services/requests';
+import { IUserProfileDocument } from '@/services/requests/profiles/ProfileDocuments.types';
+import { IUserInfoResponse } from '@/services/requests/profiles/UserProfile.types';
+import { UserProfile } from '@/store/modules';
+import { errorNotification, successNotification } from '@/utils';
+import { copyToClipboard } from '@/utils/copyToClipboard';
 
 const FILE_TYPES = {
   passport: 'passport',

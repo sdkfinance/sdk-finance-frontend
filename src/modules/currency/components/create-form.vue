@@ -54,14 +54,15 @@
 import {
   Component, Emit, Ref, Vue,
 } from 'vue-property-decorator';
+
+import AppButton from '@/components/ui-framework/app-button.vue';
 import AppForm from '@/components/ui-framework/app-form.vue';
 import AppFormItem from '@/components/ui-framework/app-form-item.vue';
 import AppInput from '@/components/ui-framework/app-input.vue';
-import AppButton from '@/components/ui-framework/app-button.vue';
 import { SimpleRequiredValidationRule } from '@/rules/validation';
 import { CurrencyRequests } from '@/services/requests';
-import { successNotification, errorNotification } from '@/utils';
 import { ICurrency } from '@/services/requests/currencies/Currency.types';
+import { errorNotification, successNotification } from '@/utils';
 
 @Component({
   components: {

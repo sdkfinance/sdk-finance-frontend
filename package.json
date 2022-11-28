@@ -16,7 +16,7 @@
     "audit:fix": "npm audit fix",
     "storybook": "start-storybook",
     "build-storybook": "build-storybook",
-    "pre-commit": "lint-staged && npm audit fix"
+    "pre-commit": "lint-staged && npm audit"
   },
   "husky": {
     "hooks": {

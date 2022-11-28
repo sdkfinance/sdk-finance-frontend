@@ -30,7 +30,7 @@ export const TemplatesRequests = {
     return api.post(`/templates/transfer/operation/${businessProcessId}`, data);
   },
 
-  updateTemplateTransfer(id: string, data: ITransferTemplateBody): Promise<IApiResponse<ITransferTemplateSingleResponse>> {
+  updateTemplateTransfer(id: string, data: Partial<ITransferTemplateBody>): Promise<IApiResponse<ITransferTemplateSingleResponse>> {
     return api.patch(`/templates/transfer/${id}`, data);
   },
 

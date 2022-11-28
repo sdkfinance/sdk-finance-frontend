@@ -22,9 +22,9 @@
         label="form.label.template_name"/>
     </app-form-item>
     <app-form-item
-      prop="senderCoin">
+      prop="paymentTool.srcValue">
       <app-select
-        v-model="form.senderCoin"
+        v-model="form.paymentTool.srcValue"
         :options="coinsList"
         option-label="name"
         option-value="serial"
@@ -32,9 +32,9 @@
         full-width
         label="form.label.from_wallet"/>
     </app-form-item>
-    <app-form-item prop="recipientCoin">
+    <app-form-item prop="paymentTool.destValue">
       <app-input
-        v-model="form.recipientCoin"
+        v-model="form.paymentTool.destValue"
         placeholder="placeholder.input.input_wallet_serial"
         label="form.label.recipient_wallet"/>
     </app-form-item>
@@ -125,8 +125,10 @@ export default class TransferTemplateForm extends Vue {
 
   protected rules: IPlainObject = {
     name: SimpleRequiredValidationRule(),
-    recipientCoin: SimpleRequiredValidationRule(),
-    senderCoin: OnChangeRequiredValidationRule(),
+    paymentTool: {
+      destValue: SimpleRequiredValidationRule(),
+      srcValue: OnChangeRequiredValidationRule(),
+    },
     amount: SimpleNumberRangeValidationRule(),
   }
 
@@ -144,7 +146,9 @@ export default class TransferTemplateForm extends Vue {
   }
 
   protected update(form: ITransferTemplateBody) {
-    return TemplatesRequests.updateTemplateTransfer(this.id, form);
+    const { amount, description, name } = form;
+
+    return TemplatesRequests.updateTemplateTransfer(this.id, { amount, description, name });
   }
 
   protected async handleForm(): Promise<void> {

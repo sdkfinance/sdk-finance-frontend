@@ -89,7 +89,7 @@ export default class KycTable extends Vue {
   ];
 
   protected getStatus(data: IUserRecord): string {
-    return data?.members?.[0]?.organization?.identificationStatus || '';
+    return data?.members?.[0]?.organization?.organizationStatus || '';
   }
 
   protected getOrganizationId(record: IUserRecord) {

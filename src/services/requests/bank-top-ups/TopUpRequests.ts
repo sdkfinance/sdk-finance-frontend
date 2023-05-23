@@ -1,10 +1,15 @@
 import api from '@/services/api';
-import { ITopUpCalculatePayload, ITopUpFilters, ITopUpRecordsApiResponse } from '@/services/requests/bank-top-ups/TopUp.types';
+import {
+  ITopUpCalculatePayload,
+  ITopUpRecordsApiResponse,
+  ITopUpRequest,
+  ITopUpViaBankRequestPayload,
+} from '@/services/requests/bank-top-ups/TopUp.types';
 import { IApiResponse } from '@/types/interfaces';
 
 export const TopUpRequests = {
 
-  getRecords(options: ITopUpFilters): Promise<ITopUpRecordsApiResponse> {
+  getRecords(options: ITopUpRequest): Promise<ITopUpRecordsApiResponse> {
     return api.post('/bank-top-ups/view', options);
   },
 
@@ -16,12 +21,16 @@ export const TopUpRequests = {
     return api.post(`/bank-top-ups/${id}/decline`);
   },
 
-  calculateTopUp(data: ITopUpCalculatePayload): Promise<IApiResponse<any>> {
-    return api.post('/bank-top-ups/with-bank', data);
+  performTopUp(data: ITopUpCalculatePayload): Promise<IApiResponse<any>> {
+    return api.post('/bank-top-ups', data);
   },
 
   calculateTopUpCommission(data: ITopUpCalculatePayload): Promise<IApiResponse<any>> {
-    return api.post('bank-top-ups/calculate', data);
+    return api.post('/bank-top-ups/calculate', data);
+  },
+
+  createTopUpRequestViaBank(data: ITopUpViaBankRequestPayload): Promise<IApiResponse<any>> {
+    return api.post('/bank-top-ups/create-request', data);
   },
 
 };

@@ -9,7 +9,7 @@
         :data="tableData"
         :is-loading="isLoading"/>
     </app-data-table>
-    <slot v-bind="{ contractsList: tableData, isLoading, updateTable }"/>
+    <slot v-bind="{ contractsList, isLoading, updateTable }"/>
   </div>
 </template>
 
@@ -42,6 +42,8 @@ export default class ContractsPage extends Vue {
 
   protected tableData: IContractRecord[] = [];
 
+  protected contractsList: IContractRecord[] = [];
+
   protected filters = contractsFilters;
 
   protected isLoading: boolean = false;
@@ -66,8 +68,30 @@ export default class ContractsPage extends Vue {
     return { response, error };
   }
 
+  protected async fetchGlobalContracts(): Promise<void> {
+    const data = {
+      pageNumber: 0,
+      filter: {
+        ...this.defaultFilter,
+        global: true,
+      },
+    };
+    const { response, error } = await ContractsRequests.getRecords(data);
+
+    if (error) {
+      errorNotification(error);
+      return;
+    }
+
+    this.contractsList = response.records;
+  }
+
   public updateTable(): void {
     this.refDataTable.loadData();
+  }
+
+  created() {
+    this.fetchGlobalContracts();
   }
 
 }

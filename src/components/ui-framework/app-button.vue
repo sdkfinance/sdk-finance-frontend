@@ -226,7 +226,7 @@ export default class AppButton extends Vue {
   }
 
   &--full-width {
-    width: 100%;
+    width: 100% !important;
   }
 
   &.is-disabled:hover {

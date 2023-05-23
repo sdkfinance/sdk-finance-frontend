@@ -105,7 +105,7 @@ import { ICoin } from '@/services/requests/organizations/Coin.types';
 import { IPlainObject } from '@/types/interfaces';
 import { errorNotification, successNotification } from '@/utils';
 
-type TExecuteStep = 'validate' | 'calculate';
+type TExecuteStep = 'validate' | 'calculate' | 'process';
 
 @Component({
   components: {
@@ -141,7 +141,6 @@ export default class TopUpExecute extends Vue {
 
   protected formCalculate: ITopUpCalculatePayload = {
     coinSerial: null,
-    fullName: 'test',
     amount: null,
   };
 
@@ -194,7 +193,7 @@ export default class TopUpExecute extends Vue {
     if (!isValid) return;
 
     this.isLoading = true;
-    const { response, error } = await TopUpRequests.calculateTopUp({
+    const { response, error } = await TopUpRequests.calculateTopUpCommission({
       ...this.formCalculate,
       amount: Number(this.formCalculate.amount),
     });

@@ -14,7 +14,6 @@ module.exports = {
     'plugin:vue/strongly-recommended',
     '@vue/typescript',
     'plugin:storybook/recommended',
-    'plugin:storybook/recommended',
   ],
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'warn',

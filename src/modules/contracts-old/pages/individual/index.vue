@@ -11,7 +11,7 @@
       <template #default="{ contractsList, isLoading, updateTable }">
         <modal
           v-model="isModalShow"
-          title="'pages.contracts.modal.add_custom_contract_for_individuals'"
+          title="pages.contracts.modal.add_custom_contract_for_individuals"
           width="380px">
           <custom-contract-form
             :contracts-list="contractsList"

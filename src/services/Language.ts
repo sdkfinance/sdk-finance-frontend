@@ -28,11 +28,11 @@ export class LanguageService {
     }
   }
 
-  public static setLanguage(locale: string): void {
+  public static async setLanguage(locale: string): Promise<void> {
     LocalStorageService.set('language', locale);
     i18n.locale = locale;
     api.defaults.headers.common['Accept-Language'] = locale;
-    this.setServerVariables(locale);
+    await this.setServerVariables(locale);
   }
 
   public static getAllLanguages(): IOption[] {
@@ -41,9 +41,9 @@ export class LanguageService {
       .map((lang) => LANGUAGES[lang]);
   }
 
-  public static setUserStorageLanguage(): void {
+  public static async setUserStorageLanguage(): Promise<void> {
     const storageLanguage = LocalStorageService.get('language');
-    this.setLanguage(storageLanguage || LANGUAGE_CODES.en);
+    await this.setLanguage(storageLanguage || LANGUAGE_CODES.en);
   }
 
 }

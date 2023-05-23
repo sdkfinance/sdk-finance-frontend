@@ -73,11 +73,11 @@ export const USER_PROFILE_CHILDREN = [
     },
   },
   {
-    path: 'wallets',
+    path: 'accounts',
     name: 'user-profile-wallets',
     component: UserWallets,
     meta: {
-      translation: 'pages.user_profile.navigation.wallets',
+      translation: 'pages.user_profile.navigation.accounts',
       layout: {
         props: {
           backName: 'Users',
@@ -136,7 +136,7 @@ export const USER_PROFILE: IRouteConfig[] = [
     component: UserProfile,
     name: 'users-profile',
     meta: {
-      permission: [ROLES.administrator],
+      permission: [ROLES.administrator, ROLES.compliance_manager],
       root: false,
     },
     redirect: USER_PROFILE_CHILDREN[0],

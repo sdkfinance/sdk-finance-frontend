@@ -20,6 +20,10 @@ export class UserProfile extends VuexModule {
     return this.userProfileData?.role?.[0]?.code || '';
   }
 
+  public get type(): string {
+    return this.userProfileData?.type || '';
+  }
+
   @Mutation
   public SET_USER_PROFILE(profile: IUserProfile): void {
     this.userProfileData = profile;

@@ -77,8 +77,9 @@ export default class TransfersTable extends Vue {
     }
 
     const {
-      type, amount, invoiceAmount, cashAmount,
-    } = data;
+      type, invoiceAmount, cashAmount, operationAmountDetails,
+    } = data || {};
+    let { amount } = data;
     let { serial } = data.from || {};
     let fromCurrency = data.from?.issuer?.currency || '';
 
@@ -92,7 +93,14 @@ export default class TransfersTable extends Vue {
     }
 
     const isUserWallet = this.coinsData.find(({ serial: coinSerial }) => coinSerial === serial);
+
     const directionSymbol = !isUserWallet && !['bank_redeem', 'gate_redeem'].includes(type) ? '+' : '-';
+
+    if (type === 'client_transaction_transfer') {
+      amount = !isUserWallet
+        ? operationAmountDetails!.recipientNetAmount
+        : operationAmountDetails!.senderGrossAmount;
+    }
 
     return {
       type,

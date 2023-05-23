@@ -1,6 +1,8 @@
 <template>
   <div>
-    <buttons-group v-if="formData.status !== 'processed'">
+    <buttons-group
+      v-if="formData.status !== 'processed'"
+      class="mb-10">
       <app-button
         size="small"
         full-width

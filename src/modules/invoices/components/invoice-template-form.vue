@@ -16,9 +16,9 @@
       </button>
     </app-form-item>
     <app-form-item
-      prop="templateName">
+      prop="name">
       <app-input
-        v-model="form.templateName"
+        v-model="form.name"
         label="form.label.template_name"
         placeholder="placeholder.input.template_name"
         clearable/>
@@ -26,7 +26,7 @@
 
     <app-form-item prop="name">
       <app-input
-        v-model="form.name"
+        v-model="form.invoiceName"
         label="form.label.invoice_name"
         placeholder="placeholder.input.invoice_name"
         clearable/>
@@ -60,7 +60,6 @@
         <app-date-picker
           v-model="form.expiresAt"
           full-width
-          prefix-icon="el-icon-none"
           placeholder="placeholder.select.select_date"/>
       </app-input>
     </app-form-item>
@@ -164,7 +163,6 @@ export default class InvoiceTemplateForm extends Vue {
   protected serverErrors: TServerError[] = [];
 
   protected form: IInvoiceTemplateUpdate = {
-    templateName: '',
     name: '',
     payerContact: '',
     recipientCoin: '',
@@ -173,11 +171,13 @@ export default class InvoiceTemplateForm extends Vue {
     count: null,
     productPrice: null,
     amount: null,
+    invoiceName: '',
     description: '',
   }
 
   protected rules: IPlainObject = {
     name: SimpleRequiredValidationRule(),
+    invoiceName: SimpleRequiredValidationRule(),
     payerContact: SimpleRequiredValidationRule(),
     productCode: SimpleRequiredValidationRule(),
     count: SimpleRequiredValidationRule(),
@@ -186,18 +186,20 @@ export default class InvoiceTemplateForm extends Vue {
     description: SimpleRequiredValidationRule(),
     recipientCoin: OnChangeRequiredValidationRule(),
     expiresAt: OnChangeRequiredValidationRule(),
-    templateName: SimpleRequiredValidationRule(),
   }
 
   @Watch('formData', { immediate: true })
   protected setForm(data: IInvoiceTemplatesRecord): void {
     const {
       id,
-      templateName,
+      invoiceName,
       name,
       data: {
-        productCode, count, productPrice, description,
-      },
+        productCode = '',
+        count = null,
+        productPrice = null,
+        description = '',
+      } = {},
       payerContact,
       recipientCoin,
       expiresAt,
@@ -205,7 +207,6 @@ export default class InvoiceTemplateForm extends Vue {
     } = data;
 
     this.form = {
-      templateName,
       name,
       payerContact,
       recipientCoin,
@@ -215,6 +216,7 @@ export default class InvoiceTemplateForm extends Vue {
       productPrice,
       amount,
       description,
+      invoiceName,
     };
 
     this.templateId = id;
@@ -259,7 +261,6 @@ export default class InvoiceTemplateForm extends Vue {
       description,
       recipientCoin,
       expiresAt,
-      templateName,
     } = this.form;
 
     const invoiceDraft = {
@@ -279,7 +280,7 @@ export default class InvoiceTemplateForm extends Vue {
     this.isLoading = true;
 
     const { error } = await InvoicesTemplatesRequests.updateRecord(this.templateId, {
-      name: templateName,
+      name,
       invoiceDraft,
     });
 

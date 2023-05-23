@@ -7,7 +7,8 @@ import {
   ICommissionRuleApiResponse,
   ICommissionRuleConditionPayload,
   ICommissionRulePayload, ICommissionRuleReq,
-  ICommissionSettingsApiResponse,
+  ICommissionSettingsApiResponse, IContractBody,
+  ICreateMultiCurrencySystemCommission,
   ICreateSystemCommission,
   ILimitBody,
   ILimitsApiResponse,
@@ -22,6 +23,7 @@ import {
   ISystemCommissionBodyUpdate,
   ISystemLimitBody,
 } from '@/services/requests/contracts/Contracts.types';
+import { IApiResponse, IPlainObject } from '@/types/interfaces';
 
 export const ContractsRequests = {
 
@@ -109,7 +111,7 @@ export const ContractsRequests = {
     return api.post(`/contracts/${contractId}/commission-profiles`, data);
   },
 
-  createCommissionMultiCurrency(contractId: string, data: ICreateSystemCommission): Promise<any> {
+  createCommissionMultiCurrency(contractId: string, data: ICreateMultiCurrencySystemCommission): Promise<any> {
     return api.post(`/contracts/${contractId}/commission-profiles/multi-currency`, data);
   },
 
@@ -127,6 +129,10 @@ export const ContractsRequests = {
 
   updateCommissionLimits(contractId: string, profileId: string, limitId: string, data: ILimitBodyUpdate): Promise<ILimitsApiResponse> {
     return api.patch(`/contracts/${contractId}/commission-profiles/${profileId}/limit-profiles/${limitId}`, data);
+  },
+
+  changeUserContract(data: IContractBody): Promise<IApiResponse<IPlainObject>> {
+    return api.patch('/contracts', data);
   },
 
 };

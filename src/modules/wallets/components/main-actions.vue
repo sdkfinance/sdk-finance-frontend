@@ -2,11 +2,11 @@
   <div class="wallet-main-actions">
     <action-button
       icon="icon-transfer-to"
-      title="pages.wallets.transfer_to_wallet"
+      title="pages.wallets.transfer_to_account"
       @click="$router.push({name: 'user-make-payment-operations', params})"/>
     <action-button
       icon="icon-transfer-from"
-      title="pages.wallets.top_up_wallet"
+      title="pages.wallets.top_up_account"
       @click="$router.push({name: 'user-top-up-operations', params})"/>
     <action-button
       icon="icon-exchange"
@@ -14,7 +14,7 @@
       @click="$router.push({name: 'user-exchange-operations', params})"/>
     <action-button
       icon="icon-plus-circle"
-      title="pages.wallets.add_new_wallet"
+      title="pages.wallets.add_new_account"
       @click="$emit('add-wallet')"/>
   </div>
 </template>

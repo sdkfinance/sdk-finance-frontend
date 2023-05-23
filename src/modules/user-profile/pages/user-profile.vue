@@ -9,6 +9,12 @@
       v-if="userFullInfo.createdAt"
       #actions>
       <app-button
+        v-if="isChangeContractAvailable"
+        size="mini"
+        @click="changeContract">
+        {{ $t('action.change_contract') }}
+      </app-button>
+      <app-button
         v-if="userFullInfo.banned"
         size="mini"
         @click="unbanUser">
@@ -37,10 +43,17 @@
     <tab-links
       :tabs="links"
       secondary/>
-    <router-view/>
+    <router-view ref="routerViewNode"/>
     <confirm-modal
       ref="confirmDeleteModal"
       title="placeholder.confirm_title"/>
+    <app-modal
+      ref="changeContractModal">
+      <template #default="{onSubmit}">
+        <change-contract-form
+          @submit="onSubmit"/>
+      </template>
+    </app-modal>
   </dashboard-content-layout>
 </template>
 
@@ -52,6 +65,7 @@ import ConfirmModal from '@/components/confirm-modal.vue';
 import MainHead from '@/components/main-head.vue';
 import AppButton from '@/components/ui-framework/app-button.vue';
 import TabLinks from '@/components/ui-kit/app-tab-links.vue';
+import AppModal from '@/components/ui-kit/modals/app-modal.vue';
 import DashboardContentLayout from '@/layouts/dashboard/dashboard-content-layout.vue';
 import { UsersRequests } from '@/services/requests';
 import { IUserInfoResponse } from '@/services/requests/profiles/UserProfile.types';
@@ -60,10 +74,17 @@ import { UserProfile } from '@/store/modules';
 import { IRouteConfig } from '@/types/interfaces';
 import { errorNotification, successNotification } from '@/utils';
 
+import ChangeContractForm from '../components/change-contract-form.vue';
 import { USER_PROFILE_CHILDREN } from '../routes/index';
+
+interface IRouterView {
+  updateData?: Function;
+}
 
 @Component({
   components: {
+    AppModal,
+    ChangeContractForm,
     ConfirmModal,
     AppButton,
     DashboardContentLayout,
@@ -74,6 +95,10 @@ import { USER_PROFILE_CHILDREN } from '../routes/index';
 export default class UserProfilePage extends Vue {
 
   @Ref('confirmDeleteModal') readonly confirmDeleteModal!: ConfirmModal;
+
+  @Ref('changeContractModal') readonly changeContractModal!: AppModal;
+
+  @Ref('routerViewNode') readonly routerViewNode!: IRouterView;
 
   readonly userId: string = this.$route.params.id;
 
@@ -87,6 +112,10 @@ export default class UserProfilePage extends Vue {
 
   protected get links(): IRouteConfig[] {
     return USER_PROFILE_CHILDREN;
+  }
+
+  protected get isChangeContractAvailable(): Boolean {
+    return this.userProfileModule.identificationStatus === 'approved';
   }
 
   protected async created(): Promise<void> {
@@ -158,6 +187,24 @@ export default class UserProfilePage extends Vue {
 
     successNotification();
     await this.fetchFullUserData();
+  }
+
+  protected async updateData(): Promise<void> {
+    if (this.routerViewNode.updateData) {
+      await this.routerViewNode.updateData();
+    }
+  }
+
+  protected async changeContract(): Promise<void> {
+    const isSubmitted = await this.changeContractModal.open();
+
+    if (!isSubmitted) {
+      return;
+    }
+
+    this.isLoading = true;
+    await this.updateData();
+    this.isLoading = false;
   }
 
 }

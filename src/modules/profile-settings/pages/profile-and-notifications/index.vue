@@ -43,9 +43,8 @@ import config from '@/config';
 import ProfileLoginForm from '@/modules/user-profile/pages/user-login-and-security/components/login-form.vue';
 import ProfileSecurityForm from '@/modules/user-profile/pages/user-login-and-security/components/security-form.vue';
 import ProfileForm from '@/modules/user-profile/pages/user-profile-and-business/components/profile-form.vue';
-import { IUserInfoResponse } from '@/services/requests/profiles/UserProfile.types';
 import { Profile } from '@/store/modules';
-import { IPlainObject } from '@/types/interfaces';
+import { IPlainObject, IProfile } from '@/types/interfaces';
 
 @Component({
   components: {
@@ -60,8 +59,6 @@ export default class ProfileAndNotification extends Vue {
 
   readonly emptyChar: string = config.emptyChar;
 
-  protected userInfo: Partial<IUserInfoResponse> = {};
-
   protected profileModule = getModule(Profile, this.$store);
 
   protected isLoading: boolean = false;
@@ -70,8 +67,8 @@ export default class ProfileAndNotification extends Vue {
     return this.profileModule.profile;
   }
 
-  protected updateUserInfo(data: IUserInfoResponse): void {
-    this.userInfo = data;
+  protected updateUserInfo(data: IProfile): void {
+    this.profileModule.SET_PROFILE(data);
   }
 
   protected get contractType(): LocaleMessages | string {

@@ -19,8 +19,8 @@
           v-model="form.templateName"
           :options="invoiceTemplates"
           full-width
-          option-label="templateName"
-          option-value="templateName"
+          option-label="name"
+          option-value="name"
           placeholder="placeholder.select.select_invoice_template"
           label="form.label.template"
           @change="chooseTemplate"/>
@@ -62,7 +62,6 @@
           <app-date-picker
             v-model="form.expiresAt"
             full-width
-            prefix-icon="el-icon-none"
             placeholder="placeholder.select.select_date"/>
         </app-input>
       </app-form-item>
@@ -163,7 +162,12 @@ import AppSelect from '@/components/ui-framework/app-select/app-select.vue';
 import AppSwitch from '@/components/ui-framework/app-switch.vue';
 import InvoicesCommissionBlock from '@/modules/invoices/components/invoices-commission-block.vue';
 import InvoicesCreatedBlock from '@/modules/invoices/components/invoices-created-block.vue';
-import { OnChangeRequiredValidationRule, SimpleRequiredValidationRule } from '@/rules/validation';
+import {
+  EmailOrPhoneValidationRule,
+  OnChangeRequiredValidationRule,
+  SimpleNumberValidationRule,
+  SimpleRequiredValidationRule,
+} from '@/rules/validation';
 import { InvoicesRequests, InvoicesTemplatesRequests, WalletsRequests } from '@/services/requests';
 import { IWalletRecord } from '@/services/requests/coins/Wallets.types';
 import { IInvoiceTemplatesRecord } from '@/services/requests/invoice-templates/InvoicesTemplates.types';
@@ -216,13 +220,16 @@ export default class CreateInvoiceForm extends Vue {
       templateName,
       name,
       data: {
-        productCode, count, productPrice, description,
-      },
+        productCode = '',
+        count = null,
+        productPrice = null,
+        description = '',
+      } = {},
       payerContact,
       recipientCoin,
       expiresAt,
       amount,
-    } = data;
+    } = data || {};
 
     this.form = {
       templateName,
@@ -281,11 +288,11 @@ export default class CreateInvoiceForm extends Vue {
 
   protected rules: IPlainObject = {
     name: SimpleRequiredValidationRule(),
-    payerContact: SimpleRequiredValidationRule(),
+    payerContact: EmailOrPhoneValidationRule(true, 'blur'),
     productCode: SimpleRequiredValidationRule(),
-    count: SimpleRequiredValidationRule(),
-    productPrice: SimpleRequiredValidationRule(),
-    amount: SimpleRequiredValidationRule(),
+    count: SimpleNumberValidationRule(),
+    productPrice: SimpleNumberValidationRule(),
+    amount: SimpleNumberValidationRule(),
     description: SimpleRequiredValidationRule(),
     recipientCoin: OnChangeRequiredValidationRule(),
     expiresAt: OnChangeRequiredValidationRule(),
@@ -308,7 +315,7 @@ export default class CreateInvoiceForm extends Vue {
   }
 
   protected chooseTemplate(templateName: string): void {
-    const chosenTemplate = this.invoiceTemplates.filter((template) => template.templateName === templateName)[0] || {};
+    const chosenTemplate = this.invoiceTemplates.filter((template) => template.name === templateName)[0] || {};
 
     const {
       name,
@@ -316,16 +323,15 @@ export default class CreateInvoiceForm extends Vue {
       recipientCoin,
       expiresAt,
       amount,
+      description = '',
       data: {
-        productCode,
-        count,
-        productPrice,
-        description,
-      },
-    } = chosenTemplate;
+        productCode = '',
+        count = null,
+        productPrice = null,
+      } = {},
+    } = chosenTemplate || {};
 
     this.form = {
-      templateName,
       name,
       payerContact,
       recipientCoin,
@@ -396,7 +402,7 @@ export default class CreateInvoiceForm extends Vue {
     const {
       name,
       payerContact,
-      productCode,
+      productCode = '',
       count,
       productPrice,
       amount,
@@ -404,7 +410,7 @@ export default class CreateInvoiceForm extends Vue {
       recipientCoin,
       expiresAt,
       createTemplateName,
-    } = this.form;
+    } = this.form || {};
 
     const options = {
       name,

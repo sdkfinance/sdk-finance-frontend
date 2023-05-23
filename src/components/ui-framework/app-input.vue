@@ -105,7 +105,7 @@ export default class AppInput extends Vue {
   protected elInput: IPlainObject = {};
 
   protected get inputModel(): TInputValue {
-    return this.value;
+    return Number.isNaN(this.value) ? '' : this.value;
   }
 
   protected get inputComponentName(): string {

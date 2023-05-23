@@ -68,6 +68,11 @@ export default class UserProfileAndBusiness extends Vue {
     this.fetchData();
   }
 
+  public async updateData(): Promise<void> {
+    this.isLoaded = false;
+    await this.fetchData();
+  }
+
   protected async fetchData(): Promise<void> {
     const { response, error } = await UserInfoRequests.getUserProfile(this.userId);
 

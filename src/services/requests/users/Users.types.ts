@@ -38,6 +38,7 @@ interface IUserOrganization {
   type: string;
   name: string;
   identificationStatus: string;
+  organizationStatus: string;
 }
 
 interface IUserContractInfo {

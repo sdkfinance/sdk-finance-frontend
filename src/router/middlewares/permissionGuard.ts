@@ -25,7 +25,7 @@ export const checkUserProfilePermission = (permission: TPermission): boolean => 
 export const checkPermission = (permission: TPermission): boolean => roleCheck(permission, UserInstance.role);
 
 export const permissionGuard: routeMiddleware = ({ to, next, abort }) => {
-  const { permission: rootPermission } = to?.matched?.[0]?.meta || {};
+  const { permission: rootPermission } = to?.matched.find((r) => r.meta?.permission)?.meta || {};
   const { permission, userProfilePermission } = to?.meta || {};
 
   if (checkPermission(permission || rootPermission) && checkUserProfilePermission(userProfilePermission)) {

@@ -97,6 +97,11 @@ export default class IssuersPage extends Vue {
   }
 
   protected async openCreateModal(): Promise<void> {
+    if (process.env.VUE_APP_CREATE_ISSUER_NOT_ALLOWED) {
+      errorNotification('notification.no_available_on_demo_mode');
+      return;
+    }
+
     this.isCreateIssuerModalVisible = true;
     if (this.currencyList.length) return;
     await this.fetchCurrency();

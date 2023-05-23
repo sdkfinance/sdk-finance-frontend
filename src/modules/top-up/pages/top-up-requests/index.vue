@@ -39,9 +39,9 @@ import TopUpRequestsTable from '@/modules/top-up/components/top-up-requests-tabl
 import { topUpFilters } from '@/modules/top-up/filters/filters';
 import { TopUpRequests } from '@/services/requests';
 import {
-  ITopUpFilters,
   ITopUpRecord,
   ITopUpRecordsApiResponse,
+  ITopUpRequest,
 } from '@/services/requests/bank-top-ups/TopUp.types';
 import { ITableFilter } from '@/types/interfaces/TableFilters.interface';
 import { errorNotification, successNotification } from '@/utils';
@@ -78,9 +78,14 @@ export default class TopUpRequestsView extends Vue {
     [CONFIRM_ENUM.decline]: TopUpRequests.declineTopUp,
   }
 
-  protected async fetchData(params: ITopUpFilters): Promise<ITopUpRecordsApiResponse> {
+  protected async fetchData(params: ITopUpRequest): Promise<ITopUpRecordsApiResponse> {
     this.isLoading = true;
-    const request = await TopUpRequests.getRecords(params);
+    const request = await TopUpRequests.getRecords({
+      ...params,
+      sort: {
+        createdAt: 'desc',
+      },
+    });
     this.isLoading = false;
 
     if (request.error) {

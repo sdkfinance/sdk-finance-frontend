@@ -74,6 +74,7 @@ import { ContractsRequests } from '@/services/requests';
 import { IOperationFlowRecord } from '@/services/requests/catalogs/Catalogs.types';
 import {
   ICommissionRecord,
+  ICreateMultiCurrencySystemCommission,
   ICreateSystemCommission,
 } from '@/services/requests/contracts/Commissions.types';
 import { IIssuer } from '@/services/requests/issuers/Issuers.types';
@@ -123,8 +124,9 @@ export default class CommissionForm extends Vue {
     return this.operationFlowList.find(({ id }) => id === this.form.operationFlowId)?.isMultiCurrency || false;
   }
 
-  protected form: ICreateSystemCommission = {
+  protected form: ICreateSystemCommission & ICreateMultiCurrencySystemCommission = {
     issuerId: '',
+    sourceIssuerId: '',
     operationFlowId: '',
     destinationIssuerId: '',
     srcParticipantSpecification: {
@@ -148,6 +150,21 @@ export default class CommissionForm extends Vue {
     return true;
   }
 
+  protected createCommissionMultiCurrency(contractId: string) {
+    const { issuerId, ...rest } = this.form;
+
+    const payload = { ...rest, sourceIssuerId: issuerId };
+    return ContractsRequests.createCommissionMultiCurrency(contractId, payload);
+  }
+
+  protected createCommission(contractId: string) {
+    const payload = { ...this.form } as ICreateSystemCommission & Partial<ICreateMultiCurrencySystemCommission>;
+    delete payload.destinationIssuerId;
+    delete payload.sourceIssuerId;
+
+    return ContractsRequests.createCommission(contractId, payload);
+  }
+
   protected async handleForm(): Promise<void> {
     const isValid = await this.appForm.validate();
 
@@ -155,13 +172,7 @@ export default class CommissionForm extends Vue {
 
     const { contractId } = this.$route.params;
 
-    const { issuerId: sourceIssuerId, ...rest } = this.form;
-
-    const payload = { sourceIssuerId, ...rest };
-
-    const { error } = this.isMultiCurrency
-      ? await ContractsRequests.createCommissionMultiCurrency(contractId, payload)
-      : await ContractsRequests.createCommission(contractId, this.form);
+    const { error } = this.isMultiCurrency ? await this.createCommissionMultiCurrency(contractId) : await this.createCommission(contractId);
 
     if (error) {
       errorNotification(error);

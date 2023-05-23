@@ -43,7 +43,7 @@ export default class GateSettingsPage extends Vue {
       return;
     }
 
-    this.tableData = response?.records || [];
+    this.tableData = response.records || [];
   }
 
   protected goToDetails({ id, name }: IPlainObject): void {

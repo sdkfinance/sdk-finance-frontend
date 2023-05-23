@@ -46,7 +46,7 @@ export default class InvoicesTemplatesTable extends Vue {
 
   readonly columns: ITableColumn[] = [
     {
-      prop: 'templateName',
+      prop: 'name',
       label: 'table.label.template_name',
     },
     {

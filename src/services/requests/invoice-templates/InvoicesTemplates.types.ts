@@ -7,6 +7,7 @@ export interface IInvoiceTemplatesRecord {
     name: string;
     amount: number;
     description?: string;
+    invoiceName?: string;
     reusable: boolean;
     regular: boolean;
     templateName: string;

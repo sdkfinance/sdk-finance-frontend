@@ -88,7 +88,7 @@ export default class AppDatePicker extends Vue {
   .el-date-editor {
     &.without-prefix {
       .el-input__inner {
-        padding-left: 14px;
+        padding-left: 10px;
       }
     }
 

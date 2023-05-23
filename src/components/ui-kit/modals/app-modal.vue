@@ -176,7 +176,7 @@ export default class AppModal extends Vue {
   }
 
   &__overlay {
-    @apply fixed inset-0 z-40 bg-blue-700 bg-opacity-85 overflow-hidden transition duration-200 ;
+    @apply fixed inset-0 z-100 bg-blue-700 bg-opacity-85 overflow-hidden transition duration-200;
   }
 
   &__body {

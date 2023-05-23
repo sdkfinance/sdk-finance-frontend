@@ -16,7 +16,7 @@
       prop="contractId">
       <app-select
         v-model="form.contractId"
-        :options="mappedContractList"
+        :options="contractsList"
         option-label="personType"
         option-value="id"
         placeholder="placeholder.select.select"
@@ -26,6 +26,7 @@
     <app-button
       type="primary"
       native-type="submit"
+      :disabled="isFromLoading"
       full-width>
       {{ $t('action.create') }}
     </app-button>
@@ -84,10 +85,6 @@ export default class CustomContractForm extends Vue {
 
   protected get isFromLoading() {
     return this.isLoading && this.isLoadingData;
-  }
-
-  protected get mappedContractList(): IPlainObject {
-    return this.contractsList.filter((item: { global: boolean }) => item.global);
   }
 
   @Emit('submit')

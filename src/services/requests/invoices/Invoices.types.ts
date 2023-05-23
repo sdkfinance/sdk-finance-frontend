@@ -70,10 +70,11 @@ export interface IInvoiceData {
   description: string | null;
   count: number | null;
   terms?: string;
+  invoiceName?: string;
 }
 
 export interface IInvoiceCreate extends IInvoiceData {
-  templateName: string;
+  templateName?: string;
   name: string;
   payerContact: string;
   recipientCoin: string;

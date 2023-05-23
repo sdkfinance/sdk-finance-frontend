@@ -83,6 +83,11 @@ export interface ICommissionBody {
   active: boolean;
 }
 
+export interface IContractBody {
+  organizationId: string;
+  contractId: string;
+}
+
 export interface ICommissionProfile {
   createdAt: string;
   id: string;
@@ -126,10 +131,8 @@ export interface ICommissionRecord {
 }
 
 export interface ICreateSystemCommission {
-  issuerId?: string;
+  issuerId: string;
   operationFlowId: string;
-  sourceIssuerId?: string;
-  destinationIssuerId?: string;
   srcParticipantSpecification: {
     type: TSpecification;
     value?: string | null;
@@ -138,6 +141,11 @@ export interface ICreateSystemCommission {
     type: TSpecification;
     value?: string | null;
   };
+}
+
+export interface ICreateMultiCurrencySystemCommission extends Omit<ICreateSystemCommission, 'issuerId'> {
+  destinationIssuerId: string;
+  sourceIssuerId: string;
 }
 
 export interface ISystemCommissionBody {

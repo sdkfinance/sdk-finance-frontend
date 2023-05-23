@@ -75,6 +75,11 @@ export default class CurrencyPage extends Vue {
   }
 
   protected openCreateCurrencyModal(): void {
+    if (process.env.VUE_APP_CREATE_CURRENCY_NOT_ALLOWED) {
+      errorNotification('notification.no_available_on_demo_mode');
+      return;
+    }
+
     this.isCreateCurrencyModalVisible = true;
   }
 

@@ -40,7 +40,6 @@
         <app-date-picker
           v-model="form.dateOfBirth"
           full-width
-          prefix-icon=" "
           format="dd.MM.yyyy"
           suffix-icon="icon-calendar"
           placeholder="form.label.date_of_birth"/>

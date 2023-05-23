@@ -1,4 +1,5 @@
-import { IApiResponse, IPaginationResponse } from '@/types/interfaces';
+import { IApiResponse, IPaginationRequestOptions, IPaginationResponse } from '@/types/interfaces';
+import { TSortType } from '@/types/types/SortType.type';
 
 export interface IBankInfo {
   address: string;
@@ -55,10 +56,26 @@ export interface ITopUpFilters {
   requestStatuses: string[];
 }
 
+export interface ITopUpSort {
+  createdAt?: TSortType;
+  status?: TSortType;
+  type?: TSortType;
+}
+
 export interface ITopUpCalculatePayload {
   coinSerial: string | null;
   amount: number | null;
-  fullName: string;
+}
+
+export interface ITopUpViaBankRequestPayload {
+  coinSerial: string;
+  amount: number;
+  bankAccountNumber?: string;
+  iban?: string;
+  bankId?: string;
+  fullName?: string;
+  description?: string;
 }
 
 export type ITopUpRecordsApiResponse = IApiResponse<IPaginationResponse<ITopUpRecords>>
+export type ITopUpRequest = IPaginationRequestOptions<ITopUpFilters, ITopUpSort>;

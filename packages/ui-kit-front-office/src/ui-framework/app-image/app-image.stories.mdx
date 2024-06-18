@@ -1,0 +1,40 @@
+import { Meta, Story, Canvas, Source, ArgsTable } from '@storybook/addon-docs';
+import AppImage from './app-image.vue';
+const imageUrl = 'https://www.simplegermany.com/wp-content/uploads/2020/10/Example-of-tax-ID-Germany.jpg';
+
+<Meta
+  title="ui-kit/AppImage"
+  component={AppImage}
+/>
+
+export const Template = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { AppImage },
+  template: `
+    <div>
+       <app-image :image-url=imageUrl />
+    </div>`,
+});
+
+## AppImage
+
+Component for showing an image with the ability to zoom and rotate. Accept three key props: **image-url**, **max-height**,
+**max-width**.
+
+Example:
+
+<Source code={`<app-image :image-url=imageUrl />`} />
+
+### Default
+
+<Canvas>
+  <Story
+    name="Default view"
+    args={{ imageUrl }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+## Props
+
+<ArgsTable story="Default view" />

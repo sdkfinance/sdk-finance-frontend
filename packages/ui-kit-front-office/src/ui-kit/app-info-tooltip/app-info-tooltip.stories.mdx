@@ -1,0 +1,35 @@
+import { Meta, Story, Canvas, Source, ArgsTable } from '@storybook/addon-docs';
+import AppInfoTooltip from './app-info-tooltip.vue';
+
+<Meta
+  title="ui-kit/AppInfoTooltip"
+  component={AppInfoTooltip}
+/>
+
+export const Template = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { AppInfoTooltip },
+  template: `<app-info-tooltip
+                :tooltip-content="tooltipContent"
+              />`,
+});
+
+## AppActionButton
+
+Example:
+
+<Source code={`<app-info-tooltip tooltip-content="Some content" />`}></Source>
+
+### Default
+
+<Canvas>
+  <Story
+    name="Default view"
+    args={{ tooltipContent: 'Some tooltip content' }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+## Props
+
+<ArgsTable story="Default view" />

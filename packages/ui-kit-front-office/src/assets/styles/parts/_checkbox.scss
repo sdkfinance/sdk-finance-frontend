@@ -1,0 +1,91 @@
+.app-checkbox,
+.app-checkbox .el-checkbox,
+.app-checkbox .el-checkbox .el-checkbox__input {
+  @apply inline-flex items-center;
+}
+
+.app-checkbox {
+  @apply py-[4px];
+
+  .el-checkbox {
+    @apply gap-x-[0.5rem];
+
+    &__inner,
+    &__label {
+      @apply transition-colors;
+    }
+
+    &:not(.is-disabled) {
+      &:hover,
+      &.is-checked:hover {
+        .el-checkbox {
+          &__input {
+            .el-checkbox__inner {
+              @apply border-blue-700;
+            }
+          }
+
+          &__label {
+            @apply text-blue-700;
+          }
+        }
+      }
+    }
+
+    &__input {
+      &.is-indeterminate {
+        .el-checkbox {
+          &__inner {
+            @apply before:top-[0.375rem];
+          }
+        }
+      }
+    }
+
+    &.is-checked,
+    &.is-indeterminate {
+      .el-checkbox {
+        &__label {
+          @apply text-blue-500;
+        }
+
+        &__inner {
+          @apply after:h-[0.5rem]
+          after:w-[0.25rem]
+          after:left-[0.3125rem]
+          after:top-[0.125rem];
+        }
+      }
+    }
+
+    &.is-disabled {
+      @apply opacity-50;
+    }
+
+    &__input:not(.is-checked),
+    &__input:not(.is-indeterminate) {
+      .el-checkbox__inner {
+        @apply bg-transparent border-blue-500;
+      }
+    }
+
+    &__input.is-checked,
+    &__input.is-indeterminate {
+      .el-checkbox__inner {
+        @apply bg-blue-700 border-blue-700;
+      }
+    }
+
+    &__label {
+      @apply pl-0 text-md leading-[1.25rem] font-medium text-blue-600;
+    }
+
+    &__inner {
+      @apply w-[1.125rem]
+        h-[1.125rem]
+        rounded-[0.375rem]
+        border
+        border-solid;
+    }
+  }
+}

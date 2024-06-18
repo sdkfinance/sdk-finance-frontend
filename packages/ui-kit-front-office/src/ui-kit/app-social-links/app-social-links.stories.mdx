@@ -1,0 +1,39 @@
+import { Meta, Story, Canvas, Source, ArgsTable } from '@storybook/addon-docs';
+import AppSocialLinks from './app-social-links.vue';
+const socialLinks = {
+  facebook: '/',
+  instagram: '/',
+  linkedin: '/',
+  twitter: '/',
+};
+
+<Meta
+  title="ui-kit/AppSocialLinks"
+  component={AppSocialLinks}
+/>
+
+export const Template = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { AppSocialLinks },
+  template: `<app-social-links :links="socialLinks"/>`,
+});
+
+## AppSocialLinks
+
+Example:
+
+<Source code={`<app-social-links :links="socialLinks"/>`} />
+
+### Default
+
+<Canvas>
+  <Story
+    name="Default view"
+    args={{ socialLinks }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+## Props
+
+<ArgsTable story="Default view" />

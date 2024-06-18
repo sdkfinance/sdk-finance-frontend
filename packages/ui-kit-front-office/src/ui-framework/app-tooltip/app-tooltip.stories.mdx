@@ -1,0 +1,96 @@
+import { ArgsTable, Canvas, Meta, Source, Story } from '@storybook/addon-docs';
+import AppTooltip from './app-tooltip.vue';
+import { APP_TOOLTIP_POSITIONS } from './constants';
+const argTypes = {
+  placement: { control: { type: 'radio', options: Object.values(APP_TOOLTIP_POSITIONS) } },
+};
+
+<Meta
+  title="ui-framework/AppTooltip"
+  component={AppTooltip}
+  argTypes={argTypes}
+/>
+
+export const Template = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { AppTooltip },
+  template: `
+<div style="margin: 100px">
+<app-tooltip
+  :placement="placement"
+  :effect="effect">
+  <template #content>
+    Some content
+  </template>
+  <button>Hover me!</button>
+</app-tooltip>
+</div>
+    `,
+});
+
+## AppTooltip
+
+Example:
+
+<Source
+  code={`
+<app-tooltip
+    :placement="placement"
+    :effect="effect">
+    <template #content>
+      Some content
+    </template>
+    <button>Hover me!</button>
+</app-tooltip>
+`}
+/>
+
+### Default
+
+<Canvas>
+  <Story
+    name="Default view"
+    args={{ placement: 'top' }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+### Bottom position
+
+<Canvas>
+  <Story
+    name="Bottom + trigger click"
+    args={{ placement: 'bottom' }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+### Left position
+
+<Canvas>
+  <Story
+    name="Left poistion"
+    args={{ placement: 'left' }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+### Right position
+
+<Canvas>
+  <Story
+    name="Right poistion"
+    args={{ placement: 'right' }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+## List of placement
+
+```js
+['top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left', 'left-start', 'left-end', 'right', 'right-start', 'right-end'];
+```
+
+## Props
+
+<ArgsTable story="Default view" />

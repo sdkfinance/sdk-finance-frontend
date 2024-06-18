@@ -1,0 +1,62 @@
+import { Meta, Story, Canvas, ArgsTable, Source } from '@storybook/addon-docs';
+import AppConfirmModal from './app-confirm-dialog.vue';
+import AppButton from '../../ui-framework/app-button/app-button.vue';
+const argTypes = {
+  title: { control: 'string' },
+  visible: { control: false },
+  lockScroll: { control: 'boolean' },
+  closeOnPressEscape: { control: 'boolean' },
+  closeOnClickModal: { control: 'boolean' },
+  closeOnCancelClick: { control: 'boolean' },
+  closeOnOkClick: { control: 'boolean' },
+};
+
+<Meta
+  title="ui-kit/AppConfirmModal"
+  component={AppConfirmModal}
+  argTypes={argTypes}
+/>
+
+export const Template = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { AppConfirmModal, AppButton },
+  data() {
+    return {
+      modalVisible: false,
+    };
+  },
+  methods: {
+    toggleModalVisibility() {
+      this.modalVisible = !this.modalVisible;
+    },
+  },
+  template: `
+      <div>
+        <app-button @click="toggleModalVisibility" type="primary" size="medium">Toggle confirm modal</app-button>
+        <app-confirm-modal
+          v-model="modalVisible"
+          :title="title"
+          :lock-scroll="lockScroll"
+          :close-on-click-modal="closeOnClickModal"
+          :close-on-press-escape="closeOnPressEscape"
+        />
+      </div>`,
+});
+
+## AppConfirmModal
+
+Example:
+
+<Source code={`<app-confirm-modal v-model="modalVisible" :title="'Some title'" @cancel="cancelHandler" @ok="okHandler"/>`} />
+
+### Default
+
+<Canvas>
+  <Story
+    name="Default"
+    args={{ title: 'Modal title' }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+<ArgsTable of={AppConfirmModal} />

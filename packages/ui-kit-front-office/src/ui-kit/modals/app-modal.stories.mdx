@@ -1,0 +1,119 @@
+import { Meta, Story, Canvas, ArgsTable, Source } from '@storybook/addon-docs';
+import AppModal from './app-modal.vue';
+import AppButton from '../../ui-framework/app-button/app-button.vue';
+
+<Meta
+  title="ui-kit/modals/AppModal"
+  component={AppModal}
+/>
+
+export const Template = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { AppModal, AppButton },
+  methods: {
+    async openModal() {
+      const isSubmit = await this.$refs.appModal.open();
+      console.log({ isSubmit });
+    },
+  },
+  template: `
+    <div>
+      <app-modal ref="appModal"
+          :width="width"
+          :is-fixed-header="isFixedHeader"
+          :is-full-width="isFullWidth"
+          :is-centred="isCentred"
+          :is-fixed-footer="isFixedFooter"
+          :is-scrolled="isScrolled"
+        >
+        <template v-slot:header>Header is here</template>
+        <template v-slot="{ onSubmit, onClose }">
+          <app-button @click="onClose">Close</app-button>
+          <app-button @click="onSubmit">Form submit</app-button>
+          <p v-for="i in 100" :key="i">Your content</p>
+        </template>
+        <template v-slot:footer>Footer is here</template>
+      </app-modal>
+      <app-button @click="openModal">Open modal</app-button>
+    </div>
+  `,
+});
+
+## AppModal
+
+### Public methods example
+
+```js
+// Open modal
+// Method open return promise, if method onSubmit will be called, promise return true or payload
+// If you emit event 'submit' inside your form with some payload, you return object with two fields:
+// data: <- with your payload
+// payload: <- boolean value of resolved promise (true) or your payload what you provide in .open method
+await this.$refs.appModal.open(payload); // payload is optional field, will be returned if onSubmit method called.
+```
+
+```js
+// Close modal, resolve open promise with false value
+this.$refs.appModal.close();
+```
+
+### Default slot scoped methods
+
+```js
+// Default slot return two methods
+onSubmit; // - for submit modal and resolve open promise with true/payload value
+onClose; // - for close modal and resolve open promise with false value
+```
+
+Example:
+
+<Source
+  code={`<app-modal
+    ref="appModal"
+    width="width"
+    is-full-width="isFullScreen"
+    is-centred="isCentered"
+    is-fixed-header="isFixedHeader"
+    is-fixed-footer="isFixedFooter"
+    is-scrolled="isScrolled">
+     <template v-slot:header>Content for header if you heed</template>
+     <template v-slot="{ onSubmit, onClose }">
+        default slot
+     </template>
+     <template v-slot:footer>Content for footer if you heed</template>
+   </app-modal>`}
+/>
+
+### Default
+
+<Canvas style={{ position: 'relative' }}>
+  <Story
+    name="Default view"
+    args={{ width: '380px', isFixedHeader: false }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+### With fixed footer and header
+
+<Canvas>
+  <Story
+    name="With all content scroll and fixed footer and header"
+    args={{ isFixedHeader: true, isFixedFooter: true }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+### Fullscreen mode with centered content
+
+<Canvas>
+  <Story
+    name="Fullscreen mode with centered content"
+    args={{ isFullWidth: true, isCentred: true }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+## Props
+
+<ArgsTable story="Default view" />

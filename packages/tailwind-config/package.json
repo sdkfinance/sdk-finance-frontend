@@ -1,0 +1,5 @@
+{
+  "name": "@sdk5/tailwind-config",
+  "main": "index.js",
+  "private": true
+}

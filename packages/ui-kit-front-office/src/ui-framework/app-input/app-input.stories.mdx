@@ -1,0 +1,286 @@
+import { Meta, Story, Canvas, Source, ArgsTable } from '@storybook/addon-docs';
+import AppInput from './app-input.vue';
+import { APP_INPUT_SIZE, APP_INPUT_TYPE } from './constants';
+const argTypes = {
+  helper: { control: { type: 'text' } },
+  size: { control: { type: 'radio', options: Object.values(APP_INPUT_SIZE) } },
+  type: { control: { type: 'radio', options: Object.values(APP_INPUT_TYPE) } },
+  filterView: { control: { type: 'boolean' } },
+};
+
+<Meta
+  title="ui-framework/AppInput"
+  component={AppInput}
+  argTypes={argTypes}
+/>
+
+export const Template = (args, { argTypes }) => ({
+  props: [...Object.keys(argTypes), 'isError'],
+  components: { AppInput },
+  data: () => ({
+    text: '',
+  }),
+  template: `
+      <div class="el-form-item" :class="[isError && 'is-error']">
+        <app-input
+          v-model="text"
+          :type="type"
+          :label="label"
+          :rows="rows"
+          :minlength="minlength"
+          :maxlength="maxlength"
+          :placeholder="placeholder"
+          :clearable="clearable"
+          :small-text="smallText"
+          :disabled="disabled"
+          :helper="helper"
+          :size="size"
+          :filter-view="filterView"
+          :showPrefix="showPrefix"
+          :showSuffix="showSuffix">
+          <template v-if="showSuffix" v-slot:suffix><i class="icon icon-settings"></i></template>
+          <template v-if="showPrefix" v-slot:prefix><i class="icon icon-settings"></i></template>
+        </app-input>
+      </div>
+    `,
+});
+
+## AppInput
+
+Example:
+
+<Source
+  code={`
+  <app-input
+    v-model="text"
+    :type="type"
+    :label="label"
+    :rows="rows"
+    :minlength="minlength"
+    :maxlength="maxlength"
+    :placeholder="placeholder"
+    :clearable="clearable"
+    :small-text="smallText"
+    :disabled="disabled">
+</app-input>`}></Source>
+
+### Medium size
+
+<Canvas>
+  <Story
+    name="Medium size"
+    args={{
+      type: 'text',
+      minlength: '10',
+      maxlength: '10',
+      placeholder: 'Type text',
+      clearable: false,
+      disabled: false,
+      smallText: false,
+      label: 'Medium size label',
+      rows: 2,
+      size: 'medium',
+    }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+### Large size
+
+<Canvas>
+  <Story
+    name="Large size"
+    args={{
+      type: 'text',
+      minlength: '10',
+      maxlength: '10',
+      placeholder: 'Type text',
+      clearable: false,
+      disabled: false,
+      smallText: false,
+      label: 'Large size label',
+      rows: 2,
+      size: 'large',
+    }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+### Small size
+
+<Canvas>
+  <Story
+    name="Small size"
+    args={{
+      type: 'text',
+      minlength: '10',
+      maxlength: '10',
+      placeholder: 'Type text',
+      clearable: false,
+      disabled: false,
+      smallText: false,
+      label: 'Small size label',
+      rows: 2,
+      size: 'small',
+    }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+### Disabled state
+
+<Canvas>
+  <Story
+    name="Disabled state"
+    args={{
+      type: 'text',
+      minlength: '10',
+      maxlength: '10',
+      placeholder: 'Type text',
+      clearable: false,
+      disabled: true,
+      smallText: false,
+      label: 'Disabled state label',
+      rows: 2,
+      size: 'medium',
+      showPrefix: true,
+      showSuffix: true,
+      helper: 'Disabled',
+    }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+### Medium with help text
+
+<Canvas>
+  <Story
+    name="Medium with help text"
+    args={{
+      type: 'text',
+      minlength: '10',
+      maxlength: '10',
+      placeholder: 'Type text',
+      clearable: false,
+      disabled: false,
+      smallText: false,
+      label: 'Medium with help text',
+      rows: 2,
+      helper: 'help text',
+    }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+### With suffix
+
+<Canvas>
+  <Story
+    name="With suffix"
+    args={{
+      type: 'text',
+      minlength: '10',
+      maxlength: '10',
+      placeholder: 'Type text',
+      clearable: false,
+      disabled: false,
+      smallText: false,
+      label: 'With suffix',
+      rows: 2,
+      showSuffix: true,
+    }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+### With prefix
+
+<Canvas>
+  <Story
+    name="With prefix"
+    args={{
+      type: 'text',
+      minlength: '10',
+      maxlength: '10',
+      placeholder: 'Type text',
+      clearable: false,
+      disabled: false,
+      smallText: false,
+      label: 'With prefix',
+      rows: 2,
+      showPrefix: true,
+    }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+### With suffix and prefix
+
+<Canvas>
+  <Story
+    name="With suffix and prefix"
+    args={{
+      type: 'text',
+      minlength: '10',
+      maxlength: '10',
+      placeholder: 'Type text',
+      clearable: false,
+      disabled: false,
+      smallText: false,
+      label: 'With prefix',
+      rows: 2,
+      showPrefix: true,
+      showSuffix: true,
+    }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+### Error state
+
+<Canvas>
+  <Story
+    name="Error state"
+    args={{
+      type: 'text',
+      minlength: '10',
+      maxlength: '10',
+      placeholder: 'Type text',
+      clearable: false,
+      disabled: false,
+      smallText: false,
+      label: 'Large size label',
+      rows: 2,
+      size: 'large',
+      isError: true,
+    }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+### Filter view
+
+<Canvas>
+  <Story
+    name="Filter view"
+    args={{
+      type: 'text',
+      minlength: '10',
+      maxlength: '10',
+      placeholder: 'Type text',
+      clearable: false,
+      disabled: false,
+      smallText: false,
+      label: 'Large size label',
+      rows: 2,
+      size: 'large',
+      isError: false,
+      filterView: true,
+    }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+## Props
+
+<ArgsTable story="Default view" />

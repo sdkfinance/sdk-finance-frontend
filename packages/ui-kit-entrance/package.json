@@ -1,0 +1,16 @@
+{
+  "name": "@sdk5/ui-kit-entrance",
+  "private": true,
+  "type": "module",
+  "types": "./index.ts",
+  "exports": {
+    ".": "./index.ts"
+  },
+  "scripts": {},
+  "dependencies": {
+    "@sdk5/ui-kit-front-office": "*"
+  },
+  "devDependencies": {
+    "@sdk5/tsconfig": "*"
+  }
+}

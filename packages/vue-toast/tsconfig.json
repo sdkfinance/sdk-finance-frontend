@@ -1,0 +1,9 @@
+{
+  "extends": "@sdk5/tsconfig/vue.json",
+  "compilerOptions": {
+    "importsNotUsedAsValues": "remove"
+  },
+  "include": ["**/*.ts", "**/*.d.ts", "**/*.vue", "types/component.d.ts"],
+  "exclude": ["node_modules", "vite.config.ts", "dist"],
+  "references": [{ "path": "tsconfig.node.json" }]
+}

@@ -1,0 +1,67 @@
+import { Meta, Story, Canvas, Source, ArgsTable } from '@storybook/addon-docs';
+import AppTag from './app-tag.vue';
+const argTypes = {
+  tagType: {
+    control: {
+      type: 'radio',
+      options: ['tag', 'chips'],
+    },
+  },
+  label: {
+    control: 'string',
+  },
+};
+
+<Meta
+  title="ui-framework/AppTag"
+  argTypes={argTypes}
+/>
+
+export const Template = (args, { argTypes }) => {
+  return {
+    props: ['value', ...Object.keys(argTypes)],
+    components: {
+      AppTag,
+    },
+    template: `
+      <app-tag :label="label" :tag-type="tagType">{{ value }}</app-tag>`,
+  };
+};
+
+## AppTag
+
+Example:
+
+<Source code={`<app-tag :label="label" tag-type="tag">Some text</app-tag>`}></Source>
+
+### Tag
+
+<Canvas>
+  <Story
+    name="Tag"
+    args={{
+      tagType: 'tag',
+      label: 'Tag type',
+      value: 'some value',
+    }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+### Chips
+
+<Canvas>
+  <Story
+    name="Chips"
+    args={{
+      tagType: 'chips',
+      label: 'Chips type',
+      value: 'some value',
+    }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+## Props
+
+<ArgsTable of={AppTag} />

@@ -1,0 +1,13 @@
+{
+  "name": "@sdk5/vue-toast",
+  "type": "module",
+  "private": true,
+  "exports": {
+    ".": "./index.ts",
+    "./types": "./types/index.ts"
+  },
+  "types": "./index.ts",
+  "dependencies": {
+    "@sdk5/tsconfig": "*"
+  }
+}

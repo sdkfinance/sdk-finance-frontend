@@ -1,0 +1,4 @@
+{
+  "extends": "@sdk5/stylelint-config",
+  "ignoreFiles": ["./src/assets/styles/ui-framework/**/*.scss", "./src/assets/icomoon/**/*.css", "./dist"]
+}

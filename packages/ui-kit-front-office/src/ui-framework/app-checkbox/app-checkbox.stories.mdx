@@ -1,0 +1,64 @@
+import { Meta, Story, Canvas, ArgsTable, Source } from '@storybook/addon-docs';
+import AppCheckbox from './app-checkbox.vue';
+const argTypes = {
+  name: { control: { type: 'text' } },
+  label: { control: { type: 'text' } },
+  disabled: { control: { type: 'boolean' } },
+  checked: { control: { type: 'boolean' } },
+};
+
+<Meta
+  title="ui-framework/AppCheckbox"
+  component={AppCheckbox}
+  argTypes={argTypes}
+/>
+
+export const Template = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { AppCheckbox },
+  template: `<app-checkbox :disabled="disabled" :value="value" :name="name" :checked="checked" :label="label"></app-checkbox>`,
+});
+
+### Default
+
+<Canvas>
+  <Story
+    name="Default view"
+    args={{ label: 'Default view' }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+### Default disabled
+
+<Canvas>
+  <Story
+    name="Default disabled"
+    args={{ label: 'Default disabled', disabled: true }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+### Checked
+
+<Canvas>
+  <Story
+    name="Checked"
+    args={{ label: 'Checked', value: true }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+### Checked disabled
+
+<Canvas>
+  <Story
+    name="Checked disabled"
+    args={{ label: 'Checked disabled', value: true, disabled: true }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+## Props
+
+<ArgsTable of={AppCheckbox} />

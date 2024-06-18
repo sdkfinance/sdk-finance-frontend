@@ -1,0 +1,90 @@
+import { Meta, Story, Canvas, Source, ArgsTable } from '@storybook/addon-docs';
+import AppWalletCard from './app-wallet-card.vue';
+
+<Meta
+  title="ui-kit/AppWalletCard"
+  component={AppWalletCard}
+/>
+
+export const Template = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { AppWalletCard },
+  template: `
+      <app-wallet-card
+        :title="title"
+        :subtitle="subtitle"
+        :prefix-symbol="prefixSymbol"
+        :money-flow="moneyFlow"
+        :value="value"
+     />
+    `,
+});
+
+## AppWalletCard
+
+Example:
+
+<Source
+  code={`<app-wallet-card
+        title="Money in"
+        subtitle="USD"
+        prefix-symbol="$"
+        money-flow="in"
+        value="2500"/>
+`}
+/>
+
+This `wallet card` has predefined image with connected to prop `money-flow` and shows arrow which can be in 2
+conditions:
+`in` (money-flow="in" - arrow up) and `out` (arrow down). Without `money-flow` prop, you should set prop `img-url`
+to set image on right top corner.
+
+### Default
+
+<Canvas>
+  <Story
+    name="Default view"
+    args={{
+      subtitle: 'USD',
+      moneyFlow: 'in',
+      prefixSymbol: '$',
+      value: 2500,
+    }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+### With money-flow out
+
+<Canvas>
+  <Story
+    name="With money-flow out"
+    args={{
+      subtitle: 'USD',
+      moneyFlow: 'out',
+      prefixSymbol: '$',
+      value: 2500,
+    }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+### With custom img-url
+
+<Canvas>
+  <Story
+    name="With custom img-url"
+    args={{
+      title: 'Custom image',
+      subtitle: '2412 2313 12312 21312',
+      prefixSymbol: '$',
+      imgUrl: 'https://img-link.com/image.png',
+      value: 1500,
+    }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+## Props
+
+<ArgsTable story="Default view" />

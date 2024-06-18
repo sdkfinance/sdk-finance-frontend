@@ -1,0 +1,62 @@
+import { ArgsTable, Canvas, Meta, Source, Story } from '@storybook/addon-docs';
+import AppChartData from './app-chart-data.vue';
+const additionalInfo = [
+  {
+    label: 'Providers',
+    value: '80%',
+    color: '#b0670f',
+  },
+  {
+    label: 'Payment gateway',
+    value: '65%',
+    color: '#3fab54',
+  },
+  {
+    label: 'Internal commissions',
+    value: '2%',
+    color: '#1a6f9f',
+  },
+  {
+    label: 'Currency exchange',
+    value: '3%',
+    color: '#39c761',
+  },
+];
+
+<Meta
+  title="ui-kit/charts/AppChartData"
+  component={AppChartData}
+/>
+
+export const Template = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { AppChartData },
+  template: `
+      <div>
+        <app-chart-data v-for="({color, label, value}, i) in additionalInfo" :key="i" :color="color" :label="label" :value="value"/>
+      </div>
+    `,
+});
+
+## AppChartData
+
+Example:
+
+<Source
+  code={`  <app-chart-data :color="color" :label="label" :value="value"/>
+`}
+/>
+
+### Default
+
+<Canvas>
+  <Story
+    name="Default view"
+    args={{ additionalInfo }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+## Props
+
+<ArgsTable story="Default view" />

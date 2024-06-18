@@ -1,0 +1,62 @@
+import { ArgsTable, Canvas, Meta, Source, Story } from '@storybook/addon-docs';
+import AppChartBar from './app-chart-bar.vue';
+const chartData = {
+  labels: ['1', '2', '3', '4', '5', '6'],
+  datasets: [
+    {
+      data: [12, 19, 0, 5, 2, 3],
+      backgroundColor: [
+        'rgba(255, 99, 132, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(75, 192, 192, 1)',
+        'rgba(153, 102, 255, 1)',
+        'rgba(255, 159, 64, 1)',
+      ],
+    },
+  ],
+};
+
+<Meta
+  title="ui-kit/charts/AppChartBar"
+  component={AppChartBar}
+/>
+
+export const Template = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { AppChartBar },
+  template: `
+      <app-chart-bar :chart-data="chartData" :options="options" :height="height"/>
+    `,
+});
+
+## AppChartBar
+
+### This is the wrapper for chart.js bar chart.
+
+#### All documentation is [here](https://www.chartjs.org/)
+
+Example:
+
+<Source
+  code={`<app-chart-bar :chart-data="chartData" :options="options" :height="height"/>
+`}
+/>
+
+## Chart example
+
+[Example](https://www.chartjs.org/docs/latest/charts/bar.html)
+
+### Default
+
+<Canvas>
+  <Story
+    name="Default view"
+    args={{ chartData }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+## Props
+
+<ArgsTable story="Default view" />

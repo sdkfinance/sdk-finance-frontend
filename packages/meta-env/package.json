@@ -1,0 +1,10 @@
+{
+  "name": "@sdk5/meta-env",
+  "private": true,
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts"
+    }
+  }
+}

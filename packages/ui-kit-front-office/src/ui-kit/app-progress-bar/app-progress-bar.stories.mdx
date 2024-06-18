@@ -1,0 +1,49 @@
+import { Meta, Story, Canvas, Source, ArgsTable } from '@storybook/addon-docs';
+import AppProgressBar from './app-progress-bar.vue';
+
+<Meta
+  title="ui-kit/AppProgressBar"
+  component={AppProgressBar}
+/>
+
+export const Template = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { AppProgressBar },
+  template: `<app-progress-bar
+                :value='value'
+                :bar-color='barColor'
+                :is-show-percents='isShowPercents'
+             />`,
+});
+
+## AppProgressBar
+
+Example:
+
+<Source code={`<app-progress-bar/>`}></Source>
+
+ProgressBar component what fit 100% with. Have only two major props it's barColor and isShowPercents
+
+### Default
+
+<Canvas>
+  <Story
+    name="Default view"
+    args={{ value: '30' }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+### Without percents counter
+
+<Canvas>
+  <Story
+    name="Without percents label"
+    args={{ value: '30', isShowPercents: false }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+## Props
+
+<ArgsTable story="Default view" />

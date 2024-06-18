@@ -1,0 +1,45 @@
+import { ArgsTable, Canvas, Meta, Source, Story } from '@storybook/addon-docs';
+import AppCardProgress from './app-card-progress.vue';
+
+<Meta
+  title="ui-kit/AppCardProgress"
+  component={AppCardProgress}
+/>
+
+export const Template = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { AppCardProgress },
+  template: `
+      <app-card-progress
+          :amount="amount"
+          :available-amount="availableAmount"
+          :currency-symbol="currencySymbol"/>
+    `,
+});
+
+## AppCardProgress
+
+Example:
+
+<Source
+  code={`
+    <app-card-progress
+      :amount="amount"
+      :available-amount="availableAmount"
+      :currency-symbol="currencySymbol"/>
+`}
+/>
+
+### Default
+
+<Canvas>
+  <Story
+    name="Default view"
+    args={{ amount: 9409, availableAmount: 9409, currencySymbol: '$' }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+## Props
+
+<ArgsTable story="Default view" />

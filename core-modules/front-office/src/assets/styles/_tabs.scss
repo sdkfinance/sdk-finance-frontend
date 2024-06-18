@@ -1,0 +1,67 @@
+.tabs {
+  @apply flex gap-x-[1.5rem] mb-[2.5rem] w-full border-b border-solid border-b-blue-300;
+
+  &--secondary {
+    .tabs__link {
+      &.router-link-active,
+      &.is-active {
+        @apply text-blue-700 bg-transparent after:opacity-100 after:translate-y-0;
+      }
+    }
+  }
+
+  &__link {
+    @apply inline-flex
+      items-center
+      gap-x-[0.5rem]
+      relative
+      bg-transparent
+      text-gray-500
+      font-medium
+      text-[1rem]
+      leading-[140%]
+      pb-[1rem]
+      cursor-pointer
+      hover:text-blue-700
+      hover:bg-transparent
+      after:content-[""]
+      after:absolute
+      after:bottom-0
+      after:left-0
+      after:right-0
+      after:inline-block
+      after:h-[0.125rem]
+      after:bg-blue-700
+      after:opacity-0
+      after:w-full
+      after:transition
+      after:ease-in
+      after:duration-500
+      after:translate-y-full;
+
+    @media screen and (max-width: 599px) {
+      @apply hidden #{!important};
+    }
+
+    &.router-link-active,
+    &.is-active {
+      @apply text-blue-700 bg-transparent after:opacity-100 after:translate-y-0;
+    }
+
+    &.disabled {
+      @apply opacity-20 cursor-not-allowed pointer-events-none;
+    }
+  }
+
+  &__select {
+    @apply hidden flex-grow mb-[1.0625rem];
+
+    @media screen and (max-width: 599px) {
+      @apply block;
+    }
+  }
+
+  &__icon {
+    @apply w-[1.25rem] h-[1.25rem] mr-0;
+  }
+}

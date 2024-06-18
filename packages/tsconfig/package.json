@@ -1,0 +1,11 @@
+{
+  "name": "@sdk5/tsconfig",
+  "private": true,
+  "files": [
+    "base.json",
+    "vue.json"
+  ],
+  "dependencies": {
+    "@sdk5/meta-env": "*"
+  }
+}

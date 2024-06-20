@@ -173,7 +173,7 @@ const copyData = (text: string) => {
       @apply text-blue-500 font-medium text-sm max-h-32 leading-4 flex flex-col overflow-visible;
 
       &-item:hover {
-        @apply bg-gray-350 text-blue-accent transition duration-200 ease-in-out;
+        @apply bg-gray-350 text-primary transition duration-200 ease-in-out;
       }
     }
   }

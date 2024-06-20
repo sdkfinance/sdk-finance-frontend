@@ -22,10 +22,10 @@ export default defineComponent({
     [DropdownItem.name]: DropdownItem,
   },
   props: {
-    value: {},
+    value: { type: [Object, Array, String, Number, Boolean], default: undefined },
     option: { type: [Object, String] as PropType<IOption>, required: true },
-    displayLabel: { type: String },
-    optionValue: { required: true },
+    displayLabel: { type: String, default: undefined },
+    optionValue: { type: [String, Boolean, Object], required: true },
   },
   computed: {
     isOptionSelected() {

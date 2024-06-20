@@ -27,6 +27,7 @@
 
     <template #amount="{ scope: { row } }">
       <app-table-amount
+        :transaction-record="row"
         :custom-class="amountClassList(row)"
         :amount="getAmountString(row)" />
     </template>

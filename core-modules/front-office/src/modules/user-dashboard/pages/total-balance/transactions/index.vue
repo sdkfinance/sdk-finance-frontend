@@ -17,7 +17,9 @@
           is-label-after />
       </template>
 
-      <template #prepend="{ records, isLoading }">
+      <template
+        v-if="isTransactionsMapAvailable"
+        #prepend="{ records, isLoading }">
         <app-map
           v-loading="isLoading"
           wrapper-class="transactions-page__map"
@@ -45,8 +47,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { useIsUaWebview } from '@sdk5/shared/composables';
+<script setup lang="ts">
+import { useGetVuexModule, useIsUaWebview } from '@sdk5/shared/composables';
 import type {
   IGetTransactionsComputedApiResponse,
   ITransactionRecordComputed,
@@ -59,9 +61,9 @@ import type { IProfileContact, ITableFilter } from '@sdk5/shared/types';
 import { errorNotification, getExportFile } from '@sdk5/shared/utils';
 import { AppMap, AppSwitch } from '@sdk5/ui-kit-front-office';
 import { cloneDeep } from 'lodash';
-import { computed, defineComponent, nextTick, ref, watch } from 'vue';
+import type { Ref } from 'vue';
+import { computed, nextTick, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router/composables';
-import { getModule } from 'vuex-module-decorators';
 
 import AppDataController from '../../../../../components/app-data-controller/app-data-controller.vue';
 import { DataExportRequests } from '../../../../../requests';
@@ -70,114 +72,74 @@ import TransactionsTable from '../../../components/transactions-table.vue';
 import { transactionsFilters } from '../../../filters/transactions';
 import { getTransactionsData } from '../../../utils/getComputedTransactionData';
 
-export default defineComponent({
-  name: 'TotalBalanceTransactions',
-  components: {
-    DataDetails,
-    AppMap,
-    AppSwitch,
-    AppDataController,
-    TransactionsTable,
-  },
-  inheritAttrs: false,
-  setup() {
-    const { isWebview } = useIsUaWebview();
-    const route = useRoute();
-    const router = useRouter();
+const profileModule = useGetVuexModule(Profile);
+const { isWebview } = useIsUaWebview();
 
-    const transactionDetailsModal = ref(null as any);
-    const isInvoicesEnable = ref(false);
-    const isExportLoading = ref(false);
-    const modalData = ref<ITransactionRecordComputed | null>(null);
-    const filters = ref<ITableFilter[]>(transactionsFilters);
+const route = useRoute();
+const router = useRouter();
 
-    const defaultParams = computed(() => {
-      const { serial } = route.params || {};
-      return {
-        filter: {
-          ...(serial ? { coinSerials: [serial] } : {}),
-        },
-        sort: { createdAt: 'desc' },
-      };
-    });
-    const isInvoiceSwitchVisible = computed(() => route.name === 'user-dashboard-transactions');
+const transactionDetailsModal = ref(null) as unknown as Ref<InstanceType<typeof DataDetails>>;
+const isInvoicesEnable = ref(false);
+const isExportLoading = ref(false);
+const modalData = ref<ITransactionRecordComputed | null>(null);
+const filters = ref<ITableFilter[]>(transactionsFilters);
 
-    const openDetails = (data: ITransactionRecordComputed) => {
-      modalData.value = data;
-      nextTick(() => {
-        transactionDetailsModal.value.open();
-      });
-    };
-
-    const goToInvoices = async () => {
-      router.push({ name: 'user-dashboard-invoices' });
-    };
-
-    const getExport = async (params: ITransactionsOptions) => {
-      if (isWebview) {
-        errorNotification('notification.not_available_from_mobile');
-        return;
-      }
-
-      const exportInstance = getExportFile(DataExportRequests.init, DataExportRequests.info);
-      isExportLoading.value = true;
-      await exportInstance.init(params);
-      isExportLoading.value = false;
-    };
-
-    watch(isInvoicesEnable, () => {
-      goToInvoices();
-    });
-
-    return {
-      isInvoicesEnable,
-      isExportLoading,
-      modalData,
-      filters,
-      defaultParams,
-      isInvoiceSwitchVisible,
-      transactionDetailsModal,
-      transactionsModal: transactionDetailsModal,
-      openDetails,
-      goToInvoices,
-      getExport,
-    };
-  },
-  data() {
-    return {
-      profileModule: getModule(Profile, this.$store),
-    };
-  },
-  computed: {
-    profileContact(): IProfileContact {
-      return this.profileModule.profileData?.contact || ({} as IProfileContact);
+const isTransactionsMapAvailable = computed(() => import.meta.env.VUE_APP_TRANSACTIONS_MAP_ENABLED === 'true');
+const defaultParams = computed(() => {
+  const { serial } = route.params || {};
+  return {
+    filter: {
+      ...(serial ? { coinSerials: [serial] } : {}),
     },
-  },
-  methods: {
-    async fetchData(params: ITransactionsOptions): Promise<IGetTransactionsComputedApiResponse> {
-      const { response, error } = await TransactionsRequests.getRecords(params);
+    sort: { createdAt: 'desc' },
+  };
+});
+const isInvoiceSwitchVisible = computed(() => route.name === 'user-dashboard-transactions');
+const profileContact = computed(() => profileModule.profileData?.contact || ({} as IProfileContact));
 
-      if (error) {
-        errorNotification(error);
+const openDetails = (data: ITransactionRecordComputed) => {
+  modalData.value = data;
+  nextTick(() => {
+    transactionDetailsModal.value.open();
+  });
+};
+const goToInvoices = async () => {
+  router.push({ name: 'user-dashboard-invoices' });
+};
+const getExport = async (params: ITransactionsOptions) => {
+  if (isWebview) {
+    errorNotification('notification.not_available_from_mobile');
+    return;
+  }
 
-        return { response, error };
-      }
+  const exportInstance = getExportFile(DataExportRequests.init, DataExportRequests.info);
+  isExportLoading.value = true;
+  await exportInstance.init(params);
+  isExportLoading.value = false;
+};
+const getTransactionsList = (transactions: ITransactionsRecord[] = []): ITransactionRecordComputed[] => {
+  const transactionList = cloneDeep(transactions);
+  return transactionList.reduce(
+    (acc: ITransactionRecordComputed[], item: ITransactionsRecord) => [...acc, ...getTransactionsData(item, profileContact.value)],
+    [],
+  );
+};
+const fetchData = async (params: ITransactionsOptions): Promise<IGetTransactionsComputedApiResponse> => {
+  const { response, error } = await TransactionsRequests.getRecords(params);
 
-      response!.records = this.getTransactionsList(response!.records);
+  if (error) {
+    errorNotification(error);
 
-      return { response, error };
-    },
-    getTransactionsList(transactions: ITransactionsRecord[] = []): ITransactionRecordComputed[] {
-      const transactionList = cloneDeep(transactions);
-      return transactionList.reduce(
-        (acc: ITransactionRecordComputed[], item: ITransactionsRecord) => [...acc, ...getTransactionsData(item, this.profileContact)],
-        [],
-      );
-    },
-    async updateData(): Promise<void> {
-      await this.fetchData({});
-    },
-  },
+    return { response: null, error };
+  }
+
+  response.records = getTransactionsList(response!.records);
+
+  return { response, error };
+};
+
+watch(isInvoicesEnable, () => {
+  goToInvoices();
 });
 </script>
 

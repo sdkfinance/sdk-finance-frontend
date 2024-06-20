@@ -56,5 +56,5 @@ export interface ITransferCalculateResponse extends ICalculatedCommission {
 }
 
 export type ITransfersOptions = IPaginationRequestOptions<ITransfersFilter, ITransfersSort>;
-
-export type ITransfersApiResponse = IApiResponse<{ process: ITransfersTransaction }>;
+export type TTransferResponse = { process: ITransfersTransaction };
+export type ITransfersApiResponse = IApiResponse<TTransferResponse>;

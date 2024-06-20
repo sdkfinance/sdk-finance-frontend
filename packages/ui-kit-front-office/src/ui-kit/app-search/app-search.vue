@@ -90,7 +90,7 @@ export default defineComponent({
     @apply origin-right;
 
     .el-input__inner {
-      @apply px-0 rounded-none border-l-0 border-r-0 border-t-0 border-blue-accent #{!important};
+      @apply px-0 rounded-none border-l-0 border-r-0 border-t-0 border-primary #{!important};
     }
   }
 

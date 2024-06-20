@@ -25,6 +25,7 @@ const ProfilePassword = defineAsyncComponent(() => import('./password/profile-pa
 const ProfileLoginDetails = defineAsyncComponent(() => import('./login-details/profile-login-details.vue'));
 const ProfileSecurity = defineAsyncComponent(() => import('./security/profile-security.vue'));
 const ProfileAddress = defineAsyncComponent(() => import('./address/profile-address.vue'));
+const ProfilePhoto = defineAsyncComponent(() => import('./profile-photo/profile-photo-form.vue'));
 
 const profileTabs: ITab[] = [
   {
@@ -57,6 +58,11 @@ const profileTabs: ITab[] = [
     translation: 'pages.user_dashboard.links.login_details',
     name: 'ProfileLoginDetails',
   },
+  {
+    value: 'ProfilePhoto',
+    translation: 'pages.user_dashboard.links.profile_photo',
+    name: 'ProfilePhoto',
+  },
 ];
 
 const currentTab = ref('');
@@ -69,6 +75,7 @@ const currentTabComponent = computed(() => {
     ProfileLoginDetails,
     ProfileSecurity,
     ProfileAddress,
+    ProfilePhoto,
   } as Record<string, AsyncComponent>;
 
   return components[currentTab.value];

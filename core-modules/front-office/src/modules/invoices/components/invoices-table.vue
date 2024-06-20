@@ -1,7 +1,6 @@
 <template>
   <app-table
     :data="data"
-    :is-loading="isLoading"
     cell-class-name="v-align-top"
     :columns="columns">
     <template #direction="{ scope, getColumnValue }">
@@ -66,8 +65,6 @@ export default class InvoicesTable extends Vue {
   static components: typeof COMPONENTS;
 
   @Prop({ required: true, type: Array }) readonly data!: IInvoicesRecord[];
-
-  @Prop({ default: false, type: Boolean }) readonly isLoading!: boolean;
 
   $props!: {
     data: IInvoicesRecord[];

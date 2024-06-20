@@ -1,5 +1,6 @@
 <template>
   <base-tabs-layout
+    v-loading="isLoaderVisible"
     title="pages.invoices.invoices_list"
     :links="allowedLinks">
     <template #actions>
@@ -11,21 +12,22 @@
       </app-button>
     </template>
     <app-data-table
-      ref="dataTable"
+      v-if="!!userRole"
+      ref="dataTableRef"
       v-model="tableData"
       :filters="invoicesFiltersWithCurrencies"
       :on-load="fetchData">
       <invoices-table
         :data="tableData"
-        :is-loading="isLoading"
         @open-invoice-details-modal="openInvoiceDetailsModal" />
     </app-data-table>
     <modal
       v-model="isInvoiceDetailsModalShow"
-      :title="$t('pages.invoices.view_modal_title')"
+      title="pages.invoices.view_modal_title"
       width="540px">
       <invoice-details-form
         :invoice-details="invoiceDetails"
+        @view-qr-code="viewQrCodeHandler"
         @open-delete-invoice-modal="deletePendingInvoice"
         @open-pay-invoice-modal="openPayInvoiceModal" />
     </modal>
@@ -44,26 +46,35 @@
         @payed="updatePayedInvoiceData" />
     </modal>
     <confirm-modal
-      ref="confirmDeleteModal"
+      ref="confirmDeleteModalRef"
       title="pages.invoices.view_modal_delete_title" />
+    <modal
+      v-model="viewQrCodeModalVisible"
+      title="action.view_qr_code">
+      <template #default="{ closeModal }">
+        <invoice-qr-code-form
+          :invoice-data="invoiceDetails"
+          @cancel="closeModal" />
+      </template>
+    </modal>
   </base-tabs-layout>
 </template>
 
-<script lang="ts">
-// @ts-nocheck
+<script setup lang="ts">
+import { useGetCurrenciesApi, useGetCurrentUserProfileApi } from '@sdk5/shared/composables';
 import { ROLES } from '@sdk5/shared/constants';
 import type { ICurrency, IGetInvoicesApiResponse, IInvoicesFilter, IInvoicesOptions, IInvoicesRecord } from '@sdk5/shared/requests';
 import { InvoicesRequests } from '@sdk5/shared/requests';
-import { UserInstance } from '@sdk5/shared/services';
-import { Catalog } from '@sdk5/shared/store';
 import { errorNotification } from '@sdk5/shared/utils';
 import { AppButton, AppDataTable, ConfirmModal, Modal } from '@sdk5/ui-kit-front-office';
-import { Component, Ref, Vue } from 'vue-property-decorator';
-import { getModule } from 'vuex-module-decorators';
+import { useToggle } from '@vueuse/core';
+import type { Ref } from 'vue';
+import { computed, ref } from 'vue';
 
 import BaseTabsLayout from '../../../layouts/base-tabs-layout.vue';
 import CreateInvoiceForm from '../components/create-invoice-form.vue';
 import InvoiceDetailsForm from '../components/invoice-details-form.vue';
+import InvoiceQrCodeForm from '../components/invoice-qr-code-form.vue';
 import InvoicesTable from '../components/invoices-table.vue';
 import PayInvoiceForm from '../components/pay-invoice-form.vue';
 import type { IInvoiceTableFilter } from '../filters/filters';
@@ -71,165 +82,104 @@ import { INVOICE_TABLE_FILTER_PARAM, invoicesFilters } from '../filters/filters'
 import { INVOICES_CHILDREN } from '../routes/index';
 import { getViewInvoicesRequestFilterPayload } from '../utils';
 
-const COMPONENTS = {
-  BaseTabsLayout,
-  CreateInvoiceForm,
-  Modal,
-  AppDataTable,
-  AppButton,
-  InvoicesTable,
-  InvoiceDetailsForm,
-  PayInvoiceForm,
-  ConfirmModal,
-} as const;
+const { isFetching: isCurrentUserProfileFetching, userRole } = useGetCurrentUserProfileApi();
+const { isFetching: isCurrenciesFetching, currencies: currencyList } = useGetCurrenciesApi();
 
-@Component({
-  name: 'invoices-list',
-  components: COMPONENTS,
-})
-export default class InvoicesList extends Vue {
-  static components: typeof COMPONENTS;
+const [viewQrCodeModalVisible, toggleViewQrCodeModalVisibility] = useToggle(false);
 
-  @Ref('dataTable') readonly refDataTable!: AppDataTable;
+const confirmDeleteModalRef = ref(null) as unknown as Ref<InstanceType<typeof ConfirmModal>>;
+const dataTableRef = ref(null) as unknown as Ref<InstanceType<typeof AppDataTable>>;
 
-  @Ref('confirmDeleteModal') readonly confirmDeleteModal!: ConfirmModal;
+const tableData = ref([] as IInvoicesRecord[]);
+const invoiceDetails = ref({} as Partial<IInvoicesRecord>);
+const isCreateModalShow = ref(false);
+const isPayInvoiceModalShow = ref(false);
+const isInvoiceDetailsModalShow = ref(false);
+const invoiceCreateModalTitle = ref('pages.invoices.create_modal_title');
+const invoicePayModalTitle = ref('pages.invoices.pay_invoice_modal_title');
 
-  protected readonly catalogModule = getModule(Catalog, this.$store);
-
-  protected readonly links = INVOICES_CHILDREN;
-
-  protected tableData: IInvoicesRecord[] = [];
-
-  protected invoiceDetails: Partial<IInvoicesRecord> = {};
-
-  protected isCreateModalShow: boolean = false;
-
-  protected isPayInvoiceModalShow: boolean = false;
-
-  protected isLoading: boolean = false;
-
-  protected isConfirmModalVisible: boolean = false;
-
-  protected isInvoiceDetailsModalShow: boolean = false;
-
-  protected invoiceCreateModalTitle: string = 'pages.invoices.create_modal_title';
-
-  protected invoicePayModalTitle: string = 'pages.invoices.pay_invoice_modal_title';
-
-  protected currencies: ICurrency[] = [];
-
-  protected readonly invoicesFilters = invoicesFilters;
-
-  protected get currencyList() {
-    return this.catalogModule.currencyList;
-  }
-
-  protected get currenciesIds() {
-    return this.currencyList.reduce(
-      (acc, current) => ({ ...acc, [current.id]: current.name }),
-      {} as Record<ICurrency['name'], Required<ICurrency>['id']>,
-    );
-  }
-
-  protected get invoicesFiltersWithCurrencies(): IInvoiceTableFilter[] {
-    return this.invoicesFilters.map((filter) => {
-      if (filter.param !== INVOICE_TABLE_FILTER_PARAM.currencyId) {
-        return filter;
-      }
-
-      filter.options = this.currenciesIds;
+const isLoaderVisible = computed(() => isCurrenciesFetching.value || isCurrentUserProfileFetching.value);
+const currenciesIds = computed(() => {
+  return currencyList.value.reduce(
+    (acc, current) => ({ ...acc, [current.id]: current.name }),
+    {} as Record<ICurrency['name'], Required<ICurrency>['id']>,
+  );
+});
+const invoicesFiltersWithCurrencies = computed<IInvoiceTableFilter[]>(() => {
+  return invoicesFilters.map((filter) => {
+    if (filter.param !== INVOICE_TABLE_FILTER_PARAM.currencyId) {
       return filter;
-    });
-  }
-
-  protected get isMerchant(): boolean {
-    return UserInstance.isRole[ROLES.merchant];
-  }
-
-  protected get isRoleIndividual(): boolean {
-    return UserInstance.isRole[ROLES.individual];
-  }
-
-  protected get allowedLinks(): any {
-    return this.isRoleIndividual ? [] : this.links;
-  }
-
-  protected get defaultFilter(): IInvoicesFilter {
-    return {
-      statuses: [],
-      direction: this.isMerchant ? 'OUTGOING' : 'INCOMING',
-    };
-  }
-
-  protected async fetchCurrency() {
-    this.isLoading = true;
-    await this.catalogModule.fetchCurrency();
-    this.isLoading = false;
-  }
-
-  public updateInvoicesData(): void {
-    this.invoiceCreateModalTitle = 'pages.invoices.invoice_created_modal_title';
-    this.refDataTable.loadData();
-  }
-
-  public updatePayedInvoiceData(): void {
-    this.invoicePayModalTitle = 'pages.invoices.invoice_payed_model_title';
-    this.refDataTable.loadData();
-  }
-
-  protected async fetchData(params: IInvoicesOptions<IInvoicesFilter>): Promise<IGetInvoicesApiResponse> {
-    const filterPayload = getViewInvoicesRequestFilterPayload({ ...this.defaultFilter, ...params.filter });
-    this.isLoading = true;
-    const { response, error } = await InvoicesRequests.getRecords({
-      ...params,
-      filter: {
-        ...filterPayload,
-      },
-      sort: { createdAt: 'desc' },
-    });
-
-    this.isLoading = false;
-
-    if (error) {
-      errorNotification(error);
-      return { response, error };
     }
 
-    return { response, error };
+    filter.options = currenciesIds.value;
+    return filter;
+  });
+});
+const isMerchant = computed(() => userRole.value === ROLES.merchant);
+const isRoleIndividual = computed(() => userRole.value === ROLES.individual);
+const allowedLinks = computed(() => {
+  return isRoleIndividual.value ? [] : INVOICES_CHILDREN;
+});
+const defaultFilter = computed<IInvoicesFilter>(() => {
+  return {
+    statuses: [],
+    direction: isMerchant.value ? 'OUTGOING' : 'INCOMING',
+  };
+});
+
+const updateInvoicesData = () => {
+  invoiceCreateModalTitle.value = 'pages.invoices.invoice_created_modal_title';
+  dataTableRef.value.loadData();
+};
+const updatePayedInvoiceData = () => {
+  invoicePayModalTitle.value = 'pages.invoices.invoice_payed_model_title';
+  dataTableRef.value.loadData();
+};
+const openInvoiceDetailsModal = (data: IInvoicesRecord) => {
+  invoiceDetails.value = data;
+  isInvoiceDetailsModalShow.value = true;
+};
+const openPayInvoiceModal = () => {
+  isInvoiceDetailsModalShow.value = false;
+  isPayInvoiceModalShow.value = true;
+};
+const fetchData = async (params: IInvoicesOptions<IInvoicesFilter>): Promise<IGetInvoicesApiResponse> => {
+  const filterPayload = getViewInvoicesRequestFilterPayload({ ...defaultFilter.value, ...params.filter });
+  const { response, error } = await InvoicesRequests.getRecords({
+    ...params,
+    filter: {
+      ...filterPayload,
+    },
+    sort: { createdAt: 'desc' },
+  });
+
+  if (error) {
+    errorNotification(error);
+    return { response: null, error };
   }
 
-  protected openInvoiceDetailsModal(data: IInvoicesRecord): void {
-    this.invoiceDetails = data;
-    this.isInvoiceDetailsModalShow = true;
+  return { response, error: null };
+};
+const deletePendingInvoice = async () => {
+  const value: boolean = await confirmDeleteModalRef.value.open();
+
+  if (!value) {
+    return;
   }
 
-  protected openPayInvoiceModal(): void {
-    this.isInvoiceDetailsModalShow = false;
-    this.isPayInvoiceModalShow = true;
+  const id = invoiceDetails.value?.identifier ?? '';
+
+  const { error } = await InvoicesRequests.deleteInvoice(id);
+
+  if (error) {
+    errorNotification(error);
+    return;
   }
 
-  protected async deletePendingInvoice(): Promise<void> {
-    const value: boolean = await this.confirmDeleteModal.open();
-
-    if (!value) {
-      return;
-    }
-
-    const id = this.invoiceDetails?.identifier ?? '';
-
-    const { error } = await InvoicesRequests.deleteInvoice(id);
-
-    if (error) {
-      errorNotification(error);
-      return;
-    }
-
-    this.isInvoiceDetailsModalShow = false;
-    await this.refDataTable.loadData();
-  }
-
-  created() {
-    this.fetchCurrency();
-  }
-}
+  isInvoiceDetailsModalShow.value = false;
+  await dataTableRef.value.loadData();
+};
+const viewQrCodeHandler = () => {
+  toggleViewQrCodeModalVisibility(true);
+};
 </script>

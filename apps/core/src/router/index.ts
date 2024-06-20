@@ -1,3 +1,4 @@
+import { ENV_VARIABLES } from '@sdk5/shared';
 import { permissionGuard } from '@sdk5/shared/middlewares';
 import router from '@sdk5/shared/router';
 import type { RouteConfig } from 'vue-router';
@@ -15,14 +16,17 @@ export async function setupAppRoutes() {
     ENTRANCE,
     DASHBOARDS_POWER_BI,
     MAINTENANCE,
-    API_LIST,
     {
       path: '*',
       redirect: '/',
     },
   ];
 
-  if (import.meta.env.VUE_APP_FRONT_OFFICE_ROUTES !== 'false') {
+  if (ENV_VARIABLES.apiListPageVisible) {
+    routes.push(API_LIST);
+  }
+
+  if (ENV_VARIABLES.frontOfficeRoutesVisible) {
     const { FRONT_OFFICE_ROUTES } = await import('@sdk5/front-office');
     routes.push(FRONT_OFFICE_ROUTES);
   }

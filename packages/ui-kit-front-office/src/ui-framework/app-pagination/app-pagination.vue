@@ -94,7 +94,7 @@ export default defineComponent({
         @apply p-[10px] w-auto inline-flex m-0 text-[0.875rem] font-medium;
 
         &.active {
-          @apply text-blue-700;
+          @apply text-primary;
         }
       }
 

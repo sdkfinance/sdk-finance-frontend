@@ -1,6 +1,7 @@
 import '@/assets/styles/global/index.scss';
 import '@/directives/index';
 import '@/plugins';
+import './assets/icomoon/style.css';
 
 import { i18n } from '@sdk5/shared/i18n';
 import router from '@sdk5/shared/router';
@@ -16,6 +17,9 @@ import App from './App.vue';
 import { setupAppRoutes } from './router';
 import { setupApiInterceptors } from './services/api';
 import store from './store';
+import { setupAppColors } from './utils/setupAppColors';
+
+setupAppColors();
 
 if (import.meta.env.VUE_APP_INIT_GOOGLE_TAG === 'true') {
   initGoogleTag(import.meta.env.VUE_APP_GOOGLE_TAG_ID);

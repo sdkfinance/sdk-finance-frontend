@@ -16,7 +16,9 @@
           placeholder="placeholder.input.input_account_name"
           size="large" />
       </app-form-item>
-      <app-form-item prop="customSerial">
+      <app-form-item
+        v-if="ENV_VARIABLES.createWalletCustomSerialInputVisible"
+        prop="customSerial">
         <app-input
           v-model="form.customSerial"
           label="form.label.wallet_serial"
@@ -39,7 +41,9 @@
           option-value="id" />
       </app-form-item>
 
-      <app-button native-type="submit">
+      <app-button
+        native-type="submit"
+        full-width>
         {{ $t('action.add_account') }}
       </app-button>
     </app-form>
@@ -47,7 +51,8 @@
 </template>
 
 <script setup lang="ts">
-import { useCreateWalletApi, useGetCurrenciesApi } from '@sdk5/shared/composables';
+import { ENV_VARIABLES } from '@sdk5/shared';
+import { useCreateWalletApi, useGetCurrenciesApi, useGetWalletsApi } from '@sdk5/shared/composables';
 import { type IWalletBody } from '@sdk5/shared/requests';
 import { SimpleRequiredValidationRule, WalletSerialValidator } from '@sdk5/shared/validation';
 import { computed, type Ref, ref } from 'vue';
@@ -67,6 +72,7 @@ const rules: Record<keyof Pick<IWalletBody, 'name' | 'currencyId' | 'customSeria
 
 const { currencyListWithDisplayName, isFetching: isGetCurrenciesFetching } = useGetCurrenciesApi();
 const { mutateAsync: processAccountCreation, isPending: isCreateWalletPending } = useCreateWalletApi();
+const { invalidateWalletsQuery } = useGetWalletsApi({ queryEnabled: false });
 
 const appFormRef = ref(null) as unknown as Ref<InstanceType<typeof AppForm>>;
 
@@ -87,6 +93,7 @@ const handleForm = async () => {
   const { error } = await processAccountCreation(form.value);
 
   if (error === null) {
+    invalidateWalletsQuery();
     emit('submit', form.value);
   }
 };

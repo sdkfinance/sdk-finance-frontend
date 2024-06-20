@@ -20,9 +20,6 @@ const onClickHandler = () => {
 </script>
 
 <style lang="scss">
-@import '../../assets/styles/tools/variables';
-@import '../../assets/styles/tools/placeholders';
-
 .btn-close {
   position: relative;
   width: 31px;

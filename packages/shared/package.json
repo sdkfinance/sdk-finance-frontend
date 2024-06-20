@@ -70,12 +70,6 @@
       ]
     }
   },
-  "scripts": {
-    "lint": "concurrently -n ui-kit/lint:script \"npm run lint:script\"",
-    "lint:fix": "concurrently -n ui-kit/lint:script:fix \"npm run lint:script:fix\"",
-    "lint:script": "eslint --ext .ts,.js .",
-    "lint:script:fix": "eslint --fix --ext .ts,.js ."
-  },
   "dependencies": {
     "@sdk5/vue-toast": "*",
     "numbro": "^2.4.0"

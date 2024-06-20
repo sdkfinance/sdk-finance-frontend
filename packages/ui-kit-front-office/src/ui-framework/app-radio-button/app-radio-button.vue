@@ -89,7 +89,7 @@ export default defineComponent({
     &.is-checked,
     &.is-checked.is-disabled {
       .el-radio__inner {
-        @apply border-blue-700 after:bg-blue-700;
+        @apply border-primary after:bg-primary;
       }
     }
   }

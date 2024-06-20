@@ -1,7 +1,7 @@
 <template>
   <app-form
-    ref="form"
-    :loading="isLoading"
+    ref="appFormRef"
+    :loading="isLoaderVisible"
     class="form"
     :model="form"
     :rules="rules"
@@ -42,10 +42,17 @@
           clearable />
       </app-form-item>
 
+      <app-form-item prop="sendPaymentLink">
+        <app-switch
+          v-model="form.sendPaymentLink"
+          label="form.label.send_payment_link_to_the_client"
+          is-label-after />
+      </app-form-item>
+
       <app-form-item prop="recipientCoin">
         <app-select
           v-model="form.recipientCoin"
-          :options="coinsList"
+          :options="coinList"
           full-width
           option-label="name"
           option-value="serial"
@@ -145,10 +152,10 @@
   </app-form>
 </template>
 
-<script lang="ts">
-// @ts-nocheck
-import type { IInvoiceCreate, IInvoicesCommissionBlock, IInvoicesRecord, IWalletRecord } from '@sdk5/shared/requests';
-import { InvoicesRequests, WalletsRequests } from '@sdk5/shared/requests';
+<script setup lang="ts">
+import { useGetWalletsApi } from '@sdk5/shared/composables';
+import type { IInvoiceCreate, IInvoiceCreateOptions, IInvoicesCommissionBlock, IInvoicesRecord } from '@sdk5/shared/requests';
+import { InvoicesRequests } from '@sdk5/shared/requests';
 import type { IPlainObject, TServerError } from '@sdk5/shared/types';
 import { errorNotification, getNextDay } from '@sdk5/shared/utils';
 import {
@@ -158,8 +165,8 @@ import {
   SimpleRequiredValidationRule,
 } from '@sdk5/shared/validation';
 import { AppButton, AppDatePicker, AppForm, AppFormItem, AppInput, AppSelect, AppSwitch } from '@sdk5/ui-kit-front-office';
-import type { PropType } from 'vue';
-import { Component, Emit, Prop, Ref, Vue, Watch } from 'vue-property-decorator';
+import type { Ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 
 import type { IInvoiceTemplatesRecord } from '../../../requests';
 import { InvoicesTemplatesRequests } from '../../../requests';
@@ -168,304 +175,256 @@ import InvoicesCreatedBlock from './invoices-created-block.vue';
 
 const NEXT_DAY_ISO_STRING = getNextDay().toISOString();
 
-const COMPONENTS = {
-  InvoicesCreatedBlock,
-  AppForm,
-  AppSwitch,
-  AppFormItem,
-  AppSelect,
-  AppInput,
-  AppButton,
-  AppDatePicker,
-  InvoicesCommissionBlock,
-} as const;
-
-@Component({
-  name: 'create-invoice-form',
-  components: COMPONENTS,
-})
-export default class CreateInvoiceForm extends Vue {
-  static components: typeof COMPONENTS;
-
-  @Ref('form') readonly appForm!: AppForm;
-
-  @Prop({ type: Boolean, default: false }) readonly isResend!: boolean;
-
-  @Prop({ type: Object as PropType<IInvoicesRecord>, default: null }) readonly formData!: IInvoicesRecord | null;
-
-  $props!: {
+const props = withDefaults(
+  defineProps<{
     isResend?: boolean;
-    formData?: IInvoicesRecord;
-  };
+    formData?: IInvoiceTemplatesRecord | null;
+  }>(),
+  {
+    isResend: false,
+    formData: null,
+  },
+);
+const emit = defineEmits(['created']);
 
-  @Emit('created')
-  protected onCreated(): boolean {
-    return true;
-  }
+const rules: IPlainObject = {
+  name: SimpleRequiredValidationRule(),
+  payerContact: EmailOrPhoneValidationRule(true, 'blur'),
+  productCode: SimpleRequiredValidationRule(),
+  count: SimpleNumberValidationRule(),
+  productPrice: SimpleNumberValidationRule(),
+  amount: SimpleNumberValidationRule(),
+  description: SimpleRequiredValidationRule(),
+  recipientCoin: OnChangeRequiredValidationRule(),
+  expiresAt: OnChangeRequiredValidationRule(),
+  createTemplateName: SimpleRequiredValidationRule(),
+};
 
-  @Watch('form', { deep: true })
-  onFormChanged() {
-    if (this.isCommissionCalculated) {
-      this.isCommissionCalculated = false;
-    }
-  }
+const { coinList, isFetching: isWalletsFetching } = useGetWalletsApi();
 
-  @Watch('formData', { immediate: true })
-  protected setForm(data: IInvoiceTemplatesRecord): void {
-    if (!data) {
-      return;
-    }
+const appFormRef = ref(null) as unknown as Ref<InstanceType<typeof AppForm>>;
 
-    const {
-      templateName,
-      name,
-      data: { productCode = '', count = null, productPrice = null, description = '' } = {},
-      payerContact,
-      recipientCoin,
-      expiresAt,
-      amount,
-    } = data || {};
+const form = ref<IInvoiceCreate>({
+  templateName: '',
+  name: '',
+  payerContact: '',
+  recipientCoin: '',
+  expiresAt: NEXT_DAY_ISO_STRING,
+  productCode: '',
+  count: null,
+  productPrice: null,
+  amount: null,
+  description: '',
+  createTemplateName: '',
+  sendPaymentLink: false,
+});
+const serverErrors = ref([] as TServerError[]);
+const commission = ref(null as IInvoicesCommissionBlock | null);
+const createdInvoiceRecord = ref(null as IInvoicesRecord | null);
+const invoiceTemplates = ref([] as IInvoiceTemplatesRecord[]);
+const isInvoiceCreated = ref(false);
+const isCommissionCalculated = ref(false);
+const isSaveAsTemplateActive = ref(false);
+const isLoading = ref(false);
 
-    this.form = {
-      templateName,
-      name,
-      payerContact,
-      recipientCoin,
-      expiresAt: expiresAt ?? NEXT_DAY_ISO_STRING,
-      productCode,
-      count,
-      productPrice,
-      amount,
-      description,
-      createTemplateName: '',
-    };
-  }
+const isLoaderVisible = computed(() => isLoading.value || isWalletsFetching.value);
+const formCountAndProductPriceValues = computed(() => {
+  const { count, productPrice } = form.value;
+  return [count, productPrice];
+});
 
-  created() {
-    if (!this.isResend) {
-      this.getInvoiceTemplates();
-    }
+const onCreated = () => {
+  emit('created', true);
+};
+const chooseTemplate = (templateName: string) => {
+  const chosenTemplate = (invoiceTemplates.value.filter((template) => template.name === templateName)[0] || {}) as IInvoiceTemplatesRecord;
 
-    this.fetchCoins();
-  }
+  const {
+    name,
+    payerContact,
+    recipientCoin,
+    expiresAt,
+    amount,
+    description = '',
+    data: { productCode = '', count = null, productPrice = null } = {},
+  } = chosenTemplate || {};
 
-  protected isLoading: boolean = false;
-
-  protected isSaveAsTemplateActive: boolean = false;
-
-  protected invoiceTemplates: IInvoiceTemplatesRecord[] = [];
-
-  protected coinsList: IWalletRecord[] = [];
-
-  protected createdInvoiceRecord: IInvoicesRecord | null = null;
-
-  protected isCommissionCalculated: boolean = false;
-
-  protected isInvoiceCreated: boolean = false;
-
-  protected commission: IInvoicesCommissionBlock | null = null;
-
-  protected serverErrors: TServerError[] = [];
-
-  protected form: IInvoiceCreate = {
-    templateName: '',
-    name: '',
-    payerContact: '',
-    recipientCoin: '',
-    expiresAt: NEXT_DAY_ISO_STRING,
-    productCode: '',
-    count: null,
-    productPrice: null,
-    amount: null,
-    description: '',
+  form.value = {
+    name,
+    payerContact,
+    recipientCoin,
+    expiresAt,
+    productCode,
+    count,
+    productPrice,
+    amount,
+    description,
     createTemplateName: '',
   };
+};
+const getInvoiceTemplates = async () => {
+  isLoading.value = true;
+  const { response, error } = await InvoicesTemplatesRequests.fetchRecords();
+  isLoading.value = false;
 
-  protected rules: IPlainObject = {
-    name: SimpleRequiredValidationRule(),
-    payerContact: EmailOrPhoneValidationRule(true, 'blur'),
-    productCode: SimpleRequiredValidationRule(),
-    count: SimpleNumberValidationRule(),
-    productPrice: SimpleNumberValidationRule(),
-    amount: SimpleNumberValidationRule(),
-    description: SimpleRequiredValidationRule(),
-    recipientCoin: OnChangeRequiredValidationRule(),
-    expiresAt: OnChangeRequiredValidationRule(),
-    createTemplateName: SimpleRequiredValidationRule(),
+  if (error) {
+    errorNotification(error);
+  }
+
+  invoiceTemplates.value = response?.records || [];
+};
+const calculateCommission = async () => {
+  const isValid = await appFormRef.value.validate();
+
+  if (!isValid) {
+    return;
+  }
+
+  const { payerContact, recipientCoin, amount } = form.value;
+
+  const { response, error } = await InvoicesRequests.calcInvoiceCommissionAsMerch({
+    payerContact,
+    recipientCoin,
+    amount,
+  });
+
+  if (error !== null) {
+    errorNotification(error);
+    return;
+  }
+
+  const {
+    commissionAmountPush,
+    senderAmountPush,
+    currency: { code: currency },
+  } = response;
+
+  commission.value = {
+    payerContact,
+    commissionAmountPush,
+    senderAmountPush,
+    currency,
   };
 
-  protected get formCountAndProductPriceValues() {
-    const { count, productPrice } = this.form;
-    return [count, productPrice];
+  isCommissionCalculated.value = true;
+};
+const handleForm = async () => {
+  const isValid = await appFormRef.value.validate();
+
+  if (!isValid) {
+    return;
   }
 
-  protected async fetchCoins(): Promise<void> {
-    this.isLoading = true;
+  const {
+    name,
+    payerContact,
+    productCode = '',
+    count,
+    productPrice,
+    amount,
+    description,
+    recipientCoin,
+    expiresAt,
+    createTemplateName,
+    sendPaymentLink,
+  } = form.value || {};
 
-    const { response, error } = await WalletsRequests.getWallets();
-
-    this.isLoading = false;
-
-    if (error) {
-      errorNotification(error);
-      return;
-    }
-
-    this.coinsList = response?.coins || [];
-  }
-
-  protected chooseTemplate(templateName: string): void {
-    const chosenTemplate = this.invoiceTemplates.filter((template) => template.name === templateName)[0] || {};
-
-    const {
-      name,
-      payerContact,
-      recipientCoin,
-      expiresAt,
-      amount,
-      description = '',
-      data: { productCode = '', count = null, productPrice = null } = {},
-    } = chosenTemplate || {};
-
-    this.form = {
-      name,
-      payerContact,
-      recipientCoin,
-      expiresAt,
+  const options = {
+    name,
+    payerContact,
+    recipientCoin,
+    amount: Number(amount),
+    expiresAt,
+    data: {
       productCode,
-      count,
-      productPrice,
-      amount,
+      productPrice: Number(productPrice),
       description,
-      createTemplateName: '',
-    };
+      count: Number(count),
+    },
+    sendPaymentLink,
+  } satisfies IInvoiceCreateOptions;
+
+  isLoading.value = true;
+  const { response, error } = await InvoicesRequests.createInvoice(options);
+  isLoading.value = false;
+
+  if (error) {
+    errorNotification(error);
+    serverErrors.value = error.errors;
+
+    return;
   }
 
-  protected async getInvoiceTemplates(): Promise<void> {
-    this.isLoading = true;
+  if (isSaveAsTemplateActive.value) {
+    isLoading.value = true;
 
-    const { response, error } = await InvoicesTemplatesRequests.fetchRecords();
-
-    this.isLoading = false;
-
-    if (error) {
-      errorNotification(error);
-    }
-
-    this.invoiceTemplates = response?.records || [];
-  }
-
-  protected async calculateCommission(): Promise<void> {
-    const isValid = await this.appForm.validate();
-
-    if (!isValid) {
-      return;
-    }
-
-    const { payerContact, recipientCoin, amount } = this.form;
-
-    const { response } = await InvoicesRequests.calcInvoiceCommissionAsMerch({
-      payerContact,
-      recipientCoin,
-      amount,
+    await InvoicesTemplatesRequests.createRecord({
+      name: createTemplateName,
+      invoiceDraft: {
+        ...options,
+      },
     });
 
-    if (!response) {
-      return;
-    }
-
-    const {
-      commissionAmountPush,
-      senderAmountPush,
-      currency: { code: currency },
-    } = response;
-
-    this.commission = {
-      payerContact,
-      commissionAmountPush,
-      senderAmountPush,
-      currency,
-    };
-
-    this.isCommissionCalculated = true;
+    isLoading.value = false;
   }
 
-  protected async handleForm(): Promise<void> {
-    const isValid = await this.appForm.validate();
-
-    if (!isValid) {
-      return;
-    }
-
-    const {
-      name,
-      payerContact,
-      productCode = '',
-      count,
-      productPrice,
-      amount,
-      description,
-      recipientCoin,
-      expiresAt,
-      createTemplateName,
-    } = this.form || {};
-
-    const options = {
-      name,
-      payerContact,
-      recipientCoin,
-      amount: Number(amount),
-      expiresAt,
-      data: {
-        productCode,
-        productPrice: Number(productPrice),
-        description,
-        count: Number(count),
-      },
-    };
-
-    this.isLoading = true;
-
-    const { response, error } = await InvoicesRequests.createInvoice(options);
-
-    this.isLoading = false;
-
-    if (error) {
-      errorNotification(error);
-      this.serverErrors = error.errors;
-
-      return;
-    }
-
-    if (this.isSaveAsTemplateActive) {
-      this.isLoading = true;
-
-      await InvoicesTemplatesRequests.createRecord({
-        name: createTemplateName,
-        invoiceDraft: {
-          ...options,
-        },
-      });
-
-      this.isLoading = false;
-    }
-
-    this.createdInvoiceRecord = response.invoice || [];
-    this.isInvoiceCreated = true;
-    this.onCreated();
+  createdInvoiceRecord.value = response.invoice || [];
+  isInvoiceCreated.value = true;
+  onCreated();
+};
+const setForm = (data: IInvoiceTemplatesRecord | null) => {
+  if (!data) {
+    return;
   }
 
-  @Watch('formCountAndProductPriceValues', { deep: true })
-  protected formChangeHandler(values: (number | null)[]) {
-    const [count, productPrice] = values;
-    const productPriceNumber = parseInt(`${productPrice}`, 10);
-    const countNumber = parseInt(`${count}`, 10);
+  const {
+    templateName,
+    name,
+    data: { productCode = '', count = null, productPrice = null, description = '' } = {},
+    payerContact,
+    recipientCoin,
+    expiresAt,
+    amount,
+  } = data || {};
 
-    if (Number.isNaN(productPriceNumber) || Number.isNaN(countNumber)) {
-      return;
-    }
-
-    this.form.amount = productPriceNumber * countNumber;
+  form.value = {
+    templateName,
+    name,
+    payerContact,
+    recipientCoin,
+    expiresAt: expiresAt ?? NEXT_DAY_ISO_STRING,
+    productCode,
+    count,
+    productPrice,
+    amount,
+    description,
+    createTemplateName: '',
+  };
+};
+const onFormChanged = () => {
+  if (isCommissionCalculated.value) {
+    isCommissionCalculated.value = false;
   }
-}
+};
+const formChangeHandler = (values: (number | null)[]) => {
+  const [count, productPrice] = values;
+  const productPriceNumber = parseInt(`${productPrice}`, 10);
+  const countNumber = parseInt(`${count}`, 10);
+
+  if (Number.isNaN(productPriceNumber) || Number.isNaN(countNumber)) {
+    return;
+  }
+
+  form.value.amount = productPriceNumber * countNumber;
+};
+
+onMounted(() => {
+  if (!props.isResend) {
+    getInvoiceTemplates();
+  }
+});
+
+watch(form, onFormChanged, { deep: true });
+watch(() => props.formData, setForm, { immediate: true });
+watch(formCountAndProductPriceValues, formChangeHandler, { deep: true });
 </script>

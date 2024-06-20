@@ -31,20 +31,26 @@
       :before-remove="onBeforeRemove"
       :on-exceed="onExceedFile"
       :on-error="onErrorHandler"
+      :on-remove="onRemoveFileHandler"
+      :on-progress="onProgressHandler"
       :before-upload="beforeUpload">
-      <img
+      <div
         v-if="file"
-        :src="file"
-        class="max-h-300 h-300 w-full m-auto object-contain p-20"
-        :class="{ 'cursor-not-allowed': disabled }"
-        alt="" />
+        :class="['app-upload-front-office__image-container', filePreviewNoPadding && 'app-upload-front-office__image-container--no-padding']">
+        <div class="app-upload-front-office__img-container">
+          <img
+            :src="file"
+            :class="['app-upload-front-office__img', disabled && 'app-upload-front-office__img--disabled']"
+            alt="" />
+        </div>
+      </div>
 
       <template v-else>
         <i class="icon-dragndrop app-upload-front-office__icon" />
 
         <div class="app-upload-front-office__text">
           <slot name="text">
-            <span class="text-blue-accent">{{ $t('action.click') }}</span>
+            <span class="text-primary">{{ $t('action.click') }}</span>
             {{ $t('pages.user_profile.labels.to_browse_or_drop') }}
           </slot>
         </div>
@@ -61,7 +67,7 @@
 <script lang="ts">
 import apiConfigInstance from '@sdk5/shared/api';
 import type { TProfileDocumentType } from '@sdk5/shared/constants';
-import type { IUploadMediaFileResponse } from '@sdk5/shared/requests';
+import type { IUploadMediaResponse } from '@sdk5/shared/requests';
 import type { IPlainObject, IServerError } from '@sdk5/shared/types';
 import { errorNotification, loadProtectedImage } from '@sdk5/shared/utils';
 import { refAutoReset, usePrevious, useToggle } from '@vueuse/core';
@@ -104,15 +110,17 @@ export default defineComponent({
     onPreview: { type: Function, default: () => ({}) },
     onBeforeRemove: { type: Function, default: () => ({}) },
     onSuccess: {
-      type: Function as PropType<(response: IUploadMediaFileResponse, fileType: TProfileDocumentType, rawFile: File) => void>,
+      type: Function as PropType<(response: IUploadMediaResponse, fileType: TProfileDocumentType, rawFile: File) => void>,
       default: () => ({}),
     },
     fileType: { type: String as PropType<TProfileDocumentType>, default: '' },
     fileUrl: { type: String, default: '' },
     beforeUpload: { type: Function, default: undefined },
     clearFilesOnSuccess: { type: Boolean, default: false },
+    fileObjectUrl: { type: String as PropType<string | null | undefined>, default: undefined },
+    filePreviewNoPadding: { type: Boolean, default: false },
   },
-  setup(props) {
+  setup(props, { emit }) {
     const [requestPending, toggleRequestPendingState] = useToggle(false);
     const uploadRef = ref(null) as unknown as Ref<InstanceType<typeof Upload>>;
     const file = ref(null as string | null);
@@ -129,7 +137,7 @@ export default defineComponent({
     const clearFiles = () => {
       uploadRef.value.clearFiles();
     };
-    const onSuccessHandler = (response: IUploadMediaFileResponse, uploadedFile: TUploadedFile, fileList: TUploadedFile[]) => {
+    const onSuccessHandler = (response: IUploadMediaResponse, uploadedFile: TUploadedFile, fileList: TUploadedFile[]) => {
       props.onSuccess(response, props.fileType, uploadedFile.raw);
 
       if (props.clearFilesOnSuccess) {
@@ -137,6 +145,11 @@ export default defineComponent({
       }
     };
     const onChangeHandler = (inputFIle: IPlainObject) => {
+      if (inputFIle.status === 'success') {
+        toggleRequestPendingState(false);
+        return;
+      }
+
       const reader = new FileReader();
       reader.readAsDataURL(inputFIle.raw);
       reader.onload = () => {
@@ -160,13 +173,19 @@ export default defineComponent({
     const submitUpload = () => {
       uploadRef.value.submit();
     };
-    const setFile = async (newFile: string) => {
+    const setFile = async (newFile?: string | null, skipLoadImage = false) => {
+      if (file.value !== null) {
+        URL.revokeObjectURL(file.value);
+      }
+
       if (!newFile) {
+        file.value = null;
         return;
       }
 
-      if (file.value !== null) {
-        URL.revokeObjectURL(file.value);
+      if (skipLoadImage) {
+        file.value = newFile;
+        return;
       }
 
       toggleRequestPendingState();
@@ -178,14 +197,25 @@ export default defineComponent({
       successMessage.value = message;
     };
 
-    watch(() => props.fileUrl, setFile, { immediate: true });
+    const onRemoveFileHandler = () => {
+      file.value = null;
+    };
+
+    const onProgressHandler = () => {
+      toggleRequestPendingState();
+    };
+
+    watch(file, (fileValue) => {
+      emit('file-change', fileValue);
+    });
     watch(
-      file,
-      () => {
-        if (!props.fileUrl) {
-          file.value = null;
-        }
-      },
+      () => props.fileUrl,
+      (fileUrl) => setFile(fileUrl),
+      { immediate: true },
+    );
+    watch(
+      () => props.fileObjectUrl,
+      (objectUrl) => setFile(objectUrl, true),
       { immediate: true },
     );
 
@@ -204,6 +234,8 @@ export default defineComponent({
       submitUpload,
       setFile,
       showSuccessMessage,
+      onRemoveFileHandler,
+      onProgressHandler,
       uploadRef,
       prevFile,
       file,
@@ -211,6 +243,7 @@ export default defineComponent({
       tipData,
       successMessage,
       isLoaderVisible,
+      clearFiles,
     };
   },
 });
@@ -228,8 +261,7 @@ export default defineComponent({
   }
 
   .el-upload-dragger {
-    @apply border border-dashed border-blue-600 flex flex-col gap-y-[1.5rem] items-center justify-center min-h-[13.375rem];
-    @apply h-auto #{!important};
+    @apply border border-dashed border-blue-600 flex flex-col gap-y-[1.5rem] items-center justify-center min-h-[13.375rem] h-auto;
   }
 
   &__label {
@@ -255,6 +287,58 @@ export default defineComponent({
 
   &__success-text {
     @apply text-lg font-normal text-gray-500;
+  }
+
+  .el-upload-list.el-upload-list--text {
+    &.el-upload-list {
+      .el-progress {
+        @apply hidden;
+      }
+
+      .el-upload-list__item {
+        @apply p-0  bg-transparent hover:bg-transparent;
+
+        &-name {
+          @apply font-normal text-gray-500 text-lg pl-0;
+
+          .el-icon-document {
+            @apply hidden;
+          }
+        }
+
+        &-status-label {
+          @apply hidden;
+        }
+
+        .el-icon-close {
+          @apply right-0 top-1/2 transform -translate-y-1/2 text-blue-600 flex opacity-100 text-[1rem];
+        }
+      }
+    }
+  }
+
+  &__image-container {
+    @apply p-20 overflow-hidden w-full m-auto rounded-[8px];
+
+    &--no-padding {
+      @apply p-0;
+
+      .app-upload-front-office__img {
+        @apply h-auto;
+      }
+    }
+  }
+
+  &__img {
+    @apply object-contain max-h-300 h-300;
+
+    &-container {
+      @apply overflow-hidden rounded-[8px];
+    }
+
+    &--disabled {
+      @apply cursor-not-allowed;
+    }
   }
 }
 </style>

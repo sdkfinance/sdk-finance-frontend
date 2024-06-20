@@ -7,12 +7,6 @@
     ".": "./index.ts"
   },
   "scripts": {
-    "lint": "concurrently -n ui-kit/lint:script,ui-kit/lint:scss \"npm run lint:script\" \"npm run lint:scss\"",
-    "lint:fix": "concurrently -n ui-kit/lint:script:fix,ui-kit/lint:scss:fix \"npm run lint:script:fix\" \"npm run lint:scss:fix\"",
-    "lint:script": "eslint --ext .ts,.js,.vue .",
-    "lint:script:fix": "eslint --fix --ext .ts,.js,.vue .",
-    "lint:scss": "stylelint \"**/*.{vue,scss,sass}\"",
-    "lint:scss:fix": "stylelint --fix \"**/*.{vue,scss,sass}\"",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
@@ -26,7 +20,6 @@
   },
   "devDependencies": {
     "@sdk5/shared": "*",
-    "@sdk5/stylelint-config": "*",
     "@storybook/addon-essentials": "^7.6.6",
     "@storybook/addon-interactions": "^7.6.6",
     "@storybook/addon-links": "^7.6.6",

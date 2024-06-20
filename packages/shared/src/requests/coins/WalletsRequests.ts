@@ -4,6 +4,7 @@ import type {
   IGetWalletsApiResponse,
   IValidateWalletResponse,
   IWalletBody,
+  IWalletDeactivatePayload,
   IWalletGetByLoginPayload,
   IWalletGetByLoginResponse,
   IWalletRecord,
@@ -23,8 +24,8 @@ export const WalletsRequests = {
     return api.patch(`/coins/${serial}`, updatePayload);
   },
 
-  updateWalletStatus(serial: string): Promise<IApiResponse<IWalletRecord>> {
-    return api.patch(`/coins/${serial}/status`);
+  updateWalletStatus(serial: string, payload: IWalletDeactivatePayload): Promise<IApiResponse<IWalletRecord>> {
+    return api.patch(`/coins/${serial}/status`, payload);
   },
 
   deleteWallet(serial: string): Promise<IApiResponse<IWalletRecord>> {

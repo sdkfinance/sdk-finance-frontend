@@ -10,12 +10,10 @@ export const PROFILE_DOCUMENT_STATUS = {
 export const PROFILE_FILE_TYPES = {
   passport: 'passport',
   tax_id: 'tax_id',
-  bill: 'bil',
   drive_license: 'drive_license',
   other: 'other',
-  photoid: 'photoid',
-  slyuisha: 'slyuisha',
   poa: 'poa',
+  selfie: 'selfie',
 } as const;
 
 export type TProfileDocumentType = (typeof PROFILE_FILE_TYPES)[keyof typeof PROFILE_FILE_TYPES];

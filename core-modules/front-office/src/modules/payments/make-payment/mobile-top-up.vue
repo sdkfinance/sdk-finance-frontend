@@ -73,7 +73,8 @@
 
             <app-button
               class="submit-button"
-              native-type="submit">
+              native-type="submit"
+              full-width>
               {{ $t('action.next') }}
             </app-button>
           </app-form>
@@ -82,6 +83,7 @@
             key="details">
             <mobile-transfer-details :data="commission" />
             <app-button
+              full-width
               class="submit-button"
               native-type="button"
               @click="onMakePayment">

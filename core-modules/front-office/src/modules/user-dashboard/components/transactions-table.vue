@@ -34,7 +34,8 @@
     <template #amount="{ scope: { row } }">
       <app-table-amount
         v-if="row.type"
-        :amount="row.totalAmountString" />
+        :amount="row.totalAmountString"
+        :transaction-record="row" />
     </template>
   </app-table>
 </template>

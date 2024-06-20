@@ -43,6 +43,8 @@ export interface IInvoicesRecord {
   currency: ICurrencyShort;
   data: IInvoiceData;
   paymentCode?: string;
+  qrCodeMediaFileId?: string;
+  qrCodeMediaFileLink?: string;
 }
 
 export interface IComputedInvoicesRecord extends IInvoicesRecord {
@@ -51,51 +53,39 @@ export interface IComputedInvoicesRecord extends IInvoicesRecord {
 
 export interface IInvoiceData {
   productCode: string;
-  productPrice: number | null;
-  description: string | null;
-  count: number | null;
+  productPrice: number;
+  description: string;
+  count: number;
   terms?: string;
   invoiceName?: string;
 }
 
-export interface IInvoiceCreate extends IInvoiceData {
-  templateName?: string;
-  name: string;
-  payerContact: string;
-  recipientCoin: string;
-  amount: number | null;
-  expiresAt: string;
+export interface IInvoiceCreate
+  extends IInvoiceData,
+    Pick<IInvoiceCreateOptions, 'name' | 'payerContact' | 'templateName' | 'amount' | 'recipientCoin' | 'expiresAt' | 'sendPaymentLink'> {
   createTemplateName: string;
 }
 
-export interface IInvoicesCommissionBlock extends Pick<ICalculatedCommission, 'commissionAmountPush' | 'senderAmountPush'> {
-  payerContact: string;
+export interface IInvoicesCommissionBlock
+  extends Pick<ICalculatedCommission, 'commissionAmountPush' | 'senderAmountPush'>,
+    Pick<IInvoiceCalculateCommissionOptions, 'payerContact'> {
   currency: string;
 }
 
-export interface IInvoiceCalculateCommissionOptions {
-  payerContact: string;
-  recipientCoin: string;
-  amount: number | null;
-}
+export type IInvoiceCalculateCommissionOptions = Pick<IInvoiceCreateOptions, 'payerContact' | 'recipientCoin' | 'amount'>;
 
-export interface IInvoiceDraft {
-  name: string;
-  amount: number | null;
-  payerContact: string;
-  recipientCoin: string;
-  data: IInvoiceData;
-  expiresAt: string;
-}
+export type IInvoiceDraft = Pick<IInvoiceCreateOptions, 'name' | 'amount' | 'payerContact' | 'recipientCoin' | 'expiresAt'> &
+  Pick<IInvoicesRecord, 'data'>;
 
 export interface IInvoiceCreateOptions {
   name: string;
   payerContact: string;
-  recipientCoin: string | null;
+  recipientCoin: string;
   templateName?: string;
   data: IInvoiceData;
-  amount: number | null;
-  expiresAt: string | null;
+  amount: number;
+  expiresAt: string;
+  sendPaymentLink?: boolean;
 }
 
 interface IInvoiceCreatedResponse {
@@ -143,3 +133,11 @@ export type IGetCalcSpecInvoiceCommission = IApiResponse<ICalculatedCommission>;
 export type IInvoicesOptions<F = TInvoicesFilterPayload> = IPaginationRequestOptions<F, IInvoicesSort>;
 
 export type IGetInvoicesApiResponse = IApiResponse<IInvoicesResponse>;
+
+export type TInvoiceInfo = {
+  invoiceIdentifier: string;
+  amount: number;
+  currency: string;
+  merchantName: string;
+};
+export type TGetQrInvoiceInfoResponse = IApiResponse<TInvoiceInfo>;

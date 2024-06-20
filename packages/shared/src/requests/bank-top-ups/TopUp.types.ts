@@ -12,7 +12,6 @@ export interface ITopUpRecord extends ITransactionsRecord {
   id: string;
   requestIdentifier: number;
   requestStatus: string;
-  status: string;
   type: string;
   updatedAt: string;
 }

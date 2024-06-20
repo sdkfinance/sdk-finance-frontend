@@ -24,7 +24,6 @@ export * from './app-card-progress';
 export * from './app-simple-details-card';
 export * from './app-search';
 export * from './app-operation-image';
-export * from './app-notification-controller';
 export * from './app-event-notification';
 export * from './app-map';
 export * from './app-list-link';

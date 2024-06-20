@@ -1,0 +1,25 @@
+{
+  "extends": "./tsconfig.vue.json",
+  "compilerOptions": {
+    "composite": true,
+    "baseUrl": "."
+  },
+  "include": [
+    "./vite-env.d.ts",
+    "./components.vue.d.ts",
+    "./shims-vue.d.ts",
+    "./packages/shared/**/*",
+    "./core-modules/back-office/**/*",
+    "./core-modules/back-office/**/*.vue",
+    "./core-modules/front-office/**/*",
+    "./core-modules/front-office/**/*.vue",
+    "./packages/ui-kit-back-office/**/*",
+    "./packages/ui-kit-back-office/**/*.vue",
+    "./packages/ui-kit-front-office/**/*",
+    "./packages/ui-kit-front-office/**/*.vue",
+    "./packages/ui-kit-entrance/**/*",
+    "./packages/vue-toast/**/*",
+    "./packages/vue-toast/**/*.vue"
+  ],
+  "exclude": ["./apps/core/**/*", "./apps/core/**/*.vue"]
+}

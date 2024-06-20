@@ -160,7 +160,9 @@ import type {
   IUserBankAccount,
   IUserBankAccountRecord,
 } from '@sdk5/shared/requests';
+import type { ICashDeskRecord } from '@sdk5/shared/requests';
 import { BankWithdrawalsRequests, GateRequests, ProfileRequests } from '@sdk5/shared/requests';
+import { CashDeskRequests } from '@sdk5/shared/requests';
 import { UserInstance } from '@sdk5/shared/services';
 import type { IDynamicField, IPlainObject } from '@sdk5/shared/types';
 import { errorNotification } from '@sdk5/shared/utils';
@@ -181,8 +183,6 @@ import type { PropType } from 'vue';
 import { Component, Emit, Prop, Ref, Vue, Watch } from 'vue-property-decorator';
 
 import DynamicForm from '../../../../../components/dynamic-form.vue';
-import type { ICashDeskRecord } from '../../../../../requests';
-import { CashDeskRequests } from '../../../../../requests';
 import type {
   IWithdrawalCommissionBlock,
   IWithdrawalForm,

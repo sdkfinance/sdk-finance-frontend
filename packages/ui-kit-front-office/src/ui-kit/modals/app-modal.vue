@@ -14,6 +14,7 @@
           class="app-modal__body"
           :class="modalBodyClass">
           <i
+            v-if="isCloseVisible"
             class="icon-close-circle app-modal__close"
             @click="close" />
           <header
@@ -67,6 +68,7 @@ export default defineComponent({
     isFixedFooter: { default: false, type: Boolean },
     isFullWidth: { default: false, type: Boolean },
     isCentred: { default: false, type: Boolean },
+    isCloseVisible: { default: true, type: Boolean },
   },
   data() {
     const onClose: Function = () => false;
@@ -175,7 +177,7 @@ export default defineComponent({
   }
 
   &__overlay {
-    @apply fixed inset-0 z-100 bg-blue-700 bg-opacity-85 overflow-hidden transition duration-200;
+    @apply fixed inset-0 z-100 bg-primary bg-opacity-85 overflow-hidden transition duration-200;
   }
 
   &__body {

@@ -1,4 +1,5 @@
 import type { TTxType } from '../../constants';
+import type { IOrganizationRecord } from '../organizations';
 
 export interface IAccountSetting {
   label?: string;
@@ -14,26 +15,18 @@ export interface ISupportTransaction {
   transactionType: TTxType;
 }
 
+export interface IGate {
+  name: string;
+}
+
 export interface IGateSetting {
   id: string;
   name: string;
-  organization: {
-    contract_info: {
-      id: string;
-      personType: string;
-      name: string;
-    };
-    id: string;
-    identificationStatus: string;
-    message: string;
-    name: string;
-    status: string;
-    type: string;
-  };
-  gate: {
-    name: string;
-  };
+  organization: IOrganizationRecord;
+  gate: IGate;
+  debtAllowed: boolean;
   supportedTransactions: ISupportTransaction[];
+  active: boolean;
 }
 
 export interface IGateRecord {
@@ -50,4 +43,9 @@ export interface IViewGateResponse {
 
 export interface IGateSettingResponse {
   records: IGateSetting[];
+}
+
+export interface IUpdateGateProviderPayload extends Pick<IGateSetting, 'active' | 'debtAllowed'> {
+  gateProviderId: string;
+  vendorName: string;
 }

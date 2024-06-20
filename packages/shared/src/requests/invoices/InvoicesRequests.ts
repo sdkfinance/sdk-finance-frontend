@@ -1,4 +1,4 @@
-import apiConfigInstance from '../../api';
+import { api } from '../../api';
 import type { IApiResponse } from '../../types';
 import type {
   IGetCalcSpecInvoiceCommission,
@@ -10,13 +10,13 @@ import type {
   IInvoiceCoin,
   IInvoiceCreateOptions,
   IInvoicesOptions,
+  TGetQrInvoiceInfoResponse,
 } from './Invoices.types';
-
-const { api } = apiConfigInstance;
 
 export const InvoicesRequests = {
   createInvoice(options: IInvoiceCreateOptions): Promise<IGetCreatedInvoiceResponse> {
-    return api.post('/invoices', options);
+    const { sendPaymentLink, ...createPayload } = options;
+    return api.post(`/invoices?sendPaymentLink=${!!sendPaymentLink}`, createPayload);
   },
 
   getRecords(options: IInvoicesOptions): Promise<IGetInvoicesApiResponse> {
@@ -37,5 +37,9 @@ export const InvoicesRequests = {
 
   deleteInvoice(id: string): Promise<IApiResponse<any>> {
     return api.delete(`/invoices/${id}`);
+  },
+
+  getQrInvoiceInfo(identifier: string): Promise<TGetQrInvoiceInfoResponse> {
+    return api.get(`/qr/invoices/${identifier}`);
   },
 };

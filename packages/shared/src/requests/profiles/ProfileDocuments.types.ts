@@ -1,5 +1,6 @@
 import type { TProfileDocumentStatus, TProfileDocumentType } from '../../constants/profile-document';
 import type { IApiResponse, IPaginationRequestOptions, IPaginationResponse, TSortType } from '../../types';
+import type { IMediaFile } from '../media-files';
 
 export type IProfileDocument = {
   file?: IMediaFile;
@@ -17,25 +18,11 @@ export interface IProfileDocumentsResponse {
 export interface IUserProfileDocument {
   id: string;
   file?: IMediaFile;
-  documentIdentifier: string;
+  documentIdentifier?: string;
   type: string;
   label?: string;
   status: TProfileDocumentStatus;
   updatedAt: string;
-}
-export interface IMediaFile {
-  id: string;
-  ownerId: string;
-  mediaType: string;
-  name: string;
-  url: string;
-  md5: string;
-  sha1: string;
-  size: number;
-  used: boolean;
-  createdAt?: string;
-  expiresAt?: string;
-  tag?: string;
 }
 
 export type TViewUploadedProfileDocumentsFilter = {
@@ -55,25 +42,6 @@ export type TViewUploadedProfileDocumentsResponse = IApiResponse<IPaginationResp
 
 export interface IChangeUserDocumentStatusRequestPayload {
   status: TProfileDocumentStatus;
-}
-
-export type TMediaFile = {
-  id: string;
-  ownerId: string;
-  mediaType: string;
-  name: string;
-  url: string;
-  md5: string;
-  sha1: string;
-  size: number;
-  used: boolean;
-  createdAt?: string;
-  expiresAt?: string;
-  tag?: string;
-};
-
-export interface IUploadMediaFileResponse {
-  file: TMediaFile;
 }
 
 export interface ILinkProfileDocumentResponse {

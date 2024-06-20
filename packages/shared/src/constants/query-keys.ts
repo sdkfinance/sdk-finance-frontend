@@ -10,4 +10,10 @@ export const QUERY_KEYS = {
   viewExchangeRates: 'view_exchange_rates',
   viewDocumentTypes: 'view_document_types',
   getProfileDocuments: 'get_profile_documents',
+  getCurrentUserProfile: 'get_current_user_profile',
+  getProtectedMediaFromResources: 'get_protected_media_from_resources',
+  loadProtectedMedia: 'load_protected_media',
+  view_qr_invoice_info: 'view_qr_invoice_info',
+  get_gate_providers: 'get_gate_providers',
+  view_gate_methods: 'view_gate_methods',
 } as const;

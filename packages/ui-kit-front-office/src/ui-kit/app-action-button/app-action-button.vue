@@ -46,11 +46,11 @@ export default defineComponent({
   }
 
   &__icon {
-    @apply text-sm text-blue-accent mb-12;
+    @apply text-sm text-primary mb-12;
   }
 
   &__title {
-    @apply font-medium text-sm text-center text-blue-accent;
+    @apply font-medium text-sm text-center text-primary;
   }
 }
 </style>

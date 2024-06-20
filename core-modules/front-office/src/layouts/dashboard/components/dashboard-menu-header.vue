@@ -3,9 +3,11 @@
     v-loading="!isProfileLoaded"
     class="menu-header">
     <template v-if="isProfileLoaded">
-      <div class="menu-header__pic">
+      <div
+        v-if="ENV_VARIABLES.brandLogoMUrl"
+        class="menu-header__pic">
         <img
-          src="../../../assets/images/logo-black.svg"
+          :src="ENV_VARIABLES.brandLogoMUrl"
           alt="" />
       </div>
       <div class="menu-header__user user-data">
@@ -21,6 +23,7 @@
 </template>
 
 <script lang="ts">
+import { ENV_VARIABLES } from '@sdk5/shared';
 import { Profile } from '@sdk5/shared/store';
 import { Component, Vue } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
@@ -35,6 +38,10 @@ import DashboardNavItem from './dashboard-nav-item.vue';
 })
 export default class DashboardMenuHeader extends Vue {
   protected profileModule = getModule(Profile, this.$store);
+
+  protected get ENV_VARIABLES() {
+    return ENV_VARIABLES;
+  }
 
   protected get isProfileLoaded(): boolean {
     return this.profileModule.isProfileLoaded;

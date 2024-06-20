@@ -1,5 +1,0 @@
-src/lib/**/*
-*.config.js
-dist
-.storybook
-storybook-static

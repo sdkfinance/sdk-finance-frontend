@@ -1,6 +1,12 @@
 import apiConfigInstance from '../../api';
 import type { IApiResponse } from '../../types';
-import type { IAccountSettingRequest, ICustomProviderResponse, IGateSettingResponse, IViewGateResponse } from './GateProviders.types';
+import type {
+  IAccountSettingRequest,
+  ICustomProviderResponse,
+  IGateSettingResponse,
+  IUpdateGateProviderPayload,
+  IViewGateResponse,
+} from './GateProviders.types';
 
 const { api } = apiConfigInstance;
 export const GateProviderRequests = {
@@ -20,14 +26,13 @@ export const GateProviderRequests = {
     return api.post('/gate-providers', {
       vendorName: customProviderName,
       debtAllowed: true,
+      active: true,
     });
   },
 
-  updateCustomProvider(customGateProviderId: string, updatedCustomProviderName: string): Promise<IApiResponse<ICustomProviderResponse>> {
-    return api.patch(`/gate-providers/${customGateProviderId}`, {
-      vendorName: updatedCustomProviderName,
-      debtAllowed: true,
-    });
+  updateGateProvider(payload: IUpdateGateProviderPayload): Promise<IApiResponse<ICustomProviderResponse>> {
+    const { gateProviderId, ...updatePayload } = payload;
+    return api.patch(`/gate-providers/${gateProviderId}`, updatePayload);
   },
 
   deleteCustomProvider(customGateProviderId: string) {
@@ -40,7 +45,7 @@ export const GateProviderRequests = {
     });
   },
 
-  viewGateProviders(): Promise<IApiResponse<IViewGateResponse>> {
+  viewGates(): Promise<IApiResponse<IViewGateResponse>> {
     return api.get('/gate/view');
   },
 };

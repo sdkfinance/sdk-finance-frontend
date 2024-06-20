@@ -2,9 +2,12 @@ import { useMutation } from '@tanstack/vue-query';
 
 import type { TPaymentWay } from '../../requests';
 import { GateRequests } from '../../requests';
+import type { TUseMutationsApiCommonOptions } from '../../types';
 import { errorNotification } from '../../utils';
 
-export const useCreateCardTokenApi = () => {
+export type TCreateCardTokenApiOptions = TUseMutationsApiCommonOptions;
+
+export const useCreateCardTokenApi = (options: TCreateCardTokenApiOptions = {}) => {
   return useMutation({
     mutationFn: (payload: { walletSerial: string; currencyCode: string; gateProviderId: string; way: TPaymentWay; testMode?: boolean }) => {
       if (!payload.walletSerial || !payload.currencyCode || !payload.gateProviderId || !payload.way) {
@@ -34,13 +37,10 @@ export const useCreateCardTokenApi = () => {
       });
     },
     onSuccess: ({ error, response }) => {
-      if (error !== null) {
-        errorNotification(error);
-        return;
-      }
+      const { showErrorNotification } = options;
 
-      if (response.transaction.errorCode) {
-        errorNotification(response.transaction.errorCode);
+      if ((error !== null || !response.transaction || response.transaction.errorCode) && showErrorNotification !== false) {
+        errorNotification(error || response.transaction?.errorCode || 'notification.error');
       }
     },
   });

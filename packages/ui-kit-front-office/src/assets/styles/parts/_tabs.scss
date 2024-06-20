@@ -5,7 +5,7 @@
     .tabs__link {
       &.router-link-active,
       &.is-active {
-        @apply text-blue-700 bg-transparent after:opacity-100 after:translate-y-0;
+        @apply text-primary bg-transparent after:opacity-100 after:translate-y-0;
       }
     }
   }
@@ -22,7 +22,7 @@
       leading-[140%]
       pb-[1rem]
       cursor-pointer
-      hover:text-blue-700
+      hover:text-primary
       hover:bg-transparent
       after:content-[""]
       after:absolute
@@ -31,7 +31,7 @@
       after:right-0
       after:inline-block
       after:h-[0.125rem]
-      after:bg-blue-700
+      after:bg-primary
       after:opacity-0
       after:w-full
       after:transition
@@ -45,7 +45,7 @@
 
     &.router-link-active,
     &.is-active {
-      @apply text-blue-700 bg-transparent after:opacity-100 after:translate-y-0;
+      @apply text-primary bg-transparent after:opacity-100 after:translate-y-0;
     }
 
     &.disabled {

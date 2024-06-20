@@ -40,7 +40,7 @@ interface IUserOrganization {
   organizationStatus: TOrganizationStatus;
 }
 
-interface IUserContractInfo {
+export interface IUserContractInfo {
   id: string;
   personType: string;
   name: string;
@@ -93,6 +93,11 @@ export interface IUserNote {
   id: string;
   note: string;
   createdAt: string;
+}
+
+export interface IInvestigationNote extends IUserNote {
+  name: string;
+  role: string;
 }
 
 export interface ICreateUserNoteBody {

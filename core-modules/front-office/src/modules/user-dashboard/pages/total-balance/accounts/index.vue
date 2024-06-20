@@ -17,7 +17,7 @@
     </div>
 
     <div
-      v-loading="isWalletsLoading"
+      v-loading="isWalletsFetching"
       class="cards-container">
       <app-wallet-card
         v-for="(card, i) in coinList"
@@ -32,7 +32,7 @@
     </div>
 
     <app-modal
-      ref="accountFormModal"
+      ref="accountFormModalRef"
       modal-body-class="max-w-520"
       is-full-width>
       <template #default="{ onSubmit }">
@@ -42,58 +42,19 @@
   </div>
 </template>
 
-<script lang="ts">
-import type { ICoin } from '@sdk5/shared/requests';
+<script setup lang="ts">
+import { useGetWalletsApi } from '@sdk5/shared/composables';
 import { AccountFormModal, AppButton, AppModal, AppWalletCard } from '@sdk5/ui-kit-front-office';
-import { defineComponent, ref } from 'vue';
-import { getModule } from 'vuex-module-decorators';
+import type { Ref } from 'vue';
+import { ref } from 'vue';
 
-import { UserCoins } from '../../../../../store/modules';
+const { mappedCoins: coinList, isFetching: isWalletsFetching } = useGetWalletsApi();
 
-export default defineComponent({
-  components: {
-    AppModal,
-    AppWalletCard,
-    AppButton,
-    AccountFormModal,
-  },
-  setup() {
-    const isWalletsLoading = ref(false);
-    const accountFormModal = ref(null) as unknown as InstanceType<typeof AppModal>;
+const accountFormModalRef = ref(null) as unknown as Ref<InstanceType<typeof AppModal>>;
 
-    return {
-      accountFormModal,
-      isWalletsLoading,
-    };
-  },
-  data() {
-    return {
-      userCoinsModule: getModule(UserCoins, this.$store),
-    };
-  },
-  computed: {
-    coinList(): ICoin[] {
-      return this.userCoinsModule.mappedCoins;
-    },
-  },
-  created() {
-    this.refreshCoins();
-  },
-  methods: {
-    async refreshCoins(): Promise<void> {
-      this.isWalletsLoading = true;
-      await this.userCoinsModule.fetchCoins(true);
-      this.isWalletsLoading = false;
-    },
-    async openAddAccountModal(): Promise<void> {
-      const isSubmitted = await this.accountFormModal.open();
-
-      if (isSubmitted) {
-        await this.refreshCoins();
-      }
-    },
-  },
-});
+const openAddAccountModal = () => {
+  accountFormModalRef.value.open();
+};
 </script>
 
 <style lang="scss">

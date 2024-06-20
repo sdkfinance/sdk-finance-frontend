@@ -25,7 +25,7 @@
     </app-form-item>
 
     <app-form-item
-      v-if="!update"
+      v-if="!update && ENV_VARIABLES.createWalletCustomSerialInputVisible"
       prop="customSerial">
       <app-input
         v-model="form.customSerial"
@@ -58,6 +58,7 @@
 </template>
 
 <script setup lang="ts">
+import { ENV_VARIABLES } from '@sdk5/shared';
 import { useGetCurrenciesApi } from '@sdk5/shared/composables';
 import { useI18n } from '@sdk5/shared/i18n';
 import type { IWalletBody } from '@sdk5/shared/requests';

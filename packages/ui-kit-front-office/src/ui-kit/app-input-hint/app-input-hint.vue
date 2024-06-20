@@ -37,7 +37,7 @@ export default defineComponent({
       content: '';
       left: -9px;
 
-      @apply rounded-full bg-blue-accent w-4 h-4 mr-4 absolute;
+      @apply rounded-full bg-primary w-4 h-4 mr-4 absolute;
     }
   }
 }

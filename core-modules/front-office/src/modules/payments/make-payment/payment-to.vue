@@ -16,7 +16,7 @@
         <transition-group name="page">
           <app-form
             v-show="currentStep === 1"
-            ref="form"
+            ref="appFormRef"
             key="form"
             :loading="isLoading"
             :model="form"
@@ -44,7 +44,7 @@
                 placeholder="placeholder.input.input_account_number_or_choose_recipient"
                 input-placeholder="placeholder.input.input_recipient_account_number"
                 :on-load="getTemplateFilteredTransfers"
-                @manual-templat="resetTemplate">
+                @manual-input="resetTemplate">
                 <template #options="{ setValueManual, removeItem, records }">
                   <app-custom-select-option
                     v-for="template in records"
@@ -114,7 +114,8 @@
 
             <app-button
               class="submit-button"
-              native-type="submit">
+              native-type="submit"
+              full-width>
               {{ $t('action.next') }}
             </app-button>
           </app-form>
@@ -127,6 +128,7 @@
             <app-button
               class="submit-button"
               native-type="button"
+              full-width
               @click="onMakePayment">
               {{ $t('action.make_payment') }}
             </app-button>
@@ -166,11 +168,10 @@
   </app-step-controller>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import config from '@sdk5/shared/config';
-import type { ITransferBody, ITransferCalculateResponse, TPaymentToolDetailsType } from '@sdk5/shared/requests';
+import type { ITransferBody, ITransferCalculateResponse, TPaymentToolDetailsType, TTransferResponse } from '@sdk5/shared/requests';
 import { TransfersRequests } from '@sdk5/shared/requests';
-import type { ISmartCardRecord } from '@sdk5/shared/types';
 import { errorNotification, getProp, successNotification } from '@sdk5/shared/utils';
 import { OnChangeRequiredValidationRule, SimpleNumberValidationRule } from '@sdk5/shared/validation';
 import {
@@ -184,16 +185,15 @@ import {
   AppInput,
   AppInputCardNumber,
   AppModal,
-  AppSelect,
-  AppSelectCustomOption,
-  AppSimpleDetailsCard,
   AppStepController,
   InfoModalTypes,
 } from '@sdk5/ui-kit-front-office';
-import { debounce } from 'lodash';
-import { Component, Prop, Ref, Vue, Watch } from 'vue-property-decorator';
+import { useDebounceFn } from '@vueuse/core';
+import type { Ref } from 'vue';
+import { computed, ref, watch } from 'vue';
+import { useRouter } from 'vue-router/composables';
 
-import type { ITransferTemplateRecord } from '../../../requests';
+import type { ITransferTemplateExecute, ITransferTemplateRecord } from '../../../requests';
 import { TemplatesRequests } from '../../../requests';
 import AccountSelect from '../../user-dashboard/components/account-select.vue';
 import CardSelect from '../../user-dashboard/components/card-select.vue';
@@ -201,231 +201,181 @@ import OperationCommission from '../../user-dashboard/components/operation-commi
 import SaveTemplateForm from './components/save-template-form.vue';
 import TransferDetails from './components/transfer-details.vue';
 
-const COMPONENTS = {
-  AccountSelect,
-  CardSelect,
-  SaveTemplateForm,
-  TransferDetails,
-  AppSimpleDetailsCard,
-  AppInputCardNumber,
-  AppCustomSelectOption,
-  AppCustomSelect,
-  AppButton,
-  AppStepController,
-  AppForm,
-  AppInput,
-  AppFormItem,
-  AppSelect,
-  AppFormWrapper,
-  AppSelectCustomOption,
-  AppInfoModal,
-  OperationCommission,
-  AppModal,
-} as const;
-
-@Component({
-  name: 'payment-to',
-  components: COMPONENTS,
-})
-export default class PaymentTo extends Vue {
-  static components: typeof COMPONENTS;
-
-  @Ref('form') readonly appForm!: typeof AppForm;
-
-  @Ref('successModal') readonly successModal!: typeof AppModal;
-
-  @Ref('saveTemplateModal') readonly saveTemplateModal!: typeof AppModal;
-
-  @Prop({ type: Boolean, default: false }) readonly isAccountPage!: boolean;
-
-  $props!: {
+const props = withDefaults(
+  defineProps<{
     isAccountPage?: boolean;
+  }>(),
+  {
+    isAccountPage: false,
+  },
+);
+
+const router = useRouter();
+
+const { emptyChar } = config;
+const infoModalTypes = InfoModalTypes;
+
+const rules = {
+  from: OnChangeRequiredValidationRule(),
+  to: OnChangeRequiredValidationRule(),
+  amount: SimpleNumberValidationRule(),
+  template: null,
+};
+
+const appFormRef = ref(null) as unknown as Ref<InstanceType<typeof AppForm>>;
+const successModal = ref(null) as unknown as Ref<InstanceType<typeof AppModal>>;
+const saveTemplateModal = ref(null) as unknown as Ref<InstanceType<typeof AppModal>>;
+
+const form = ref({
+  from: '',
+  to: '',
+  amount: undefined as number | undefined,
+  template: {} as ITransferTemplateRecord,
+});
+const commission = ref({} as ITransferCalculateResponse);
+const operationId = ref('');
+const isLoading = ref(false);
+
+const paymentToolType = computed<TPaymentToolDetailsType>(() => (props.isAccountPage ? 'COIN' : 'SMART_CARD'));
+const isCommissionCalculated = computed(() => commission.value && Object.keys(commission.value).length > 0);
+
+const getPayload = (): ITransferBody => {
+  const { from, to, amount } = form.value;
+
+  return {
+    paymentTool: {
+      type: paymentToolType.value,
+      srcValue: from,
+      destValue: to,
+    },
+    amount: Number(amount),
+    description: '',
   };
-
-  protected smartCards: ISmartCardRecord[] = [];
-
-  protected isLoading: boolean = false;
-
-  protected operationId: string = '';
-
-  readonly emptyChar: string = config.emptyChar;
-
-  protected infoModalTypes = InfoModalTypes;
-
-  protected commission: ITransferCalculateResponse = {} as ITransferCalculateResponse;
-
-  protected form = {
-    from: '',
-    to: '',
-    amount: undefined as number | undefined,
-    template: {} as ITransferTemplateRecord,
-  };
-
-  protected rules: Record<keyof typeof this.form, unknown> = {
-    from: OnChangeRequiredValidationRule(),
-    to: OnChangeRequiredValidationRule(),
-    amount: SimpleNumberValidationRule(),
-    template: null,
-  };
-
-  protected get isCommissionCalculated(): boolean {
-    return !!this.commission && Object.keys(this.commission).length > 0;
+};
+const resetTemplate = () => {
+  if (form.value.template?.id) {
+    form.value.template = {} as ITransferTemplateRecord;
+    form.value.to = '';
   }
-
-  protected get paymentToolType(): TPaymentToolDetailsType {
-    return this.isAccountPage ? 'COIN' : 'SMART_CARD';
-  }
-
-  protected getProp = getProp;
-
-  @Watch('form', { deep: true })
-  protected onFormChanged(): void {
-    this.commission = {} as ITransferCalculateResponse;
-    this.debouncedCommissionCalculation();
-  }
-
-  protected getPayload(): ITransferBody {
-    const { from, to, amount } = this.form;
-
-    return {
-      paymentTool: {
-        type: this.paymentToolType,
-        srcValue: from,
-        destValue: to,
-      },
-      amount: Number(amount),
-      description: '',
-    };
-  }
-
-  protected resetTemplate(): void {
-    if (this.form.template?.id) {
-      this.form.template = {} as ITransferTemplateRecord;
-      this.form.to = '';
-    }
-  }
-
-  protected calculateCommissionFee(): ReturnType<typeof TransfersRequests.calculateCommissionFee> {
-    if (this.form.template?.id) {
-      const {
-        amount,
-        template: { id },
-      } = this.form;
-      return TemplatesRequests.calculateCommissionFee(id, Number(amount));
-    }
-
-    const payload = this.getPayload();
-    return TransfersRequests.calculateCommissionFee(payload);
-  }
-
-  protected async handleForm(onNextStep: Function): Promise<void> {
-    const isValid: boolean = await this.appForm.validate();
-
-    if (!isValid) {
-      return;
-    }
-
-    if (this.isCommissionCalculated) {
-      onNextStep();
-      return;
-    }
-
-    await this.onCalculateCommission();
-  }
-
-  protected debouncedCommissionCalculation = debounce(this.onCalculateCommission, 500);
-
-  protected async onCalculateCommission(): Promise<void> {
-    if (!this.form.amount) {
-      return;
-    }
-
-    const isValid: boolean = await this.appForm.validate();
-
-    if (!isValid) {
-      return;
-    }
-
-    this.isLoading = true;
-    const { response, error } = await this.calculateCommissionFee();
-    this.isLoading = false;
-
-    if (error) {
-      errorNotification(error);
-      return;
-    }
-
-    this.commission = response || ({} as ITransferCalculateResponse);
-  }
-
-  protected executeTransfer(): ReturnType<typeof TransfersRequests.executeTransfer | typeof TemplatesRequests.executeTransfer> {
-    if (this.form.template?.id) {
-      const {
-        amount,
-        template: { id },
-      } = this.form;
-      return TemplatesRequests.executeTransfer(id, Number(amount));
-    }
-
-    const payload = this.getPayload();
-    return TransfersRequests.executeTransfer(payload);
-  }
-
-  protected async onMakePayment(): Promise<void> {
-    this.isLoading = true;
-    const { response, error } = await this.executeTransfer();
-    this.isLoading = false;
-
-    if (error) {
-      errorNotification(error);
-      return;
-    }
-
-    this.setOperationId(response);
-
-    const isCreateTemplate = await this.successModal.open();
-
-    if (isCreateTemplate) {
-      await this.saveTemplateModal.open();
-    }
-
-    await this.$router.push({ name: 'user-make-payment-operations' });
-  }
-
-  protected setOperationId(response: any): void {
-    this.operationId = response?.process?.id || response?.businessProcessId;
-  }
-
-  protected selectTemplate(template: ITransferTemplateRecord, setValueManual: Function): void {
+};
+const calculateCommissionFee = (): ReturnType<typeof TransfersRequests.calculateCommissionFee> => {
+  if (form.value.template?.id) {
     const {
-      paymentToolDetails: { srcId, srcValue, destValue },
       amount,
-    } = template;
-    this.form.from = this.isAccountPage ? srcValue : srcId;
-    this.form.amount = amount;
-    this.form.template = template;
-    setValueManual(destValue);
+      template: { id },
+    } = form.value;
+    return TemplatesRequests.calculateCommissionFee(id, Number(amount));
   }
 
-  protected async deleteTemplate(id: string, removeItem: Function): Promise<void> {
-    this.isLoading = true;
-    const { error } = await TemplatesRequests.deleteTemplateTransfer(id);
-    this.isLoading = false;
-
-    if (error) {
-      errorNotification(error);
-      return;
-    }
-
-    successNotification();
-    removeItem(id);
+  const payload = getPayload();
+  return TransfersRequests.calculateCommissionFee(payload);
+};
+const onCalculateCommission = async () => {
+  if (!form.value.amount) {
+    return;
   }
 
-  protected getTemplateFilteredTransfers(options = {}): ReturnType<typeof TemplatesRequests.getTemplateFilteredTransfers> {
-    return TemplatesRequests.getTemplateFilteredTransfers({
-      filter: { paymentToolType: this.paymentToolType },
-      ...options,
-    });
+  const isValid: boolean = await appFormRef.value.validate();
+
+  if (!isValid) {
+    return;
   }
-}
+
+  isLoading.value = true;
+  const { response, error } = await calculateCommissionFee();
+  isLoading.value = false;
+
+  if (error) {
+    errorNotification(error);
+    return;
+  }
+
+  commission.value = response || ({} as ITransferCalculateResponse);
+};
+const handleForm = async (onNextStep: () => void) => {
+  const isValid: boolean = await appFormRef.value.validate();
+
+  if (!isValid) {
+    return;
+  }
+
+  if (isCommissionCalculated.value) {
+    onNextStep();
+    return;
+  }
+
+  onCalculateCommission();
+};
+const executeTransfer = (): ReturnType<typeof TransfersRequests.executeTransfer | typeof TemplatesRequests.executeTransfer> => {
+  if (form.value.template?.id) {
+    const {
+      amount,
+      template: { id },
+    } = form.value;
+    return TemplatesRequests.executeTransfer(id, Number(amount));
+  }
+
+  const payload = getPayload();
+  return TransfersRequests.executeTransfer(payload);
+};
+const setOperationId = (response: TTransferResponse | ITransferTemplateExecute) => {
+  const isTransferResponse = (value: unknown): value is TTransferResponse => !!(value as TTransferResponse).process;
+  operationId.value = isTransferResponse(response) ? response.process?.id : response?.businessProcessId;
+};
+const onMakePayment = async () => {
+  isLoading.value = true;
+  const { response, error } = await executeTransfer();
+  isLoading.value = false;
+
+  if (error) {
+    errorNotification(error);
+    return;
+  }
+
+  setOperationId(response);
+
+  const isCreateTemplate = await successModal.value.open();
+
+  if (isCreateTemplate) {
+    await saveTemplateModal.value.open();
+  }
+
+  router.push({ name: 'user-make-payment-operations' });
+};
+const selectTemplate = (template: ITransferTemplateRecord, setValueManual: (value: string) => void) => {
+  const {
+    paymentToolDetails: { srcId, srcValue, destValue },
+    amount,
+  } = template;
+  form.value.from = props.isAccountPage ? srcValue : srcId;
+  form.value.amount = amount;
+  form.value.template = template;
+  setValueManual(destValue);
+};
+const deleteTemplate = async (id: string, removeItem: (value: string) => void) => {
+  isLoading.value = true;
+  const { error } = await TemplatesRequests.deleteTemplateTransfer(id);
+  isLoading.value = false;
+
+  if (error) {
+    errorNotification(error);
+    return;
+  }
+
+  successNotification();
+  removeItem(id);
+};
+const getTemplateFilteredTransfers = (options = {}): ReturnType<typeof TemplatesRequests.getTemplateFilteredTransfers> => {
+  return TemplatesRequests.getTemplateFilteredTransfers({
+    filter: { paymentToolType: paymentToolType.value },
+    ...options,
+  });
+};
+const debouncedCommissionCalculation = useDebounceFn(onCalculateCommission, 500);
+const onFormChanged = () => {
+  commission.value = {} as ITransferCalculateResponse;
+  debouncedCommissionCalculation();
+};
+
+watch(form, onFormChanged, { deep: true });
 </script>

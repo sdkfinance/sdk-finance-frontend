@@ -18,7 +18,9 @@
       <app-simple-details-card
         :details="paymentDetails"
         class="mb-36" />
-      <app-button native-type="submit">
+      <app-button
+        native-type="submit"
+        full-width>
         {{ $t('action.save_as_template') }}
       </app-button>
     </app-form>

@@ -234,7 +234,7 @@ export default class TransactionDetails extends Vue {
 <style lang="scss">
 .transaction-details {
   &__head-background {
-    @apply w-full h-150 bg-blue-accent flex items-center justify-between px-24 text-white font-semibold text-xl;
+    @apply w-full h-150 bg-primary flex items-center justify-between px-24 text-white font-semibold text-xl;
   }
 
   &__head-image {

@@ -91,6 +91,7 @@ const processUpdateUserAddress = async (payload: TUpdateUserAddressPayload) => {
     return;
   }
 
+  await profileModule.getProfile();
   successNotification();
 };
 const formSubmitHandler = async () => {

@@ -19,14 +19,15 @@
             <app-input
               v-model.trim="form.name"
               name="name"
-              size="big"
+              size="large"
               autocomplete="off"
               label="form.label.company_or_iban"
               placeholder="form.label.company_or_iban" />
           </app-form-item>
           <app-button
             class="submit-button"
-            native-type="submit">
+            native-type="submit"
+            full-width>
             {{ $t('action.next') }}
           </app-button>
         </app-form>

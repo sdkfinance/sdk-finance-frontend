@@ -56,7 +56,7 @@ export default defineComponent({
   }
 
   &__button {
-    @apply text-xs text-blue-600 mr-10 leading-none hover:text-blue-accent transition;
+    @apply text-xs text-blue-600 mr-10 leading-none hover:text-primary transition;
   }
 
   &__value {

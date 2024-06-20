@@ -1,8 +1,10 @@
 <template>
   <div class="entrance-form-container">
-    <div class="hidden md:block form-entrance__logo">
+    <div
+      v-if="ENV_VARIABLES.brandLogoLUrl"
+      class="hidden md:block form-entrance__logo">
       <img
-        src="@/assets/images/logo.svg"
+        :src="ENV_VARIABLES.brandLogoLUrl"
         alt="sdk.finance" />
     </div>
 
@@ -95,7 +97,7 @@
 
 <script setup lang="ts">
 import { useDashboardNameByRole, useGetVuexModule, useIsUaWebview } from '@sdk5/shared/composables';
-import { ROLES } from '@sdk5/shared/constants';
+import { ENV_VARIABLES, ROLES } from '@sdk5/shared/constants';
 import { AuthRequests } from '@sdk5/shared/requests';
 import { UserData } from '@sdk5/shared/store';
 import { checkMobile, errorNotification, successNotification } from '@sdk5/shared/utils';

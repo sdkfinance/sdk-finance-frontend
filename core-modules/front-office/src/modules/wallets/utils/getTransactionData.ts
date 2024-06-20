@@ -1,14 +1,13 @@
 import config from '@sdk5/shared/config';
 import { TRANSACTION_TYPES_ENUM } from '@sdk5/shared/constants';
-import type { ITransactionsRecord, IWalletRecord } from '@sdk5/shared/requests';
-import type { IPlainObject, IProfileContact } from '@sdk5/shared/types';
+import type { ITransactionsRecord, IUserLogin, IWalletRecord } from '@sdk5/shared/requests';
 import { isUserAreRecipient } from '@sdk5/shared/utils';
 
 import { getTransactionAmount, getTransactionCurrency } from '../../../utils/transaction-mapping';
 
 export function checkIsUserAreRecipient(options: {
   transaction: ITransactionsRecord;
-  profileData?: IProfileContact;
+  profileData?: IUserLogin;
   userCoins: IWalletRecord[];
 }): boolean {
   const { transaction, userCoins, profileData } = options;
@@ -21,7 +20,7 @@ export function checkIsUserAreRecipient(options: {
   return isUserAreRecipientByContactData || isRecipientSerialExistInUserCoins;
 }
 
-export function getExchangeAmountData(transaction: ITransactionsRecord): IPlainObject {
+export function getExchangeAmountData(transaction: ITransactionsRecord) {
   const { type, internalSourceAmount, internalDestinationAmount, sourceCurrency, destinationCurrency } = transaction;
 
   return {
@@ -33,11 +32,7 @@ export function getExchangeAmountData(transaction: ITransactionsRecord): IPlainO
   };
 }
 
-export function getTransactionData(options: {
-  transaction: ITransactionsRecord;
-  coinsData: IWalletRecord[];
-  profileContactData?: IProfileContact;
-}): IPlainObject {
+export function getTransactionData(options: { transaction: ITransactionsRecord; coinsData: IWalletRecord[]; profileContactData?: IUserLogin }) {
   const { coinsData, transaction, profileContactData } = options;
 
   if (transaction.type === TRANSACTION_TYPES_ENUM.exchange_transaction) {

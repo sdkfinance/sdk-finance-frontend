@@ -13,8 +13,7 @@
     <div class="account-details__title">{{ currentCurrency.symbol }} {{ currentAccount.availableAmount }}</div>
     <frequently-used-activities
       class="account-details__actions"
-      :coin-list="coinList"
-      @updateData="updateData" />
+      :coin-list="coinsList" />
     <app-tab-links
       :tabs="tabs"
       secondary />
@@ -25,14 +24,13 @@
   </div>
 </template>
 
-<script lang="ts">
-import type { ICoin } from '@sdk5/shared/requests';
-import type { IRouteConfig } from '@sdk5/shared/types';
-import { AppButton, AppButtonsMobile, AppTabLinks } from '@sdk5/ui-kit-front-office';
-import { Component, Ref, Vue } from 'vue-property-decorator';
-import { getModule } from 'vuex-module-decorators';
+<script setup lang="ts">
+import { useGetWalletsApi } from '@sdk5/shared';
+import type { ICoin, ICurrencyShort } from '@sdk5/shared/requests';
+import { AppTabLinks } from '@sdk5/ui-kit-front-office';
+import { computed, ref } from 'vue';
+import { useRoute } from 'vue-router/composables';
 
-import { UserCoins } from '../../../../store/modules';
 import FrequentlyUsedActivities from '../../components/frequently-used-activities.vue';
 import { ACCOUNT_CHILDREN } from '../../routes/ACCOUNT_CHILDREN';
 
@@ -40,66 +38,27 @@ interface IRouterView {
   updateData?: Function;
 }
 
-const COMPONENTS = {
-  FrequentlyUsedActivities,
-  AppButton,
-  AppButtonsMobile,
-  AppTabLinks,
-} as const;
+const tabs = ACCOUNT_CHILDREN;
 
-@Component({
-  components: COMPONENTS,
-})
-export default class AccountPage extends Vue {
-  static components: typeof COMPONENTS;
+const route = useRoute();
 
-  @Ref('routerViewNode') readonly routerViewNode!: IRouterView;
+const { mappedCoins: coinsList, refetch: fetchAccounts } = useGetWalletsApi();
 
-  protected tabs: IRouteConfig[] = ACCOUNT_CHILDREN;
+const routerViewNode = ref(null as IRouterView | null);
+const isLoading = ref(false);
 
-  protected userCoinsModule = getModule(UserCoins, this.$store);
-
-  protected isLoading: boolean = false;
-
-  protected serial: string = this.$route.params?.serial || '';
-
-  protected get coinList(): ICoin[] {
-    return this.userCoinsModule.mappedCoins;
-  }
-
-  protected get currentAccount(): ICoin {
-    return this.coinList.find(({ serial }) => serial === this.serial) || ({} as ICoin);
-  }
-
-  protected get currentCurrency() {
-    return this.currentAccount?.currency || {};
-  }
-
-  protected async updateData(): Promise<void> {
-    if (this.routerViewNode.updateData) {
-      await this.routerViewNode.updateData();
-    }
-  }
-
-  protected async fetchAccounts(force: boolean) {
-    this.isLoading = true;
-    await this.userCoinsModule.fetchCoins(force);
-    this.isLoading = false;
-  }
-
-  protected async created(): Promise<void> {
-    await this.fetchAccounts(false);
-  }
-}
+const serial = computed(() => route.params.serial || '');
+const currentAccount = computed(() => coinsList.value.find((coin: ICoin) => coin.serial === serial.value) || ({} as ICoin));
+const currentCurrency = computed(() => currentAccount.value?.currency || ({} as ICurrencyShort));
 </script>
 
 <style lang="scss">
 .account-details {
   &__title {
-    @apply text-blue-700 text-40 mb-24;
+    @apply text-primary text-40 mb-24;
 
     &-amount {
-      @apply text-blue-accent text-40;
+      @apply text-primary text-40;
     }
   }
 

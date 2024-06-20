@@ -96,7 +96,7 @@ export default defineComponent({
   props: {
     records: {
       type: Array as PropType<IPlainObject[]>,
-      required: true,
+      default: () => [],
     },
     onLoad: {
       required: true,

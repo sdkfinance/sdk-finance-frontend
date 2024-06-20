@@ -250,7 +250,7 @@ export default class ExchangeFormModal extends Vue {
   }
 
   &--active {
-    @apply border border-blue-accent shadow-none;
+    @apply border border-primary shadow-none;
 
     &:hover {
       @apply shadow-none;
@@ -279,7 +279,7 @@ export default class ExchangeFormModal extends Vue {
     font-size: 10px;
     background: #1b55e91a;
 
-    @apply rounded-round mr-8 font-bold text-center text-blue-accent w-18 h-18;
+    @apply rounded-round mr-8 font-bold text-center text-primary w-18 h-18;
   }
 }
 

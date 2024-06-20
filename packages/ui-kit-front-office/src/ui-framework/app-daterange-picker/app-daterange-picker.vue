@@ -42,6 +42,7 @@ export default defineComponent({
     },
     value: {
       type: String,
+      default: undefined,
     },
   },
   computed: {

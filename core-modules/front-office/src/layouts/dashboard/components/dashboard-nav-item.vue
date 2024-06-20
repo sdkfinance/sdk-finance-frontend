@@ -154,12 +154,12 @@ export default class DashboardNavItem extends Vue {
     &--active {
       &,
       .menu-item-link__icon {
-        @apply text-blue-700;
+        @apply text-primary;
       }
     }
 
     &--exact-active {
-      @apply bg-blue-700 text-gray-100;
+      @apply bg-primary text-gray-100;
 
       .menu-item__toggle,
       .menu-item-link__icon {
@@ -199,7 +199,7 @@ export default class DashboardNavItem extends Vue {
 
   &::before,
   &::after {
-    @apply bg-blue-700 bg-opacity-20 w-[1px] h-1/2 absolute left-1/2 -translate-x-1/2 z-1;
+    @apply bg-primary bg-opacity-20 w-[1px] h-1/2 absolute left-1/2 -translate-x-1/2 z-1;
   }
 
   &--first {
@@ -213,7 +213,7 @@ export default class DashboardNavItem extends Vue {
   &--active {
     &::before,
     &::after {
-      @apply from-blue-700/[20%] to-blue-700 bg-opacity-0;
+      @apply from-primary/[20%] to-primary bg-opacity-0;
     }
 
     &::before {
@@ -238,7 +238,7 @@ export default class DashboardNavItem extends Vue {
       z-10
       relative
       before:absolute
-    before:bg-blue-700
+    before:bg-primary
       before:bg-opacity-20
       before:left-0
       before:top-0

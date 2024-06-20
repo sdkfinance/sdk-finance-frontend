@@ -1,7 +1,7 @@
 <template>
   <app-form
-    ref="form"
-    :loading="isLoading"
+    ref="appFormRef"
+    :loading="isLoaderVisible"
     :model="form"
     class="pending-invoice-form"
     :rules="rules">
@@ -33,127 +33,100 @@
   </app-form>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { useGetWalletsApi } from '@sdk5/shared/composables';
+import { useI18n } from '@sdk5/shared/i18n';
 import type { ICoin } from '@sdk5/shared/requests';
 import { InvoicesRequests } from '@sdk5/shared/requests';
 import { errorNotification, successNotification } from '@sdk5/shared/utils';
 import { OnChangeRequiredValidationRule } from '@sdk5/shared/validation';
-import { AppButton, AppForm, AppFormItem, AppSelect } from '@sdk5/ui-kit-front-office';
-import { Component, Emit, Prop, Ref, Vue } from 'vue-property-decorator';
-import { getModule } from 'vuex-module-decorators';
+import { AppButton, AppForm, AppFormItem } from '@sdk5/ui-kit-front-office';
+import type { Ref } from 'vue';
+import { computed, ref } from 'vue';
 
-import { UserCoins } from '../../../store/modules';
 import AccountSelect from './account-select.vue';
 
-type IPlainObject = Record<string, any>;
 interface IForm {
-  payerCoin: IPlainObject;
+  payerCoin: ICoin;
 }
 
-const COMPONENTS = {
-  AppForm,
-  AppFormItem,
-  AppSelect,
-  AppButton,
-  AccountSelect,
-} as const;
-
-@Component({
-  name: 'pending-invoice-form',
-  components: COMPONENTS,
-})
-export default class PendingInvoiceForm extends Vue {
-  static components: typeof COMPONENTS;
-
-  @Ref('form') readonly appForm!: AppForm;
-
-  @Prop({ type: String, default: '' }) readonly invoiceCurrency!: string;
-
-  @Prop({ type: String, default: '' }) readonly invoiceIdentifier!: string;
-
-  $props!: {
+const props = withDefaults(
+  defineProps<{
     invoiceCurrency?: string;
     invoiceIdentifier?: string;
-  };
+  }>(),
+  {
+    invoiceCurrency: '',
+    invoiceIdentifier: '',
+  },
+);
+const emit = defineEmits(['invoice-payed', 'invoice-rejected']);
 
-  @Emit('invoice-payed')
-  onInvoicePayed<T>(payload?: T): T | undefined {
-    return payload;
+const rules = {
+  payerCoin: OnChangeRequiredValidationRule(),
+};
+
+const { t } = useI18n();
+const { coinList: accountList, isFetching: isWalletsFetching } = useGetWalletsApi();
+
+const appFormRef = ref(null) as unknown as Ref<InstanceType<typeof AppForm>>;
+
+const isLoading = ref(false);
+const form = ref<IForm>({
+  payerCoin: {} as ICoin,
+});
+
+const isLoaderVisible = computed(() => isLoading.value || isWalletsFetching.value);
+const availableAccountList = computed(() => accountList.value.filter((account: ICoin) => account?.currency?.code === props.invoiceCurrency));
+const isNoAvailableAccounts = computed(() => availableAccountList.value.length === 0);
+const accountPlaceholder = computed(() => {
+  const noAvailableCurrencyString = t('placeholder.select.no_available_currency_account', { currency: props.invoiceCurrency }).toString();
+
+  return isNoAvailableAccounts.value ? noAvailableCurrencyString : t('placeholder.select.choose_account').toString();
+});
+
+const onInvoicePayed = () => {
+  emit('invoice-payed');
+};
+const onInvoiceRejected = () => {
+  emit('invoice-rejected');
+};
+const rejectForInvoice = async () => {
+  isLoading.value = true;
+
+  const { error } = await InvoicesRequests.deleteInvoice(props.invoiceIdentifier);
+
+  isLoading.value = false;
+
+  if (error) {
+    errorNotification(error);
+    return;
   }
 
-  @Emit('invoice-rejected')
-  onInvoiceRejected<T>(payload?: T): T | undefined {
-    return payload;
+  successNotification();
+  onInvoiceRejected();
+};
+const payForInvoice = async () => {
+  const isValid = await appFormRef.value.validate();
+
+  if (!isValid) {
+    return;
   }
 
-  protected isLoading: boolean = false;
+  isLoading.value = true;
 
-  protected form: IForm = {
-    payerCoin: {},
-  };
+  const { error } = await InvoicesRequests.payForInvoice({ payerCoin: form.value.payerCoin.serial }, props.invoiceIdentifier);
 
-  protected rules: IPlainObject = {
-    payerCoin: OnChangeRequiredValidationRule(),
-  };
+  isLoading.value = false;
 
-  protected userCoinsModule = getModule(UserCoins, this.$store);
-
-  protected get accountList(): ICoin[] {
-    return this.userCoinsModule.coinList;
+  if (error) {
+    errorNotification(error);
+    return;
   }
 
-  protected async payForInvoice(): Promise<void> {
-    const isValid = await this.appForm.validate();
-
-    if (!isValid) {
-      return;
-    }
-
-    this.isLoading = true;
-
-    const { error } = await InvoicesRequests.payForInvoice({ payerCoin: this.form.payerCoin.serial }, this.invoiceIdentifier);
-
-    this.isLoading = false;
-
-    if (error) {
-      errorNotification(error);
-      return;
-    }
-
-    successNotification();
-    this.onInvoicePayed();
-  }
-
-  protected async rejectForInvoice(): Promise<void> {
-    this.isLoading = true;
-
-    const { error } = await InvoicesRequests.deleteInvoice(this.invoiceIdentifier);
-
-    this.isLoading = false;
-
-    if (error) {
-      errorNotification(error);
-      return;
-    }
-
-    successNotification();
-    this.onInvoiceRejected();
-  }
-
-  protected get isNoAvailableAccounts(): boolean {
-    return this.availableAccountList.length === 0;
-  }
-
-  protected get availableAccountList(): ICoin[] {
-    return this.accountList.filter((account: ICoin) => account?.currency?.code === this.invoiceCurrency);
-  }
-
-  protected get accountPlaceholder(): any {
-    const noAvailableCurrencyString = this.$t('placeholder.select.no_available_currency_account', { currency: this.invoiceCurrency });
-
-    return this.isNoAvailableAccounts ? noAvailableCurrencyString : this.$t('placeholder.select.choose_account');
-  }
-}
+  successNotification();
+  onInvoicePayed();
+};
 </script>
 
 <style lang="scss">
@@ -165,7 +138,7 @@ export default class PendingInvoiceForm extends Vue {
   }
 
   &__select {
-    @apply text-blue-700;
+    @apply text-primary;
   }
 }
 </style>

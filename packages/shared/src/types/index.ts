@@ -24,3 +24,4 @@ export * from './Upload.interface';
 export * from './RequiredKeys';
 export * from './routeMiddleware';
 export * from './maybeRef';
+export * from './UseApiOptions.types';

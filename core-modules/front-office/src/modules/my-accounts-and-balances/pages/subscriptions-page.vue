@@ -15,8 +15,8 @@
       width="320px"
       :title="editSubscriptionModalData.title">
       <create-subscription-form
-        update
         :edit-form-data="editSubscriptionModalData.formData"
+        @submit="addSubscriptionSubmitHandler"
         @delete="subscriptionsDeleteHandler"
         @change-subscription-status="changeSubscriptionStatusHandler" />
     </modal>
@@ -27,191 +27,157 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { SUBSCRIPTION_STATUS } from '@sdk5/shared/constants';
+import { useI18n } from '@sdk5/shared/i18n';
 import { errorNotification, successNotification } from '@sdk5/shared/utils';
 import { ConfirmModal, Modal } from '@sdk5/ui-kit-front-office';
-import { Component, Ref, Vue, Watch } from 'vue-property-decorator';
+import { useToggle } from '@vueuse/core';
+import type { Ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 
 import type { ISubscriptionRecord } from '../../../requests';
 import { SubscriptionsRequests } from '../../../requests';
-import type { TChangeSubscriptionStatusEmitPayload } from '../../wallets/components/forms/create-subscription-form';
-import CreateSubscriptionForm from '../../wallets/components/forms/create-subscription-form';
+import CreateSubscriptionForm from '../../wallets/components/forms/create-subscription-form/create-subscription-form.vue';
+import type { TChangeSubscriptionStatusEmitPayload } from '../../wallets/components/forms/create-subscription-form/types';
 import SubscriptionsTable from '../components/subscriptions-table.vue';
 
-const COMPONENTS = {
-  SubscriptionsTable,
-  Modal,
-  ConfirmModal,
-  CreateSubscriptionForm,
-} as const;
+const { t } = useI18n();
 
-@Component({
-  name: 'subscriptions-page',
-  components: COMPONENTS,
-})
-export default class SubscriptionsPage extends Vue {
-  static components: typeof COMPONENTS;
+const confirmModalRef = ref(null) as unknown as Ref<InstanceType<typeof ConfirmModal>>;
 
-  @Ref('confirmModalRef') readonly confirmModalRef!: ConfirmModal;
+const [addSubscriptionModalVisible, toggleAddSubscriptionModal] = useToggle(false);
+const [editSubscriptionModalVisible, toggleEditSubscriptionModal] = useToggle(false);
 
-  protected isLoading = false;
+const subscriptionsData = ref([] as ISubscriptionRecord[]);
+const isLoading = ref(false);
+const confirmModalTitle = ref('');
+const editSubscriptionModalData = ref({
+  title: '',
+  formData: null as ISubscriptionRecord | null,
+});
 
-  protected addSubscriptionModalVisible = false;
+const fetchSubscription = async () => {
+  isLoading.value = true;
+  const { response, error } = await SubscriptionsRequests.getSubscription();
+  isLoading.value = false;
 
-  protected editSubscriptionModalVisible = false;
+  if (error) {
+    errorNotification(error);
+    return;
+  }
 
-  protected confirmModalTitle = '';
+  subscriptionsData.value = response?.subscriptions || [];
+};
+const processSubscriptionDelete = async (subscriptionId: string) => {
+  isLoading.value = true;
+  const { error } = await SubscriptionsRequests.deleteSubscription(subscriptionId);
+  isLoading.value = false;
 
-  protected editSubscriptionModalData = {
-    title: '',
-    formData: null as ISubscriptionRecord | null,
+  if (error !== null) {
+    errorNotification(error);
+    return;
+  }
+
+  successNotification();
+  fetchSubscription();
+};
+const processChangeSubscriptionStatus = async (payload: TChangeSubscriptionStatusEmitPayload) => {
+  const { status, subscriptionId } = payload;
+
+  if (status !== SUBSCRIPTION_STATUS.ACTIVE && status !== SUBSCRIPTION_STATUS.STOPPED) {
+    return;
+  }
+
+  const updateFunction = status === SUBSCRIPTION_STATUS.ACTIVE ? SubscriptionsRequests.activateSubscription : SubscriptionsRequests.stopSubscription;
+
+  isLoading.value = true;
+  const { error } = await updateFunction(subscriptionId);
+  isLoading.value = false;
+
+  if (error !== null) {
+    errorNotification(error);
+    return;
+  }
+
+  successNotification();
+  fetchSubscription();
+};
+const setConfirmModalTitle = (title: string) => {
+  confirmModalTitle.value = title;
+};
+const openConfirmModal = async (title: string) => {
+  setConfirmModalTitle(title);
+  const submitted = await confirmModalRef.value.open();
+  setConfirmModalTitle('');
+  return submitted;
+};
+const setEditSubscriptionModalData = (payload: ISubscriptionRecord) => {
+  const { name } = payload;
+  editSubscriptionModalData.value = {
+    title: t('pages.wallets.modal.edit_names_subscription', { name }).toString(),
+    formData: payload,
   };
+};
+const clearEditSubscriptionModalData = () => {
+  editSubscriptionModalData.value = {
+    title: '',
+    formData: null,
+  };
+};
+const addSubscriptionClickHandler = () => {
+  toggleAddSubscriptionModal(true);
+};
+const editSubscriptionClickHandler = (payload: ISubscriptionRecord) => {
+  toggleEditSubscriptionModal(true);
+  setEditSubscriptionModalData(payload);
+};
+const addSubscriptionSubmitHandler = () => {
+  toggleAddSubscriptionModal(false);
+  fetchSubscription();
+};
+const subscriptionsDeleteHandler = async (payload: ISubscriptionRecord) => {
+  toggleEditSubscriptionModal(false);
+  const { id } = payload;
+  const submitted = await openConfirmModal(t('pages.wallets.confirm_delete_subscription').toString());
 
-  protected subscriptionsData: ISubscriptionRecord[] = [];
-
-  protected setConfirmModalTitle(title: string) {
-    this.confirmModalTitle = title;
+  if (!submitted) {
+    return;
   }
 
-  protected setEditSubscriptionModalData(payload: ISubscriptionRecord) {
-    const { name } = payload;
-    this.editSubscriptionModalData = {
-      title: this.$t('pages.wallets.modal.edit_names_subscription', { name }).toString(),
-      formData: payload,
-    };
+  processSubscriptionDelete(id);
+};
+const changeSubscriptionStatusHandler = async (payload: TChangeSubscriptionStatusEmitPayload) => {
+  const { subscriptionId, status } = payload;
+
+  if (!subscriptionId || !status) {
+    return;
   }
 
-  protected clearEditSubscriptionModalData() {
-    this.editSubscriptionModalData = {
-      title: '',
-      formData: null,
-    };
+  toggleEditSubscriptionModal(false);
+
+  if (status === SUBSCRIPTION_STATUS.ACTIVE) {
+    processChangeSubscriptionStatus(payload);
+    return;
   }
 
-  protected toggleAddSubscriptionModal(value: boolean) {
-    this.addSubscriptionModalVisible = value;
+  const submitted = await openConfirmModal(t('pages.wallets.confirm_stop_subscription').toString());
+
+  if (!submitted) {
+    return;
   }
 
-  protected toggleEditSubscriptionModal(value: boolean) {
-    this.editSubscriptionModalVisible = value;
+  processChangeSubscriptionStatus(payload);
+};
+const editSubscriptionModalVisibleChangeHandler = (value: boolean) => {
+  if (!value) {
+    clearEditSubscriptionModalData();
   }
+};
 
-  protected addSubscriptionClickHandler() {
-    this.toggleAddSubscriptionModal(true);
-  }
+watch(editSubscriptionModalVisible, editSubscriptionModalVisibleChangeHandler);
 
-  protected editSubscriptionClickHandler(payload: ISubscriptionRecord) {
-    this.toggleEditSubscriptionModal(true);
-    this.setEditSubscriptionModalData(payload);
-  }
-
-  protected addSubscriptionSubmitHandler() {
-    this.toggleAddSubscriptionModal(false);
-    this.fetchSubscription();
-  }
-
-  protected async subscriptionsDeleteHandler(payload: ISubscriptionRecord) {
-    this.toggleEditSubscriptionModal(false);
-    const { id } = payload;
-    const submitted = await this.openConfirmModal(this.$t('pages.wallets.confirm_delete_subscription').toString());
-
-    if (!submitted) {
-      return;
-    }
-
-    this.processSubscriptionDelete(id);
-  }
-
-  protected async changeSubscriptionStatusHandler(payload: TChangeSubscriptionStatusEmitPayload) {
-    const { subscriptionId, status } = payload;
-
-    if (!subscriptionId || !status) {
-      return;
-    }
-
-    this.toggleEditSubscriptionModal(false);
-
-    if (status === SUBSCRIPTION_STATUS.ACTIVE) {
-      this.processChangeSubscriptionStatus(payload);
-      return;
-    }
-
-    const submitted = await this.openConfirmModal(this.$t('pages.wallets.confirm_stop_subscription').toString());
-
-    if (!submitted) {
-      return;
-    }
-
-    this.processChangeSubscriptionStatus(payload);
-  }
-
-  protected async openConfirmModal(title: string) {
-    this.setConfirmModalTitle(title);
-    const submitted = await this.confirmModalRef.open();
-    this.setConfirmModalTitle('');
-    return submitted;
-  }
-
-  protected async fetchSubscription(): Promise<void> {
-    this.isLoading = true;
-    const { response, error } = await SubscriptionsRequests.getSubscription();
-    this.isLoading = false;
-
-    if (error) {
-      errorNotification(error);
-      return;
-    }
-
-    this.subscriptionsData = response?.subscriptions || [];
-  }
-
-  protected async processChangeSubscriptionStatus(payload: TChangeSubscriptionStatusEmitPayload) {
-    const { status, subscriptionId } = payload;
-
-    if (status !== SUBSCRIPTION_STATUS.ACTIVE && status !== SUBSCRIPTION_STATUS.STOPPED) {
-      return;
-    }
-
-    const updateFunction =
-      status === SUBSCRIPTION_STATUS.ACTIVE ? SubscriptionsRequests.activateSubscription : SubscriptionsRequests.stopSubscription;
-
-    this.isLoading = true;
-    const { error } = await updateFunction(subscriptionId);
-    this.isLoading = false;
-
-    if (error !== null) {
-      errorNotification(error);
-      return;
-    }
-
-    successNotification();
-    this.fetchSubscription();
-  }
-
-  protected async processSubscriptionDelete(subscriptionId: string) {
-    this.isLoading = true;
-    const { error } = await SubscriptionsRequests.deleteSubscription(subscriptionId);
-    this.isLoading = false;
-
-    if (error !== null) {
-      errorNotification(error);
-      return;
-    }
-
-    successNotification();
-    this.fetchSubscription();
-  }
-
-  @Watch('editSubscriptionModalVisible')
-  protected editSubscriptionModalVisibleChangeHandler(value: boolean) {
-    if (!value) {
-      this.clearEditSubscriptionModalData();
-    }
-  }
-
-  created() {
-    this.fetchSubscription();
-  }
-}
+onMounted(() => {
+  fetchSubscription();
+});
 </script>

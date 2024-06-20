@@ -35,13 +35,13 @@ export interface ISubscriptionRecord {
 
 export interface ISubscriptionsCreateBody {
   name: string;
-  expirationType: TExpirationType | null;
-  amount?: number | null;
-  count?: number | null;
+  expirationType: TExpirationType;
+  amount?: number;
+  count?: number;
   endDate?: string;
   recurringStartDate: string;
-  type: TSubscriptionsType | null;
-  frequency: number | null;
+  type?: TSubscriptionsType;
+  frequency?: number;
   templateId: string;
 }
 

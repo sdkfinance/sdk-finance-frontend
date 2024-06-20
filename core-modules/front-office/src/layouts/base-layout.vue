@@ -1,49 +1,74 @@
 <template>
   <transition name="page">
     <component
-      :is="routeLayout.componentName"
+      :is="layoutComponentByName"
       v-bind="routeLayout.props" />
   </transition>
 </template>
 
-<script lang="ts">
-import { Profile } from '@sdk5/shared/store';
+<script setup lang="ts">
+import { useGetCurrentUserProfileApi, useGetVuexModule } from '@sdk5/shared/composables';
+import { Profile, UserData } from '@sdk5/shared/store';
 import type { TRouteLayout } from '@sdk5/shared/types';
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import { getModule } from 'vuex-module-decorators';
+import type { AsyncComponent } from 'vue';
+import { computed, defineAsyncComponent, watch } from 'vue';
+import { useRoute } from 'vue-router/composables';
 
-@Component({
-  name: 'base-layout',
-  components: {
-    DashboardLayout: () => import('./dashboard/dashboard-layout.vue'),
-    SimpleLayout: () => import('./simple-layout.vue'),
-    UserDashboardLayout: () => import('../modules/user-dashboard/layouts/user-dashboard-layout.vue'),
-    BasePageLayout: () => import('./base-page-layout.vue'),
-  },
-})
-export default class BaseLayout extends Vue {
-  @Prop({
-    type: Object,
-    default: () => ({
+const props = withDefaults(
+  defineProps<{
+    baseLayoutConfig?: Partial<TRouteLayout>;
+  }>(),
+  {
+    baseLayoutConfig: () => ({
       componentName: 'DashboardLayout',
       props: {},
     }),
-  })
-  readonly baseLayoutConfig!: TRouteLayout;
+  },
+);
 
-  protected profileModule = getModule(Profile, this.$store);
+const DashboardLayout = defineAsyncComponent(() => import('./dashboard/dashboard-layout.vue'));
+const SimpleLayout = defineAsyncComponent(() => import('./simple-layout.vue'));
+const BasePageLayout = defineAsyncComponent(() => import('./base-page-layout.vue'));
+const UserDashboardLayout = defineAsyncComponent(() => import('../modules/user-dashboard/layouts/user-dashboard-layout.vue'));
 
-  protected created(): void {
-    this.profileModule.getProfile();
-  }
+const route = useRoute();
+const { userProfileResponse, invalidateCurrentUserCache } = useGetCurrentUserProfileApi();
 
-  protected get routeLayout(): TRouteLayout {
-    return {
-      ...this.baseLayoutConfig,
-      ...(this.$route?.meta?.layout || {}),
-    };
-  }
-}
+const profileModule = useGetVuexModule(Profile);
+const userDataModule = useGetVuexModule(UserData);
+
+const userData = computed(() => userDataModule.userData);
+const routeLayout = computed<TRouteLayout>(() => ({
+  ...props.baseLayoutConfig,
+  ...(route?.meta?.layout || {}),
+}));
+const layoutComponentByName = computed(() => {
+  const components: Record<string, AsyncComponent> = {
+    DashboardLayout,
+    SimpleLayout,
+    BasePageLayout,
+    UserDashboardLayout,
+  };
+
+  return components[routeLayout.value?.componentName ?? 'DashboardLayout'];
+});
+
+watch(
+  userData,
+  () => {
+    invalidateCurrentUserCache();
+  },
+  { immediate: true },
+);
+watch(
+  userProfileResponse,
+  (profileData) => {
+    if (profileData) {
+      profileModule.setProfileData(profileData);
+    }
+  },
+  { immediate: true },
+);
 </script>
 
 <style lang="scss">

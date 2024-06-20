@@ -17,8 +17,8 @@
       :action="config.action"
       :disabled="isLoaderVisible || !isUploadAvailable"
       :tip="config.tip"
-      :file-url="profileDocument.fileUrl"
-      :file-type="profileDocument.type"
+      :file-url="profileDocumentCloned.fileUrl"
+      :file-type="profileDocumentCloned.type"
       :label="uploaderLabel"
       :on-success="onSuccessHandler"
       clear-files-on-success />
@@ -41,12 +41,33 @@
       </app-form-item>
     </app-form>
 
+    <div
+      v-if="isUseMediaDeviceAvailable"
+      class="document-upload-item__media-device media-device-section">
+      <div class="media-device-section__title">
+        {{ $t('pages.user_dashboard.profile.upload_documents.access_camera.title') }}
+      </div>
+      <div class="media-device-section__subtitle">
+        {{ $t('pages.user_dashboard.profile.upload_documents.access_camera.subtitle') }}
+      </div>
+      <div class="media-device-section__action">
+        <app-button
+          native-type="button"
+          type="primary"
+          size="big"
+          full-width
+          @click="useMediaDeviceButtonClickHandler">
+          {{ $t('action.use_my_camera') }}
+        </app-button>
+      </div>
+    </div>
+
     <app-button
       v-if="isConfirmButtonVisible"
       class="confirm-button"
       native-type="button"
       type="primary"
-      size="medium"
+      size="big"
       full-width
       @click="confirmButtonClickHandler">
       {{ $t('action.confirm') }}
@@ -65,27 +86,36 @@
           @confirm="confirm" />
       </template>
     </modal>
+    <media-device-modal
+      v-if="mediaDeviceModalVisible"
+      @submit="mediaDeviceModalSubmitHandler"
+      @cancel="mediaDeviceModalCancelHandler" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { apiConfig } from '@sdk5/shared/api';
-import { useChangeDocumentStatusBusinessUserApi } from '@sdk5/shared/composables';
-import type { TProfileDocumentStatus, TProfileDocumentType } from '@sdk5/shared/constants';
-import { PROFILE_DOCUMENT_STATUS } from '@sdk5/shared/constants';
-import { useI18n } from '@sdk5/shared/i18n';
-import type { IProfileDocument, IUploadMediaFileResponse } from '@sdk5/shared/requests';
-import { ProfileDocumentsRequests } from '@sdk5/shared/requests';
-import type { IUploadConfig } from '@sdk5/shared/types';
-import { errorNotification, successNotification } from '@sdk5/shared/utils';
-import { SimpleRequiredValidationRule } from '@sdk5/shared/validation';
+import type { IProfileDocument, IUploadConfig, IUploadMediaResponse, TProfileDocumentStatus, TProfileDocumentType } from '@sdk5/shared';
+import { PROFILE_FILE_TYPES } from '@sdk5/shared';
+import { blobToFile, objectUrlToBlob } from '@sdk5/shared';
+import {
+  apiConfig,
+  errorNotification,
+  PROFILE_DOCUMENT_STATUS,
+  ProfileDocumentsRequests,
+  SimpleRequiredValidationRule,
+  successNotification,
+  useChangeDocumentStatusBusinessUserApi,
+  useI18n,
+  useUploadMediaApi,
+} from '@sdk5/shared';
 import { AppButton, AppForm, AppFormItem, AppInput, AppSwitch, AppUpload, Modal } from '@sdk5/ui-kit-front-office';
-import { useToggle } from '@vueuse/core';
+import { useCloned, useDevicesList, usePermission, useToggle } from '@vueuse/core';
 import type { Ref } from 'vue';
 import { computed, ref, watch } from 'vue';
 
 import type { TProfileDocumentItem } from '../../types';
 import ConfirmDocumentUploadForm from './confirm-document-upload-form.vue';
+import MediaDeviceModal from './media-device-modal.vue';
 
 const props = defineProps<{
   profileDocument: TProfileDocumentItem;
@@ -102,11 +132,18 @@ const config: Partial<IUploadConfig> = {
 
 const { t } = useI18n();
 
+const { isSupported: isMediaDevicesSupported } = useDevicesList();
+const { state: cameraPermissionState } = usePermission('camera', { controls: true });
+
+const { mutateAsync: processUploadMedia, isPending: isUploadMediaPending } = useUploadMediaApi();
 const { mutateAsync: processUpdateDocumentStatus, isPending: isUpdateDocumentStatusPending } = useChangeDocumentStatusBusinessUserApi();
+
+const { cloned: profileDocumentCloned } = useCloned(() => props.profileDocument, { immediate: true });
 
 const appUploaderRef = ref(null) as unknown as Ref<InstanceType<typeof AppUpload>>;
 const confirmDocumentUploadModalRef = ref(null) as unknown as Ref<InstanceType<typeof Modal>>;
 
+const [mediaDeviceModalVisible, toggleMediaDeviceModalVisibility] = useToggle(false);
 const [isRequestPending, toggleRequestPending] = useToggle(false);
 const [confirmDocumentUploadModalVisible] = useToggle(false);
 
@@ -117,7 +154,9 @@ const confirmDocumentModalDescription = ref(undefined as string | undefined);
 const confirmDocumentModalTitle = ref('');
 const formData = ref({} as Record<string, string | undefined>);
 
-const isLoaderVisible = computed(() => props.requestPending || isRequestPending.value || isUpdateDocumentStatusPending.value);
+const isLoaderVisible = computed(
+  () => props.requestPending || isRequestPending.value || isUpdateDocumentStatusPending.value || isUploadMediaPending.value,
+);
 const isDocumentPending = computed(() => props.profileDocument.status === PROFILE_DOCUMENT_STATUS.pending);
 const isUploadAvailable = computed(() => !props.profileDocument.status || AVAILABLE_DOCUMENT_UPLOAD_STATUSES.includes(props.profileDocument.status));
 const isManualInputSwitchDisabled = computed(() => {
@@ -150,8 +189,15 @@ const uploaderLabel = computed(() => {
 const rules = computed(() => ({
   [props.profileDocument.type]: SimpleRequiredValidationRule(),
 }));
+const isUseMediaDeviceAvailable = computed(
+  () =>
+    isUploadAvailable.value &&
+    isMediaDevicesSupported.value &&
+    cameraPermissionState.value !== 'denied' &&
+    props.profileDocument.type === PROFILE_FILE_TYPES.selfie,
+);
 
-const uploaderSuccessMessage = (documentType: TProfileDocumentType) => {
+const uploaderSuccessMessage = () => {
   appUploaderRef.value?.showSuccessMessage(
     t('notification.document_type_uploaded', {
       documentType: documentTypeString.value,
@@ -168,15 +214,24 @@ const openConfirmUploadModal = async (payload: { fileUrl?: string; manualIdentif
   confirmDocumentModalFileUrl.value = fileUrl;
   confirmDocumentModalIdentifier.value = manualIdentifier;
 
-  confirmDocumentModalDescription.value = manualInput.value
-    ? t('pages.user_profile_kyc.confirm_document_upload_modal.manual_text_by_type', { type: documentTypeString.value }).toString()
-    : undefined;
-  confirmDocumentModalTitle.value = manualInput.value
-    ? t('pages.user_profile_kyc.confirm_document_upload_modal.title_by_type', {
-        type: documentTypeString.value,
-      }).toString()
-    : t('pages.user_profile_kyc.confirm_document_upload_modal.title').toString();
+  let modalTitle: string | undefined;
+  let modalDescription: string | undefined;
 
+  if (props.profileDocument.type === PROFILE_FILE_TYPES.selfie) {
+    modalTitle = 'pages.user_profile_kyc.confirm_document_upload_modal.selfie_title';
+    modalDescription = 'pages.user_profile_kyc.confirm_document_upload_modal.selfie_text';
+  } else if (manualInput.value) {
+    modalTitle = t('pages.user_profile_kyc.confirm_document_upload_modal.title_by_type', {
+      type: documentTypeString.value,
+    }).toString();
+    modalDescription = t('pages.user_profile_kyc.confirm_document_upload_modal.manual_text_by_type', { type: documentTypeString.value }).toString();
+  } else {
+    modalTitle = 'pages.user_profile_kyc.confirm_document_upload_modal.title';
+    modalDescription = undefined;
+  }
+
+  confirmDocumentModalTitle.value = modalTitle;
+  confirmDocumentModalDescription.value = modalDescription;
   return confirmDocumentUploadModalRef.value.openModal();
 };
 const changeDocumentStatus = async (documentId: string, documentType?: TProfileDocumentType) => {
@@ -217,7 +272,7 @@ const saveIdentifierManually = async () => {
 
   return response?.document ?? null;
 };
-const onSuccessHandler = async (response: IUploadMediaFileResponse, type: TProfileDocumentType) => {
+const onSuccessHandler = async (response: IUploadMediaResponse, type: TProfileDocumentType) => {
   toggleRequestPending();
   const { error } = await ProfileDocumentsRequests.linkPhotoToProfileDocuments(response.file.id, type);
   toggleRequestPending();
@@ -281,6 +336,36 @@ const confirmButtonClickHandler = async () => {
 
   changeDocumentStatus(props.profileDocument.id, props.profileDocument.type);
 };
+const useMediaDeviceButtonClickHandler = () => {
+  toggleMediaDeviceModalVisibility(true);
+};
+const mediaDeviceModalCancelHandler = () => {
+  toggleMediaDeviceModalVisibility(false);
+};
+const mediaDeviceModalSubmitHandler = async (objectUrl: string) => {
+  toggleMediaDeviceModalVisibility(false);
+
+  if (!objectUrl) {
+    return;
+  }
+
+  profileDocumentCloned.value.fileUrl = objectUrl;
+
+  const blob = await objectUrlToBlob(objectUrl);
+
+  if (!blob) {
+    return;
+  }
+
+  const file = blobToFile(blob, 'selfie.jpg');
+  const { response } = await processUploadMedia(file);
+
+  if (!response) {
+    return;
+  }
+
+  onSuccessHandler(response, props.profileDocument.type);
+};
 
 watch(
   () => props.profileDocument,
@@ -311,6 +396,21 @@ watch(confirmDocumentUploadModalVisible, (visible) => {
 
   .confirm-button {
     @apply m-0 w-full;
+  }
+
+  .media-device-section {
+    &__title,
+    &__subtitle {
+      @apply text-md;
+    }
+
+    &__title {
+      @apply font-semibold text-gray-500 mb-[0.25rem];
+    }
+
+    &__subtitle {
+      @apply font-medium text-blue-600 mb-[1rem];
+    }
   }
 }
 </style>

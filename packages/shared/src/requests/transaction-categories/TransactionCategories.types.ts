@@ -5,7 +5,7 @@ export interface ITransactionCategoryFilter {
   name: string;
 }
 
-export interface ITransactionCategorySort {}
+export type ITransactionCategorySort = {};
 export interface ITransactionCategoryRecord {
   code: string;
   name: string;

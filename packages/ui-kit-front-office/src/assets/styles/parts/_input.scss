@@ -78,11 +78,11 @@
 
   .el-input:focus-within,
   .el-input.is-focus {
-    @apply before:bg-opacity-20 before:bg-blue-700;
+    @apply before:bg-opacity-20 before:bg-primary;
   }
 
   .el-textarea:focus-within {
-    @apply before:border-blue-700 before:border-opacity-20;
+    @apply before:border-primary before:border-opacity-20;
   }
 
   .el-textarea {
@@ -90,7 +90,7 @@
      border-solid
    border-blue-400
     bg-gray-100
-    focus-within:border-blue-700
+    focus-within:border-primary
     before:border-[0.25rem]
     before:-left-[0.25rem]
     before:-top-[0.25rem]
@@ -137,8 +137,8 @@
         text-gray-500
         placeholder-blue-500
         relative
-        focus:border-blue-700
-        caret-blue-700
+        focus:border-primary
+        caret-primary
         rounded-[inherit];
     }
   }

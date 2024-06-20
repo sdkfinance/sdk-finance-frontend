@@ -1,8 +1,10 @@
 <template>
   <div class="entrance-form-container">
-    <div class="hidden md:block form-entrance__logo">
+    <div
+      v-if="ENV_VARIABLES.brandLogoLUrl"
+      class="hidden md:block form-entrance__logo">
       <img
-        src="@/assets/images/logo.svg"
+        :src="ENV_VARIABLES.brandLogoLUrl"
         alt="sdk.finance" />
     </div>
 
@@ -80,6 +82,7 @@
 </template>
 
 <script setup lang="ts">
+import { ENV_VARIABLES } from '@sdk5/shared';
 import { useIsUaWebview } from '@sdk5/shared/composables';
 import type { IRegisterUser } from '@sdk5/shared/requests';
 import { AuthRequests } from '@sdk5/shared/requests';
@@ -157,7 +160,7 @@ const handleForm = async () => {
     @apply text-right text-base text-blue-600 cursor-pointer mb-20 border-none;
 
     &:hover {
-      @apply text-blue-accent;
+      @apply text-primary;
     }
   }
 

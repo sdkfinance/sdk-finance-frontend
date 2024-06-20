@@ -1,7 +1,7 @@
 <template>
   <div class="invoices-page">
     <app-data-controller
-      ref="dataController"
+      ref="dataControllerRef"
       v-loading="isExportLoading"
       :on-load="fetchData"
       with-export
@@ -16,16 +16,18 @@
           is-label-after />
       </template>
 
-      <template #prepend="{ records, isLoading }">
+      <template
+        v-if="isInvoicesMapAvailable"
+        #prepend="{ records, isLoading: isLoadingPrepend }">
         <app-map
-          v-loading="isLoading"
+          v-loading="isLoadingPrepend"
           wrapper-class="transactions-page__map"
           :data="records"
           @open-details="openDetails" />
       </template>
-      <template #default="{ records, isLastPage, isLoading }">
+      <template #default="{ records, isLastPage, isLoading: isLoadingInvoicesTable }">
         <invoices-table
-          v-loading="isLoading"
+          v-loading="isLoadingInvoicesTable"
           :data="records"
           @open-details="openDetails" />
         <div
@@ -37,7 +39,7 @@
     </app-data-controller>
 
     <data-details
-      ref="invoicesDetailsModal"
+      ref="invoicesDetailsModalRef"
       :data="modalData"
       is-invoice
       @data-changed="updateData"
@@ -51,6 +53,7 @@ import type { IGetInvoicesApiResponse, IInvoicesFilter, IInvoicesOptions, IInvoi
 import { InvoicesRequests } from '@sdk5/shared/requests';
 import { errorNotification, getExportFile } from '@sdk5/shared/utils';
 import { AppMap, AppSwitch } from '@sdk5/ui-kit-front-office';
+import type { Ref } from 'vue';
 import { computed, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router/composables';
 
@@ -71,13 +74,16 @@ const defaultFilter: IInvoicesFilter = {
   statuses: ['declined', 'pending', 'expired', 'paid'],
   direction: 'INCOMING',
 };
+
+const invoicesDetailsModalRef = ref(null) as unknown as Ref<InstanceType<typeof DataDetails>>;
+const dataControllerRef = ref(null) as unknown as Ref<InstanceType<typeof AppDataController>>;
+
 const isExportLoading = ref(false);
-const invoicesDetailsModal = ref(null as any);
-const dataController = ref(null as any);
 const isInvoicesEnable = ref(true);
 const isLoading = ref(false);
 const modalData = ref({} as IInvoicesRecord);
 
+const isInvoicesMapAvailable = computed(() => import.meta.env.VUE_APP_TRANSACTIONS_MAP_ENABLED === 'true');
 const isInvoiceSwitchVisible = computed(() => route.name === 'user-dashboard-invoices');
 
 const goToTransactions = () => {
@@ -86,7 +92,7 @@ const goToTransactions = () => {
 
 const openDetails = (data: IInvoicesRecord) => {
   modalData.value = data;
-  invoicesDetailsModal.value.open();
+  invoicesDetailsModalRef.value.open();
 };
 
 const onDataDetailsClosed = () => {
@@ -94,7 +100,7 @@ const onDataDetailsClosed = () => {
 };
 
 const updateData = async () => {
-  dataController.value.fetchRecords();
+  dataControllerRef.value.fetchRecords();
 };
 
 const fetchData = async (params: IInvoicesOptions<IInvoicesFilter>): Promise<IGetInvoicesApiResponse> => {

@@ -86,8 +86,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-@import '../assets/styles/tools/variables';
-
 .folded-filter {
   &__container {
     @apply inline-flex items-center gap-x-[0.25rem];
@@ -129,7 +127,7 @@ export default defineComponent({
     .el-input.is-focus {
       .el-input__inner,
       .el-icon-arrow-up::before {
-        color: $primary-color;
+        @apply text-primary;
       }
     }
   }

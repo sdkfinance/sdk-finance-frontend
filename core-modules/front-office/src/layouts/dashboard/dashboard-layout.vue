@@ -1,6 +1,8 @@
 <template>
   <div class="main-container">
-    <header-top-line class="main-container__header" />
+    <header-top-line
+      v-if="isTopBarVisible"
+      class="main-container__header" />
     <div class="main-container__menu">
       <dashboard-menu :routes="availableRoutes" />
     </div>
@@ -12,6 +14,7 @@
 </template>
 
 <script lang="ts">
+import { ENV_VARIABLES } from '@sdk5/shared';
 import { getAvailableDashboardRoutes } from '@sdk5/shared/utils';
 import { HeaderTopLine } from '@sdk5/ui-kit-front-office';
 import { Component, Vue } from 'vue-property-decorator';
@@ -34,6 +37,10 @@ export default class DashboardLayout extends Vue {
   protected get availableRoutes() {
     return getAvailableDashboardRoutes(FRONT_OFFICE_DASHBOARD_CHILDREN);
   }
+
+  protected get isTopBarVisible() {
+    return ENV_VARIABLES.headerBackLinkVisible;
+  }
 }
 </script>
 
@@ -44,7 +51,11 @@ export default class DashboardLayout extends Vue {
   @apply min-h-screen grid grid-cols-[auto,1fr];
 
   &__menu {
-    @apply w-full h-full pt-[var(--header-height)];
+    @apply w-full h-full;
+  }
+
+  .header-top-line + &__menu {
+    @apply pt-[var(--header-height)];
   }
 
   &__header {

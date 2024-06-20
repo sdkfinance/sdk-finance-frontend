@@ -95,7 +95,9 @@ export class UserData extends VuexModule {
 
   @Action({ rawError: true })
   public async logout() {
-    await router.push({ name: 'entrance' }).catch((error) => {
+    await AuthRequests.logout();
+    router.push({ name: 'entrance' }).catch((error) => {
+      // eslint-disable-next-line no-console
       console.error('router push error during layout --> ', error);
       window.location.reload();
     });

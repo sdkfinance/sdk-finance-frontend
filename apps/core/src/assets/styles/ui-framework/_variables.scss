@@ -1,4 +1,5 @@
 @use 'sass:math';
+@use 'sass:color';
 
 /* theme color */
 
@@ -21,30 +22,30 @@ $--color-white: #fff !default;
 $--color-black: #000 !default;
 
 $--color-primary: $primary-color; //#409EFF !default;
-$--color-primary-light-1: mix($--color-white, $--color-primary, 10%) !default; /* 53a8ff */
-$--color-primary-light-2: mix($--color-white, $--color-primary, 20%) !default; /* 66b1ff */
-$--color-primary-light-3: mix($--color-white, $--color-primary, 30%) !default; /* 79bbff */
-$--color-primary-light-4: mix($--color-white, $--color-primary, 40%) !default; /* 8cc5ff */
-$--color-primary-light-5: mix($--color-white, $--color-primary, 50%) !default; /* a0cfff */
-$--color-primary-light-6: mix($--color-white, $--color-primary, 60%) !default; /* b3d8ff */
-$--color-primary-light-7: mix($--color-white, $--color-primary, 70%) !default; /* c6e2ff */
-$--color-primary-light-8: mix($--color-white, $--color-primary, 80%) !default; /* d9ecff */
-$--color-primary-light-9: mix($--color-white, $--color-primary, 90%) !default; /* ecf5ff */
+$--color-primary-light-1: color.mix($--color-white, $--color-primary, 10%) !default; /* 53a8ff */
+$--color-primary-light-2: color.mix($--color-white, $--color-primary, 20%) !default; /* 66b1ff */
+$--color-primary-light-3: color.mix($--color-white, $--color-primary, 30%) !default; /* 79bbff */
+$--color-primary-light-4: color.mix($--color-white, $--color-primary, 40%) !default; /* 8cc5ff */
+$--color-primary-light-5: color.mix($--color-white, $--color-primary, 50%) !default; /* a0cfff */
+$--color-primary-light-6: color.mix($--color-white, $--color-primary, 60%) !default; /* b3d8ff */
+$--color-primary-light-7: color.mix($--color-white, $--color-primary, 70%) !default; /* c6e2ff */
+$--color-primary-light-8: color.mix($--color-white, $--color-primary, 80%) !default; /* d9ecff */
+$--color-primary-light-9: color.mix($--color-white, $--color-primary, 90%) !default; /* ecf5ff */
 
 $--color-success: $success-color !default;
 $--color-warning: #e6a23c !default;
 $--color-danger: #f56c6c !default;
 $--color-info: #909399 !default;
 
-$--color-success-light: mix($--color-white, $--color-success, 80%) !default;
-$--color-warning-light: mix($--color-white, $--color-warning, 80%) !default;
-$--color-danger-light: mix($--color-white, $--color-danger, 80%) !default;
-$--color-info-light: mix($--color-white, $--color-info, 80%) !default;
+$--color-success-light: color.mix($--color-white, $--color-success, 80%) !default;
+$--color-warning-light: color.mix($--color-white, $--color-warning, 80%) !default;
+$--color-danger-light: color.mix($--color-white, $--color-danger, 80%) !default;
+$--color-info-light: color.mix($--color-white, $--color-info, 80%) !default;
 
-$--color-success-lighter: mix($--color-white, $--color-success, 90%) !default;
-$--color-warning-lighter: mix($--color-white, $--color-warning, 90%) !default;
-$--color-danger-lighter: mix($--color-white, $--color-danger, 90%) !default;
-$--color-info-lighter: mix($--color-white, $--color-info, 90%) !default;
+$--color-success-lighter: color.mix($--color-white, $--color-success, 90%) !default;
+$--color-warning-lighter: color.mix($--color-white, $--color-warning, 90%) !default;
+$--color-danger-lighter: color.mix($--color-white, $--color-danger, 90%) !default;
+$--color-info-lighter: color.mix($--color-white, $--color-info, 90%) !default;
 
 $--color-text-primary: $primary-text-color !default; //#303133 !default;
 $--color-text-regular: $primary-text-color !default;
@@ -77,12 +78,12 @@ $--border-radius-circle: 100% !default;
 /* Box-shadow
 -------------------------- */
 $--box-shadow-base:
-  0 2px 4px rgba(0, 0, 0, 0.12),
-  0 0 6px rgba(0, 0, 0, 0.04) !default;
+  0 2px 4px rgb(0 0 0 / 12%),
+  0 0 6px rgb(0 0 0 / 4%) !default;
 $--box-shadow-dark:
-  0 2px 4px rgba(0, 0, 0, 0.12),
-  0 0 6px rgba(0, 0, 0, 0.12) !default;
-$--box-shadow-light: 0 2px 12px 0 rgba(0, 0, 0, 0.1) !default;
+  0 2px 4px rgb(0 0 0 / 12%),
+  0 0 6px rgb(0 0 0 / 12%) !default;
+$--box-shadow-light: 0 2px 12px 0 rgb(0 0 0 / 10%) !default;
 
 /* Fill
 -------------------------- */
@@ -483,7 +484,7 @@ $--switch-button-size: 16px !default;
 /* Dialog
 -------------------------- */
 $--dialog-background-color: $white !default;
-$--dialog-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !default;
+$--dialog-box-shadow: 0 1px 3px rgb(0 0 0 / 30%) !default;
 $--dialog-close-hover-color: $--color-primary !default;
 $--dialog-title-font-size: 28px;
 $--dialog-font-size: 14px !default;
@@ -500,7 +501,7 @@ $--table-row-hover-background: $--background-color-base !default;
 $--table-current-row-background: $--color-primary-light-9 !default;
 $--table-header-background: $--color-white !default;
 $--table-footer-background: $--color-text-placeholder !default;
-$--table-fixed-box-shadow: 0 0 10px rgba(0, 0, 0, 0.12) !default;
+$--table-fixed-box-shadow: 0 0 10px rgb(0 0 0 / 12%) !default;
 
 /* Pagination
 -------------------------- */
@@ -595,7 +596,7 @@ $--card-padding: 20px !default;
 -------------------------- */
 $--slider-main-background-color: $--color-primary !default;
 $--slider-runway-background-color: $--border-color-light !default;
-$--slider-button-hover-color: mix($--color-primary, black, 97%) !default;
+$--slider-button-hover-color: color.mix($--color-primary, black, 97%) !default;
 $--slider-stop-background-color: $--color-white !default;
 $--slider-disable-color: $--color-text-placeholder !default;
 
@@ -654,8 +655,8 @@ $--scrollbar-hover-background-color: rgba($--color-text-secondary, 0.5) !default
 -------------------------- */
 $--carousel-arrow-font-size: 12px !default;
 $--carousel-arrow-size: 36px !default;
-$--carousel-arrow-background: rgba(31, 45, 61, 0.11) !default;
-$--carousel-arrow-hover-background: rgba(31, 45, 61, 0.23) !default;
+$--carousel-arrow-background: rgb(31 45 61 / 11%) !default;
+$--carousel-arrow-hover-background: rgb(31 45 61 / 23%) !default;
 $--carousel-indicator-width: 30px !default;
 $--carousel-indicator-height: 2px !default;
 $--carousel-indicator-padding-horizontal: 4px !default;

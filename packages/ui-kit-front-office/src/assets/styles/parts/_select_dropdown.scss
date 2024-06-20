@@ -56,7 +56,7 @@
 .app-dropdown--secondary.el-dropdown-menu .el-dropdown-menu__item:hover,
 .app-dropdown--secondary.el-dropdown-menu .el-dropdown-menu__item:focus,
 .app-dropdown--secondary.el-dropdown-menu .el-dropdown-menu__item.is-selected:hover {
-  @apply bg-transparent text-blue-700;
+  @apply bg-transparent text-primary;
 }
 
 .app-dropdown--secondary.el-dropdown-menu .el-dropdown-menu__item.is-selected {

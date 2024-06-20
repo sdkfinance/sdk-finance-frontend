@@ -69,7 +69,7 @@ export default defineComponent({
   },
   inheritAttrs: false,
   props: {
-    value: { type: [String, Number] },
+    value: { type: [String, Number], default: undefined },
     type: { type: String as PropType<TAppInputType>, default: APP_INPUT_TYPE.text },
     prefixIcon: { type: String, default: '' },
     suffixIcon: { type: String, default: '' },

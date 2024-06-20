@@ -158,7 +158,7 @@ const switchChangeHandler = (value: boolean) => {
       .app-switch {
         &__label {
           &--active {
-            @apply text-blue-700;
+            @apply text-primary;
           }
         }
       }
@@ -178,7 +178,7 @@ const switchChangeHandler = (value: boolean) => {
 
     &--double-label .el-switch .el-switch__core,
     .el-switch.is-checked .el-switch__core {
-      @apply bg-blue-700 after:bg-gray-100;
+      @apply bg-primary after:bg-gray-100;
     }
 
     .el-switch.is-checked .el-switch__core {

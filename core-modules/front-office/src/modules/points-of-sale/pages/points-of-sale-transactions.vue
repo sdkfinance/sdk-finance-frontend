@@ -299,5 +299,6 @@ export default class PointsOfSalePage extends Vue {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 10px;
+  margin-bottom: 1rem;
 }
 </style>

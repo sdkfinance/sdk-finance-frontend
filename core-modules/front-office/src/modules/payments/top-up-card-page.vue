@@ -297,7 +297,7 @@ const handlerForm = async (nextStep: Function, currentStep: number): Promise<voi
 
     &-icon {
       @apply w-18 h-18 rounded-full flex justify-center items-center;
-      @apply leading-none bg-blue-300 text-blue-accent text-11 font-bold mr-8;
+      @apply leading-none bg-blue-300 text-primary text-11 font-bold mr-8;
     }
   }
 }

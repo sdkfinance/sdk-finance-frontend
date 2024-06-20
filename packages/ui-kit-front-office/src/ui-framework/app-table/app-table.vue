@@ -404,8 +404,6 @@ defineExpose({
 </script>
 
 <style lang="scss">
-@import '../../assets/styles/tools/variables';
-
 .app-table--front-office {
   @apply w-full;
 
@@ -782,12 +780,12 @@ defineExpose({
   .table-actions {
     @apply flex flex-col gap-y-8;
 
-    .btn {
+    .app-button {
       display: block;
       min-width: 100%;
       margin-left: 0;
 
-      & + .btn {
+      & + .app-button {
         margin-left: 0;
       }
     }

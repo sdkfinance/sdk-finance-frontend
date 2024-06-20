@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.vue.json",
+  "compilerOptions": {
+    "composite": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./apps/core/src/*"]
+    }
+  },
+  "include": ["./vite-env.d.ts", "./components.vue.d.ts", "./shims-vue.d.ts", "./apps/core/src/**/*", "./apps/core/src/**/*.vue"],
+  "exclude": ["./core-modules/**/*", "./core-modules/**/*.vue", "./packages/**/*", "./packages/**/*.vue"]
+}

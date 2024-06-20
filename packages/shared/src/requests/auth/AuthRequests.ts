@@ -7,6 +7,10 @@ export const AuthRequests = {
     return api.post('/authorization', data);
   },
 
+  logout(): Promise<IApiResponse<unknown>> {
+    return api.delete('/authorization');
+  },
+
   authorizationConfirm(data: ILoginConfirm): Promise<TAuthorizationApiResponse> {
     return api.post('/authorization/confirm', data);
   },

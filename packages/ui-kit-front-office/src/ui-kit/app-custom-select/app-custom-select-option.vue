@@ -136,13 +136,13 @@ export default defineComponent({
   }
 
   &__action {
-    @apply text-xs text-blue-400 hover:text-blue-accent transition w-20;
+    @apply text-xs text-blue-400 hover:text-primary transition w-20;
 
     &-buttons {
       @apply flex items-center text-blue-500 text-sm;
 
       button {
-        @apply hover:text-blue-accent transition;
+        @apply hover:text-primary transition;
       }
     }
   }

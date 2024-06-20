@@ -111,10 +111,10 @@ watch(
 <style lang="scss">
 .total-balance {
   &__title {
-    @apply text-blue-700 text-40 mb-24;
+    @apply text-primary text-40 mb-24;
 
     &-amount {
-      @apply text-blue-accent text-40 mr-10;
+      @apply text-primary text-40 mr-10;
     }
   }
 

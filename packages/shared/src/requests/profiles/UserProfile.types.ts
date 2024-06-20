@@ -86,7 +86,7 @@ export interface IUserInfoResponse {
   person: IUserInfo;
   contact: IUserLogin;
   type: TPersonTypes;
-  status: string;
+  status: TOrganizationStatus;
   business: IUserBusiness;
   address: IUserAddress;
   security: IUserSecurity;

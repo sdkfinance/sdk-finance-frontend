@@ -69,11 +69,11 @@ export default defineComponent({
     @apply relative w-[12.5rem];
 
     &__inner {
-      @apply flex items-center gap-x-[0.5rem] focus-within:border-blue-700;
+      @apply flex items-center gap-x-[0.5rem] focus-within:border-primary;
     }
 
     input {
-      @apply first-of-type:w-[2.6875rem] w-full outline-none bg-transparent placeholder-blue-500 caret-blue-700 font-medium text-gray-500;
+      @apply first-of-type:w-[2.6875rem] w-full outline-none bg-transparent placeholder-blue-500 caret-primary font-medium text-gray-500;
     }
   }
 }

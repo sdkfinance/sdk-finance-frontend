@@ -154,7 +154,7 @@ export default defineComponent({
   }
 
   &__title {
-    @apply text-blue-700 text-3xl sm:text-40 mb-16;
+    @apply text-primary text-3xl sm:text-40 mb-16;
   }
 
   &__card-status {

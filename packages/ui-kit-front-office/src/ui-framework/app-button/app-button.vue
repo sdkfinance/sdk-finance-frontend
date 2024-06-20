@@ -1,6 +1,6 @@
 <template>
   <component
-    :is="to ? 'router-link' : 'el-button'"
+    :is="currentComponent"
     :class="buttonClasses"
     :size="size"
     :to="to"
@@ -19,172 +19,139 @@
   </component>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import classNames from 'classnames';
-import { Button } from 'element-ui';
+import { Button as ELButton } from 'element-ui';
 import type { PropType } from 'vue';
-import { defineComponent } from 'vue';
+import { computed } from 'vue';
 
 import { APP_BUTTON_SIZE, APP_BUTTON_SIZES, APP_BUTTON_TYPES } from './constants';
 import type { TAppButtonNativeType, TAppButtonSize, TAppButtonType } from './types';
 
-const sizeValidator = (size: unknown): boolean => APP_BUTTON_SIZES.includes(size as TAppButtonSize);
 const typeValidator = (type: string): boolean => !!APP_BUTTON_TYPES[type as TAppButtonType];
 
-export default defineComponent({
-  name: 'AppButton',
-  components: {
-    [Button.name]: Button,
+const props = defineProps({
+  size: {
+    default: APP_BUTTON_SIZE.big,
+    type: String as PropType<TAppButtonSize>,
+    validator: (size: unknown): boolean => APP_BUTTON_SIZES.includes(size as TAppButtonSize),
   },
-  props: {
-    size: {
-      default: APP_BUTTON_SIZE.big,
-      type: String as PropType<TAppButtonSize>,
-      validator: sizeValidator,
-    },
-    type: {
-      default: APP_BUTTON_TYPES.secondary,
-      type: String as PropType<TAppButtonType>,
-      validator: typeValidator,
-    },
-    nativeType: {
-      default: 'submit',
-      type: String as PropType<TAppButtonNativeType>,
-    },
-    outlined: {
-      default: false,
-      type: Boolean,
-    },
-    rounded: {
-      default: false,
-      type: Boolean,
-    },
-    fullWidth: {
-      default: false,
-      type: Boolean,
-    },
-    disabled: {
-      default: false,
-      type: Boolean,
-    },
-    isLoading: {
-      default: false,
-      type: Boolean,
-    },
-    isLink: {
-      default: false,
-      type: Boolean,
-    },
-    to: {
-      default: null,
-      type: [Object, String],
-    },
-    secondary: {
-      default: false,
-      type: Boolean,
-    },
-    icon: {
-      default: '',
-      type: String,
-    },
-    iconRight: {
-      default: '',
-      type: String,
-    },
-    transparent: {
-      default: false,
-      type: Boolean,
-    },
-    onlyIcon: {
-      default: false,
-      type: Boolean,
-    },
-    noPadding: {
-      type: Boolean,
-      default: false,
-    },
+  type: {
+    default: APP_BUTTON_TYPES.secondary,
+    type: String as PropType<TAppButtonType>,
+    validator: (type: string): boolean => !!APP_BUTTON_TYPES[type as TAppButtonType],
   },
-  computed: {
-    validButtonType(): TAppButtonType {
-      const isTypeValid = typeValidator(this.type);
-
-      if (!isTypeValid) {
-        return APP_BUTTON_TYPES.secondary;
-      }
-
-      return this.type;
-    },
-    buttonClasses(): string {
-      return classNames([
-        'app-button',
-        'btn',
-        this.noPadding && 'btn--no-padding',
-        this.sizeClass,
-        this.fullWidthClass,
-        this.linkClass,
-        this.secondaryClass,
-        this.transparentClass,
-        this.outlinedClass,
-        this.typeCLass,
-        this.onlyIconClass,
-        this.roundedClass,
-      ]);
-    },
-    typeCLass(): string {
-      const buttonTypeClasses: Record<TAppButtonType, string> = {
-        [APP_BUTTON_TYPES.primary]: 'btn--primary',
-        [APP_BUTTON_TYPES.warning]: 'btn--warning',
-        [APP_BUTTON_TYPES.secondary]: 'btn--secondary',
-      };
-
-      return buttonTypeClasses[this.validButtonType] ?? '';
-    },
-    iconClasses(): string[] {
-      return ['btn-icon icon', this.icon, 'btn-icon--left'];
-    },
-    iconRightClasses(): string[] {
-      return ['btn-icon icon', this.iconRight, 'btn-icon--right'];
-    },
-    sizeClass(): string {
-      return this.size ? `btn--${this.size === 'mini' ? APP_BUTTON_SIZE.small : this.size}` : '';
-    },
-    fullWidthClass(): string {
-      return this.fullWidth ? 'btn--full-width' : '';
-    },
-    linkClass(): string {
-      return this.to ? 'btn--link' : '';
-    },
-    secondaryClass(): string {
-      return this.secondary ? 'btn--secondary' : '';
-    },
-    transparentClass(): string {
-      return this.transparent ? 'btn--transparent' : '';
-    },
-    outlinedClass(): string {
-      return this.outlined ? 'btn--outlined' : '';
-    },
-    roundedClass(): string {
-      return this.rounded ? 'btn--rounded' : '';
-    },
-    onlyIconClass(): string {
-      return this.onlyIcon ? 'btn--only-icon' : '';
-    },
+  nativeType: {
+    default: 'submit',
+    type: String as PropType<TAppButtonNativeType>,
+  },
+  outlined: {
+    default: false,
+    type: Boolean,
+  },
+  rounded: {
+    default: false,
+    type: Boolean,
+  },
+  fullWidth: {
+    default: false,
+    type: Boolean,
+  },
+  disabled: {
+    default: false,
+    type: Boolean,
+  },
+  isLoading: {
+    default: false,
+    type: Boolean,
+  },
+  isLink: {
+    default: false,
+    type: Boolean,
+  },
+  to: {
+    default: null,
+    type: [Object, String],
+  },
+  secondary: {
+    default: false,
+    type: Boolean,
+  },
+  icon: {
+    default: '',
+    type: String,
+  },
+  iconRight: {
+    default: '',
+    type: String,
+  },
+  transparent: {
+    default: false,
+    type: Boolean,
+  },
+  onlyIcon: {
+    default: false,
+    type: Boolean,
+  },
+  noPadding: {
+    type: Boolean,
+    default: false,
+  },
+  underline: {
+    type: Boolean,
+    default: false,
   },
 });
+
+const BASE_ICON_CLASS_NAMES = classNames('btn-icon', 'icon');
+const BASE_CLASS_NAME = 'btn-front-office';
+
+const currentComponent = computed(() => (props.to && !props.disabled ? 'RouterLink' : ELButton));
+const validButtonType = computed(() => {
+  const isTypeValid = typeValidator(props.type);
+
+  if (!isTypeValid) {
+    return APP_BUTTON_TYPES.secondary;
+  }
+
+  return props.type;
+});
+const typeCLass = computed(() => {
+  const buttonTypeClasses: Record<TAppButtonType, string> = {
+    [APP_BUTTON_TYPES.primary]: 'btn--primary',
+    [APP_BUTTON_TYPES.warning]: 'btn--warning',
+    [APP_BUTTON_TYPES.secondary]: 'btn--secondary',
+  };
+
+  return buttonTypeClasses[validButtonType.value] ?? '';
+});
+const iconClasses = computed(() => classNames(BASE_ICON_CLASS_NAMES, props.icon, 'btn-icon--left'));
+const iconRightClasses = computed(() => classNames(BASE_ICON_CLASS_NAMES, props.iconRight, 'btn-icon--right'));
+const sizeClass = computed(() => (props.size ? `btn--${props.size === 'mini' ? APP_BUTTON_SIZE.small : props.size}` : ''));
+const buttonClasses = computed(() =>
+  classNames([
+    'app-button',
+    BASE_CLASS_NAME,
+    sizeClass.value,
+    typeCLass.value,
+    props.underline && 'btn--underline',
+    props.noPadding && 'btn--no-padding',
+    props.fullWidth && 'btn--full-width',
+    props.to && 'btn--link',
+    props.secondary && 'btn--secondary',
+    props.transparent && 'btn--transparent',
+    props.outlined && 'btn--outlined',
+    props.onlyIcon && 'btn--only-icon',
+    props.rounded && 'btn--rounded',
+  ]),
+);
 </script>
 
 <style lang="scss">
-.btn,
-.btn.btn--outlined::before {
-  transition:
-    background-color 0.3s,
-    color 0.3s,
-    border-color 0.3s;
-}
-
-.btn,
-.btn > span {
-  @apply w-fit
+.btn-front-office {
+  &,
+  & > span {
+    @apply w-fit
     h-auto
     relative
     box-border
@@ -193,119 +160,113 @@ export default defineComponent({
     justify-center
     items-center
     text-center
-    border-none
-    disabled:cursor-default
-    disabled:bg-gray-300
-    disabled:text-gray-600
-    disabled:border-transparent
-    disabled:hover:bg-gray-300
-    disabled:hover:text-gray-600
-    disabled:hover:border-transparent;
-}
-
-.btn {
-  &--primary,
-  &--warning {
-    @apply text-gray-100 hover:text-gray-100;
+    border-none;
   }
 
-  &--primary {
-    @apply bg-blue-700 hover:bg-blue-800;
+  &:disabled.is-disabled {
+    @apply bg-gray-300 text-gray-600 border-transparent hover:bg-gray-300 hover:text-gray-600 hover:border-transparent;
   }
 
-  &--secondary {
-    @apply bg-blue-200 text-blue-600 hover:bg-blue-250 hover:text-blue-600;
+  &,
+  &.btn--outlined::before {
+    transition:
+      background-color 0.3s,
+      color 0.3s,
+      border-color 0.3s;
   }
 
-  &--warning {
-    @apply bg-red-warning hover:bg-red-warning;
-  }
-
-  &--link {
-    @apply whitespace-nowrap;
-  }
-
-  &--only-icon {
-    &.btn--large {
-      @apply p-[1rem];
+  &.btn {
+    &--primary,
+    &--warning {
+      @apply text-gray-100 hover:text-gray-100;
     }
 
-    &.btn--big {
-      @apply p-[0.75rem];
+    &--primary {
+      @apply bg-primary hover:bg-primary-hover hover:border-transparent focus:bg-primary-hover active:bg-primary-hover;
     }
 
-    &.btn--medium {
-      @apply p-[0.5rem];
+    &--secondary {
+      @apply bg-blue-200 text-blue-600 hover:bg-blue-250 hover:text-blue-600;
     }
 
-    &.btn--small,
-    &.btn--mini {
-      @apply p-[0.375rem];
+    &--warning {
+      @apply bg-red-warning hover:bg-red-warning;
     }
-  }
 
-  &:not(&--only-icon) {
-    &.btn--large {
+    &--link {
+      @apply whitespace-nowrap;
+    }
+
+    &--only-icon {
+      &.btn--large {
+        @apply p-[1rem];
+      }
+
+      &.btn--big {
+        @apply p-[0.75rem];
+      }
+
+      &.btn--medium {
+        @apply p-[0.5rem];
+      }
+
+      &.btn--small,
+      &.btn--mini {
+        @apply p-[0.375rem];
+      }
+    }
+
+    &--large {
       @apply py-[0.75rem] px-[1rem];
     }
 
-    &.btn--big {
+    &--big {
       @apply py-[0.5625rem] px-[1rem];
     }
 
-    &.btn--medium {
-      @apply py-[0.375rem] px-[0.75rem];
+    &--medium {
+      @apply py-[0.375rem] px-[0.75rem] rounded-[0.375rem] text-button-m;
     }
 
-    &.btn--small,
-    &.btn--mini {
-      @apply py-[0.375rem] px-[0.5rem];
+    &--small,
+    &--mini {
+      @apply py-[0.375rem] px-[0.5rem] rounded-[0.25rem] text-button-s;
     }
-  }
 
-  &--large,
-  &--big {
-    @apply rounded-[0.5rem] text-button-l;
-  }
+    &--large,
+    &--big {
+      @apply rounded-[0.5rem] text-button-l;
+    }
 
-  &--medium {
-    @apply rounded-[0.375rem] text-button-m;
-  }
+    &--full-width {
+      @apply w-full;
+    }
 
-  &--small,
-  &--mini {
-    @apply rounded-[0.25rem] text-button-s;
-  }
+    &--transparent,
+    &--transparent:hover,
+    &--transparent:active,
+    &--transparent:focus {
+      @apply bg-transparent border-transparent font-medium;
+    }
 
-  &--full-width {
-    @apply w-full #{!important};
-  }
+    &--underline span {
+      @apply underline underline-offset-4 decoration-dashed leading-[18px];
+    }
 
-  &--transparent {
-    background-color: transparent;
-    color: #7288a3;
-    padding: 5px;
-    border-color: transparent;
-  }
+    &--transparent:disabled.is-disabled {
+      @apply bg-transparent;
+    }
 
-  &--transparent:hover,
-  &--transparent:active,
-  &--transparent:focus {
-    background-color: transparent;
-    color: #4c617f;
-    border-color: transparent;
-  }
+    &--rounded {
+      @apply rounded-full;
+    }
 
-  &--transparent:disabled {
-    @apply bg-transparent;
-  }
+    &--no-padding {
+      @apply p-0;
+    }
 
-  &--rounded {
-    @apply rounded-full;
-  }
-
-  &--outlined {
-    @apply bg-gray-100
+    &--outlined {
+      @apply bg-gray-100
       hover:bg-gray-100
       before:content-[""]
       before:absolute
@@ -315,22 +276,21 @@ export default defineComponent({
       before:h-full
       before:rounded-[inherit]
       before:border-[0.125rem]
-      before:border-solid
-      disabled:text-gray-600
-      disabled:before:border-gray-300
-      disabled:bg-gray-100
-      disabled:hover:text-gray-600
-      disabled:hover:bg-gray-100
-      disabled:hover:before:border-gray-300;
+      before:border-solid;
 
-    &:not(:disabled) {
-      &.btn--secondary,
-      &.btn--primary {
-        @apply before:border-blue-400 hover:before:border-blue-500 text-blue-600 hover:text-blue-600;
+      &:disabled.is-disabled {
+        @apply text-gray-600 before:border-gray-300 bg-gray-100 hover:text-gray-600 hover:bg-gray-100 hover:before:border-gray-300;
       }
 
-      &.btn--warning {
-        @apply text-red-warning hover:text-red-warning before:border-red-warning hover:before:text-red-warning;
+      &:not(:disabled.is-disabled) {
+        &.btn--secondary,
+        &.btn--primary {
+          @apply before:border-blue-400 hover:before:border-blue-500 text-blue-600 hover:text-blue-600;
+        }
+
+        &.btn--warning {
+          @apply text-red-warning hover:text-red-warning before:border-red-warning hover:before:text-red-warning;
+        }
       }
     }
   }
@@ -338,9 +298,5 @@ export default defineComponent({
   .btn-icon {
     @apply inline-flex items-center justify-center w-[1rem] h-[1rem] text-[0.5rem] leading-[normal];
   }
-}
-
-.app-button.btn.btn--no-padding {
-  @apply p-0;
 }
 </style>

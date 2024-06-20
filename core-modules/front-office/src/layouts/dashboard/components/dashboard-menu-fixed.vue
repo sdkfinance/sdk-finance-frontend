@@ -127,7 +127,7 @@ export default class DashboardMenuFixed extends Vue {
 
     &:hover,
     &--active {
-      @apply text-blue-700;
+      @apply text-primary;
     }
 
     &--active {
@@ -139,7 +139,7 @@ export default class DashboardMenuFixed extends Vue {
         before:rounded-br-[0.125rem]
         before:w-[0.125rem]
         before:h-[1rem]
-        before:bg-blue-700;
+        before:bg-primary;
     }
 
     i.icon {

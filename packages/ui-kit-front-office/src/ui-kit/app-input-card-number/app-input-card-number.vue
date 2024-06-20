@@ -46,7 +46,7 @@ export default defineComponent({
   components: { AppInput },
   directives: { mask },
   props: {
-    value: { type: [String, Number], required: true },
+    value: { type: [String, Number], default: '' },
     label: { type: String, default: 'form.label.card_number' },
     placeholder: { type: String, default: '' },
     isMaskedCardAvailable: { type: Boolean, default: false },

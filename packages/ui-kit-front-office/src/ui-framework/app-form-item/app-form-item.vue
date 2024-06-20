@@ -66,7 +66,7 @@ export default defineComponent({
   &.is-required .app-custom-select__label::after {
     content: '*';
 
-    @apply m-0 ml-4 text-blue-accent self-start;
+    @apply m-0 ml-4 text-primary self-start;
   }
 
   &__error {

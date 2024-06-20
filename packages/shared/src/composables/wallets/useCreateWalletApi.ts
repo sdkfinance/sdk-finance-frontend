@@ -1,22 +1,26 @@
-import { useMutation, useQueryClient } from '@tanstack/vue-query';
+import { useMutation } from '@tanstack/vue-query';
 
-import { QUERY_KEYS } from '../../constants';
 import { WalletsRequests } from '../../requests/coins';
+import type { TUseMutationsApiCommonOptions } from '../../types';
 import { errorNotification, successNotification } from '../../utils';
 
-export const useCreateWalletApi = () => {
-  const queryClient = useQueryClient();
+export type TUseCreateWalletApiOptions = TUseMutationsApiCommonOptions;
 
+export const useCreateWalletApi = (options: TUseCreateWalletApiOptions = {}) => {
   return useMutation({
     mutationFn: WalletsRequests.createWallet,
     onSuccess: ({ error }) => {
+      const { showErrorNotification } = options;
+
       if (error !== null) {
-        errorNotification(error);
+        if (showErrorNotification !== false) {
+          errorNotification(error);
+        }
+
         return;
       }
 
       successNotification();
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.getWallets] });
     },
   });
 };

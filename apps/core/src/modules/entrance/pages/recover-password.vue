@@ -1,8 +1,10 @@
 <template>
   <div class="entrance-form-container">
-    <div class="hidden md:block form-entrance__logo">
+    <div
+      v-if="ENV_VARIABLES.brandLogoLUrl"
+      class="hidden md:block form-entrance__logo">
       <img
-        src="@/assets/images/logo.svg"
+        :src="ENV_VARIABLES.brandLogoLUrl"
         alt="sdk.finance" />
     </div>
 
@@ -83,6 +85,7 @@
 </template>
 
 <script lang="ts">
+import { ENV_VARIABLES } from '@sdk5/shared';
 import type { IPasswordRecoveryConfirmBody } from '@sdk5/shared/requests';
 import { AuthRequests } from '@sdk5/shared/requests';
 import type { IPlainObject } from '@sdk5/shared/types';
@@ -128,6 +131,9 @@ export default defineComponent({
     };
   },
   computed: {
+    ENV_VARIABLES() {
+      return ENV_VARIABLES;
+    },
     isConfirmPage() {
       const { login, otp } = this.$route.query;
       return !!login || !!otp;

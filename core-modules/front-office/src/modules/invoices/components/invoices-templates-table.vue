@@ -8,11 +8,13 @@
       <div class="table-actions">
         <app-button
           size="small"
+          full-width
           @click="resendInvoice(scope.row)">
           {{ $t('action.resend') }}
         </app-button>
         <app-button
           size="small"
+          full-width
           @click="editInvoice(scope.row)">
           {{ $t('action.edit') }}
         </app-button>

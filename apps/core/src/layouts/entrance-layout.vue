@@ -1,6 +1,6 @@
 <template>
   <div class="entrance-container">
-    <header-top-line v-if="!isWebview" />
+    <header-top-line v-if="isHeaderTopLineVisible" />
     <div class="entrance">
       <header class="entrance__header">
         <header-links
@@ -43,9 +43,11 @@
 
       <footer class="footer-entrance">
         <footer-links
-          v-if="!isWebview"
+          v-if="isFooterLinksVisible"
           class="hidden md:flex" />
-        <p class="footer-entrance__copyright">
+        <p
+          v-if="isFooterCopyrightsVisible"
+          class="footer-entrance__copyright">
           {{ $t('pages.entrance.copyright', { date: currentYear }) }}
         </p>
       </footer>
@@ -54,9 +56,10 @@
 </template>
 
 <script setup lang="ts">
+import { ENV_VARIABLES } from '@sdk5/shared';
 import { useIsUaWebview } from '@sdk5/shared/composables';
 import { AppModal, HeaderTopLine } from '@sdk5/ui-kit-entrance';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 import FooterLinks from '@/modules/entrance/components/footer-links.vue';
 import HeaderLinks from '@/modules/entrance/components/header-links.vue';
@@ -72,6 +75,9 @@ withDefaults(
 );
 
 const { isWebview } = useIsUaWebview();
+const isHeaderTopLineVisible = computed(() => !isWebview && ENV_VARIABLES.headerBackLinkVisible);
+const isFooterLinksVisible = computed(() => !isWebview && ENV_VARIABLES.footerLinksVisible);
+const isFooterCopyrightsVisible = computed(() => !isWebview && ENV_VARIABLES.footerCopyrightsVisible);
 
 const currentYear = ref(new Date().getFullYear());
 const entranceModal = ref(null as unknown as typeof AppModal);
@@ -145,8 +151,6 @@ const openModal = () => {
 
   &__logo {
     @apply h-auto;
-
-    max-width: 118px;
   }
 
   &__group {
@@ -186,7 +190,7 @@ const openModal = () => {
     @apply mb-40;
 
     img {
-      @apply inline-block w-220;
+      @apply inline-block;
     }
   }
 }
@@ -199,14 +203,12 @@ const openModal = () => {
   }
 
   &__logo-mini {
-    @apply max-w-100 mr-auto;
+    @apply mr-auto;
   }
 }
 
 .footer-entrance {
-  @apply flex flex-col p-0 m-auto;
-
-  max-width: 360px;
+  @apply flex flex-col p-0 m-auto w-[360px];
 
   &-links {
     @apply px-10 mb-15 w-full justify-between;

@@ -1,6 +1,6 @@
 import { loadExternalScript } from './loadExternalScript';
 
-export const initGoogleTag = (tagId: string) => {
+export const initGoogleTag = (tagId?: string) => {
   if (!tagId) {
     throw new Error('TagId is required for Google Tag initialization');
   }
@@ -11,7 +11,7 @@ export const initGoogleTag = (tagId: string) => {
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-  
+
     gtag('config', '${tagId}');
   `,
   );

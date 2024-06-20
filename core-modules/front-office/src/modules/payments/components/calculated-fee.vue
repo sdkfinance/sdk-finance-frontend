@@ -27,7 +27,7 @@ const calculatedFeeText = computed(() => t('pages.user_dashboard.payments.fee_am
 
   &__icon {
     @apply w-18 h-18 rounded-full flex justify-center items-center;
-    @apply leading-[normal] bg-blue-300 text-blue-accent text-11 font-bold;
+    @apply leading-[normal] bg-blue-300 text-primary text-11 font-bold;
   }
 
   &__text {

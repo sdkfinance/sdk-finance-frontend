@@ -27,6 +27,7 @@
     <app-button
       type="primary"
       native-type="submit"
+      full-width
       @click="handleForm">
       {{ $t('action.update') }}
     </app-button>

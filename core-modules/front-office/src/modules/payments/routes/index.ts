@@ -1,3 +1,4 @@
+import { ENV_VARIABLES } from '@sdk5/shared';
 import type { IRouteConfig } from '@sdk5/shared/types';
 import type { AsyncComponent } from 'vue';
 
@@ -23,23 +24,20 @@ const MobileTopUp: AsyncComponent = () => import('../make-payment/mobile-top-up.
 
 const TopUpPaymentCardOperations: AsyncComponent = () => import('../top-up-payment-card-operations.vue');
 
-const TopUpCorefyPage = () => import('../top-up-corefy-page.vue');
-
 const TopUpResultPage = () => import('../top-up-result.vue');
 
 const WithdrawalOperationsPage = () => import('../withdrawal-operations.vue');
 const WithdrawalViaBankPage = () => import('../withdrawal-via-bank.vue');
 const WithdrawalViaDebitCardPage = () => import('../withdrawal-via-debit-card.vue');
-const WithdrawalCorefyPage = () => import('../withdrawal-corefy-page.vue');
 
 const CurrencyRatesPage = () => import('../currency-rates/currency-rates-page.vue');
 const GoldRatesPage = () => import('../currency-rates/gold-rates-page.vue');
 
-export const PAYMENT_OPERATIONS_CHILDREN: IRouteConfig[] = [
+const CURRENCY_RATES_ROUTES: IRouteConfig[] = [
   {
-    path: 'make-payment-operations',
-    name: 'user-make-payment-operations',
-    component: MakePaymentOperations,
+    path: 'currency-rates',
+    name: 'user-currency-rates',
+    component: CurrencyRatesPage,
     meta: {
       layout: {
         props: {
@@ -50,18 +48,20 @@ export const PAYMENT_OPERATIONS_CHILDREN: IRouteConfig[] = [
     },
   },
   {
-    path: 'top-up-operations',
-    name: 'user-top-up-operations',
-    component: TopUpOperations,
+    path: 'gold-rates',
+    name: 'user-gold-rates',
+    component: GoldRatesPage,
     meta: {
       layout: {
         props: {
-          backName: 'user-dashboard',
+          backName: 'user-currency-rates',
         },
         componentName: 'SimpleLayout',
       },
     },
   },
+];
+const EXCHANGE_ROUTES: IRouteConfig[] = [
   {
     path: 'exchange-operations',
     name: 'user-exchange-operations',
@@ -98,6 +98,90 @@ export const PAYMENT_OPERATIONS_CHILDREN: IRouteConfig[] = [
       },
     },
   },
+];
+const MAKE_PAYMENT_OPERATION_ROUTE: IRouteConfig[] = [
+  {
+    path: 'make-payment-operations',
+    name: 'user-make-payment-operations',
+    component: MakePaymentOperations,
+    meta: {
+      layout: {
+        props: {
+          backName: 'user-dashboard',
+        },
+        componentName: 'SimpleLayout',
+      },
+    },
+  },
+];
+const PAYMENT_TO_CARD_ROUTE: IRouteConfig[] = [
+  {
+    path: 'payment-to-card',
+    name: 'user-payment-to-card',
+    component: PaymentTo,
+    meta: {
+      layout: {
+        componentName: 'BasePageLayout',
+      },
+    },
+  },
+];
+const PAYMENT_TO_ACCOUNT_ROUTE: IRouteConfig[] = [
+  {
+    path: 'payment-to-account',
+    name: 'user-payment-to-account',
+    component: PaymentTo,
+    props: {
+      isAccountPage: true,
+    },
+    meta: {
+      layout: {
+        componentName: 'BasePageLayout',
+      },
+    },
+  },
+];
+const MOBILE_TOP_UP_ROUTE: IRouteConfig[] = [
+  {
+    path: 'mobile-top-up',
+    name: 'user-mobile-top-up',
+    component: MobileTopUp,
+    meta: {
+      layout: {
+        componentName: 'BasePageLayout',
+      },
+    },
+  },
+];
+const BANK_TRANSFER_ROUTE: IRouteConfig[] = [
+  {
+    path: 'bank-transfer',
+    name: 'user-bank-transfer',
+    component: BankTransfer,
+    meta: {
+      layout: {
+        componentName: 'BasePageLayout',
+      },
+    },
+  },
+];
+
+export const PAYMENT_OPERATIONS_CHILDREN: IRouteConfig[] = [
+  ...(ENV_VARIABLES.makePaymentOperationsVisible ? MAKE_PAYMENT_OPERATION_ROUTE : []),
+  {
+    path: 'top-up-operations',
+    name: 'user-top-up-operations',
+    component: TopUpOperations,
+    meta: {
+      layout: {
+        props: {
+          backName: 'user-dashboard',
+        },
+        componentName: 'SimpleLayout',
+      },
+    },
+  },
+
   {
     path: 'top-up-card',
     name: 'user-top-up-card',
@@ -118,66 +202,11 @@ export const PAYMENT_OPERATIONS_CHILDREN: IRouteConfig[] = [
       },
     },
   },
-  {
-    path: 'payment-to-card',
-    name: 'user-payment-to-card',
-    component: PaymentTo,
-    meta: {
-      layout: {
-        componentName: 'BasePageLayout',
-      },
-    },
-  },
-  {
-    path: 'payment-to-account',
-    name: 'user-payment-to-account',
-    component: PaymentTo,
-    props: {
-      isAccountPage: true,
-    },
-    meta: {
-      layout: {
-        componentName: 'BasePageLayout',
-      },
-    },
-  },
-  {
-    path: 'mobile-top-up',
-    name: 'user-mobile-top-up',
-    component: MobileTopUp,
-    meta: {
-      layout: {
-        componentName: 'BasePageLayout',
-      },
-    },
-  },
-  {
-    path: 'bank-transfer',
-    name: 'user-bank-transfer',
-    component: BankTransfer,
-    meta: {
-      layout: {
-        componentName: 'BasePageLayout',
-      },
-    },
-  },
+
   {
     path: 'top-up-payment-card-operations',
     name: 'user-top-up-payment-card-operations',
     component: TopUpPaymentCardOperations,
-    meta: {
-      layout: {
-        props: {
-          backName: 'user-top-up-operations',
-        },
-        componentName: 'SimpleLayout',
-      },
-    },
-  },
-  {
-    path: 'top-up-corefy',
-    name: 'user-corefy-top-up',
-    component: TopUpCorefyPage,
     meta: {
       layout: {
         componentName: 'BasePageLayout',
@@ -224,49 +253,16 @@ export const PAYMENT_OPERATIONS_CHILDREN: IRouteConfig[] = [
     component: WithdrawalViaDebitCardPage,
     meta: {
       layout: {
-        props: {
-          backName: 'user-withdrawal-operations',
-        },
-        componentName: 'SimpleLayout',
-      },
-    },
-  },
-  {
-    path: 'withdrawal-corefy',
-    name: 'user-withdrawal-via-corefy',
-    component: WithdrawalCorefyPage,
-    meta: {
-      layout: {
         componentName: 'BasePageLayout',
       },
     },
   },
-  {
-    path: 'currency-rates',
-    name: 'user-currency-rates',
-    component: CurrencyRatesPage,
-    meta: {
-      layout: {
-        props: {
-          backName: 'user-dashboard',
-        },
-        componentName: 'SimpleLayout',
-      },
-    },
-  },
-  {
-    path: 'gold-rates',
-    name: 'user-gold-rates',
-    component: GoldRatesPage,
-    meta: {
-      layout: {
-        props: {
-          backName: 'user-currency-rates',
-        },
-        componentName: 'SimpleLayout',
-      },
-    },
-  },
+  ...(ENV_VARIABLES.makePaymentTransferToCardActionVisible ? PAYMENT_TO_CARD_ROUTE : []),
+  ...(ENV_VARIABLES.makePaymentTransferToAccountActionVisible ? PAYMENT_TO_ACCOUNT_ROUTE : []),
+  ...(ENV_VARIABLES.makePaymentMobileTopUpActionVisible ? MOBILE_TOP_UP_ROUTE : []),
+  ...(ENV_VARIABLES.makePaymentOtherPaymentsActionVisible ? BANK_TRANSFER_ROUTE : []),
+  ...(ENV_VARIABLES.userDashboardExchangeVisible ? EXCHANGE_ROUTES : []),
+  ...(ENV_VARIABLES.userDashboardCurrencyRatesVisible ? CURRENCY_RATES_ROUTES : []),
 ];
 
 export const PAYMENT_OPERATIONS: IRouteConfig = {

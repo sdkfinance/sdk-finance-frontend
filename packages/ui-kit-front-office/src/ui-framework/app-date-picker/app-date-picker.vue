@@ -499,7 +499,7 @@ export default defineComponent({
         &--highlight-drag-end,
         &--highlight-selected-start,
         &--highlight-selected-end {
-          @apply bg-blue-700;
+          @apply bg-primary;
         }
 
         &--highlight-selected-base,
@@ -549,7 +549,7 @@ export default defineComponent({
 
     .vc-day-content {
       @apply text-md leading-[normal] text-gray-500 font-medium rounded-none w-full h-full;
-      @apply hover:bg-blue-200 hover:text-blue-700 focus:bg-transparent focus:font-medium;
+      @apply hover:bg-blue-200 hover:text-primary focus:bg-transparent focus:font-medium;
       @apply font-medium #{!important};
 
       &.is-disabled {
@@ -568,7 +568,7 @@ export default defineComponent({
         }
 
         &--highlight-content-today {
-          @apply text-blue-700;
+          @apply text-primary;
         }
 
         &--highlight-drag-content-start,

@@ -1,16 +1,17 @@
 <template>
   <div>
-    <header-top-line v-if="!isWebview" />
+    <header-top-line v-if="isHeaderTopLineVisible" />
     <div
       v-resize:throttle="calculateOffset"
       class="user-dashboard">
-      <app-notification-controller />
+      <user-notification-controller />
       <header class="user-dashboard__header">
         <div class="user-dashboard__controls">
           <img
+            v-if="ENV_VARIABLES.brandLogoMUrl"
             class="user-dashboard__logo"
             :class="{ 'hidden lg:block': isBackVisible }"
-            src="../../../assets/images/logo.svg"
+            :src="ENV_VARIABLES.brandLogoMUrl"
             alt="sdk.finance" />
           <transition name="fade">
             <router-link
@@ -36,7 +37,7 @@
             <div class="user-dashboard__account">
               <div
                 class="hidden md:block"
-                :class="{ 'text-blue-accent': isDropDownVisible }"
+                :class="{ 'text-primary': isDropDownVisible }"
                 :title="personName">
                 {{ personName || $t('pages.profile.title') }}
               </div>
@@ -56,7 +57,7 @@
       </main>
       <app-modal
         ref="profileModal"
-        modal-body-class="max-w-852"
+        modal-body-class="user-profile-modal-body"
         is-full-width>
         <user-profile />
       </app-modal>
@@ -64,17 +65,21 @@
   </div>
 </template>
 
-<script lang="ts">
-import { useIsUaWebview } from '@sdk5/shared/composables';
-import { Profile, UserData } from '@sdk5/shared/store';
+<script setup lang="ts">
+import { ENV_VARIABLES } from '@sdk5/shared';
+import { useGetCurrentUserProfileApi, useGetVuexModule, useIsUaWebview } from '@sdk5/shared/composables';
+import { UserData } from '@sdk5/shared/store';
 import type { IOption } from '@sdk5/shared/types';
-import { AppDropdown, AppModal, AppNotificationController, HeaderTopLine } from '@sdk5/ui-kit-front-office';
+import { AppDropdown, AppModal, HeaderTopLine } from '@sdk5/ui-kit-front-office';
 import type { Ref } from 'vue';
-import { defineComponent, nextTick, onMounted, ref } from 'vue';
-import type { RouterLink } from 'vue-router';
-import { getModule } from 'vuex-module-decorators';
+import { computed } from 'vue';
+import { defineAsyncComponent } from 'vue';
+import { nextTick, onMounted, ref, watchEffect } from 'vue';
+import { RouterLink } from 'vue-router';
 
 import UserProfile from '../pages/profile/index.vue';
+
+const UserNotificationController = defineAsyncComponent(() => import('../components/notifications/user-notification-controller.vue'));
 
 enum actionTypes {
   route,
@@ -86,108 +91,88 @@ type TOptionCommand = {
   action: actionTypes;
 };
 
-export default defineComponent({
-  name: 'UserDashboardLayout',
-  components: {
-    AppNotificationController,
-    UserProfile,
-    AppModal,
-    AppDropdown,
-    HeaderTopLine,
+withDefaults(
+  defineProps<{
+    backName?: string;
+    isBackVisible?: boolean;
+  }>(),
+  {
+    backName: 'user-dashboard',
+    isBackVisible: false,
   },
-  props: {
-    backName: { type: String, default: 'user-dashboard' },
-    isBackVisible: { type: Boolean, default: false },
-  },
-  setup() {
-    const { isWebview } = useIsUaWebview();
-    const profileOptions: IOption[] = [
-      {
-        label: 'action.profile',
-        icon: 'icon-user-profile',
-        classes: 'text-blue-600',
-        value: '',
-        command: { action: actionTypes.profile },
-      },
-      {
-        label: 'action.logout',
-        icon: 'icon-logout',
-        classes: 'text-blue-600',
-        value: '',
-        command: { action: actionTypes.logout },
-      },
-    ];
+);
 
-    const backRef = ref(null) as unknown as Ref<InstanceType<typeof RouterLink> & { $el: HTMLLinkElement }>;
-    const mainRef = ref(null) as unknown as Ref<HTMLElement>;
-    const appDropdownRef = ref(null) as unknown as Ref<InstanceType<typeof AppDropdown>>;
-    const profileModal = ref(null) as unknown as Ref<InstanceType<typeof AppModal>>;
-    const backOffset = ref('');
-
-    const calculateOffset = () => {
-      if (!backRef.value || !mainRef.value) {
-        return;
-      }
-
-      const backOffsetLeft = backRef.value.$el?.offsetLeft;
-      const mainOffsetLeft = mainRef.value.offsetLeft;
-      const offsetDiff = mainOffsetLeft - backOffsetLeft;
-      backOffset.value = `${offsetDiff > 0 ? offsetDiff : 0}px`;
-    };
-
-    onMounted(() => {
-      nextTick(() => {
-        calculateOffset();
-      });
-    });
-
-    return {
-      isWebview,
-      profileOptions,
-      profileModal,
-      appDropdownRef,
-      backOffset,
-      backRef,
-      mainRef,
-      calculateOffset,
-    };
+const { personName } = useGetCurrentUserProfileApi();
+const userDataModule = useGetVuexModule(UserData);
+const { isWebview } = useIsUaWebview();
+const profileOptions: IOption[] = [
+  {
+    label: 'action.profile',
+    icon: 'icon-user-profile',
+    classes: 'text-blue-600',
+    value: '',
+    command: { action: actionTypes.profile },
   },
-  data() {
-    return {
-      profileModule: getModule(Profile, this.$store),
-      userDataModule: getModule(UserData, this.$store),
-    };
+  {
+    label: 'action.logout',
+    icon: 'icon-logout',
+    classes: 'text-blue-600',
+    value: '',
+    command: { action: actionTypes.logout },
   },
-  computed: {
-    personName(): string {
-      return this.profileModule.personName;
-    },
-  },
-  updated() {
-    this.$nextTick(() => {
-      this.calculateOffset();
-    });
-  },
-  methods: {
-    logout() {
-      this.userDataModule.logout();
-    },
-    onDropDownChange(event: TOptionCommand) {
-      if (event.action === actionTypes.logout) {
-        this.logout();
-      } else if (event.action === actionTypes.profile) {
-        this.profileModal.open();
-      }
+];
 
-      this.appDropdownRef.hideDropdown();
-    },
-  },
+const backRef = ref(null) as unknown as Ref<InstanceType<typeof RouterLink> & { $el: HTMLLinkElement }>;
+const mainRef = ref(null) as unknown as Ref<HTMLElement>;
+const appDropdownRef = ref(null) as unknown as Ref<InstanceType<typeof AppDropdown>>;
+const profileModal = ref(null) as unknown as Ref<InstanceType<typeof AppModal>>;
+const backOffset = ref('');
+
+const isHeaderTopLineVisible = computed(() => !isWebview && ENV_VARIABLES.headerBackLinkVisible);
+
+const calculateOffset = () => {
+  if (!backRef.value || !mainRef.value) {
+    return;
+  }
+
+  const backOffsetLeft = backRef.value.$el?.offsetLeft;
+  const mainOffsetLeft = mainRef.value.offsetLeft;
+  const offsetDiff = mainOffsetLeft - backOffsetLeft;
+  backOffset.value = `${offsetDiff > 0 ? offsetDiff : 0}px`;
+};
+const logout = () => {
+  userDataModule.logout();
+};
+const onDropDownChange = (event: TOptionCommand) => {
+  if (event.action === actionTypes.logout) {
+    logout();
+  } else if (event.action === actionTypes.profile) {
+    profileModal.value.open();
+  }
+
+  appDropdownRef.value.hideDropdown();
+};
+
+watchEffect(() => {
+  nextTick(() => {
+    calculateOffset();
+  });
+});
+
+onMounted(() => {
+  nextTick(() => {
+    calculateOffset();
+  });
 });
 </script>
 
 <style lang="scss">
 .user-dashboard {
   @apply p-24 sm:p-45 overflow-x-hidden;
+
+  .user-profile-modal-body {
+    @apply max-w-[fit-content];
+  }
 
   &__header {
     @apply flex items-center justify-between mb-55 sm:mb-48 lg:mb-65 text-lg text-blue-600;
@@ -214,7 +199,7 @@ export default defineComponent({
   }
 
   &__logo {
-    @apply h-auto w-100 mr-20;
+    @apply mr-20;
   }
 
   &__account {

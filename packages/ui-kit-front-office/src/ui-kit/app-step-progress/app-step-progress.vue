@@ -49,7 +49,7 @@ export default defineComponent({
       @apply bg-gray-300 text-gray-400 text-sm mb-8 font-semibold leading-none;
 
       &--active {
-        @apply bg-blue-300 text-blue-accent;
+        @apply bg-blue-300 text-primary;
       }
     }
 

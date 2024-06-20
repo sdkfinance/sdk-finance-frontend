@@ -8,12 +8,10 @@ html {
 }
 
 a {
+  @apply hover:text-primary;
+
   text-decoration: none;
   transition: color 330ms ease;
-
-  &:hover {
-    color: $primary-color;
-  }
 }
 
 button {
@@ -103,4 +101,9 @@ input::-webkit-inner-spin-button {
 
 input[type='number'] {
   appearance: textfield;
+}
+
+[class^='icon-']::before,
+[class*=' icon-']::before {
+  font-size: 1.6em;
 }

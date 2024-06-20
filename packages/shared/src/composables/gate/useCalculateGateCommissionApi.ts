@@ -22,10 +22,14 @@ export const useCalculateGateCommissionApi = (debounceDelay = 500) => {
   });
 
   const calculateCommissionDebounced = useDebounceFn(mutation.mutateAsync, debounceDelay);
+  const clearCalculatedCommission = () => {
+    calculatedCommission.value = null;
+  };
 
   return {
     ...mutation,
     calculateCommissionDebounced,
+    clearCalculatedCommission,
     calculatedCommission: readonly(calculatedCommission) as Readonly<Ref<ICalculateCommissionRecord | null>>,
   };
 };

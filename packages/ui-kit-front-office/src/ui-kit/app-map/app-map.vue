@@ -158,7 +158,7 @@ export default defineComponent({
   &__cluster {
     filter: drop-shadow(0 4px 6px rgb(27 85 233 / 60%));
 
-    @apply flex items-center text-center w-24 h-24 rounded-full bg-blue-accent text-white text-base;
+    @apply flex items-center text-center w-24 h-24 rounded-full bg-primary text-white text-base;
 
     &-1 {
       @apply h-30 w-30;

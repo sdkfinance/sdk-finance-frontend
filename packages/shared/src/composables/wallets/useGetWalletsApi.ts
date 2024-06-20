@@ -1,27 +1,33 @@
-import { useQuery } from '@tanstack/vue-query';
-import type { ICoin } from 'src/requests';
+import { useQuery, useQueryClient } from '@tanstack/vue-query';
 import { computed } from 'vue';
 
 import { QUERY_KEYS } from '../../constants';
 import { WalletsRequests } from '../../requests/coins';
+import type { ICommonUseQueryOptions } from '../../types';
 import { errorNotification } from '../../utils';
 
-export const useGetWalletsApi = () => {
+export type TUseGetWalletsApiQueryOptions = ICommonUseQueryOptions;
+
+export const useGetWalletsApi = (options: TUseGetWalletsApiQueryOptions = {}) => {
+  const queryClient = useQueryClient();
+  const queryKey = [QUERY_KEYS.getWallets];
   const query = useQuery({
-    queryKey: [QUERY_KEYS.getWallets],
+    queryKey,
     queryFn: WalletsRequests.getWallets,
+    enabled: options.queryEnabled,
+    refetchOnWindowFocus: false,
     select: ({ error, response }) => {
-      if (error !== null) {
+      const { showErrorNotification } = options;
+
+      if (error !== null && showErrorNotification !== false) {
         errorNotification(error);
-        return [];
       }
 
-      return response.coins ?? [];
+      return response?.coins ?? [];
     },
   });
 
-  const coinList = computed<ICoin[]>(() => query.data?.value ?? []);
-
+  const coinList = computed(() => query.data?.value ?? []);
   const mappedCoins = computed(() =>
     coinList.value.map((item) => {
       const { code: currency } = item.currency;
@@ -32,9 +38,14 @@ export const useGetWalletsApi = () => {
     }),
   );
 
+  const invalidateWalletsQuery = () => {
+    return queryClient.invalidateQueries({ queryKey });
+  };
+
   return {
     ...query,
     coinList,
     mappedCoins,
+    invalidateWalletsQuery,
   };
 };

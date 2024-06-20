@@ -29,7 +29,9 @@
               placeholder="form.label.amount"
               label="form.label.amount" />
           </app-form-item>
-          <app-button native-type="submit">
+          <app-button
+            native-type="submit"
+            full-width>
             {{ $t('action.create_top_up_request') }}
           </app-button>
         </app-form>

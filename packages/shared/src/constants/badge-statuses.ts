@@ -8,7 +8,7 @@ export const BADGE_STATUSES = {
   new: 'new',
   rejected: 'rejected',
   default: 'new',
-  processed: 'done',
+  processed: 'processed',
   authorized: 'authorized',
   approved: 'approved',
   declined: 'declined',
@@ -16,7 +16,7 @@ export const BADGE_STATUSES = {
   stopped: 'stopped',
   deactivate: 'deactivate',
   deactivated: 'deactivated',
-  done: 'processed',
+  done: 'done',
   none: 'none',
   error: 'error',
   suspended: 'suspended',
@@ -42,6 +42,8 @@ export const BADGE_STATUSES = {
   closed: 'closed',
   opened: 'opened',
   feature: 'feature',
+  completed: 'completed',
+  disabled: 'disabled',
 };
 
 export type TBadgeStatus = keyof typeof BADGE_STATUSES;

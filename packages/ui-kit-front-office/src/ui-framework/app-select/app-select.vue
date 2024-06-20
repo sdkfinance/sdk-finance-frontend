@@ -44,7 +44,7 @@
           v-for="(item, i) in options"
           :key="`option_${i}`"
           :label="getLabel(item)"
-          :value="optionValue ? item[optionValue] : item"
+          :value="optionValue ? getProp(item, optionValue) : item"
           :disabled="item.disabled">
           <slot
             name="option"
@@ -87,7 +87,7 @@ export default defineComponent({
     [Option.name]: Option,
   },
   props: {
-    value: {},
+    value: { default: undefined, type: [String, Number, Object, Array] },
     placeholder: { default: '', type: String },
     isDropdown: { default: false, type: Boolean },
     isDropdownSimple: { default: false, type: Boolean },
@@ -110,6 +110,11 @@ export default defineComponent({
       validator: sizeValidator,
     },
     fitPopperWidth: { default: true, type: Boolean },
+  },
+  setup() {
+    return {
+      getProp,
+    };
   },
   computed: {
     inputModel: {
@@ -258,10 +263,14 @@ export default defineComponent({
     .el-icon-circle-check {
       @apply hidden #{!important};
     }
+
+    .el-input.is-focus .el-input__inner {
+      @apply border-primary;
+    }
   }
 
   &__label {
-    @apply inline-block text-black text-base mb-8 font-semibold;
+    @apply inline-flex text-black text-base mb-8 font-semibold;
   }
 
   &__prefix-image {
@@ -314,7 +323,7 @@ export default defineComponent({
     }
 
     .el-input__prefix {
-      @apply w-full pr-40 text-base text-gray-500 transition duration-500;
+      @apply w-full pr-[3rem] text-base text-gray-500 transition duration-500;
     }
 
     .el-input__inner {
@@ -391,7 +400,7 @@ export default defineComponent({
 
   &.app-select--secondary {
     .app-input__label {
-      @apply text-lg font-normal text-blue-700;
+      @apply text-lg font-normal text-primary;
     }
   }
 

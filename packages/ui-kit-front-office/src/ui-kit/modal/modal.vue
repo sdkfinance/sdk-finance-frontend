@@ -33,7 +33,7 @@
         <section class="modal__body">
           <slot
             v-if="visible"
-            v-bind="{ reject, confirm }" />
+            v-bind="{ reject, confirm, closeModal }" />
         </section>
       </div>
     </div>
@@ -140,8 +140,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-@import '../../assets/styles/tools/variables';
-
 .front-office-modal {
   &.modal-overlay {
     overflow: hidden !important;

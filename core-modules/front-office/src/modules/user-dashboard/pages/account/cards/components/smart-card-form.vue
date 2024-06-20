@@ -17,7 +17,9 @@
           placeholder="placeholder.input.card_name" />
       </app-form-item>
 
-      <app-button native-type="submit">
+      <app-button
+        native-type="submit"
+        full-width>
         {{ $t('action.add_card') }}
       </app-button>
     </app-form>

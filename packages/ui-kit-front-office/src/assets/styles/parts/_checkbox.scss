@@ -21,12 +21,12 @@
         .el-checkbox {
           &__input {
             .el-checkbox__inner {
-              @apply border-blue-700;
+              @apply border-primary;
             }
           }
 
           &__label {
-            @apply text-blue-700;
+            @apply text-primary;
           }
         }
       }
@@ -72,7 +72,7 @@
     &__input.is-checked,
     &__input.is-indeterminate {
       .el-checkbox__inner {
-        @apply bg-blue-700 border-blue-700;
+        @apply bg-primary border-primary;
       }
     }
 

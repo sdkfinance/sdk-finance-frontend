@@ -38,5 +38,11 @@ export interface IWalletGetByLoginResponse {
   serial: string;
 }
 
+export interface IWalletDeactivatePayload {
+  active: boolean;
+  description?: string;
+  deactivationReason?: string;
+}
+
 export type IGetWalletResponse = { coins: ICoin[] };
 export type IGetWalletsApiResponse = IApiResponse<IGetWalletResponse>;

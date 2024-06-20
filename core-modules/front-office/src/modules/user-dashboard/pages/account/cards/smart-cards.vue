@@ -46,7 +46,7 @@ import type { ICoin } from '@sdk5/shared/requests';
 import type { ISmartCardShort } from '@sdk5/shared/types';
 import { AppButton, AppCardProgress, AppModal, AppSmartCard, AppWalletCard } from '@sdk5/ui-kit-front-office';
 import type { PropType } from 'vue';
-import { Component, Prop, Ref, Vue } from 'vue-property-decorator';
+import { Component, Emit, Prop, Ref, Vue } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
 
 import { UserCoins } from '../../../../../store/modules';
@@ -75,6 +75,11 @@ export default class CardsPage extends Vue {
     account?: ICoin;
   };
 
+  @Emit('updated-settings')
+  protected updatedSettings(): boolean {
+    return true;
+  }
+
   protected userCoinsModule = getModule(UserCoins, this.$store);
 
   protected currentSerial: string = this.$route.params?.serial;
@@ -91,6 +96,7 @@ export default class CardsPage extends Vue {
     }
 
     await this.userCoinsModule.fetchCoins(true);
+    this.updatedSettings();
   }
 }
 </script>

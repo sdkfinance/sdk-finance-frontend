@@ -2,7 +2,15 @@ import type { Store } from 'vuex';
 import { Action, Module, Mutation, VuexModule } from 'vuex-module-decorators';
 
 import type { TRole } from '../constants/roles';
-import type { IUserInfo, IUserInfoResponse, IUserLogin, IUserSecurity } from '../requests/profiles';
+import type {
+  IGetUserInfoApiResponse,
+  IGetUserInfoResponse,
+  IUserInfo,
+  IUserInfoResponse,
+  IUserLogin,
+  IUserSecurity,
+  TProfileMembership,
+} from '../requests/profiles';
 import { ProfileRequests } from '../requests/profiles';
 import { LocalStorageService } from '../services/LocalStorageService';
 import type { IApiResponse } from '../types';
@@ -13,7 +21,7 @@ type IPlainObject = Record<string, any>;
 export class Profile extends VuexModule {
   public profileData = {} as IUserInfoResponse;
 
-  public memberShipsData: IPlainObject[] = [];
+  public memberShipsData: TProfileMembership[] = [];
 
   public isProfileLoaded: boolean = false;
 
@@ -50,11 +58,11 @@ export class Profile extends VuexModule {
     return email || '';
   }
 
-  public get organizationId(): number | undefined {
+  public get organizationId(): string | undefined {
     return this.memberShipsData?.[0]?.organizationId;
   }
 
-  public get role(): TRole {
+  public get role(): TRole | undefined {
     return this.memberShipsData?.[0]?.roleName;
   }
 
@@ -69,7 +77,7 @@ export class Profile extends VuexModule {
   }
 
   @Mutation
-  public SET_MEMBERSHIPS(memberShips: IPlainObject[]): void {
+  public SET_MEMBERSHIPS(memberShips: TProfileMembership[]): void {
     this.memberShipsData = memberShips;
   }
 
@@ -77,6 +85,14 @@ export class Profile extends VuexModule {
   public RESET(): void {
     this.profileData = {} as IUserInfoResponse;
     this.isProfileLoaded = false;
+  }
+
+  @Action
+  public setProfileData(response: IGetUserInfoResponse) {
+    const { profile, memberShips } = response;
+    this.context.commit('SET_PROFILE', profile);
+    this.context.commit('SET_MEMBERSHIPS', memberShips);
+    this.context.commit('SET_LOADED_FLAG');
   }
 
   @Action
@@ -108,7 +124,7 @@ export class Profile extends VuexModule {
   }
 
   @Action
-  public async updateTwoFactorAuth(options: IUserSecurity): Promise<IApiResponse<any>> {
+  public async updateTwoFactorAuth(options: IUserSecurity): Promise<IGetUserInfoApiResponse> {
     const { response, error } = await ProfileRequests.updateMySecurity(options);
 
     const { profile } = response || {};
@@ -117,8 +133,13 @@ export class Profile extends VuexModule {
       this.context.commit('SET_PROFILE', profile);
 
       this.context.commit('SET_LOADED_FLAG');
+
+      return {
+        error: null,
+        response,
+      };
     }
 
-    return { response, error };
+    return { response: null, error };
   }
 }

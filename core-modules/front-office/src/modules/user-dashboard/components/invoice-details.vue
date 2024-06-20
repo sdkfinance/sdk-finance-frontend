@@ -148,7 +148,7 @@ export default class InvoiceDetails extends Vue {
   }
 
   protected get title(): string {
-    return this.data?.detailsTitle || this.data?.name!;
+    return this.data?.detailsTitle || this.data?.name;
   }
 
   protected get formattedDate(): string {
@@ -203,7 +203,7 @@ export default class InvoiceDetails extends Vue {
   }
 
   &__head-background {
-    @apply w-full h-150 bg-blue-accent flex items-center justify-between px-24 text-white font-semibold text-xl;
+    @apply w-full h-150 bg-primary flex items-center justify-between px-24 text-white font-semibold text-xl;
   }
 
   &__head-image {

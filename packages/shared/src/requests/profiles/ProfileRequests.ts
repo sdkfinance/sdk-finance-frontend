@@ -12,6 +12,7 @@ import type {
   IUserSecurity,
   TChangeUserIdentificationStatusRequestPayload,
   TChangeUserIdentificationStatusResponse,
+  TUpdateProfileAdditionalPayload,
   TUpdateUserAddressPayload,
 } from './UserProfile.types';
 
@@ -40,12 +41,16 @@ export const ProfileRequests = {
     return api.patch('/profiles/my/person', options);
   },
 
-  updateMySecurity(security: IUserSecurity): Promise<IApiResponse<any>> {
+  updateMySecurity(security: IUserSecurity): Promise<IGetUserInfoApiResponse> {
     return api.patch('/profiles/my/security-settings', { security });
   },
 
   updateMyAddress(payload: TUpdateUserAddressPayload): Promise<IGetUserInfoApiResponse> {
     return api.patch('/profiles/my/address', payload);
+  },
+
+  updateMyProfileAdditional(payload: TUpdateProfileAdditionalPayload): Promise<IGetUserInfoApiResponse> {
+    return api.patch('/profiles/my/additional', payload);
   },
 
   updateMyPassword(newCredentials: IUserPassword): Promise<IApiResponse<any>> {

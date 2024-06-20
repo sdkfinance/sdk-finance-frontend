@@ -116,7 +116,7 @@ export default defineComponent({
         text-blue-600
         top-0
         right-0
-        hover:text-blue-700
+        hover:text-primary
         hover:bg-transparent;
 
         &::before {

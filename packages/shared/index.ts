@@ -11,3 +11,4 @@ export * from './src/filters';
 export { default as config } from './src/config';
 export { default as router } from './src/router';
 export * from './src/composables';
+export * from './src/utils';

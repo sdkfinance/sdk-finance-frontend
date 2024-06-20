@@ -58,7 +58,7 @@ export default class CardProductItem extends Vue {
   @apply p-16 rounded-8 border border-solid border-blue-300 bg-white cursor-pointer;
 
   &--selected {
-    @apply border-2 border-blue-accent;
+    @apply border-2 border-primary;
   }
 
   &-top {

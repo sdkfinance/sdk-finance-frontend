@@ -135,11 +135,11 @@ export default defineComponent({
   &__add {
     @apply mt-16 ml-10;
     @apply text-blue-500 text-base text-left inline border-b border-dashed border-current p-0 font-normal;
-    @apply hover:text-blue-accent transition disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply hover:text-primary transition disabled:opacity-50 disabled:cursor-not-allowed;
   }
 
   &__action {
-    @apply text-xs text-blue-500 hover:text-blue-accent transition mr-13;
+    @apply text-xs text-blue-500 hover:text-primary transition mr-13;
     @apply disabled:opacity-50;
 
     &:last-of-type {

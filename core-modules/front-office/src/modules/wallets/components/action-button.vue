@@ -24,8 +24,6 @@ export default class ActionButton extends Vue {
 </script>
 
 <style lang="scss">
-@import '../../../assets/styles/variables';
-
 .wallet-action-button {
   display: flex;
   flex-direction: column;

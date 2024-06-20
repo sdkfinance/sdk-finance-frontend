@@ -12,10 +12,10 @@
     <template #default="scope">
       <slot v-bind="scope" />
     </template>
-    <template #header="{ column }">
+    <template #header="{ column: columnScoped }">
       <span class="app-table__header-cell">
-        {{ column.label }}
-        <template v-if="column.sortable">
+        {{ columnScoped.label }}
+        <template v-if="columnScoped.sortable">
           <i :class="['icon', sortingIcon]" />
         </template>
       </span>

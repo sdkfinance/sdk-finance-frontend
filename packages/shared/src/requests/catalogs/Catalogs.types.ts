@@ -1,7 +1,5 @@
-import type { TCoinType, TRANSACTION_TYPES } from '../../constants';
+import type { TCoinType, TTransactionType } from '../../constants';
 import type { IApiResponse } from '../../types';
-
-export type TTransactionType = keyof typeof TRANSACTION_TYPES;
 
 export interface IOperationFlowRecord {
   id: string;

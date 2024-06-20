@@ -85,8 +85,6 @@ export default class PointsOfSaleTable extends Vue {
 </script>
 
 <style lang="scss" scoped>
-@import '../../../assets/styles/variables';
-
 .column-name {
   font-size: 14px;
   margin: 0;

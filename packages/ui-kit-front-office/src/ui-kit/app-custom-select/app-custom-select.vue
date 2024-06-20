@@ -204,7 +204,7 @@ export default defineComponent({
 
   &--open {
     .app-custom-select__control {
-      @apply border-blue-accent;
+      @apply border-primary;
     }
 
     .app-custom-select__arrow {

@@ -7,4 +7,3 @@ Object.entries(modules).forEach(([key, module]) => {
 });
 
 export default store;
-export const useStore = () => store;

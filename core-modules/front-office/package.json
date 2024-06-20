@@ -6,21 +6,12 @@
   "exports": {
     ".": "./src/index.ts"
   },
-  "scripts": {
-    "lint": "concurrently -n front-office/lint:script,front-office/lint:scss \"npm run lint:script\" \"npm run lint:scss\"",
-    "lint:fix": "concurrently -n front-office/lint:script:fix,front-office/lint:scss:fix \"npm run lint:script:fix\" \"npm run lint:scss:fix\"",
-    "lint:script": "eslint --ext .ts,.js,.vue .",
-    "lint:script:fix": "eslint --fix --ext .ts,.js,.vue .",
-    "lint:scss": "stylelint \"**/*.{vue,scss,sass}\"",
-    "lint:scss:fix": "stylelint --fix \"**/*.{vue,scss,sass}\""
-  },
   "license": "ISC",
   "dependencies": {
     "@sdk5/ui-kit-front-office": "*",
     "vue-the-mask": "^0.11.1"
   },
   "devDependencies": {
-    "@sdk5/shared": "*",
-    "@sdk5/stylelint-config": "*"
+    "@sdk5/shared": "*"
   }
 }

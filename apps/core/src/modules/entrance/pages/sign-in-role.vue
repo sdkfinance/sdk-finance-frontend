@@ -1,8 +1,10 @@
 <template>
   <div class="entrance-form-container sign-in-role">
-    <div class="hidden md:block form-entrance__logo">
+    <div
+      v-if="ENV_VARIABLES.brandLogoLUrl"
+      class="hidden md:block form-entrance__logo">
       <img
-        src="@/assets/images/logo.svg"
+        :src="ENV_VARIABLES.brandLogoLUrl"
         alt="sdk.finance" />
     </div>
 
@@ -56,7 +58,7 @@
 
 <script setup lang="ts">
 import { useDashboardNameByRole, useGetVuexModule, useIsUaWebview } from '@sdk5/shared/composables';
-import { ACCOUNTS, WEB_VIEW_ACCOUNTS } from '@sdk5/shared/constants';
+import { ACCOUNTS, ENV_VARIABLES, WEB_VIEW_ACCOUNTS } from '@sdk5/shared/constants';
 import { UserData } from '@sdk5/shared/store';
 import type { IPlainObject } from '@sdk5/shared/types';
 import { errorNotification, successNotification } from '@sdk5/shared/utils';
@@ -68,8 +70,8 @@ import { useOpenDashboardRoute } from '../composables/useOpenDashboardRoute';
 
 const AVAILABLE_ACCOUNTS = ACCOUNTS.filter((account) => {
   return (
-    (account.module === 'front-office' && import.meta.env.VUE_APP_FRONT_OFFICE_ROUTES !== 'false') ||
-    (account.module === 'back-office' && import.meta.env.VUE_APP_BACK_OFFICE_ROUTES !== 'false')
+    (account.module === 'front-office' && ENV_VARIABLES.frontOfficeRoutesVisible) ||
+    (account.module === 'back-office' && ENV_VARIABLES.backOfficeRoutesVisible)
   );
 });
 
@@ -95,6 +97,11 @@ const form = ref({
 
 const role = computed(() => userDataModule.role);
 const accounts = computed(() => {
+  if (ENV_VARIABLES.availableRole) {
+    const availableAccountByRole = AVAILABLE_ACCOUNTS.find((account) => account.label.toLowerCase() === ENV_VARIABLES.availableRole?.toLowerCase());
+    return availableAccountByRole ? [availableAccountByRole] : [];
+  }
+
   if (isWebview) {
     return WEB_VIEW_ACCOUNTS;
   }

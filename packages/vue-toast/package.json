@@ -6,8 +6,5 @@
     ".": "./index.ts",
     "./types": "./types/index.ts"
   },
-  "types": "./index.ts",
-  "dependencies": {
-    "@sdk5/tsconfig": "*"
-  }
+  "types": "./index.ts"
 }

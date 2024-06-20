@@ -4,6 +4,7 @@ import { fileURLToPath, URL } from 'node:url';
 import legacy from '@vitejs/plugin-legacy';
 import vue from '@vitejs/plugin-vue2';
 import { defineConfig, loadEnv, type PluginOption } from 'vite';
+import mkcert from 'vite-plugin-mkcert';
 import stylelint from 'vite-plugin-stylelint';
 
 const PROJECT_ROOT_PATH = path.resolve(__dirname, '../../');
@@ -19,6 +20,7 @@ export default defineConfig(({ mode }) => {
       fix: true,
       lintInWorker: true,
     }),
+    mkcert({ hosts: ['local.sdk.finance'], force: true, savePath: path.join(PROJECT_ROOT_PATH, '.certs') }),
   ];
 
   if (env.LEGACY_BUILD === 'true') {
@@ -59,6 +61,7 @@ export default defineConfig(({ mode }) => {
     },
     cacheDir: path.resolve(__dirname, '../../node_modules/.vite'),
     build: {
+      cssCodeSplit: true,
       emptyOutDir: true,
       chunkSizeWarningLimit: 600,
       outDir: path.resolve(PROJECT_ROOT_PATH, 'dist'),
@@ -106,6 +109,9 @@ export default defineConfig(({ mode }) => {
             origin: env.BACKEND_HOST,
           },
         },
+      },
+      fs: {
+        cachedChecks: false,
       },
     },
   };

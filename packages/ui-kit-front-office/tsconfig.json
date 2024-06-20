@@ -1,7 +1,0 @@
-{
-  "extends": "@sdk5/tsconfig/vue.json",
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "index.ts"],
-  "compilerOptions": {
-    "lib": ["ES2022", "DOM", "DOM.Iterable"]
-  }
-}

@@ -18,7 +18,7 @@
           :rules="rules"
           :loading="isLoading"
           @submit.native.prevent="handleFormSubmit">
-          <app-form-item prop="coinSerial">
+          <app-form-item prop="accountFrom">
             <account-select
               v-model="form.accountFrom"
               label="form.label.account_from" />
@@ -69,7 +69,8 @@
           <app-button
             :disabled="isSubmitButtonDisabled"
             native-type="submit"
-            type="secondary">
+            type="secondary"
+            full-width>
             {{ $t('action.create_withdrawal_request') }}
           </app-button>
         </app-form>
@@ -97,14 +98,9 @@
   </app-step-controller>
 </template>
 
-<script lang="ts">
-import type {
-  IBankAccountRecord,
-  IBankWithdrawalCommissionResponse,
-  ICoin,
-  ICreateWithdrawalRequestPayload,
-  IWalletRecord,
-} from '@sdk5/shared/requests';
+<script setup lang="ts">
+import { useI18n } from '@sdk5/shared/i18n';
+import type { IBankAccountRecord, IBankWithdrawalCommissionResponse, ICoin, ICreateWithdrawalRequestPayload } from '@sdk5/shared/requests';
 import { BankAccountsRequests, BankWithdrawalsRequests, WalletsRequests } from '@sdk5/shared/requests';
 import { errorNotification } from '@sdk5/shared/utils';
 import { SimpleRequiredValidationRule } from '@sdk5/shared/validation';
@@ -120,230 +116,191 @@ import {
   AppStepController,
   InfoModalTypes,
 } from '@sdk5/ui-kit-front-office';
-import { debounce } from 'lodash';
-import { Component, Ref, Vue, Watch } from 'vue-property-decorator';
+import { useDebounceFn } from '@vueuse/core';
+import type { Ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 
 import AccountSelect from '../user-dashboard/components/account-select.vue';
 import OperationCommission from '../user-dashboard/components/operation-commission.vue';
-import PaymentOperationsLayout from '../user-dashboard/layouts/payment-operations-layout.vue';
 
-const COMPONENTS = {
-  AppStepController,
-  AppFormWrapper,
-  AppForm,
-  PaymentOperationsLayout,
-  AppSelect,
-  AppInput,
-  AccountSelect,
-  AppFormItem,
-  AppButton,
-  OperationCommission,
-  AppModal,
-  AppInfoModal,
-} as const;
+type TWithdrawalViaBankForm = Pick<Partial<ICreateWithdrawalRequestPayload>, 'amount' | 'bankAccountId' | 'customInformation' | 'description'> & {
+  accountFrom?: ICoin;
+};
+type TFormCommissionFields = Pick<TWithdrawalViaBankForm, 'amount'> & {
+  coinSerial: ICoin['serial'];
+};
 
-@Component({
-  name: 'withdrawal-via-bank',
-  components: COMPONENTS,
-})
-export default class WithdrawalVieBank extends Vue {
-  static components: typeof COMPONENTS;
+type TInfoModalData = {
+  title: string;
+  subtitle: string;
+};
 
-  @Ref('appFormRef') readonly appFormRef!: AppForm;
+const { t } = useI18n();
 
-  @Ref('appModalRef') readonly appModalRef!: AppModal;
+const rules: Record<keyof TWithdrawalViaBankForm, unknown> = {
+  amount: SimpleRequiredValidationRule(),
+  accountFrom: SimpleRequiredValidationRule(),
+  bankAccountId: null,
+  customInformation: null,
+  description: null,
+};
 
-  protected readonly InfoModalTypes = InfoModalTypes;
+const appFormRef = ref(null) as unknown as Ref<InstanceType<typeof AppForm>>;
+const appModalRef = ref(null) as unknown as Ref<InstanceType<typeof AppModal>>;
 
-  protected readonly calculateWithdrawalCommissionDebounced = debounce(this.calculateWithdrawalCommission, 900);
+const isLoading = ref(false);
+const calculatedCommission = ref(null as IBankWithdrawalCommissionResponse | null);
+const userCoins = ref([] as ICoin[]);
+const bankAccounts = ref([] as IBankAccountRecord[]);
+const form = ref<TWithdrawalViaBankForm>({
+  accountFrom: undefined,
+  amount: undefined,
+  bankAccountId: undefined,
+  customInformation: undefined,
+  description: undefined,
+});
+const infoModalData = ref<TInfoModalData>({
+  title: '',
+  subtitle: '',
+});
 
-  protected isLoading = false;
+const isBankAccountSelectDisabled = computed(() => !form.value.accountFrom?.serial);
+const isSubmitButtonDisabled = computed(() => isLoading.value || calculatedCommission.value === null);
+const selectedWalletBankAccounts = computed(() =>
+  bankAccounts.value.filter((account) => form.value.accountFrom?.serial && form.value.accountFrom?.serial === account.coinSerial),
+);
 
-  protected infoModalData = {
+const selectedWalletBankAccountWithDisplayName = computed(() =>
+  selectedWalletBankAccounts.value.map((account) => ({
+    ...account,
+    displayName: `${account.details.name} (${account.details.iban})`,
+  })),
+);
+const formCommissionFields = computed(() => {
+  return {
+    amount: form.value.amount,
+    coinSerial: form.value.accountFrom?.serial,
+  } satisfies Partial<TFormCommissionFields>;
+});
+
+const setInfoModalData = (options: TInfoModalData) => {
+  infoModalData.value = {
+    ...options,
+  };
+};
+const clearInfoModalData = () => {
+  infoModalData.value = {
     title: '',
     subtitle: '',
   };
+};
+const findUserCoinBySerial = (serial: string) => {
+  return userCoins.value.find((coin) => coin.serial === serial);
+};
+const openInfoModal = async (modalData: TInfoModalData) => {
+  setInfoModalData(modalData);
+  await appModalRef.value.open();
+  clearInfoModalData();
+};
+const fetchUserCoins = async () => {
+  const { response, error } = await WalletsRequests.getWallets();
 
-  protected accountFrom: ICoin | null = null;
+  if (error !== null) {
+    errorNotification(error);
+    return;
+  }
 
-  protected form: Pick<Partial<ICreateWithdrawalRequestPayload>, 'amount' | 'bankAccountId' | 'customInformation' | 'description'> & {
-    accountFrom?: ICoin;
-  } = {
-    accountFrom: undefined,
-    amount: undefined,
-    bankAccountId: undefined,
-    customInformation: undefined,
-    description: undefined,
+  userCoins.value = response?.coins ?? [];
+};
+const fetchBankAccounts = async () => {
+  const { response, error } = await BankAccountsRequests.getMyBankAccounts();
+
+  if (error !== null) {
+    errorNotification(error);
+    return;
+  }
+
+  bankAccounts.value = response?.records ?? [];
+};
+const fetchInitialData = async () => {
+  isLoading.value = true;
+  await Promise.all([fetchUserCoins(), fetchBankAccounts()]);
+  isLoading.value = false;
+};
+const calculateWithdrawalCommission = async (payload: Pick<ICreateWithdrawalRequestPayload, 'amount' | 'coinSerial'>) => {
+  const { amount, coinSerial } = payload;
+  isLoading.value = true;
+  const { response, error } = await BankWithdrawalsRequests.calculateCommission(coinSerial, amount);
+  isLoading.value = false;
+
+  if (error !== null) {
+    errorNotification(error);
+    return;
+  }
+
+  calculatedCommission.value = response;
+};
+const createWithdrawalRequest = async (payload: ICreateWithdrawalRequestPayload) => {
+  isLoading.value = true;
+  const { error } = await BankWithdrawalsRequests.createWithdrawalRequest(payload);
+  isLoading.value = false;
+
+  if (error !== null) {
+    errorNotification(error);
+    return;
+  }
+
+  const { amount, coinSerial } = payload;
+
+  const userCoin = findUserCoinBySerial(coinSerial);
+
+  openInfoModal({
+    subtitle: t('pages.user_dashboard.payments.withdrawal_success_subtitle').toString(),
+    title: t('pages.user_dashboard.payments.withdrawal_success_title', {
+      accountName: userCoin?.name ?? '',
+      currency: userCoin?.currency?.symbol ?? '',
+      amount,
+    }).toString(),
+  });
+};
+const handleFormSubmit = async () => {
+  if (!(await appFormRef.value.validate())) {
+    return;
+  }
+
+  const {
+    accountFrom: { serial: coinSerial },
+    amount,
+    bankAccountId,
+    customInformation,
+    description,
+  } = form.value as Required<TWithdrawalViaBankForm>;
+
+  const payload: ICreateWithdrawalRequestPayload = {
+    amount,
+    coinSerial,
+    bankAccountId,
+    customInformation,
+    description,
   };
 
-  protected rules: Record<keyof typeof this.form, unknown> = {
-    amount: SimpleRequiredValidationRule(),
-    accountFrom: SimpleRequiredValidationRule(),
-    bankAccountId: null,
-    customInformation: null,
-    description: null,
-  };
+  createWithdrawalRequest(payload);
+};
+const calculateWithdrawalCommissionDebounced = useDebounceFn(calculateWithdrawalCommission, 900);
+const formCommissionFieldsChangeHandler = (formCommissionFieldsOption: Partial<TFormCommissionFields>) => {
+  const { amount, coinSerial } = formCommissionFieldsOption;
+  const amountNumber = parseInt(`${amount}`, 10);
 
-  protected bankAccounts: IBankAccountRecord[] = [];
-
-  protected userCoins: IWalletRecord[] = [];
-
-  protected calculatedCommission: IBankWithdrawalCommissionResponse | null = null;
-
-  protected get isBankAccountSelectDisabled() {
-    return !this.form.accountFrom?.serial;
+  if (!Number.isNaN(amountNumber) && coinSerial) {
+    calculateWithdrawalCommissionDebounced({ amount: amountNumber, coinSerial });
   }
+};
 
-  protected get isSubmitButtonDisabled() {
-    return this.isLoading || this.calculatedCommission === null;
-  }
+watch(formCommissionFields, formCommissionFieldsChangeHandler, { deep: true });
 
-  protected get selectedWalletBankAccounts() {
-    return this.bankAccounts.filter((account) => this.form.accountFrom?.serial && this.form.accountFrom?.serial === account.coinSerial);
-  }
-
-  protected get selectedWalletBankAccountWithDisplayName() {
-    return this.selectedWalletBankAccounts.map((account) => ({
-      ...account,
-      displayName: `${account.details.name} (${account.details.iban})`,
-    }));
-  }
-
-  protected get formCommissionFields() {
-    const { amount, accountFrom } = this.form;
-    return {
-      amount,
-      coinSerial: accountFrom?.serial,
-    };
-  }
-
-  protected setInfoModalData(options: typeof this.infoModalData) {
-    this.infoModalData = {
-      ...options,
-    };
-  }
-
-  protected clearInfoModalData() {
-    this.infoModalData = {
-      title: '',
-      subtitle: '',
-    };
-  }
-
-  protected findUserCoinBySerial(serial: string) {
-    return this.userCoins.find((coin) => coin.serial === serial);
-  }
-
-  protected async openInfoModal(modalData: typeof this.infoModalData) {
-    this.setInfoModalData(modalData);
-    await this.appModalRef.open();
-    this.clearInfoModalData();
-  }
-
-  protected async fetchUserCoins() {
-    const { response, error } = await WalletsRequests.getWallets();
-
-    if (error !== null) {
-      errorNotification(error);
-      return;
-    }
-
-    this.userCoins = response?.coins ?? [];
-  }
-
-  protected async fetchBankAccounts() {
-    const { response, error } = await BankAccountsRequests.getMyBankAccounts();
-
-    if (error !== null) {
-      errorNotification(error);
-      return;
-    }
-
-    this.bankAccounts = response?.records ?? [];
-  }
-
-  protected async fetchInitialData() {
-    this.isLoading = true;
-    await Promise.all([this.fetchUserCoins(), this.fetchBankAccounts()]);
-    this.isLoading = false;
-  }
-
-  protected async calculateWithdrawalCommission(payload: Pick<ICreateWithdrawalRequestPayload, 'amount' | 'coinSerial'>) {
-    const { amount, coinSerial } = payload;
-    this.isLoading = true;
-    const { response, error } = await BankWithdrawalsRequests.calculateCommission(coinSerial, amount);
-    this.isLoading = false;
-
-    if (error !== null) {
-      errorNotification(error);
-      return;
-    }
-
-    this.calculatedCommission = response;
-  }
-
-  protected async createWithdrawalRequest(payload: ICreateWithdrawalRequestPayload) {
-    this.isLoading = true;
-    const { error } = await BankWithdrawalsRequests.createWithdrawalRequest(payload);
-    this.isLoading = false;
-
-    if (error !== null) {
-      errorNotification(error);
-      return;
-    }
-
-    const { amount, coinSerial } = payload;
-
-    const userCoin = this.findUserCoinBySerial(coinSerial);
-
-    this.openInfoModal({
-      subtitle: this.$t('pages.user_dashboard.payments.withdrawal_success_subtitle').toString(),
-      title: this.$t('pages.user_dashboard.payments.withdrawal_success_title', {
-        accountName: userCoin?.name ?? '',
-        currency: userCoin?.currency?.symbol ?? '',
-        amount,
-      }).toString(),
-    });
-  }
-
-  protected async handleFormSubmit() {
-    if (!(await this.appFormRef.validate())) {
-      return;
-    }
-
-    const {
-      accountFrom: { serial: coinSerial },
-      amount,
-      bankAccountId,
-      customInformation,
-      description,
-    } = this.form as Required<typeof this.form>;
-
-    const payload: ICreateWithdrawalRequestPayload = {
-      amount,
-      coinSerial,
-      bankAccountId,
-      customInformation,
-      description,
-    };
-
-    this.createWithdrawalRequest(payload);
-  }
-
-  @Watch('formCommissionFields', { deep: true })
-  protected formCommissionFieldsChangeHandler(formCommissionFields: typeof this.formCommissionFields) {
-    const { amount, coinSerial } = formCommissionFields;
-    const amountNumber = parseInt(`${amount}`, 10);
-
-    if (!Number.isNaN(amountNumber) && coinSerial) {
-      this.calculateWithdrawalCommissionDebounced({ amount: amountNumber, coinSerial });
-    }
-  }
-
-  created() {
-    this.fetchInitialData();
-  }
-}
+onMounted(() => {
+  fetchInitialData();
+});
 </script>
 
 <style lang="scss">

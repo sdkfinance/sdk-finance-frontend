@@ -2,6 +2,7 @@ import type { TTxType } from '../../constants';
 import type { IDynamicField, IPaginationRequestOptions, IPaginationResponse } from '../../types';
 import type { IWalletRecord } from '../coins';
 import type { ICurrency } from '../currencies';
+import type { IGateSetting } from '../gate-providers';
 
 export type TGatePaymentFieldsRecord = Record<string, string | number | boolean>;
 export type TPaymentWay = 'EMONEY' | 'CARD' | 'CARD_TOKEN' | 'TERMINALS' | 'BANK' | 'TERMINAL' | 'CARD_ISSUING';
@@ -13,15 +14,12 @@ export type TPaymentProviderService = {
   service: string;
   serviceMethod: string;
   type: string;
+  icon?: string;
+  logo?: string;
 };
+export type TGatePaymentProvider = Pick<IGateSetting, 'id' | 'name' | 'gate' | 'active' | 'debtAllowed'>;
 export interface IPaymentProviderRecord {
-  gateProvider: {
-    id: string;
-    name: string;
-    gate: {
-      name: string;
-    };
-  };
+  gateProvider: TGatePaymentProvider;
   way: TPaymentWay;
   icon?: string;
   services?: TPaymentProviderService[];
@@ -120,7 +118,7 @@ export type TVerificationTokenRecord = {
   currencyCode: string;
 };
 
-export type TViewCardTokensRequestPayload = Pick<IPaginationRequestOptions<undefined, undefined>, 'pageNumber' | 'pageSize'>;
+export type TViewCardTokensRequestPayload = Pick<IPaginationRequestOptions<{}, undefined>, 'pageNumber' | 'pageSize' | 'filter'>;
 export type TViewCardTokensResponse = IPaginationResponse<TVerificationTokenRecord>;
 
 export type IPaymentProvidersResponse = { records: ICalculateCommissionRecord[] };

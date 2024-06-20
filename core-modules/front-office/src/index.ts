@@ -3,6 +3,7 @@ import type { IRouteConfig } from '@sdk5/shared/types';
 import { getAvailableDashboardRoutes } from '@sdk5/shared/utils';
 
 import { CONTACTS } from './modules/contacts/routes';
+import { INVOICE_PAYMENT_LINK } from './modules/invoice-payment-link/route';
 import { INVOICES } from './modules/invoices/routes';
 import { MY_ACCOUNTS_AND_BALANCES } from './modules/my-accounts-and-balances/routes';
 import { PAYMENT_OPERATIONS } from './modules/payments/routes';
@@ -47,12 +48,14 @@ const FRONT_OFFICE_DASHBOARD_ROUTES: IRouteConfig = {
   children: FRONT_OFFICE_DASHBOARD_CHILDREN,
 };
 
-const FRONT_OFFICE_CHILDREN: IRouteConfig[] = [USER_DASHBOARD, PAYMENT_OPERATIONS, FRONT_OFFICE_DASHBOARD_ROUTES].map((route) => {
-  return {
-    ...route,
-    path: `/front-office${route.path}`,
-  };
-});
+const FRONT_OFFICE_CHILDREN: IRouteConfig[] = [USER_DASHBOARD, PAYMENT_OPERATIONS, INVOICE_PAYMENT_LINK, FRONT_OFFICE_DASHBOARD_ROUTES].map(
+  (route) => {
+    return {
+      ...route,
+      path: `/front-office${route.path}`,
+    };
+  },
+);
 
 export const FRONT_OFFICE_ROUTES: IRouteConfig = {
   path: '/front-office',

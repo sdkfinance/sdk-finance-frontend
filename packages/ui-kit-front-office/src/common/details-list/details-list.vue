@@ -19,7 +19,13 @@
               {{ $t(detail.label) }}
             </div>
             <div :class="getValueClass(detail.value)">
-              {{ getDetailValue(detail.value) }}
+              <slot
+                :name="`${detail.param}-value`"
+                v-bind="{
+                  value: detail.value,
+                }">
+                {{ getDetailValue(detail.value) }}
+              </slot>
             </div>
           </slot>
         </div>
@@ -60,11 +66,11 @@ export default defineComponent({
 
 <style lang="scss">
 .details-list--front-office {
-  @apply flex flex-col mb-24;
+  @apply flex flex-col gap-y-[1rem];
 
   .details-list {
     &__title {
-      @apply text-base font-medium mb-16;
+      @apply text-base font-semibold text-gray-500;
     }
 
     &__body {
@@ -87,6 +93,10 @@ export default defineComponent({
 
       &--no-data {
         @apply text-gray-375;
+      }
+
+      .badge {
+        @apply pl-0;
       }
     }
   }

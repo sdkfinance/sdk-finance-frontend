@@ -37,3 +37,5 @@ export * from './kyc-providers';
 export * from './business-requests';
 export * from './exchange';
 export * from './exchange-rates';
+export * from './cash-desk';
+export * from './commission-profiles';

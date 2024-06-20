@@ -16,8 +16,8 @@ export type TTableColumnAction = {
     size?: TAppButtonSize;
   };
 };
-export interface ITableColumn {
-  prop: 'action' | 'selection' | (string & {});
+export type TTableColumnPropType<T extends object = {}> = 'selection' | (keyof T | (string & {}));
+interface ITableColumnsBase {
   label?: string;
   width?: string;
   'min-width'?: string;
@@ -32,11 +32,18 @@ export interface ITableColumn {
   localePrefix?: string; // prefix for path to i18n variables
   align?: TableColumn['align'];
   resizable?: boolean;
-  /**
-   * @description Works only with 'action' column
-   */
-  actions?: TTableColumnAction[];
-  actionsAlwaysVisible?: boolean;
   noWrap?: boolean;
   columnType?: 'selection' | 'index' | 'expand';
+  prefixFormatAmountProp?: string;
 }
+export type ITableColumn<T extends object = {}> = ITableColumnsBase &
+  (
+    | {
+        prop: TTableColumnPropType<T>;
+      }
+    | {
+        prop: 'action';
+        actions?: TTableColumnAction[];
+        actionsAlwaysVisible?: boolean;
+      }
+  );

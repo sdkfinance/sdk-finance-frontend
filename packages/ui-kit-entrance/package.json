@@ -9,8 +9,5 @@
   "scripts": {},
   "dependencies": {
     "@sdk5/ui-kit-front-office": "*"
-  },
-  "devDependencies": {
-    "@sdk5/tsconfig": "*"
   }
 }

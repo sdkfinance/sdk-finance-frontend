@@ -52,6 +52,8 @@ const fetchDocuments = () => {
 
 <style lang="scss">
 .profile-documents {
+  @apply max-w-[16.75rem] min-w-full;
+
   .modal__close {
     @apply w-10;
   }

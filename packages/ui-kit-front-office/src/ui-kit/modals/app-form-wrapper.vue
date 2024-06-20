@@ -52,8 +52,8 @@ export default defineComponent({
       @apply mb-32;
     }
 
-    .btn {
-      @apply w-full ml-auto mr-auto;
+    .app-button {
+      @apply ml-auto mr-auto;
     }
   }
 }

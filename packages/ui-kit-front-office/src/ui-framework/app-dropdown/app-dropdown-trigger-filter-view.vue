@@ -111,7 +111,7 @@ export default defineComponent({
   @apply rounded-[0.25rem] bg-blue-300 py-[0.3125rem] px-[0.5rem] text-sm text-blue-600 font-medium;
 
   &--dropdown-visible {
-    @apply bg-blue-700 text-gray-100;
+    @apply bg-primary text-gray-100;
 
     .trigger-filter__icon {
       @apply rotate-180;

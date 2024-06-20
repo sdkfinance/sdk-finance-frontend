@@ -58,7 +58,7 @@ export default defineComponent({
   }
 
   &__amount {
-    @apply text-blue-700 text-base font-semibold;
+    @apply text-primary text-base font-semibold;
   }
 }
 </style>

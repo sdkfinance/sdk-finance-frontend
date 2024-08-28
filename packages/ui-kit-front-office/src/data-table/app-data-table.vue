@@ -32,6 +32,7 @@
 </template>
 
 <script lang="ts">
+import { UserDataService } from '@sdk5/shared';
 import type { BaseTableFilter } from '@sdk5/shared/filters';
 import {
   TableDateFilter,
@@ -43,7 +44,6 @@ import {
   TableSelectFilter,
   TableStringFilter,
 } from '@sdk5/shared/filters';
-import { UserData } from '@sdk5/shared/store';
 import type {
   IApiResponse,
   IFilterEmitValue,
@@ -58,7 +58,6 @@ import type {
 import { getDecodedParams, isEmptyValue, serializeValues } from '@sdk5/shared/utils';
 import type { PropType } from 'vue';
 import { defineComponent, markRaw } from 'vue';
-import { getModule } from 'vuex-module-decorators';
 
 import { AppPagination } from '../ui-framework';
 import { AppHorizontalScrollbar, AppShowMoreButton } from '../ui-kit';
@@ -133,7 +132,6 @@ export default defineComponent({
       currentRecords,
       totalPages,
       isLoading,
-      userData: getModule(UserData, this.$store),
       filterInstances,
     };
   },
@@ -175,9 +173,7 @@ export default defineComponent({
         return this.filterInstances as BaseTableFilter[];
       }
 
-      const { role } = this.userData;
-
-      return this.filterInstances.filter(({ check }) => !check || check({ role })) as BaseTableFilter[];
+      return this.filterInstances.filter(({ check }) => !check || check({ role: UserDataService.role })) as BaseTableFilter[];
     },
     defaultFilterValues() {
       return this.visibleTableFilters.reduce(

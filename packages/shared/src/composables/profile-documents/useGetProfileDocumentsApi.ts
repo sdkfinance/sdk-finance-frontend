@@ -3,15 +3,12 @@ import { computed } from 'vue';
 
 import { QUERY_KEYS } from '../../constants';
 import { ProfileDocumentsRequests } from '../../requests';
-import { UserData } from '../../store';
+import { UserDataService } from '../../services';
 import { errorNotification } from '../../utils';
-import { useGetVuexModule } from '../useGetVuexModule';
 
 export const useGetProfileDocumentsApi = () => {
   const queryClient = useQueryClient();
-  const userDataModule = useGetVuexModule(UserData);
-  const userToken = computed(() => userDataModule.token);
-  const queryKey = computed(() => [QUERY_KEYS.viewDocumentTypes, userToken.value]);
+  const queryKey = computed(() => [QUERY_KEYS.viewDocumentTypes, UserDataService.token]);
   const query = useQuery({
     queryKey,
     queryFn: ProfileDocumentsRequests.getProfileDocuments,

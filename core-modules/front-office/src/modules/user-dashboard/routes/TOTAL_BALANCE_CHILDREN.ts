@@ -6,6 +6,7 @@ const TransactionPage: AsyncComponent = () => import('../pages/total-balance/tra
 const InvoicesPage: AsyncComponent = () => import('../pages/total-balance/invoices/index.vue');
 const AccountPage: AsyncComponent = () => import('../pages/total-balance/accounts/index.vue');
 const SummaryPage: AsyncComponent = () => import('../pages/total-balance/summary/index.vue');
+const OpenBankingPage: AsyncComponent = () => import('../pages/total-balance/open-banking/index.vue');
 
 export const ACCOUNTS_ROUTE: IRouteConfig = {
   path: 'accounts',
@@ -52,4 +53,13 @@ export const SUMMARY_ROUTE: IRouteConfig = {
   component: SummaryPage,
 };
 
-export const TOTAL_BALANCE_CHILDREN: IRouteConfig[] = [ACCOUNTS_ROUTE, TRANSACTIONS_LAYOUT_ROUTE, SUMMARY_ROUTE];
+export const OPEN_BANKING_ROUTE: IRouteConfig = {
+  path: 'open-banking',
+  name: 'user-dashboard-open-banking',
+  meta: {
+    translation: 'pages.user_dashboard.links.open_banking',
+  },
+  component: OpenBankingPage,
+};
+
+export const TOTAL_BALANCE_CHILDREN: IRouteConfig[] = [ACCOUNTS_ROUTE, OPEN_BANKING_ROUTE, TRANSACTIONS_LAYOUT_ROUTE, SUMMARY_ROUTE];

@@ -8,7 +8,11 @@ export const useDashboardNameByRole = () => {
 
   const checkIsFrontOfficeRole = (role: TRole): role is TFrontOfficeRole => FRONT_OFFICE_ROLES.indexOf(role as TFrontOfficeRole) >= 0;
 
-  const getDashboardName = (roleName: TRole): string | null => {
+  const getDashboardName = (roleName?: TRole | null): string | null => {
+    if (!roleName) {
+      return null;
+    }
+
     if (ENV_VARIABLES.availableRole && roleName.toLowerCase() !== ENV_VARIABLES.availableRole) {
       return null;
     }

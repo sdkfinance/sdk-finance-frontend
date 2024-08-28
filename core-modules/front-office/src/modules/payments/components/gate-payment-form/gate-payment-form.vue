@@ -93,7 +93,7 @@ import {
 import { AppButton, AppForm, AppFormItem, AppFormWrapper, AppInput, AppSelect, AppStepController } from '@sdk5/ui-kit-front-office';
 import { useVModel } from '@vueuse/core';
 import type { Ref } from 'vue';
-import { computed, ref, watch } from 'vue';
+import { computed, nextTick, ref, watch } from 'vue';
 
 import AccountSelect from '../../../user-dashboard/components/account-select.vue';
 import CalculatedFee from '../calculated-fee.vue';
@@ -161,7 +161,7 @@ const selectedGateMethod = computed(() =>
 const selectedGateMethodServices = computed(() => selectedGateMethod.value?.services ?? []);
 const activeSelectedGateMethodServices = computed(() =>
   selectedGateMethodServices.value.filter(
-    (paymentService) => paymentService.active && paymentService.currencyCode === formData.value.account?.currency.code,
+    (paymentService) => paymentService.active && paymentService.enabled && paymentService.currencyCode === formData.value.account?.currency.code,
   ),
 );
 const mappedPaymentServices = computed(() =>
@@ -261,7 +261,9 @@ watch(mappedPaymentServices, (paymentServices) => {
 watch(
   () => props.availableGateMethods,
   (gateMethods) => {
-    formData.value.gateProviderId = gateMethods.length === 1 ? gateMethods.at(0)?.gateProvider.id : undefined;
+    nextTick(() => {
+      formData.value.gateProviderId = gateMethods.length === 1 ? gateMethods.at(0)?.gateProvider.id : undefined;
+    });
   },
 );
 watch(

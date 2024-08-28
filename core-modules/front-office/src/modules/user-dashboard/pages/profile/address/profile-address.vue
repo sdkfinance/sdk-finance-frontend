@@ -2,7 +2,7 @@
   <app-form
     ref="appFormRef"
     :model="formData"
-    :loading="requestPending"
+    :loading="isLoaderVisible"
     class="profile-address"
     @submit.native.prevent="formSubmitHandler">
     <app-form-item prop="country">
@@ -14,6 +14,12 @@
         placeholder="placeholder.select.select"
         full-width
         label="form.label.country" />
+    </app-form-item>
+    <app-form-item prop="region">
+      <app-input
+        v-model="formData.region"
+        placeholder="placeholder.input.input_region"
+        label="form.label.region" />
     </app-form-item>
     <app-form-item prop="city">
       <app-input
@@ -54,52 +60,42 @@
 </template>
 
 <script setup lang="ts">
-import { useGetVuexModule } from '@sdk5/shared/composables';
-import { COUNTRIES } from '@sdk5/shared/constants';
-import type { IUserAddress, TUpdateUserAddressPayload } from '@sdk5/shared/requests';
-import { ProfileRequests } from '@sdk5/shared/requests';
-import { Profile } from '@sdk5/shared/store';
-import { errorNotification, successNotification } from '@sdk5/shared/utils';
+import { useGetCurrentUserProfileApi, useUpdateCurrentUserAddressApi } from '@sdk5/shared/composables';
+import { COUNTRIES, PROFILE_ADDRESS_TYPE } from '@sdk5/shared/constants';
+import type { TUpdateUserAddressPayload } from '@sdk5/shared/requests';
 import { AppButton, AppForm, AppFormItem, AppInput, AppSelect } from '@sdk5/ui-kit-front-office';
-import { useToggle } from '@vueuse/core';
 import type { Ref } from 'vue';
 import { computed, ref, watch } from 'vue';
 
-const profileModule = useGetVuexModule(Profile);
+const { userPersonalAddress, invalidateCurrentUserCache, isFetching: isCurrentUserProfileFetching } = useGetCurrentUserProfileApi();
+const { mutateAsync: processUpdateUserAddress, isPending: isUpdateCurrentUserAddressPending } = useUpdateCurrentUserAddressApi();
 
 const appFormRef = ref(null) as unknown as Ref<InstanceType<typeof AppForm>>;
 
-const [requestPending, toggleRequestPending] = useToggle(false);
-const formData = ref<Partial<IUserAddress>>({
+const formData = ref<Partial<TUpdateUserAddressPayload['address']>>({
   city: undefined,
   country: undefined,
   houseNumber: undefined,
   street: undefined,
   zipCode: undefined,
+  region: undefined,
+  addressType: PROFILE_ADDRESS_TYPE.personal,
 });
 
-const profileAddressData = computed(() => profileModule.profileData?.address);
-const isSubmitButtonDisabled = computed(() => requestPending.value);
+const isLoaderVisible = computed(() => isCurrentUserProfileFetching.value || isUpdateCurrentUserAddressPending.value);
+const profileAddressData = computed(() => userPersonalAddress.value);
+const isSubmitButtonDisabled = computed(() => isLoaderVisible.value);
 
-const processUpdateUserAddress = async (payload: TUpdateUserAddressPayload) => {
-  toggleRequestPending();
-  const { error } = await ProfileRequests.updateMyAddress(payload);
-  toggleRequestPending();
-
-  if (error !== null) {
-    errorNotification(error);
-    return;
-  }
-
-  await profileModule.getProfile();
-  successNotification();
-};
 const formSubmitHandler = async () => {
   if (!(await appFormRef.value.validate())) {
     return;
   }
 
-  processUpdateUserAddress({ address: formData.value });
+  const { error } = await processUpdateUserAddress({ address: formData.value } as TUpdateUserAddressPayload);
+
+  if (!error) {
+    invalidateCurrentUserCache();
+  }
 };
 
 watch(
@@ -111,6 +107,8 @@ watch(
       houseNumber: addressData?.houseNumber,
       country: addressData?.country,
       city: addressData?.city,
+      region: addressData?.region,
+      addressType: addressData?.addressType,
     };
   },
   { immediate: true },

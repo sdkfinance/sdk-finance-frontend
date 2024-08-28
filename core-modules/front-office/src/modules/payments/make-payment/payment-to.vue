@@ -32,7 +32,7 @@
               <card-select
                 v-else
                 v-model="form.from"
-                label="form.label.from_card"
+                label="form.label.from_in_system_card"
                 @input="resetTemplate" />
             </app-form-item>
 
@@ -59,7 +59,7 @@
               <app-custom-select
                 v-else
                 v-model="form.to"
-                label="form.label.to_card"
+                label="form.label.to_in_system_card"
                 placeholder="placeholder.input.input_card_number_or_choose_recipient"
                 :on-load="getTemplateFilteredTransfers">
                 <template #input>

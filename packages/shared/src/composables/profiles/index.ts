@@ -8,3 +8,4 @@ export * from './useGetCurrentUserProfileApi';
 export * from './useUpdateCurrentUserSecurityApi';
 export * from './useUpdateCurrentUserAddressApi';
 export * from './useUpdateCurrentProfileAdditionalApi';
+export * from './useResetUserPasswordApi';

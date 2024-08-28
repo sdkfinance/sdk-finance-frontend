@@ -1,26 +1,22 @@
-import { useMutation, useQueryClient } from '@tanstack/vue-query';
+import { useMutation } from '@tanstack/vue-query';
 
-import { QUERY_KEYS } from '../../constants';
-import type { TUpdateUserAddressPayload } from '../../requests';
 import { ProfileRequests } from '../../requests';
 import type { TUseMutationsApiCommonOptions } from '../../types';
 import { errorNotification, successNotification } from '../../utils';
+import { useGetCurrentUserProfileApi } from './useGetCurrentUserProfileApi';
 
 export type TUpdateCurrentUserAddressApiOptions = TUseMutationsApiCommonOptions;
 
 export const useUpdateCurrentUserAddressApi = (options: TUpdateCurrentUserAddressApiOptions = {}) => {
-  const queryClient = useQueryClient();
+  const { invalidateCurrentUserCache } = useGetCurrentUserProfileApi();
 
   return useMutation({
-    mutationFn: (payload: TUpdateUserAddressPayload) => ProfileRequests.updateMyAddress(payload),
+    mutationFn: ProfileRequests.updateMyAddress,
     onSuccess: ({ error }) => {
       const { invalidateQueriesOnSuccess, showErrorNotification, showSuccessNotification } = options;
 
-      if (error !== null) {
-        if (showErrorNotification !== false) {
-          errorNotification(error);
-        }
-
+      if (error !== null && showErrorNotification !== false) {
+        errorNotification(error);
         return;
       }
 
@@ -29,7 +25,7 @@ export const useUpdateCurrentUserAddressApi = (options: TUpdateCurrentUserAddres
       }
 
       if (invalidateQueriesOnSuccess !== false) {
-        queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.getCurrentUserProfile] });
+        invalidateCurrentUserCache();
       }
     },
   });

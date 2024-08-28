@@ -1,4 +1,4 @@
-import type { TBusinessProcessStatus, TTransactionType } from '../../constants';
+import type { TBusinessProcessStatus, TBusinessRequestStatus, TTransactionType } from '../../constants';
 import type { IApiResponse, IPaginationRequestOptions, IPaginationResponse } from '../../types';
 import type { ICurrency, ICurrencyShort } from '../currencies';
 import type { IBankInfo, ICoin, TTransactionCoin } from '../types';
@@ -115,7 +115,7 @@ export interface ITransactionsRecord {
   from: TTransactionCoin;
   clientCoin?: TTransactionCoin;
   requestIdentifier: number;
-  requestStatus: string;
+  requestStatus: TBusinessRequestStatus;
   status: TBusinessProcessStatus;
   posCompanyName?: string;
   categoryImageLink?: string;

@@ -1,4 +1,5 @@
-import type { TTxType } from '../../constants';
+import type { TTransactionTypeAll, TTxType } from '../../constants';
+import type { IApiResponse, IPaginationRequestOptions, IPaginationResponse } from '../../types';
 import type { IOrganizationRecord } from '../organizations';
 
 export interface IAccountSetting {
@@ -25,15 +26,37 @@ export interface IGateSetting {
   organization: IOrganizationRecord;
   gate: IGate;
   debtAllowed: boolean;
-  supportedTransactions: ISupportTransaction[];
+  supportedOperations: ISupportTransaction[];
   active: boolean;
+}
+
+export interface IVendorRecord extends Pick<IGateSetting, 'id' | 'debtAllowed' | 'active' | 'name'> {
+  createdAt: string;
+  system: boolean;
+  supportedOperations: TTransactionTypeAll[];
 }
 
 export interface IGateRecord {
   name: string;
   id: string;
   custom: boolean;
+  linkedVendors: string[];
 }
+
+export interface IGateProvidersFilter {
+  vendorName?: string;
+  active?: boolean;
+  vendorId?: string;
+  system?: boolean;
+  createdAtFrom?: string;
+  createdAtTo?: string;
+}
+
+export interface IGateProvidersSort {
+  createdAt?: string;
+}
+
+export type IGateProvidersOptions = IPaginationRequestOptions<IGateProvidersFilter, IGateProvidersSort>;
 
 export type ICustomProviderResponse = Pick<IGateSetting, 'id' | 'name' | 'gate'>;
 
@@ -45,7 +68,21 @@ export interface IGateSettingResponse {
   records: IGateSetting[];
 }
 
-export interface IUpdateGateProviderPayload extends Pick<IGateSetting, 'active' | 'debtAllowed'> {
-  gateProviderId: string;
-  vendorName: string;
+export interface IVendorsResponse {
+  records: IVendorRecord[];
 }
+
+export type IGateSettingApiResponse = IApiResponse<IPaginationResponse<IGateSettingResponse>>;
+
+export interface ICreateGateProviderPayload {
+  vendorName: string;
+  debtAllowed: boolean;
+  active?: boolean;
+}
+
+export interface IUpdateGateProviderPayload extends ICreateGateProviderPayload {
+  gateProviderId: string;
+}
+
+export type TViewVendorsResponse = IPaginationResponse<IVendorRecord>;
+export type TViewVendorsApiResponse = IApiResponse<TViewVendorsResponse>;

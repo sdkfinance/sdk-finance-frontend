@@ -1,6 +1,6 @@
 import { api } from '../../api';
 import type { IApiResponse } from '../../types';
-import type { IGetUserInfoApiResponse, IUserAddress, IUserBusiness, IUserInfo, IUserSecurity } from './UserProfile.types';
+import type { IGetUserInfoApiResponse, IUserBusiness, IUserInfo, IUserSecurity, TUpdateUserAddressPayload } from './UserProfile.types';
 
 export const UserInfoRequests = {
   getUserProfile(userId: string): Promise<IGetUserInfoApiResponse> {
@@ -11,16 +11,12 @@ export const UserInfoRequests = {
     return api.patch(`/profiles/${userId}/person`, { person });
   },
 
-  updateUserAddress(userId: string, address: IUserAddress): Promise<IApiResponse<any>> {
-    return api.patch(`/profiles/${userId}/address`, { address });
+  updateUserAddress(userId: string, address: TUpdateUserAddressPayload): Promise<IApiResponse<any>> {
+    return api.patch(`/profiles/${userId}/address`, address);
   },
 
   updateUserBusiness(userId: string, data: IUserBusiness): Promise<IApiResponse<any>> {
     return api.patch(`/profiles/${userId}/business`, data);
-  },
-
-  updateUserLogin(userId: string, login: string): Promise<IApiResponse<any>> {
-    return api.patch(`/profiles/${userId}/contact`, { login });
   },
 
   updateUserSecurity(userId: string, security: IUserSecurity): Promise<IApiResponse<any>> {

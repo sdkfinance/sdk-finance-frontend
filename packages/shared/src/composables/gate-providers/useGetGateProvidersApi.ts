@@ -1,20 +1,28 @@
 import { useQuery } from '@tanstack/vue-query';
-import { computed } from 'vue';
+import { refDefault } from '@vueuse/core';
+import { computed, isRef, ref } from 'vue';
 
 import { QUERY_KEYS } from '../../constants';
 import { GateProviderRequests } from '../../requests';
-import type { TCommonUseApiOptions } from '../../types';
+import type { MaybeRef, TCommonUseApiOptions } from '../../types';
 import { errorNotification } from '../../utils';
 
-export const useGetGateProvidersApi = (options: TCommonUseApiOptions = {}) => {
+export type TUseGetGateProvidersApiOptions = TCommonUseApiOptions & {
+  enabled?: MaybeRef<boolean>;
+};
+export const useGetGateProvidersApi = (options: TUseGetGateProvidersApiOptions = {}) => {
+  const { showErrorNotification, enabled } = options;
+
+  const enabledRef = isRef(enabled) ? enabled : refDefault(ref(enabled), true);
+
+  const isQueryEnabled = computed(() => enabledRef.value);
   const query = useQuery({
     queryKey: [QUERY_KEYS.get_gate_providers],
     queryFn: GateProviderRequests.getProviders,
+    enabled: isQueryEnabled,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     select: ({ error, response }) => {
-      const { showErrorNotification } = options;
-
       if (error !== null && showErrorNotification !== false) {
         errorNotification(error);
       }

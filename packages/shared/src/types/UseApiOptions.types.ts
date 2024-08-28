@@ -10,4 +10,5 @@ export interface ICommonUseQueryOptions extends TCommonUseApiOptions {
 export type TUseMutationsApiCommonOptions = TCommonUseApiOptions & {
   invalidateQueriesOnSuccess?: boolean;
   showSuccessNotification?: boolean;
+  successMessage?: string;
 };

@@ -18,6 +18,8 @@ export type TApiConfigOptions = {
   baseUrl: string;
 };
 
+const DEFAULT_TIMEOUT = 10 * 1000;
+
 export default class ApiConfig implements IApiConfig {
   private readonly appBaseUrl: string;
 
@@ -33,11 +35,14 @@ export default class ApiConfig implements IApiConfig {
 
   constructor(options: TApiConfigOptions) {
     const { apiVersions, currentApiVersion, baseUrl } = options;
+
+    const apiConfigTimeOut = import.meta.env.VUE_APP_API_REQUEST_TIMEOUT ? parseInt(import.meta.env.VUE_APP_API_REQUEST_TIMEOUT) : DEFAULT_TIMEOUT;
     this.appBaseUrl = baseUrl;
     this.apiVersions = apiVersions;
     this.defaultVersion = currentApiVersion;
     this.apiConfig = {
       baseURL: this.getBaseUrl(),
+      timeout: Number.isNaN(apiConfigTimeOut) ? DEFAULT_TIMEOUT : apiConfigTimeOut,
     };
     this.axiosInstance = axios.create(this.apiConfig);
     const commonAxiosMethods = new ApiMethods(this.axiosInstance);
@@ -54,7 +59,7 @@ export default class ApiConfig implements IApiConfig {
   }
 
   public getAuthHeader(): {} {
-    const token = LocalStorageService.get('token');
+    const token = LocalStorageService.get<string>('token');
 
     return token ? { Authorization: `TOKEN ${token}` } : {};
   }

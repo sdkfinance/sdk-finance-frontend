@@ -7,7 +7,7 @@
       <div class="details__head-background">
         <img
           class="details__head-image"
-          :src="categoryImageLink"
+          :src="icon"
           alt="" />
 
         <p class="details__card-text">
@@ -19,7 +19,9 @@
           {{ $t(title) }}
         </p>
 
-        <p class="details__row-description">
+        <p
+          v-if="formattedDate"
+          class="details__row-description">
           {{ formattedDate }}
         </p>
       </div>
@@ -30,9 +32,11 @@
       class="details__container">
       <div class="details__body">
         <details-list-form
+          v-for="detail in lists"
+          :key="detail.title"
+          :title="$t(detail.title).toString()"
           :is-secondary="true"
-          title="pages.transactions.information"
-          :details="details">
+          :details="detail.config">
           <template #status>
             <div class="details-list__label">
               {{ $t('form.label.status') }}
@@ -45,280 +49,67 @@
           </template>
         </details-list-form>
         <div
-          v-if="isShowDescription"
+          v-if="slots.description"
           class="description">
           <h3 class="description__title">
             {{ $t('form.label.description') }}
           </h3>
           <p class="description__content">
-            {{ dataDescription }}
+            <slot name="description" />
           </p>
         </div>
       </div>
       <div
-        v-if="isPendingInvoice && isInvoice"
+        v-if="slots.footer"
         class="details__footer">
-        <pending-invoice-form
-          :invoice-identifier="invoiceIdentifier"
-          :invoice-currency="invoiceCurrency"
-          @invoice-payed="onDataChanged"
-          @invoice-rejected="onDataChanged" />
+        <slot
+          name="footer"
+          v-bind="{ open, close }" />
       </div>
     </div>
   </app-modal>
 </template>
 
 <script setup lang="ts">
-import type { IInvoicesRecord, ITransactionRecordComputed } from '@sdk5/shared/requests';
-import type { IDetailsValue } from '@sdk5/shared/types';
+import type { IDetailsValue, IPlainObject } from '@sdk5/shared/src/types';
 import { AppBadge, AppModal, DetailsList as DetailsListForm } from '@sdk5/ui-kit-front-office';
 import dayjs from 'dayjs';
 import type { Ref } from 'vue';
+import { useSlots } from 'vue';
 import { computed, ref } from 'vue';
 
 import iconPlaceholder from '../../../assets/icons/empty-category.svg';
-import PendingInvoiceForm from './pending-invoice-form.vue';
 
-const props = withDefaults(
-  defineProps<{
-    data?: ITransactionRecordComputed | IInvoicesRecord;
-    isInvoice?: boolean;
-  }>(),
-  {
-    data: undefined,
-    isInvoice: false,
-  },
-);
-const emit = defineEmits(['data-changed', 'closed']);
+export type TPaymentDetailsModalProps = {
+  data?: IPlainObject | null;
+  title: string;
+  lists: { title: string; config: IDetailsValue[] }[];
+  amount?: string | number;
+  icon?: string;
+  date: string;
+};
+
+const props = withDefaults(defineProps<TPaymentDetailsModalProps>(), {
+  data: undefined,
+  icon: iconPlaceholder,
+  amount: '',
+});
+
+const emit = defineEmits(['closed']);
+
+const slots = useSlots();
 
 const appModalRef = ref(null) as unknown as Ref<InstanceType<typeof AppModal>>;
 
-const invoiceRecord = computed(() => props.data as IInvoicesRecord);
-const transactionRecord = computed(() => props.data as ITransactionRecordComputed);
-const title = computed(() => (props.isInvoice ? invoiceRecord.value.name : `entity.transaction.type.${transactionRecord.value?.type ?? ''}`));
-const formattedDate = computed(() => dayjs(props.data?.createdAt).format('D MMM, HH:mm'));
-const totalPriceString = computed(() => {
-  const { currency, totalPrice, status } = (invoiceRecord.value || {}) as IInvoicesRecord;
+const formattedDate = computed(() => (props.date ? dayjs(props.date).format('D MMM, HH:mm') : ''));
 
-  if (status === 'paid') {
-    return `-${currency?.symbol}${totalPrice}`;
-  }
-
-  return `${currency?.symbol}${totalPrice}`;
-});
-const amount = computed(() => (props.isInvoice ? totalPriceString.value : transactionRecord.value?.totalAmountString ?? ''));
-const invoiceIdentifier = computed(() => invoiceRecord.value?.identifier);
-const invoiceCurrency = computed(() => invoiceRecord.value?.currency.code);
-const isPendingInvoice = computed(() => props.data?.status === 'pending');
-const isShowDescription = computed(() => !!(invoiceRecord.value?.data?.description && props.isInvoice));
-const dataDescription = computed(() => invoiceRecord.value?.data?.description);
-const categoryImageLink = computed(() => transactionRecord.value.categoryImageLink ?? iconPlaceholder);
-
-const details = computed<IDetailsValue[]>(() => {
-  const checkExist = (value: string | null | number | undefined) => value || value === 0;
-
-  const invoiceData = [
-    {
-      label: '',
-      value: props.data?.status,
-      param: 'status',
-    },
-    {
-      label: 'form.label.invoice_id',
-      value: invoiceRecord.value?.identifier,
-      param: 'invoiceId',
-      hide: !checkExist(invoiceRecord.value?.identifier),
-    },
-    {
-      label: 'form.label.merchant_name',
-      param: 'merchantName',
-      value: invoiceRecord.value?.merchantName,
-      hide: !checkExist(invoiceRecord.value?.merchantName),
-    },
-    {
-      label: 'form.label.expires_at',
-      param: 'expiresAt',
-      value: dayjs(invoiceRecord.value?.expiresAt).format('D MMM, HH:mm'),
-      hide: !checkExist(invoiceRecord.value?.expiresAt),
-    },
-    {
-      label: 'form.label.total_price',
-      value: totalPriceString.value,
-      param: 'totalPrice',
-      hide: !checkExist(invoiceRecord.value?.totalPrice),
-    },
-  ];
-
-  const transactionData: IDetailsValue[] = [
-    {
-      label: '',
-      value: props.data?.status,
-      param: 'status',
-    },
-    {
-      label: 'form.label.category_id',
-      value: transactionRecord.value.categoryName,
-      param: 'category',
-      hide: !checkExist(transactionRecord.value.categoryName),
-    },
-    {
-      label: 'form.label.transaction_id',
-      value: transactionRecord.value?.transactionIdString,
-      param: 'transactionId',
-      hide: !checkExist(transactionRecord.value.transactionIdString),
-    },
-    {
-      label: 'form.label.exchange_type',
-      param: 'exchangeDirectionType',
-      value: transactionRecord.value.exchangeDirectionType,
-      hide: !transactionRecord.value.exchangeDirectionType,
-    },
-    {
-      label: 'form.label.product_id',
-      value: transactionRecord.value?.productIdString,
-      param: 'productId',
-      hide: !checkExist(transactionRecord.value.productIdString),
-    },
-    {
-      label: 'form.label.bank_name',
-      value: transactionRecord.value.bankNameString,
-      param: 'bankName',
-      hide: !checkExist(transactionRecord.value.bankNameString),
-    },
-    {
-      label: 'form.label.bank_bic',
-      value: transactionRecord.value.bankBicString,
-      param: 'bankName',
-      hide: !checkExist(transactionRecord.value.bankBicString),
-    },
-    {
-      label: 'form.label.iban',
-      value: transactionRecord.value.ibanString,
-      param: 'bankName',
-      hide: !checkExist(transactionRecord.value.ibanString),
-    },
-    {
-      label: 'form.label.account_name',
-      value: transactionRecord.value.accountNameString,
-      param: 'accountName',
-      hide: !checkExist(transactionRecord.value.accountNameString),
-    },
-    {
-      label: 'form.label.account_serial',
-      value: transactionRecord.value.accountSerialString,
-      param: 'accountSerial',
-      hide: !checkExist(transactionRecord.value.accountSerialString),
-    },
-    {
-      label: 'form.label.recipient_account',
-      value: transactionRecord.value.recipientAccountSerialString,
-      param: 'accountSerial',
-      hide: !checkExist(transactionRecord.value.recipientAccountSerialString),
-    },
-    {
-      label: 'form.label.invoice_id',
-      value: transactionRecord.value?.invoiceIdString,
-      param: 'invoiceId',
-      hide: !checkExist(transactionRecord.value.invoiceIdString),
-    },
-    {
-      label: 'form.label.company_name',
-      value: transactionRecord.value.companyNameString,
-      param: 'companyName',
-      hide: !checkExist(transactionRecord.value.companyNameString),
-    },
-    {
-      label: 'form.label.sender',
-      value: transactionRecord.value.senderNameString,
-      param: 'senderName',
-      hide: !checkExist(transactionRecord.value.senderNameString),
-    },
-    {
-      label: 'form.label.recipient',
-      value: transactionRecord.value.recipientNameString,
-      param: 'recipientName',
-      hide: !checkExist(transactionRecord.value.recipientNameString),
-    },
-    {
-      label: 'form.label.amount',
-      param: 'amount',
-      value: transactionRecord.value.amountString,
-      hide: !checkExist(transactionRecord.value.amountString),
-    },
-    {
-      label: 'form.label.fee',
-      value: transactionRecord.value.feeString,
-      param: 'fee',
-      hide: !checkExist(transactionRecord.value.feeString),
-    },
-    {
-      label: 'form.label.recipient_fee',
-      value: transactionRecord.value.recipientFeeString,
-      param: 'recipientFee',
-      hide: !checkExist(transactionRecord.value.recipientFeeString),
-    },
-    {
-      label: 'form.label.sender_fee',
-      value: transactionRecord.value.senderFeeString,
-      param: 'senderFee',
-      hide: !checkExist(transactionRecord.value.senderFeeString),
-    },
-    {
-      label: 'form.label.gross_amount',
-      value: `${transactionRecord.value.currencySymbol}${transactionRecord.value.grossAmountString}`,
-      param: 'grossAmount',
-      hide: !checkExist(transactionRecord.value.grossAmountString),
-    },
-    {
-      label: 'form.label.net_amount',
-      value: transactionRecord.value.netAmountString,
-      param: 'netAmount',
-      hide: !checkExist(transactionRecord.value.netAmountString),
-    },
-    {
-      label: 'form.label.sold_amount',
-      value: transactionRecord.value.soldAmountString,
-      param: 'soldAmount',
-      hide: !checkExist(transactionRecord.value.soldAmountString),
-    },
-    {
-      label: 'form.label.bought_amount',
-      value: transactionRecord.value.boughtAmountString,
-      param: 'boughtAmount',
-      hide: !checkExist(transactionRecord.value.boughtAmountString),
-    },
-    {
-      label: 'form.label.description',
-      value: transactionRecord.value.description,
-      param: 'description',
-      hide: !transactionRecord.value.description,
-    },
-    {
-      label: 'form.label.wallet_balance',
-      value: transactionRecord.value.walletAmountString,
-      param: 'walletBalance',
-      hide: !checkExist(transactionRecord.value.walletAmountString),
-    },
-    {
-      label: 'form.label.wallet_hold_balance',
-      value: transactionRecord.value.walletHeldAmountString,
-      param: 'walletHoldBalance',
-      hide: !checkExist(transactionRecord.value.walletHeldAmountString),
-    },
-  ];
-
-  return props.isInvoice ? invoiceData : transactionData;
-});
 const open = () => {
   appModalRef.value.open();
 };
 const close = () => {
   appModalRef.value.close();
 };
-const onDataChanged = () => {
-  close();
-  emit('data-changed', true);
-};
+
 const closed = () => {
   emit('closed', false);
 };
@@ -327,8 +118,6 @@ defineExpose({
   open,
   close,
 });
-// TODO: Вынести в отдельный компонент для переиспользования стилей
-// Перемапить нормально все данные для инвойса
 </script>
 
 <style lang="scss">
@@ -384,7 +173,7 @@ defineExpose({
   }
 
   &__body {
-    @apply p-25;
+    @apply p-25 flex flex-col gap-y-[1.5rem];
 
     &-badge {
       @apply ml-auto px-0;

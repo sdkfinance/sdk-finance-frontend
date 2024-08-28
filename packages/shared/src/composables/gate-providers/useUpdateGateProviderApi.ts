@@ -5,17 +5,15 @@ import { GateProviderRequests } from '../../requests';
 import type { TUseMutationsApiCommonOptions } from '../../types';
 import { errorNotification, successNotification } from '../../utils';
 
-export interface IUseUpdateGateProviderApiOptions extends TUseMutationsApiCommonOptions {
-  successMessage: string;
-}
+export type TUseUpdateGateProviderApiOptions = TUseMutationsApiCommonOptions;
 
-export const useUpdateGateProviderApi = (options: Partial<IUseUpdateGateProviderApiOptions> = {}) => {
+export const useUpdateGateProviderApi = (options: Partial<TUseUpdateGateProviderApiOptions> = {}) => {
+  const { showErrorNotification, invalidateQueriesOnSuccess, successMessage, showSuccessNotification } = options;
+
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: GateProviderRequests.updateGateProvider,
     onSuccess: ({ error, response }) => {
-      const { showErrorNotification, showSuccessNotification, invalidateQueriesOnSuccess, successMessage } = options;
-
       if (error !== null && showErrorNotification !== false) {
         errorNotification(error);
 
@@ -27,7 +25,7 @@ export const useUpdateGateProviderApi = (options: Partial<IUseUpdateGateProvider
       }
 
       if (invalidateQueriesOnSuccess !== false) {
-        queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.get_gate_providers] });
+        queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.get_vendor_by_id, response?.id] });
       }
     },
   });

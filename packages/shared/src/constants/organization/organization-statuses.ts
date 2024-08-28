@@ -6,6 +6,7 @@ export const ORGANIZATION_STATUS_ENUM = {
   approved: 'approved',
   declined: 'declined',
   review_required: 'review_required',
+  not_available: 'not_available',
 } as const;
 
 export const ORGANIZATION_STATUS_LIST: TValueLabelRecord<TOrganizationStatus>[] = Object.entries(ORGANIZATION_STATUS_ENUM).map(([_, value]) => ({

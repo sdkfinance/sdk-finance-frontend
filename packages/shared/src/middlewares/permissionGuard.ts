@@ -1,11 +1,10 @@
 import { useDashboardNameByRole } from '../composables/useDashboardNameByRole';
-import { UserProfileInstance } from '../services/UserProfileService';
-import { UserInstance } from '../services/UserService';
+import { UserDataService } from '../services';
 import type { RouteMiddleware } from '../types';
 
 type TPermission = Function | Array<string> | undefined;
 const { getDashboardName } = useDashboardNameByRole();
-const roleCheck = (permission: TPermission, userRole: string | undefined): boolean => {
+const roleCheck = (permission: TPermission, userRole?: string | null): boolean => {
   if (typeof permission === 'function') {
     return !!permission(userRole);
   }
@@ -17,9 +16,9 @@ const roleCheck = (permission: TPermission, userRole: string | undefined): boole
   return !permission || permission.length === 0 || permission.includes(userRole);
 };
 
-export const checkUserProfilePermission = (permission: TPermission): boolean => roleCheck(permission, UserProfileInstance.role);
+export const checkUserProfilePermission = (permission: TPermission): boolean => roleCheck(permission, UserDataService.role);
 
-export const checkPermission = (permission: TPermission): boolean => roleCheck(permission, UserInstance.role);
+export const checkPermission = (permission: TPermission): boolean => roleCheck(permission, UserDataService.role);
 
 export const permissionGuard: RouteMiddleware = ({ to, next, abort }) => {
   const { permission: rootPermission } = to?.matched.find((r) => r.meta?.permission)?.meta || {};
@@ -30,7 +29,7 @@ export const permissionGuard: RouteMiddleware = ({ to, next, abort }) => {
   }
 
   return abort({
-    name: getDashboardName(UserInstance.role) || 'entrance',
+    name: getDashboardName(UserDataService.role) || 'entrance',
     query: to.query,
   });
 };

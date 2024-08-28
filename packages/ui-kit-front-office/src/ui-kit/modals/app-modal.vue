@@ -177,7 +177,7 @@ export default defineComponent({
   }
 
   &__overlay {
-    @apply fixed inset-0 z-100 bg-primary bg-opacity-85 overflow-hidden transition duration-200;
+    @apply fixed inset-0 z-[2001] bg-primary bg-opacity-85 overflow-hidden transition duration-200;
   }
 
   &__body {

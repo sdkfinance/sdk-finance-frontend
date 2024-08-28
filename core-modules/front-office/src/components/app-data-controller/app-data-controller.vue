@@ -73,19 +73,7 @@ import { AppButton, AppSearch, AppSwitch, TableFilters } from '@sdk5/ui-kit-fron
 import { Component, Emit, Prop, Vue, Watch } from 'vue-property-decorator';
 
 import AppFilters from './app-filters.vue';
-
-interface IPagination {
-  page: number;
-  totalPages: number;
-  totalRecords: number;
-  pageSize: number;
-}
-
-interface IRequestParams {
-  pageNumber: number;
-  filter: IPlainObject;
-  sort: IPlainObject;
-}
+import type { IPagination, IRequestParams } from './types';
 
 const START_PAGE = 0;
 const PAGE_SIZE = 10;

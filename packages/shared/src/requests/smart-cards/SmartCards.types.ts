@@ -22,6 +22,7 @@ export type TViewSmartCardsFilters = {
   cardNumber?: string;
   organizationIds?: string[];
   active?: boolean;
+  associatedCoinSerial?: string;
 };
 export type TViewSmartCardsSortOptions = ISmartCardSort;
 export type TViewSmartCardsRequestPayload = IPaginationRequestOptions<TViewSmartCardsFilters, TViewSmartCardsSortOptions>;

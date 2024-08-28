@@ -408,8 +408,8 @@ const onFormChanged = () => {
 };
 const formChangeHandler = (values: (number | null)[]) => {
   const [count, productPrice] = values;
-  const productPriceNumber = parseInt(`${productPrice}`, 10);
-  const countNumber = parseInt(`${count}`, 10);
+  const productPriceNumber = parseFloat(`${productPrice}`);
+  const countNumber = parseFloat(`${count}`);
 
   if (Number.isNaN(productPriceNumber) || Number.isNaN(countNumber)) {
     return;

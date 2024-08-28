@@ -2,7 +2,7 @@ export interface ISmartCardShort {
   id: string;
   name: string;
   active: boolean;
-  cardNumber: number;
+  cardNumber: string;
   expirationDate: string;
   expirationStatus: 'ACTIVE' | 'EXPIRED';
 }

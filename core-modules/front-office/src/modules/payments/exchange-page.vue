@@ -39,7 +39,6 @@
               name="amount"
               autocomplete="off"
               size="large"
-              :max="maxExchangeAmount"
               :min="0"
               :label="amountLabel"
               placeholder="placeholder.input.input_amount"
@@ -94,7 +93,7 @@ import config from '@sdk5/shared/config';
 import { useI18n } from '@sdk5/shared/i18n';
 import type { ICoin, ITransactionsRecord } from '@sdk5/shared/requests';
 import { errorNotification } from '@sdk5/shared/utils';
-import { NumberRangeValidationRule, OnChangeRequiredValidationRule } from '@sdk5/shared/validation';
+import { OnChangeRequiredValidationRule } from '@sdk5/shared/validation';
 import {
   AppButton,
   AppForm,
@@ -119,7 +118,7 @@ import OperationCommission from '../user-dashboard/components/operation-commissi
 interface IExchangeFormData {
   from: ICoin;
   to: ICoin;
-  amount: number;
+  amount: string;
 }
 
 const props = withDefaults(
@@ -150,22 +149,10 @@ const form = ref<Partial<IExchangeFormData>>({
 });
 
 const isLoaderVisible = computed(() => isLoading.value || isWalletsFetching.value);
-const maxExchangeAmount = computed(() => form.value?.from?.amount || Number.MAX_SAFE_INTEGER);
 const rules = computed(() => {
   return {
     to: OnChangeRequiredValidationRule(),
     from: OnChangeRequiredValidationRule(),
-    amount: NumberRangeValidationRule(
-      'validation.invalid_integer_value',
-      'validation.is_required',
-      0,
-      maxExchangeAmount.value,
-      5,
-      'validation.min_amount',
-      'validation.max_amount',
-      'change',
-      true,
-    ),
   };
 });
 const pageTitle = computed(() => (props.isSellOperation ? 'pages.currency_exchange.sell_currency' : 'pages.currency_exchange.buy_currency'));
@@ -212,8 +199,9 @@ const calculateCommission = async (): Promise<void> => {
   }
 
   const isValid: boolean = await appFormRef.value?.validate();
+  const isEmptyAmount: boolean = form.value.amount === '' || Number(form.value.amount) <= 0;
 
-  if (!isValid) {
+  if (!isValid || isEmptyAmount) {
     return;
   }
 

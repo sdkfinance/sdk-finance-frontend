@@ -40,9 +40,14 @@
     </app-data-controller>
 
     <data-details
-      v-if="modalData"
+      v-if="paymentDetails.data"
       ref="transactionDetailsModal"
-      :data="modalData"
+      :data="paymentDetails.data"
+      :title="paymentDetails.title"
+      :date="paymentDetails.date"
+      :amount="paymentDetails.amount"
+      :lists="paymentDetails.lists"
+      :icon="paymentDetails.icon"
       @closed="modalData = null" />
   </div>
 </template>
@@ -71,6 +76,7 @@ import DataDetails from '../../../components/data-details.vue';
 import TransactionsTable from '../../../components/transactions-table.vue';
 import { transactionsFilters } from '../../../filters/transactions';
 import { getTransactionsData } from '../../../utils/getComputedTransactionData';
+import { useTransactionDetails } from './useTransactionDetails';
 
 const profileModule = useGetVuexModule(Profile);
 const { isWebview } = useIsUaWebview();
@@ -83,6 +89,8 @@ const isInvoicesEnable = ref(false);
 const isExportLoading = ref(false);
 const modalData = ref<ITransactionRecordComputed | null>(null);
 const filters = ref<ITableFilter[]>(transactionsFilters);
+
+const paymentDetails = useTransactionDetails(modalData);
 
 const isTransactionsMapAvailable = computed(() => import.meta.env.VUE_APP_TRANSACTIONS_MAP_ENABLED === 'true');
 const defaultParams = computed(() => {

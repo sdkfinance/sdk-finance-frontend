@@ -1,4 +1,11 @@
-import type { TOrganizationStatus, TUpdateUserParamType, TUpdateUserReason } from '../../constants';
+import type {
+  TInvestigationStatus,
+  TLegalType,
+  TOrganizationStatus,
+  TUpdateUserParamType,
+  TUpdateUserReason,
+  TUserProfileStatus,
+} from '../../constants';
 import type { IApiResponse, IPaginationRequestOptions, IPaginationResponse } from '../../types';
 
 export interface IUsersFilter {
@@ -11,12 +18,17 @@ export interface IUsersFilter {
   banned?: boolean;
   active?: boolean;
   roles?: string[];
-  identificationStatus?: string;
+  identificationStatus?: TOrganizationStatus;
   organizationIds?: string[];
   iban?: string;
   tid?: string;
   virtualAccountNumber?: string;
   personalId?: string;
+  cohort?: string;
+  contractName?: string;
+  investigationStatuses?: TInvestigationStatus[];
+  profileStatuses?: TUserProfileStatus[];
+  clientName?: string;
 }
 
 export interface IUsersSort {
@@ -30,6 +42,8 @@ interface IUserContract {
   email: string;
   emailVerified: boolean;
   countryCode: string;
+  additionalPhoneNumber?: string;
+  additionalPhoneVerified?: boolean;
 }
 
 interface IUserOrganization {
@@ -38,6 +52,7 @@ interface IUserOrganization {
   name: string;
   identificationStatus: string;
   organizationStatus: TOrganizationStatus;
+  contract_info: IUserContractInfo;
 }
 
 export interface IUserContractInfo {
@@ -50,9 +65,17 @@ interface IUserMemberRecord {
   id: string;
   role: string;
   organization: IUserOrganization;
-  contract_info: IUserContractInfo;
 }
-
+export type TUserProfileSystemLanguage = 'en' | 'uk';
+export interface IUserProfileInvestigation {
+  id: string;
+  investigator: string;
+  investigationReason: string;
+  investigationStatus: TInvestigationStatus;
+  investigationStartDate: string;
+  investigationDeadline: string;
+  investigationEndDate: string;
+}
 export interface IUserRecord {
   id: string;
   name: string;
@@ -68,6 +91,13 @@ export interface IUserRecord {
   banExpiryDate?: string;
   contact: IUserContract;
   members: IUserMemberRecord[];
+  profileStatus?: TUserProfileStatus;
+  cohort?: string;
+  investigations?: Partial<IUserProfileInvestigation>[];
+  lastLogin?: string;
+  lastTransaction?: string;
+  timezone?: string;
+  systemLanguage: TUserProfileSystemLanguage;
 }
 
 export type TUserRecordShort = Pick<IUserRecord, 'id' | 'name'> & {
@@ -78,7 +108,7 @@ export interface IUserCreateBody {
   login: string;
   role: string;
   organizationId?: string | null;
-  legalType?: string | null;
+  legalType?: TLegalType;
 }
 
 export interface IUserValid {

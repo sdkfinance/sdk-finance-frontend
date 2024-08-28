@@ -9,6 +9,7 @@ export const BUSINESS_REQUEST_STATUS = {
   rejected: 'rejected',
   processed: 'processed',
   error: 'error',
+  allowed_to_withdraw: 'allowed_to_withdraw',
 } as const;
 
 export type TBusinessRequestStatus = (typeof BUSINESS_REQUEST_STATUS)[keyof typeof BUSINESS_REQUEST_STATUS];

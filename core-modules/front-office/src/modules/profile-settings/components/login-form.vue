@@ -1,7 +1,7 @@
 <template>
   <app-form
-    ref="form"
-    :loading="isLoading"
+    ref="appFormRef"
+    :loading="isLoaderVisible"
     class="form"
     :model="form"
     :rules="rules"
@@ -37,20 +37,22 @@
   </app-form>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { useGetCurrentUserProfileApi } from '@sdk5/shared/composables';
 import { ROLES } from '@sdk5/shared/constants';
-import type { IGetUserInfoResponse, IUserInfoResponse, IUserLogin } from '@sdk5/shared/requests';
-import { ProfileRequests, UserInfoRequests } from '@sdk5/shared/requests';
-import { Profile } from '@sdk5/shared/store';
-import type { IApiResponse } from '@sdk5/shared/types';
+import { useI18n } from '@sdk5/shared/i18n';
+import type { IGetUserInfoResponse, IProfileContactUpdatePayload, IUserInfoResponse, IUserLogin } from '@sdk5/shared/requests';
+import { ProfileRequests } from '@sdk5/shared/requests';
 import { errorNotification, successNotification } from '@sdk5/shared/utils';
 import { SimpleRequiredValidationRule } from '@sdk5/shared/validation';
-import { AppButton, AppForm, AppFormItem, AppInput } from '@sdk5/ui-kit-front-office';
-import type { PropType } from 'vue';
-import { Component, Emit, Prop, Ref, Vue, Watch } from 'vue-property-decorator';
-import { getModule } from 'vuex-module-decorators';
+import { AppButton, AppForm, AppFormItem, AppInput } from '@sdk5/ui-kit-back-office';
+import type { Ref } from 'vue';
+import { computed, ref, watch } from 'vue';
+import { useRoute } from 'vue-router/composables';
 
 import type { IUserLoginDetails } from './types';
+
+const { userRole, isFetching: isCurrentUserProfileFetching } = useGetCurrentUserProfileApi();
 
 const setForm = (userLogin: IUserLogin): IUserLogin => {
   const { phoneNumber, email } = userLogin || {};
@@ -60,176 +62,177 @@ const setForm = (userLogin: IUserLogin): IUserLogin => {
   };
 };
 
-enum FORM_STEPS {
-  sendLogin = 'sendLogin',
-  sendOtp = 'sendOtp',
-}
-
-@Component({
-  components: {
-    AppForm,
-    AppFormItem,
-    AppInput,
-    AppButton,
+const props = withDefaults(
+  defineProps<{
+    userLogin: IUserLogin;
+    isProfileOwner?: boolean;
+    isUpdatedAllowed?: boolean;
+  }>(),
+  {
+    isProfileOwner: false,
+    isUpdatedAllowed: true,
   },
-})
-export default class UserLoginForm extends Vue {
-  @Ref('form') readonly appForm!: typeof AppForm;
+);
+const emit = defineEmits<{
+  (event: 'onUpdated', payload: IUserInfoResponse): void;
+  (event: 'updated', payload: IUserInfoResponse): void;
+}>();
 
-  @Prop({ type: Object as PropType<IUserLogin>, required: true }) private userLogin!: IUserLogin;
+const FORM_STEPS = {
+  sendLogin: 'sendLogin',
+  sendOtp: 'sendOtp',
+} as const;
 
-  @Prop({ type: Boolean, default: false }) readonly isProfileOwner!: boolean;
+const formSteps = FORM_STEPS;
 
-  @Prop({ type: Boolean, default: true }) isUpdatedAllowed!: boolean;
+const { t } = useI18n();
+const route = useRoute();
 
-  protected form: Partial<IUserLoginDetails> = setForm(this.userLogin);
+const appFormRef = ref(null) as unknown as Ref<InstanceType<typeof AppForm>>;
+const currentStep = ref(FORM_STEPS.sendLogin as string);
+const isLoading = ref(false);
+const form = ref<Partial<IUserLoginDetails>>(setForm(props.userLogin));
 
-  protected isLoading: boolean = false;
-
-  protected formSteps = FORM_STEPS;
-
-  protected currentStep: string = FORM_STEPS.sendLogin;
-
-  protected profileModule = getModule(Profile, this.$store);
-
-  protected get isAdminRole() {
-    return this.profileModule.role === ROLES.administrator;
+const userId = computed(() => route.params.id as string);
+const isLoaderVisible = computed(() => isCurrentUserProfileFetching.value || isLoading.value);
+const isAdminRole = computed(() => userRole.value === ROLES.administrator);
+const rules = computed(() => ({
+  email: !props.isProfileOwner && !isAdminRole.value && [{ type: 'email', message: t('validation.invalid_email') }, SimpleRequiredValidationRule()],
+  phoneNumber: !props.isProfileOwner && !isAdminRole.value && SimpleRequiredValidationRule(),
+}));
+const isOtpStep = computed(() => currentStep.value === formSteps.sendOtp);
+const isEmailInputDisabled = computed(() => {
+  if (isAdminRole.value && !props.userLogin.emailVerified) {
+    return false;
   }
 
-  protected get isOtpStep() {
-    return this.currentStep === this.formSteps.sendOtp;
+  if (props.userLogin.emailVerified) {
+    return true;
   }
 
-  protected get isEmailInputDisabled(): boolean {
-    if (this.isAdminRole && !this.userLogin.emailVerified) {
-      return false;
-    }
-
-    if (this.userLogin.emailVerified) {
-      return true;
-    }
-
-    return !this.isProfileOwner || this.isOtpStep;
+  return !props.isProfileOwner || isOtpStep.value;
+});
+const isPhoneInputDisabled = computed(() => {
+  if (isAdminRole.value && !props.userLogin.phoneVerified) {
+    return false;
   }
 
-  protected get isPhoneInputDisabled(): boolean {
-    if (this.isAdminRole && !this.userLogin.phoneVerified) {
-      return false;
-    }
-
-    if (this.userLogin.phoneVerified) {
-      return true;
-    }
-
-    return !this.isProfileOwner || this.isOtpStep;
+  if (props.userLogin.phoneVerified) {
+    return true;
   }
 
-  protected get isContactsConfirmed() {
-    return this.isEmailInputDisabled && this.isPhoneInputDisabled;
+  return !props.isProfileOwner || isOtpStep.value;
+});
+const isContactsConfirmed = computed(() => isEmailInputDisabled.value && isPhoneInputDisabled.value);
+const isSubmitButtonVisible = computed(() => (!isContactsConfirmed.value || isOtpStep.value) && props.isUpdatedAllowed);
+
+const onUpdated = (data: IUserInfoResponse) => {
+  emit('onUpdated', data);
+  emit('updated', data);
+};
+
+const onProfileUpdate = (data: IGetUserInfoResponse) => {
+  form.value = setForm(data.profile.contact);
+  onUpdated(data.profile);
+  currentStep.value = FORM_STEPS.sendLogin;
+  successNotification();
+};
+
+const getUpdateContactPayload = (formData: IUserLoginDetails, currentContactData: IUserLogin): IProfileContactUpdatePayload => {
+  const payload: IProfileContactUpdatePayload = {};
+  const { email, phoneNumber } = formData;
+  const { emailVerified, phoneVerified } = currentContactData;
+
+  if (emailVerified) {
+    payload.primaryPhoneNumber = phoneNumber;
+  } else if (phoneVerified) {
+    payload.email = email;
   }
 
-  protected get isSubmitButtonVisible() {
-    return (!this.isContactsConfirmed || this.isOtpStep) && this.isUpdatedAllowed;
+  return payload;
+};
+
+const updateUserLogin = async () => {
+  if (props.isProfileOwner) {
+    return ProfileRequests.updateMyContactRequest(getUpdateContactPayload(form.value as IUserLoginDetails, props.userLogin));
   }
 
-  readonly userId: string = this.$route.params.id;
+  return ProfileRequests.updateProfileContact(userId.value, getUpdateContactPayload(form.value as IUserLoginDetails, props.userLogin));
+};
 
-  public rules = {
-    email: !this.isProfileOwner &&
-      !this.isAdminRole && [{ type: 'email', message: this.$t('validation.invalid_email') }, SimpleRequiredValidationRule()],
-    phoneNumber: !this.isProfileOwner && !this.isAdminRole && SimpleRequiredValidationRule(),
-  };
+const updateCredentials = async () => {
+  isLoading.value = true;
+  const { error } = await updateUserLogin();
+  isLoading.value = false;
 
-  @Emit()
-  onUpdated(data: IUserInfoResponse): IUserInfoResponse {
-    return data;
+  if (error) {
+    errorNotification(error);
+    form.value = setForm(props.userLogin);
+    return;
   }
 
-  protected async updateCredentials(): Promise<void> {
-    this.isLoading = true;
-    const { error } = await this.updateUserLogin();
-    this.isLoading = false;
+  currentStep.value = FORM_STEPS.sendOtp;
+  successNotification('notification.otp_send');
+};
 
-    if (error) {
-      errorNotification(error);
-      this.form = setForm(this.userLogin);
-      return;
-    }
+const updateProfileContactWithoutConfirmation = async (login: string) => {
+  isLoading.value = true;
+  const { response, error } = await ProfileRequests.updateProfileContact(
+    userId.value,
+    getUpdateContactPayload(form.value as IUserLoginDetails, props.userLogin),
+  );
+  isLoading.value = false;
 
-    this.currentStep = FORM_STEPS.sendOtp;
-    successNotification('notification.otp_send');
+  if (error) {
+    errorNotification(error);
+    return;
   }
 
-  protected updateUserLogin(): Promise<IApiResponse<any>> {
-    const login: string = this.userLogin.email ? this.form.phoneNumber || this.form.email! : this.form.email!;
+  onProfileUpdate(response);
+};
 
-    if (this.isProfileOwner) {
-      return ProfileRequests.updateMyLogin(login);
-    }
-
-    return UserInfoRequests.updateUserLogin(this.userId, login);
+const handleForm = async () => {
+  if (!props.isUpdatedAllowed) {
+    return;
   }
 
-  protected onProfileUpdate(data: IGetUserInfoResponse) {
-    this.form = setForm(data.profile.contact);
-    this.onUpdated(data.profile);
-    this.currentStep = FORM_STEPS.sendLogin;
-    successNotification();
+  const isValid = await appFormRef.value.validate();
+
+  if (!isValid) {
+    return;
   }
 
-  protected async updateProfileContactWithoutConfirmation(login: string) {
-    this.isLoading = true;
-    const { response, error } = await ProfileRequests.updateProfileContactAdmin(this.userId, { login });
-    this.isLoading = false;
+  const login: string = props.userLogin.email ? form.value.phoneNumber || form.value.email! : form.value.email!;
 
-    if (error) {
-      errorNotification(error);
-      return;
-    }
-
-    this.onProfileUpdate(response);
+  if (isAdminRole.value) {
+    await updateProfileContactWithoutConfirmation(login);
+    return;
   }
 
-  protected async handleForm(): Promise<void> {
-    if (!this.isUpdatedAllowed) {
-      return;
-    }
-
-    const isValid = await this.appForm.validate();
-
-    if (!isValid) {
-      return;
-    }
-
-    const login: string = this.userLogin.email ? this.form.phoneNumber || this.form.email! : this.form.email!;
-
-    if (this.isAdminRole) {
-      await this.updateProfileContactWithoutConfirmation(login);
-      return;
-    }
-
-    if (this.currentStep === FORM_STEPS.sendLogin) {
-      await this.updateCredentials();
-      return;
-    }
-
-    this.isLoading = true;
-    const { response, error } = await ProfileRequests.confirmUpdateMyLogin({ login, otp: this.form.otp! });
-    this.isLoading = false;
-
-    if (error) {
-      errorNotification(error);
-      return;
-    }
-
-    this.onProfileUpdate(response);
+  if (currentStep.value === FORM_STEPS.sendLogin) {
+    await updateCredentials();
+    return;
   }
 
-  @Watch('userLogin', { immediate: true })
-  protected userLoginChangeHandler(value?: IUserLogin) {
+  isLoading.value = true;
+  const { response, error } = await ProfileRequests.confirmUpdateMyContactRequest({ login, otp: form.value.otp! });
+  isLoading.value = false;
+
+  if (error) {
+    errorNotification(error);
+    return;
+  }
+
+  onProfileUpdate(response);
+};
+
+watch(
+  () => props.userLogin,
+  (value) => {
     if (value) {
-      this.form = setForm(value);
+      form.value = setForm(value);
     }
-  }
-}
+  },
+  { immediate: true },
+);
 </script>

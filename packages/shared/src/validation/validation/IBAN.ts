@@ -1,5 +1,5 @@
 import IBAN from '../regexp/IBAN';
-import RegExp from './RegExp';
+import { RegExpValidator } from './RegExp';
 
 export const IbanValidator = (required: boolean = false, trigger: string = 'blur', message: string = 'validation.invalid_iban') =>
-  RegExp('validation.is_required', message, trigger, IBAN, required);
+  RegExpValidator('validation.is_required', message, trigger, IBAN, required);

@@ -1,8 +1,8 @@
 <template>
   <app-form
-    ref="form"
+    ref="appFormRef"
     class="max-w-510"
-    :loading="isLoading"
+    :loading="isLoaderVisible"
     :model="form"
     :rules="rules"
     @submit.native.prevent="handleForm">
@@ -22,7 +22,7 @@
     </app-form-item>
     <app-form-item prop="otp">
       <app-input
-        v-if="currentStep === formSteps.sendOtp"
+        v-if="currentStep === FORM_STEPS.sendOtp"
         v-model="form.otp"
         placeholder="form.label.otp_code"
         label="form.label.otp_code" />
@@ -37,124 +37,119 @@
   </app-form>
 </template>
 
-<script lang="ts">
-import type { IUserLogin } from '@sdk5/shared/requests';
+<script setup lang="ts">
+import type { IProfileContactUpdatePayload, IUserLogin } from '@sdk5/shared';
+import { useGetCurrentUserProfileApi, useI18n } from '@sdk5/shared';
 import { ProfileRequests } from '@sdk5/shared/requests';
-import { Profile } from '@sdk5/shared/store';
 import { errorNotification, successNotification } from '@sdk5/shared/utils';
 import { PhoneValidator } from '@sdk5/shared/validation';
-import { AppButton, AppDatePicker, AppForm, AppFormItem, AppInput } from '@sdk5/ui-kit-front-office';
-import { Component, Ref, Vue } from 'vue-property-decorator';
-import { getModule } from 'vuex-module-decorators';
+import { AppButton, AppForm, AppFormItem, AppInput } from '@sdk5/ui-kit-front-office';
+import type { Ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 
 import type { IUserLoginDetails } from './types';
 
-const FORM_STEPS: { [key: string]: string } = {
+const FORM_STEPS = {
   sendLogin: 'sendLogin',
   sendOtp: 'sendOtp',
-};
+} as const;
 
-@Component({
-  name: 'profile-login-details',
-  components: {
-    AppDatePicker,
-    AppForm,
-    AppFormItem,
-    AppInput,
-    AppButton,
-  },
-})
-export default class ProfileLoginDetails extends Vue {
-  @Ref('form') readonly appForm!: AppForm;
+const { t } = useI18n();
 
-  protected profileModule = getModule(Profile, this.$store);
+const { userContact, isFetching: isCurrentUserProfileFetching, invalidateCurrentUserCache } = useGetCurrentUserProfileApi();
 
-  protected setForm(personContacts: IUserLoginDetails): IUserLoginDetails {
-    const { phoneNumber, email } = personContacts || {};
+const appFormRef = ref(null) as unknown as Ref<InstanceType<typeof AppForm>>;
 
-    return {
-      phoneNumber: phoneNumber || '',
-      email: email || '',
-      otp: '',
-    };
-  }
+const currentStep = ref(FORM_STEPS.sendLogin as string);
+const form = ref<Partial<IUserLoginDetails>>({});
+const isLoading = ref(false);
 
-  protected form: IUserLoginDetails = this.setForm(this.personContacts);
+const isLoaderVisible = computed(() => isCurrentUserProfileFetching.value || isLoading.value);
+const rules = computed(() => ({
+  email: [
+    {
+      type: 'email',
+      message: t('validation.invalid_email').toString(),
+    },
+  ],
+  phoneNumber: PhoneValidator(false),
+}));
+const isEmailConfirmed = computed(() => !!userContact.value?.emailVerified);
+const isPhoneConfirmed = computed(() => !!userContact.value?.phoneVerified);
+const isContactsConfirmed = computed(() => isEmailConfirmed.value && isPhoneConfirmed.value);
 
-  protected formSteps = FORM_STEPS;
+const setForm = (personContacts: IUserLogin): IUserLoginDetails => {
+  const { phoneNumber, email } = personContacts || {};
 
-  protected isLoading: boolean = false;
-
-  protected currentStep: string = FORM_STEPS.sendLogin;
-
-  protected rules = {
-    email: [{ type: 'email', message: this.$t('validation.invalid_email') }],
-    phoneNumber: PhoneValidator(false),
+  return {
+    phoneNumber: phoneNumber,
+    email: email,
+    otp: '',
   };
-
-  protected get personContacts(): IUserLogin {
-    return this.profileModule.personContacts;
+};
+const handleForm = async () => {
+  if (!(await appFormRef.value.validate())) {
+    return;
   }
 
-  protected get isEmailConfirmed(): boolean {
-    const { emailVerified } = this.profileModule.personContacts;
-    return emailVerified!;
+  const { phoneNumber, email } = form.value as IUserLoginDetails;
+
+  const updateContactPayload: IProfileContactUpdatePayload = {};
+
+  if (isEmailConfirmed.value) {
+    updateContactPayload.primaryPhoneNumber = phoneNumber;
+  } else if (isPhoneConfirmed.value) {
+    updateContactPayload.email = email;
   }
 
-  protected get isPhoneConfirmed(): boolean {
-    const { phoneVerified } = this.profileModule.personContacts;
-    return phoneVerified!;
-  }
-
-  protected get isContactsConfirmed(): boolean {
-    return this.isEmailConfirmed && this.isPhoneConfirmed;
-  }
-
-  protected async fetchProfile() {
-    this.isLoading = true;
-    await this.profileModule.getProfile();
-    this.isLoading = false;
-  }
-
-  protected async handleForm(): Promise<void> {
-    const isValid: boolean = await this.appForm.validate();
-
-    const login: string = this.personContacts.email ? this.form.phoneNumber || this.form.email! : this.form.email!;
-
-    if (!isValid) {
-      return;
-    }
-
-    if (this.currentStep === FORM_STEPS.sendLogin) {
-      this.isLoading = true;
-      const { error } = await ProfileRequests.updateMyLogin(login);
-      this.isLoading = false;
-
-      if (error) {
-        errorNotification(error);
-        return;
-      }
-
-      this.currentStep = FORM_STEPS.sendOtp;
-      successNotification('notification.otp_send');
-      return;
-    }
-
-    this.isLoading = true;
-    const { response, error } = await ProfileRequests.confirmUpdateMyLogin({ login, otp: this.form.otp! });
-    this.isLoading = false;
-
-    if (response) {
-      this.currentStep = FORM_STEPS.sendLogin;
-      this.form = this.setForm(response.profile.contact);
-      this.currentStep = FORM_STEPS.sendLogin;
-      await this.fetchProfile();
-      successNotification();
-    }
+  if (currentStep.value === FORM_STEPS.sendLogin) {
+    isLoading.value = true;
+    const { error } = await ProfileRequests.updateMyContactRequest(updateContactPayload);
+    isLoading.value = false;
 
     if (error) {
       errorNotification(error);
+      return;
     }
+
+    currentStep.value = FORM_STEPS.sendOtp;
+    successNotification('notification.otp_send');
+    return;
   }
-}
+
+  isLoading.value = true;
+  const confirmUpdateContactRequestLogin = updateContactPayload.primaryPhoneNumber ?? updateContactPayload.email;
+
+  if (!confirmUpdateContactRequestLogin) {
+    throw new Error('Confirm update contact request login is not defined');
+  }
+
+  const { response, error } = await ProfileRequests.confirmUpdateMyContactRequest({
+    login: confirmUpdateContactRequestLogin,
+    otp: form.value.otp!,
+  });
+  isLoading.value = false;
+
+  if (response) {
+    currentStep.value = FORM_STEPS.sendLogin;
+    form.value = setForm(response.profile.contact);
+    currentStep.value = FORM_STEPS.sendLogin;
+    await invalidateCurrentUserCache();
+    successNotification();
+  }
+
+  if (error) {
+    errorNotification(error);
+  }
+};
+
+watch(
+  userContact,
+  (contactData?: IUserLogin) => {
+    if (contactData) {
+      form.value = setForm(contactData);
+    }
+  },
+  { immediate: true },
+);
 </script>

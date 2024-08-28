@@ -8,7 +8,7 @@
 
 <script setup lang="ts">
 import { useGetCurrentUserProfileApi, useGetVuexModule } from '@sdk5/shared/composables';
-import { Profile, UserData } from '@sdk5/shared/store';
+import { Profile } from '@sdk5/shared/store';
 import type { TRouteLayout } from '@sdk5/shared/types';
 import type { AsyncComponent } from 'vue';
 import { computed, defineAsyncComponent, watch } from 'vue';
@@ -32,12 +32,10 @@ const BasePageLayout = defineAsyncComponent(() => import('./base-page-layout.vue
 const UserDashboardLayout = defineAsyncComponent(() => import('../modules/user-dashboard/layouts/user-dashboard-layout.vue'));
 
 const route = useRoute();
-const { userProfileResponse, invalidateCurrentUserCache } = useGetCurrentUserProfileApi();
+const { userProfileResponse } = useGetCurrentUserProfileApi();
 
 const profileModule = useGetVuexModule(Profile);
-const userDataModule = useGetVuexModule(UserData);
 
-const userData = computed(() => userDataModule.userData);
 const routeLayout = computed<TRouteLayout>(() => ({
   ...props.baseLayoutConfig,
   ...(route?.meta?.layout || {}),
@@ -53,13 +51,6 @@ const layoutComponentByName = computed(() => {
   return components[routeLayout.value?.componentName ?? 'DashboardLayout'];
 });
 
-watch(
-  userData,
-  () => {
-    invalidateCurrentUserCache();
-  },
-  { immediate: true },
-);
 watch(
   userProfileResponse,
   (profileData) => {

@@ -38,10 +38,10 @@ export const ACCOUNT_CHILDREN: IRouteConfig[] = [
     component: TransactionPage,
   },
   {
-    path: 'smart-cards',
-    name: 'user-dashboard-account-smart-cards',
+    path: 'in-system-cards',
+    name: 'user-dashboard-account-in-system-cards',
     meta: {
-      translation: 'pages.user_dashboard.links.smart_cards',
+      translation: 'pages.user_dashboard.links.in_system_cards',
       layout: {
         props: {
           isBackVisible: true,

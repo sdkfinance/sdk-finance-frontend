@@ -8,15 +8,6 @@
     :is-back-visible="false">
     <template #default="{ currentStep }">
       <app-form-wrapper class="issue-card-form">
-        <template #title>
-          <span class="issue-card-form__title">
-            {{
-              currentStep === 1
-                ? $t('pages.user_dashboard.cards.issue_card_modal.title')
-                : $t('pages.user_dashboard.cards.issue_card_modal.title_second')
-            }}
-          </span>
-        </template>
         <app-form
           :model="form"
           :loading="isLoading"
@@ -91,7 +82,7 @@ const COMPONENTS = {
 export default class IssueCardForm extends Vue {
   static components: typeof COMPONENTS;
 
-  @Ref('issueCardFormStepController') readonly issueCardFormStepController!: AppStepController;
+  @Ref('issueCardFormStepController') readonly issueCardFormStepController!: typeof AppStepController;
 
   @Prop({ type: String, required: true }) readonly serial!: string;
 
@@ -163,6 +154,7 @@ export default class IssueCardForm extends Vue {
   protected async actionButtonClickHandler(): Promise<void> {
     if (this.issueCardFormStepController.currentStep === 1) {
       this.issueCardFormStepController.nextStep();
+      this.emitStepChange(2);
       return;
     }
 
@@ -239,6 +231,11 @@ export default class IssueCardForm extends Vue {
     return submitted;
   }
 
+  @Emit('step')
+  protected emitStepChange(step: number) {
+    return step;
+  }
+
   @Watch('cardIssuingProviderId')
   protected cardIssuingProviderIdChangeHandler(gateProviderId: string | null) {
     if (gateProviderId === null) {
@@ -259,7 +256,7 @@ export default class IssueCardForm extends Vue {
   @apply p-0 m-0;
 
   &-container {
-    @apply px-24 pt-24 pb-32;
+    @apply px-0 pt-0 pb-32;
   }
 
   &__title {

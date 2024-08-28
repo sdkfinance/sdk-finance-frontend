@@ -89,7 +89,9 @@ export default defineComponent({
     }
 
     &__value {
-      @apply text-sm font-medium break-normal break-words;
+      @apply text-sm font-medium break-words;
+
+      word-break: break-word;
 
       &--no-data {
         @apply text-gray-375;

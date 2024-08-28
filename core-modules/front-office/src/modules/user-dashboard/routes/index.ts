@@ -4,6 +4,7 @@ import type { AsyncComponent } from 'vue';
 
 import { ACCOUNT_CHILDREN } from './ACCOUNT_CHILDREN';
 import { buildCardPageChildrenRoutes } from './CARD_CHILDREN';
+import { OPEN_BANKING_CHILDREN } from './OPEN_BANKING_CHILDREN';
 import { TOTAL_BALANCE_CHILDREN } from './TOTAL_BALANCE_CHILDREN';
 
 const BaseLayout = () => import('../../../layouts/base-layout.vue');
@@ -16,7 +17,10 @@ const AccountSmartCard: AsyncComponent = () => import('../pages/card/smart-card.
 
 const AccountIssuedCard: AsyncComponent = () => import('../pages/card/issued-card.vue');
 
-export const SMART_CARD_PAGE_CHILDREN = buildCardPageChildrenRoutes('user-dashboard-account-smart-card', 'user-dashboard-account-smart-cards');
+export const SMART_CARD_PAGE_CHILDREN = buildCardPageChildrenRoutes(
+  'user-dashboard-account-in-system-card',
+  'user-dashboard-account-in-system-cards',
+);
 export const ISSUED_CARD_PAGE_CHILDREN = buildCardPageChildrenRoutes('user-dashboard-account-card', 'user-dashboard-account-cards');
 
 export const USER_DASHBOARD_CHILDREN: IRouteConfig[] = [
@@ -63,8 +67,8 @@ export const USER_DASHBOARD_CHILDREN: IRouteConfig[] = [
     redirect: ISSUED_CARD_PAGE_CHILDREN[0],
   },
   {
-    path: 'account/:serial/smart-cards/:cardId',
-    name: 'user-dashboard-account-smart-card',
+    path: 'account/:serial/in-system-cards/:cardId',
+    name: 'user-dashboard-account-in-system-card',
     component: AccountSmartCard,
     meta: {
       layout: {
@@ -77,6 +81,7 @@ export const USER_DASHBOARD_CHILDREN: IRouteConfig[] = [
     children: SMART_CARD_PAGE_CHILDREN,
     redirect: SMART_CARD_PAGE_CHILDREN[0],
   },
+  ...OPEN_BANKING_CHILDREN,
 ];
 
 export const USER_DASHBOARD: IRouteConfig = {

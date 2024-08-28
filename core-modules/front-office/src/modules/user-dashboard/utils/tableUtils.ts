@@ -36,8 +36,10 @@ export const getSeparatorDatePostfix = (data: Date | string) => {
   return '';
 };
 
-export const addSeparator = (acc: IPlainObject[], item: IPlainObject): IPlainObject[] => {
-  const date = dayjs(item.createdAt).format('D MMMM') + getSeparatorDatePostfix(item.createdAt);
+export type TSeparateTableItems<T> = Array<T | { date: string; isSeparateColumn: boolean }>;
+export const addSeparator = <T extends IPlainObject>(acc: TSeparateTableItems<T>, item: T): TSeparateTableItems<T> => {
+  const cratedAt = item.createdAt ?? item.created_at;
+  const date = dayjs(cratedAt).format('D MMMM') + getSeparatorDatePostfix(cratedAt);
 
   if (prevDate === date) {
     return [...acc, item];

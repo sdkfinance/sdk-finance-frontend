@@ -1,3 +1,5 @@
+import type { TValueLabelRecord } from '../types';
+
 export const COIN_TYPE_ENUM = {
   regular_commission: 'regular_commission',
   business_commission: 'business_commission',
@@ -24,6 +26,13 @@ export const COIN_TYPE_ENUM = {
   payment_in_advance: 'payment_in_advance',
   charge_back: 'charge_back',
   exchange_reserve: 'exchange_reserve',
+  technical_transit: 'technical_transit',
+  issuing_balance: 'issuing_balance',
+  debt_gate_commission: 'debt_gate_commission',
+  debt_gate_settlement: 'debt_gate_settlement',
+  business_system_commission: 'business_system_commission',
+  regular_system_commission: 'regular_system_commission',
+  issuing_transit: 'issuing_transit',
 } as const;
 
 export const COIN_TYPES: Record<TCoinType, string> = {
@@ -52,11 +61,18 @@ export const COIN_TYPES: Record<TCoinType, string> = {
   [COIN_TYPE_ENUM.payment_in_advance]: 'entity.coin_types.payment_in_advance',
   [COIN_TYPE_ENUM.charge_back]: 'entity.coin_types.charge_back',
   [COIN_TYPE_ENUM.exchange_reserve]: 'entity.coin_types.exchange_reserve',
+  [COIN_TYPE_ENUM.technical_transit]: 'entity.coin_types.technical_transit',
+  [COIN_TYPE_ENUM.issuing_balance]: 'entity.coin_types.issuing_balance',
+  [COIN_TYPE_ENUM.debt_gate_commission]: 'entity.coin_types.debt_gate_commission',
+  [COIN_TYPE_ENUM.debt_gate_settlement]: 'entity.coin_types.debt_gate_settlement',
+  [COIN_TYPE_ENUM.business_system_commission]: 'entity.coin_types.business_system_commission',
+  [COIN_TYPE_ENUM.regular_system_commission]: 'entity.coin_types.regular_system_commission',
+  [COIN_TYPE_ENUM.issuing_transit]: 'entity.coin_types.issuing_transit',
 };
 
-export const COIN_TYPES_ARRAY = Object.keys(COIN_TYPES).map((key) =>
-  // @ts-ignore
-  ({ value: key, label: COIN_TYPES[key] }),
-);
+export const COIN_TYPES_ARRAY: TValueLabelRecord[] = Object.entries(COIN_TYPES).map(([key, label]) => ({
+  value: key,
+  label,
+}));
 
 export type TCoinType = keyof typeof COIN_TYPE_ENUM;

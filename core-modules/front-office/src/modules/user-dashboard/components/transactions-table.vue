@@ -46,6 +46,7 @@ import type { ITableColumn } from '@sdk5/shared/types';
 import { AppTable, AppTableAmount, AppTableInfo } from '@sdk5/ui-kit-front-office';
 import { computed } from 'vue';
 
+import type { TSeparateTableItems } from '../utils/tableUtils';
 import { addSeparator, getSeparatorColumnClass, getSeparatorSpan } from '../utils/tableUtils';
 
 const props = withDefaults(
@@ -78,7 +79,7 @@ const tableColumns: ITableColumn[] = [
   },
 ];
 
-const records = computed(() => props.data.reduce(addSeparator, []));
+const records = computed(() => props.data.reduce(addSeparator, [] as TSeparateTableItems<ITransactionRecordComputed>));
 
 const openDetails = (data: ITransactionRecordComputed) => emit('open-details', data);
 const openDetailsGuard = (data: unknown) => {

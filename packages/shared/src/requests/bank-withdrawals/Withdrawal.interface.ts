@@ -1,21 +1,9 @@
-import type { IApiResponse, IPaginationRequestOptions } from '../../types';
-import type { ITransactionsRecord, ITransactionsTransaction } from '../transactions';
-import type { IClientCoin } from '../types';
+import type { IApiResponse, IPaginationRequestOptions, IPaginationResponse } from '../../types';
+import type { ITopUpRecords } from '../bank-top-ups';
+import type { ITransactionsRecord } from '../transactions';
 
 export interface IWithdrawalRecord extends ITransactionsRecord {
-  cashAmount: number;
-  children: any[];
-  clientCoin: IClientCoin;
-  createdAt: string;
   fullName: string;
-  iban: string;
-  id: string;
-  requestIdentifier: number;
-  requestStatus: string;
-  status: string;
-  type: string;
-  updatedAt: string;
-  transactions: ITransactionsTransaction[];
 }
 
 export interface IWithdrawalRecords {
@@ -38,4 +26,4 @@ export interface IWithdrawalFilter {
 
 export type IWithdrawalOptions = IPaginationRequestOptions<IWithdrawalFilter, IWithdrawalSort>;
 
-export type IWithdrawalRecordsResponse = IApiResponse<IWithdrawalRecords>;
+export type IWithdrawalRecordsResponse = IApiResponse<IPaginationResponse<ITopUpRecords>>;

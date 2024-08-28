@@ -1,5 +1,5 @@
 import Address from '../regexp/Address';
-import RegExp from './RegExp';
+import { RegExpValidator } from './RegExp';
 
 export const AddressValidator = (required: boolean = false, trigger: string = 'blur', message: string = 'validation.invalid_address') =>
-  RegExp('validation.is_required', message, trigger, Address, required);
+  RegExpValidator('validation.is_required', message, trigger, Address, required);

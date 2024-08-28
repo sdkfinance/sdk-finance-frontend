@@ -28,7 +28,8 @@
             ref="tableActionsContainers"
             :row-scope="scope"
             :table-actions="column.actions"
-            :actions-always-visible="column.actionsAlwaysVisible" />
+            :actions-always-visible="column.actionsAlwaysVisible"
+            :max-visible-actions="maxVisibleActions" />
         </template>
         <slot
           v-else
@@ -89,6 +90,7 @@ const props = withDefaults(
     virtualScrollEnabled?: boolean;
     tableMaxHeight?: string | number;
     tableSize?: TAppTableSize;
+    maxVisibleActions?: number;
   }>(),
   {
     data: () => [],
@@ -109,6 +111,7 @@ const props = withDefaults(
     virtualScrollEnabled: false,
     tableSize: APP_TABLE_SIZE.medium,
     tableMaxHeight: undefined,
+    maxVisibleActions: undefined,
   },
 );
 const emit = defineEmits<{
@@ -408,6 +411,12 @@ defineExpose({
   @apply w-full;
 
   &.el-table {
+    &:not(.is-secondary) {
+      .el-table__header thead .el-table__cell .cell {
+        @apply flex items-center;
+      }
+    }
+
     &--border {
       @apply border-none after:hidden;
 
@@ -606,10 +615,6 @@ defineExpose({
         &::before {
           background: linear-gradient(90deg, #e3eeff 0%, rgb(227 238 255 / 0%) 100%);
         }
-
-        .el-table__fixed-body-wrapper {
-          // @apply z-[2];
-        }
       }
 
       &-right {
@@ -693,7 +698,7 @@ defineExpose({
 
         .cell {
           @apply relative whitespace-nowrap min-h-[1.25rem];
-          @apply after:absolute after:right-[0.125rem] after:top-1/2 after:-translate-y-1/2 after:w-[0.0625rem] after:h-[1.25rem] after:bg-blue-400;
+          @apply after:absolute after:right-[0.125rem] after:top-1/2 after:-translate-y-1/2 after:w-[0.0625rem] after:h-0 after:bg-blue-400;
 
           .caret-wrapper {
             @apply hidden;
@@ -725,6 +730,12 @@ defineExpose({
                   @apply block;
                 }
               }
+            }
+          }
+
+          &.cell--action {
+            .cell {
+              @apply flex justify-end;
             }
           }
 
@@ -767,9 +778,9 @@ defineExpose({
     vertical-align: top;
   }
 
-  &.is-striped .el-table__row:nth-child(odd) {
+  &.is-striped .el-table__row:nth-child(even) {
     .el-table__cell {
-      @apply bg-[#F6F7FF];
+      @apply bg-[#F9FCFE];
     }
   }
 

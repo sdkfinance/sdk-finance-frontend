@@ -1,17 +1,23 @@
-import apiConfigInstance from '../../api';
+import { api } from '../../api';
 import type { IApiResponse } from '../../types';
 import type {
   IAccountSettingRequest,
+  ICreateGateProviderPayload,
   ICustomProviderResponse,
+  IGateProvidersOptions,
   IGateSettingResponse,
   IUpdateGateProviderPayload,
   IViewGateResponse,
+  TViewVendorsApiResponse,
 } from './GateProviders.types';
 
-const { api } = apiConfigInstance;
 export const GateProviderRequests = {
   getProviders(): Promise<IApiResponse<IGateSettingResponse>> {
     return api.get('/gate-providers');
+  },
+
+  fetchGateProviders(options: IGateProvidersOptions): Promise<TViewVendorsApiResponse> {
+    return api.post('/gate-providers/view', options);
   },
 
   getProvidersSettings(providerAccountId: string): Promise<IApiResponse<IAccountSettingRequest>> {
@@ -22,12 +28,8 @@ export const GateProviderRequests = {
     return api.patch(`/gate-providers/${providerAccountId}/settings`, options);
   },
 
-  createCustomProvider(customProviderName: string): Promise<IApiResponse<ICustomProviderResponse>> {
-    return api.post('/gate-providers', {
-      vendorName: customProviderName,
-      debtAllowed: true,
-      active: true,
-    });
+  createCustomProvider(payload: ICreateGateProviderPayload): Promise<IApiResponse<ICustomProviderResponse>> {
+    return api.post('/gate-providers', payload);
   },
 
   updateGateProvider(payload: IUpdateGateProviderPayload): Promise<IApiResponse<ICustomProviderResponse>> {

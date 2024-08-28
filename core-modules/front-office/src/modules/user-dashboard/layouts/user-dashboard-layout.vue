@@ -66,15 +66,12 @@
 </template>
 
 <script setup lang="ts">
-import { ENV_VARIABLES } from '@sdk5/shared';
-import { useGetCurrentUserProfileApi, useGetVuexModule, useIsUaWebview } from '@sdk5/shared/composables';
-import { UserData } from '@sdk5/shared/store';
+import { ENV_VARIABLES, UserDataService } from '@sdk5/shared';
+import { useGetCurrentUserProfileApi, useIsUaWebview } from '@sdk5/shared/composables';
 import type { IOption } from '@sdk5/shared/types';
 import { AppDropdown, AppModal, HeaderTopLine } from '@sdk5/ui-kit-front-office';
 import type { Ref } from 'vue';
-import { computed } from 'vue';
-import { defineAsyncComponent } from 'vue';
-import { nextTick, onMounted, ref, watchEffect } from 'vue';
+import { computed, defineAsyncComponent, nextTick, onMounted, ref, watchEffect } from 'vue';
 import { RouterLink } from 'vue-router';
 
 import UserProfile from '../pages/profile/index.vue';
@@ -103,7 +100,6 @@ withDefaults(
 );
 
 const { personName } = useGetCurrentUserProfileApi();
-const userDataModule = useGetVuexModule(UserData);
 const { isWebview } = useIsUaWebview();
 const profileOptions: IOption[] = [
   {
@@ -141,7 +137,7 @@ const calculateOffset = () => {
   backOffset.value = `${offsetDiff > 0 ? offsetDiff : 0}px`;
 };
 const logout = () => {
-  userDataModule.logout();
+  UserDataService.logout();
 };
 const onDropDownChange = (event: TOptionCommand) => {
   if (event.action === actionTypes.logout) {

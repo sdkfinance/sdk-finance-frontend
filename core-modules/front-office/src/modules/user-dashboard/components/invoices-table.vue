@@ -41,6 +41,7 @@ import { AppTable, AppTableAmount, AppTableInfo } from '@sdk5/ui-kit-front-offic
 import type { PropType } from 'vue';
 import { Component, Emit, Prop, Vue } from 'vue-property-decorator';
 
+import type { TSeparateTableItems } from '../utils/tableUtils';
 import { addSeparator, getSeparatorColumnClass, getSeparatorSpan } from '../utils/tableUtils';
 
 const COMPONENTS = {
@@ -92,13 +93,13 @@ export default class InvoicesTable extends Vue {
     this.openDetails(data);
   }
 
-  protected get records(): IComputedInvoicesRecord[] {
+  protected get records() {
     const mappedData = this.data.map((item) => ({
       ...item,
-      title: this.$t('pages.invoices.invoice'),
+      title: this.$t('pages.invoices.invoice').toString(),
     }));
 
-    return mappedData.reduce(addSeparator, []) as IComputedInvoicesRecord[];
+    return mappedData.reduce(addSeparator, [] as TSeparateTableItems<IComputedInvoicesRecord>);
   }
 
   protected getAmountString(row: IInvoicesRecord): string {

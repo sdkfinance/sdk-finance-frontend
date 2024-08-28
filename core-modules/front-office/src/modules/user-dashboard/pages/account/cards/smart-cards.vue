@@ -2,7 +2,7 @@
   <div class="cards-page">
     <div class="cards-page__header">
       <span class="cards-page__title">
-        {{ $t('pages.user_dashboard.smart_cards.title') }}
+        {{ $t('pages.user_dashboard.in_system_cards.title') }}
       </span>
 
       <app-button
@@ -10,7 +10,7 @@
         transparent
         @click="openAddCardModal">
         <span class="button-label">
-          {{ $t('action.add_smart_card') }}
+          {{ $t('action.add_in_system_card') }}
         </span>
       </app-button>
     </div>
@@ -21,7 +21,7 @@
         :key="`card_${i}`"
         :title="card.name"
         :card-number="card.cardNumber"
-        :to="{ name: 'user-dashboard-account-smart-card', params: { id: currentSerial, cardId: card.id } }"
+        :to="{ name: 'user-dashboard-account-in-system-card', params: { id: currentSerial, cardId: card.id } }"
         class="cards-page__card">
         <app-card-progress
           :amount="account.amount"

@@ -56,6 +56,7 @@ interface ImportMetaEnv {
   readonly VUE_APP_BACK_OFFICE_CRO_VENDORS_PAGE_VISIBLE: string | undefined;
   readonly VUE_APP_BACK_OFFICE_CRO_CONTRACTS_PAGE_VISIBLE: string | undefined;
   readonly VUE_APP_USER_DASHBOARD_WITHDRAWAL_DEBIT_CARD_ADD_CARD_ACTION_VISIBLE: string | undefined;
+  readonly VUE_APP_API_REQUEST_TIMEOUT: string | undefined;
 }
 
 interface ImportMeta {

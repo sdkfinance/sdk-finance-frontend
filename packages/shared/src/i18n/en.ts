@@ -3,6 +3,8 @@ import type { LocaleMessages } from 'vue-i18n';
 const en: LocaleMessages = {
   placeholder: {
     input: {
+      enter_contract_name: 'Enter contract name',
+      time_shift: 'Enter time shift HH:MM:SS',
       enter_current_cash_amount: 'Enter current cash amount',
       note: 'Note',
       input_tax_id_number: 'Input Tax ID number',
@@ -125,8 +127,12 @@ const en: LocaleMessages = {
       enter_short_description: 'Enter short description',
       enter_trusted_domain_name: 'Enter a trusted domain name',
       input_serial: 'Input serial',
+      input_region: 'Input region',
     },
     select: {
+      choose_begin_date: 'Choose begin date',
+      choose_end_date: 'Choose end date',
+      direction: 'Choose direction',
       reason: 'Reason',
       conclusion: 'Conclusion',
       choose_date_and_time: 'Choose date and time',
@@ -179,6 +185,8 @@ const en: LocaleMessages = {
       choose_reason: 'Choose reason',
       choose_currency_pair_status: 'Choose currency pair status',
       choose_gate_provider: 'Choose gate provider',
+      choose_main_asset: 'Choose main asset',
+      choose_file_format: 'Chose file format',
     },
 
     confirm_title: 'Are you sure you want to delete it?',
@@ -187,6 +195,19 @@ const en: LocaleMessages = {
   },
 
   action: {
+    edit_commissions_and_limits: 'Edit commissions and limits',
+    edit_commission_period: 'Edit commission period',
+    update_commission_period: 'Update commission period',
+    set_commission_period: 'Set commission period',
+    create_an_operation: 'Create an operation',
+    activate_vendor: 'Activate vendor',
+    process_payment: 'Process payment',
+    add_bank: 'Add bank',
+    payment_history: 'Payment history',
+    view_bank_account_details: 'View bank account details',
+    initiate_payment: 'Initiate payment',
+    create_commission_rule: 'Create commission rule',
+    activate_operation: 'Activate operation',
     got_it_thanks: 'Got it, thanks!',
     open_working_day: 'Open working day',
     open_working_hours: 'Open working hours',
@@ -323,7 +344,7 @@ const en: LocaleMessages = {
     share: 'Share',
     print: 'Print',
     add_card: 'Add card',
-    add_smart_card: 'Add smart card',
+    add_in_system_card: 'Add In-system card',
     issue_card: 'Issue card',
     close_account: 'Close account',
     save: 'Save',
@@ -479,9 +500,18 @@ const en: LocaleMessages = {
     take_selfie: 'Take a selfie',
     upload_rates_from_file: 'Upload rates from file',
     confirm_rates: 'Confirm rates',
+    decline_client_profile: "Decline client's profile",
+    reject_transaction: 'Reject transaction',
+    ignore_limit_and_process: 'Ignore limit and process',
+    repeat_operation_processing: 'Repeat operation processing',
+    activate_contact: 'Activate contract',
+    delete_file: 'Delete file',
+    download: 'Download',
+    go_to_files_section: 'Go to files section',
   },
 
   validation: {
+    input_time_shift: 'Please input correct format hh:mm:ss',
     upload_image_with_restrictions: 'Image with max of {size} MB ({extensions})',
     does_not_match: "Fields doesn't match",
     input_password_confirmation: 'Please input the password confirmation',
@@ -546,6 +576,7 @@ const en: LocaleMessages = {
       clients: 'Clients',
       cfo: 'CFO',
       reconciliation: 'Reconciliation',
+      reconciliation_files: 'Files',
       log_history: 'Log history',
       bank_accounts: 'Bank accounts',
       exchange_rates: 'Exchange rates',
@@ -610,7 +641,7 @@ const en: LocaleMessages = {
       team_members: 'Team members',
       assets: 'Assets',
       cards: 'Cards',
-      smart_cards: 'Smart cards',
+      in_system_cards: 'In-system cards',
       trusted_domains: 'Trusted domains',
       roles_and_permissions: 'Roles and permissions',
       create_role: 'Create role',
@@ -622,10 +653,24 @@ const en: LocaleMessages = {
       cashier: 'Cashier',
       asset_rates: 'Asset rates',
       manual_setup_rates: 'Manual setup all rates',
+      transaction_reconciliation: 'Transaction reconciliation',
     },
   },
 
   notification: {
+    contract_successfully_duplicated: 'Contract successfully duplicated',
+    contract_name_successfully_changed: 'Contract name successfully changed.',
+    vendor_activated: 'Vendor activated',
+    commissions_and_limits_successfully_created: 'Commissions and limits successfully created.',
+    commissions_and_limits_successfully_updated: 'Commissions and limits successfully updated.',
+    commissions_successfully_created: 'Commissions successfully created.',
+    commissions_successfully_updated: 'Commissions successfully updated.',
+    limits_successfully_created: 'Limits successfully created.',
+    limits_successfully_updated: 'Limits successfully updated.',
+    some_error_while_updating_commissions_and_limits: 'Some errors while updating commissions and limits.',
+    some_error_while_updating_limits: 'Some errors while updating limits.',
+    some_error_while_deleting_condition_rules: 'Some errors while deleting condition rules.',
+    some_error_while_updating_commissions: 'Some errors while updating commissions.',
     calendar_deleted: 'Calendar was successfully deleted',
     calendar_created: 'Calendar was successfully created',
     success: 'Operation success',
@@ -657,6 +702,7 @@ const en: LocaleMessages = {
     asset_successfully_reconciled: 'Asset successfully reconciled',
     reconciliation_successfully_started: 'Reconciliation process has started',
     contract_deactivated: 'Contract successfully deactivated',
+    contract_activated: 'Contract successfully activated',
     not_available_from_mobile: 'Not available from mobile',
     document_type_uploaded: 'Your {documentType} was successfully uploaded.',
     asset_added: 'Asset successfully added',
@@ -677,16 +723,38 @@ const en: LocaleMessages = {
     login_not_allowed_from_mobile: 'This role is not allowed in current application, please use the web version instead',
     withdrawal_request_initiated: 'Withdraw successfully initiated',
     top_up_request_initiated: 'Top up successfully initiated',
-    transaction_accepted: 'Transaction successfully accepted',
-    transaction_declined: 'Transaction successfully declined',
+    business_request_accepted: 'Transaction successfully accepted',
+    business_request_declined: 'Transaction successfully declined',
     role_not_suitable_for_url: 'This role was not supposed to be used by this URL.\nPlease, try to login with another role. ',
     gate_operation_unavailable_for_mock_provider: 'Currently, the operation is available for the Corefy provider.',
     no_gate_methods_for_selected_account: 'No Gate methods for selected account',
     kyc_check_required: 'To perform any further activity please pass a KYC security check',
     camera_permission_denied: 'Camera permission denied',
+    asset_reconciliation_issue: 'Asset reconciliation has an issue',
+    asset_reconciled: 'Asset successfully reconciled',
+    business_request_rejected: 'Transaction rejected',
   },
 
   pages: {
+    open_banking: {
+      title: 'Bank accounts',
+      add_account_info:
+        'To add a new bank, click "Add bank" to access a secure payment widget. ' +
+        'Choose your bank, authorize, and grant consent to view account details and make payments.',
+      account_details_title: 'Bank account details',
+      payment_history_title: 'Payment history',
+      initiate_payment_title: 'Initiate payment',
+      initiate_payment_banks: 'Banks',
+      process_payment: 'Process payment',
+      initiate_payment_info: 'By clicking Proceed you agree to be bound by {bank} {terms} and {policy}',
+      payment_success_title: 'Payment was successfully initiated',
+      payment_success_info:
+        'The transfer has been sent to the bank and may take up to 3 days. ' +
+        'You can check the progress of this payment in the "Payment history" section.',
+      payment: 'Payment',
+      main_information: 'Main information',
+      creditor_details: 'Creditor details',
+    },
     coming_soon: {
       final_stages: 'Final stages',
       nearly_finished_text: "We're nearly finished with development.",
@@ -712,7 +780,8 @@ const en: LocaleMessages = {
       contact_information: 'Contact information',
       system_information: 'System information',
       address_information: 'Address information',
-      billing_information: 'Billing information',
+      billing_address_information: 'Billing address information',
+      business_address_information: 'Business address information',
       last_actions: 'Last actions',
       last_transactions: 'Last transactions',
       investigations: 'Investigations',
@@ -933,6 +1002,9 @@ const en: LocaleMessages = {
       corporate: 'Corporate',
       from_bank_account: 'From bank account',
       to_bank_account: 'To bank account',
+      reject_transaction_modal_description: 'Would you like to reject transaction?',
+      ignore_limit_and_process_transaction_modal_description: 'Would you like to reject transaction?',
+      repeat_transaction_processing_modal_description: 'Would you like to repeat operation processing?',
     },
     transaction_details: {
       title: 'Transaction details',
@@ -1003,6 +1075,10 @@ const en: LocaleMessages = {
         manual_tax_id_text: 'Check the Tax ID number before confirming',
         manual_text_by_type: 'Check the {type} number before confirming',
       },
+      decline_profile_modal_description:
+        'Once the KYC identification is declined, ' +
+        'the Client’s status will be updated to “Declined”, ' +
+        'and they won’t be able to reset their KYC status again',
     },
     profile: {
       title: 'Profile settings',
@@ -1306,9 +1382,9 @@ const en: LocaleMessages = {
         spending_by_categories: 'Spending by categories',
       },
 
-      smart_cards: {
-        title: 'All smart cards',
-        create_modal_title: 'Add smart card',
+      in_system_cards: {
+        title: 'All In-system cards',
+        create_modal_title: 'Add In-system card',
       },
 
       cards: {
@@ -1363,7 +1439,7 @@ const en: LocaleMessages = {
         loans: 'Loans',
         investment: 'Investment',
         cards: 'Cards',
-        smart_cards: 'Smart cards',
+        in_system_cards: 'In-system cards',
         details: 'Account details',
         settings: 'Settings',
         card_details: 'Card details',
@@ -1376,6 +1452,7 @@ const en: LocaleMessages = {
         bank_accounts: 'Bank accounts',
         address: 'Address',
         profile_photo: 'Profile Photo',
+        open_banking: 'Open banking',
       },
 
       make_payment: 'Make payment',
@@ -1411,7 +1488,7 @@ const en: LocaleMessages = {
         enter_card_details: 'Enter card details',
         select_account: 'Select the account you want to top up and enter the amount of topping up',
         payment_card_title: 'Payment to card',
-        transfer_card_title: 'Transfer to card',
+        transfer_card_title: 'Transfer to In-system card',
         payment_account_title: 'Payment to account',
         transfer_account_title: 'Transfer to account',
         save_template_title: 'Save as template',
@@ -1435,6 +1512,36 @@ const en: LocaleMessages = {
         withdrawal_corefy_success_title: 'Payment was successful. \n Amount: {amount} \n Fee: {feeAmount}',
         withdrawal_success_subtitle: 'You can review your transaction anytime in your Transactions list',
         fee_amount: 'Fee will be {amount}',
+
+        top_up_result: {
+          success: {
+            title: 'You have successfully topped up your account',
+            subtitle: 'You can review your operation anytime in your Transaction history',
+          },
+          pending: {
+            title: 'Operation pending',
+            subtitle: "We're processing your payment and this may take a few moments. Please check your Transaction history later for updates.",
+          },
+          fail: {
+            title: 'Operation failed',
+            subtitle: 'Please verify your information and try again.',
+          },
+        },
+
+        tokenization_result: {
+          success: {
+            title: 'You have successfully tokenized your card',
+            subtitle: 'Now you can use it to add funds or to withdraw from the account',
+          },
+          pending: {
+            title: 'Operation pending',
+            subtitle: "We're tokenizing your card and this may take a few moments. Please check your Transaction history later for status updates.",
+          },
+          fail: {
+            title: 'Operation failed',
+            subtitle: 'Please verify your information and try again.',
+          },
+        },
       },
     },
 
@@ -1454,6 +1561,7 @@ const en: LocaleMessages = {
 
     vendor_operations: {
       temp_deactivate_vendor_modal_title: 'Temporarily deactivate a {vendorName}',
+      activate_vendor_modal_title: 'Activate a {vendorName}',
       create_operation_modal_title: 'Create operation for {vendorName}',
       integration_settings: 'Integration settings',
       integration_settings_modal_title: 'Integration settings for {vendorName}',
@@ -1461,12 +1569,14 @@ const en: LocaleMessages = {
         view_title: '{operationName} commissions and limits',
         create_title: 'Create {operationName} commissions and limits',
         commission_details: 'Commission details',
+        contract_commission_details: 'Contract commission details',
         limits_details: 'Limits details',
       },
     },
 
     vendor_operation_details: {
-      temp_disable_operation_modal_title: 'Temporarily disable operation for {vendorName}',
+      disable_operation_modal_title: 'Temporarily disable operation for {vendorName}',
+      activate_operation_modal_title: 'Activate operation for {vendorName}',
     },
 
     vendor_monthly_fee: {
@@ -1479,7 +1589,9 @@ const en: LocaleMessages = {
 
     cro_contracts: {
       temp_deactivate_contract_modal_title: 'Temporarily deactivate a contract',
+      activate_contract_modal_title: 'Activate contract',
       duplicate_contract_name: 'Duplicate contract name',
+      change_contract_name: 'Change contract name',
       temp_deactivate_vendor_for_current_contract_modal_title: 'Temporarily deactivate the vendor for the current contract',
       commission_and_limits: {
         limits_details: 'Limits details',
@@ -1507,6 +1619,11 @@ const en: LocaleMessages = {
     cfo_assets: {
       deactivate_asset_modal_text: 'Are you sure that you want to deactivate {name} asset?',
       withdraw_collected_commission_modal_text: 'Are you sure that you want to withdraw collected commission?',
+      main_asset: 'Main asset',
+      main_asset_confirm_modal: {
+        title: 'Apply {asset} as main asset',
+        subtitle: 'Are you sure that you want to apply {asset} as main asset?',
+      },
     },
     trusted_domains: {
       delete_trusted_domain_modal_text: 'Would you like to delete a trusted domain {name}?',
@@ -1551,6 +1668,15 @@ const en: LocaleMessages = {
         tip: 'Recommended file formats csv, xml, xls.',
       },
     },
+    reconciliation: {
+      files: {
+        upload_file_hint: 'Recommended file formats csv.',
+      },
+      start_reconciliation: {
+        no_files: "No files uploaded. Please upload files in the 'Files' section first.",
+      },
+      resolve_mismatch_modal_title: 'Resolve mismatch',
+    },
   },
 
   table: {
@@ -1558,6 +1684,8 @@ const en: LocaleMessages = {
     unverified: 'Unverified',
     no_added_notes: 'No added notes',
     label: {
+      business_request_status: 'Business request status',
+      adding_date: 'Adding date',
       cashier_name: 'Cashier name',
       working_days: 'Working days',
       start_at: 'Start at',
@@ -1844,7 +1972,7 @@ const en: LocaleMessages = {
       withdrawal_limit: 'Withdrawal limit',
       bank_accounts: 'Bank accounts',
       cards: 'Cards',
-      smart_cards: 'Smart cards',
+      in_system_cards: 'In-system cards',
       account_name: 'Account name',
       account_id: 'Account ID',
       beneficiary: 'Beneficiary',
@@ -1895,6 +2023,11 @@ const en: LocaleMessages = {
       last_update_date: 'Last update date',
       to_client_account: 'To client account',
       collector_name: 'Collector name',
+      secondary_phone_number: 'Secondary phone number',
+      time_zone: 'Time zone',
+      file_format: 'File format',
+      file_status: 'File status',
+      region: 'Region',
     },
     pagination: {
       next: 'Next',
@@ -1904,6 +2037,7 @@ const en: LocaleMessages = {
   },
 
   filter: {
+    product_name: 'Product name',
     reconciliation_status: 'Reconciliation status',
     investigation_reason: 'Investigation reason',
     wallet_type: 'Wallet type',
@@ -1996,10 +2130,36 @@ const en: LocaleMessages = {
     request_id: 'Request ID',
     working_hours_status: 'Working hours status',
     document_type: 'Document type',
+    contract_name: 'Contract name',
+    client_name: 'Client name',
+    client_id: 'Client ID',
+    external_process_id: 'External process ID',
+    reconciliation_date: 'Reconciliation date',
+    name: 'Name',
+    file_status: 'File status',
+    file_format: 'File format',
   },
 
   form: {
     label: {
+      contract_name: 'Contract name',
+      creditor_name: 'Creditor name',
+      creditor_iban: 'Creditor IBAN',
+      address: 'Address',
+      all_bank_accounts: 'All bank accounts',
+      account_type: 'Account type',
+      balance: 'Balance',
+      assets: 'Assets',
+      available_amount: 'Available amount',
+      balance_type: 'Balance type',
+      blocked_amount: 'Blocked amount',
+      card_type: 'Card type',
+      cards: 'Cards',
+      closing_balance: 'Closing balance',
+      credit_limit: 'Credit limit',
+      bban: 'BBAN',
+      payment_type: 'Payment type',
+      begin_date: 'Begin date',
       address_line: 'Address line',
       organization: 'Organization',
       comment: 'Comment',
@@ -2277,7 +2437,6 @@ const en: LocaleMessages = {
       min: 'Min',
       max: 'Max',
       bank: 'Bank',
-      contract_name: 'Contract name',
       contract_type: 'Contract type',
       organization_type: 'Organization type',
       monthly_fee: 'Monthly fee',
@@ -2323,6 +2482,12 @@ const en: LocaleMessages = {
       currency_pair_status: 'Currency pair status',
       documents_checked: 'Documents were checked',
       gate_provider: 'Gate provider',
+      from_in_system_card: 'From In-system card',
+      to_in_system_card: 'To In-system card',
+      main_asset: 'Main asset',
+      file_format: 'File format',
+      region: 'Region',
+      uploaded_files: 'Uploaded files',
     },
   },
 
@@ -2336,8 +2501,8 @@ const en: LocaleMessages = {
     system_calendar: {
       status: {
         closed: 'Closed',
-        opened: 'Opened',
-        feature: 'Feature',
+        open: 'Open',
+        future: 'Future',
       },
     },
     date_range: {
@@ -2364,6 +2529,7 @@ const en: LocaleMessages = {
       pending: 'Need approval',
       none: 'Waiting for the customer’s documents',
       review_required: 'Compliance Manager review required',
+      not_available: 'Not available',
     },
 
     invoice: {
@@ -2388,6 +2554,7 @@ const en: LocaleMessages = {
         approved: 'Approved',
         waiting_for_approval: 'Waiting for approval',
         paid: 'Paid',
+        limited: 'Limited',
       },
       type: {
         gate_tokenization: 'Gate tokenization',
@@ -2447,6 +2614,9 @@ const en: LocaleMessages = {
         commission_capture: 'Commission capture',
         commission_reversal: 'Commission reversal',
         hold: 'Hold',
+        cash_desk_top_up: 'Cash desk top up',
+        prepaid_creation: 'Prepaid creation',
+        prepaid_use: 'Prepaid use',
       },
     },
 
@@ -2467,6 +2637,7 @@ const en: LocaleMessages = {
       accountant: 'Accountant',
       cashier: 'Cashier',
       payroll_manager: 'Payroll manager',
+      head_of_compliance: 'Head of compliance',
     },
 
     legal: {
@@ -2571,6 +2742,13 @@ const en: LocaleMessages = {
       payment_in_advance: 'Payment in advance',
       charge_back: 'Charge back',
       exchange_reserve: 'Exchange reserve',
+      issuing_transit: 'Issuing transit',
+      regular_system_commission: 'Regular system commission',
+      business_system_commission: 'Business system commission',
+      technical_transit: 'Technical transit',
+      issuing_balance: 'Issuing balance',
+      debt_gate_commission: 'Debt gate commission',
+      debt_gate_settlement: 'Debt gate settlement',
     },
 
     commission_direction: {
@@ -2613,9 +2791,12 @@ const en: LocaleMessages = {
     },
 
     badge_status: {
+      waiting: 'Waiting',
+      approved_by_accountant: 'Approved by accountant',
+      frozen: 'Frozen',
       closed: 'Closed',
       opened: 'Opened',
-      feature: 'Feature',
+      future: 'Future',
       underinvestigation: 'Under investigation',
       resolved: 'Resolved',
       notresolved: 'Not resolved',
@@ -2656,6 +2837,23 @@ const en: LocaleMessages = {
       none: 'None',
       completed: 'Completed',
       disabled: 'Disabled',
+      open: 'Open',
+      not_started: 'Not started',
+      processing: 'Processing',
+      accepted: 'Accepted',
+      failed: 'Failed',
+      unknown: 'Unknown',
+      deleted: 'Deleted',
+      not_available: 'Not available',
+      allowed_to_withdraw: 'Allowed to withdraw',
+      requires_confirmation: 'Required confirmation',
+      upload_failed: 'Upload failed',
+      uploaded: 'Uploaded',
+      parsed: 'Parsed',
+      parsing_error: 'Parsing error',
+      partially_parsed: 'Partially parsed',
+      exception: 'Exception',
+      not_resolved: 'Not resolved',
     },
     commission_limit: {
       max_transaction_amount: 'Max transaction amount',
@@ -2666,11 +2864,32 @@ const en: LocaleMessages = {
       individual: 'Individual',
       merchant: 'Merchant',
       corporate: 'Corporate',
+      cash_desk: 'Cash desk',
+      system: 'System',
     },
     kyc_providers: {
       complyAdvantage: 'ComplyAdvantage',
       openSanctions: 'OpenSanctions',
       sumsub: 'Sumsub',
+    },
+    reconciliation: {
+      frequency: {
+        NONE: 'None',
+        DAILY: 'Daily',
+        WEEKLY: 'Weekly',
+        MONTHLY: 'Monthly',
+        BIMONTHLY: 'Bimonthly',
+      },
+      file_format: {
+        DEFAULT: 'Default',
+      },
+      mismatch_type: {
+        TRANSACTION_NOT_FOUND: 'Transaction not found',
+        WRONG_AMOUNT: 'Wrong amount',
+        WRONG_CURRENCY: 'Wrong currency',
+        WRONG_DATE: 'Wrong date',
+        WRONG_TRANSACTION_STATUS: 'Wrong transaction status',
+      },
     },
   },
 
@@ -2687,6 +2906,8 @@ const en: LocaleMessages = {
     delete_template: 'Delete template?',
     custom: 'Custom',
     json: 'JSON',
+    terms_and_conditions: 'Terms and Conditions',
+    privacy_policy: 'Privacy Policy',
     confirm_quit_modal: {
       title: 'Are you sure you want to quit?',
       text: 'You have entered new data on this page if you navigate away from this page without first saving your data, changes will be lost.',

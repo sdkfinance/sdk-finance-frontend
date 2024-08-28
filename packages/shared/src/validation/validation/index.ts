@@ -16,3 +16,4 @@ export * from './Phone';
 export * from './CardNumber';
 export * from './ExpDate';
 export * from './WalletSerial';
+export * from './TimeShift';

@@ -35,15 +35,18 @@
       </app-smart-card>
     </div>
 
-    <app-modal
+    <modal
       ref="issueCardModal"
-      width="314px">
-      <template #default="{ onSubmit }">
+      v-model="isIssueCardModalVisible"
+      class="issue-card-modal"
+      :title="issueCardModalTitle">
+      <template #default="{ closeModal }">
         <issue-card-form
           :serial="currentSerial"
-          @submitted="onSubmit" />
+          @step="changeIssueCardModalByStep(2)"
+          @submitted="closeModal" />
       </template>
-    </app-modal>
+    </modal>
     <app-modal
       ref="infoModalRef"
       is-centred
@@ -70,7 +73,7 @@ import type { ICoin, TUserCardDetailed, TUserIssuedCard } from '@sdk5/shared/req
 import { IssueCardRequests } from '@sdk5/shared/requests';
 import type { ISmartCardShort } from '@sdk5/shared/types';
 import { errorNotification } from '@sdk5/shared/utils';
-import { AppButton, AppCardProgress, AppInfoModal, AppModal, AppSmartCard, InfoModalTypes } from '@sdk5/ui-kit-front-office';
+import { AppButton, AppCardProgress, AppInfoModal, AppModal, AppSmartCard, InfoModalTypes, Modal } from '@sdk5/ui-kit-front-office';
 import type { PropType, Ref } from 'vue';
 import { computed, defineComponent, ref } from 'vue';
 import { getModule } from 'vuex-module-decorators';
@@ -88,14 +91,17 @@ export default defineComponent({
     AppModal,
     AppSmartCard,
     AppInfoModal,
+    Modal,
   },
   props: {
     account: { type: Object as PropType<ICoin>, default: () => ({}) },
   },
   setup() {
     const { t } = useI18n();
-    const issueCardModal = ref(null) as unknown as Ref<InstanceType<typeof AppModal>>;
+    const issueCardModal = ref(null) as unknown as Ref<InstanceType<typeof Modal>>;
     const infoModalRef = ref(null) as unknown as Ref<InstanceType<typeof AppModal>>;
+    const isIssueCardModalVisible = ref(false);
+    const issueCardModalTitle = ref('pages.user_dashboard.cards.issue_card_modal.title');
 
     const infoModalData = computed(() => ({
       title: t('pages.user_dashboard.cards.issue_card_modal.card_is_ready').toString(),
@@ -108,6 +114,8 @@ export default defineComponent({
       issueCardModal,
       infoModalRef,
       infoModalData,
+      isIssueCardModalVisible,
+      issueCardModalTitle,
     };
   },
   data() {
@@ -125,11 +133,8 @@ export default defineComponent({
     };
   },
   watch: {
-    userIssuedCards: [
-      {
-        handler: 'userIssuedCardsChangeHandler',
-      },
-    ],
+    userIssuedCards: 'userIssuedCardsChangeHandler',
+    isIssueCardModalVisible: 'onIssueCardModalVisibilityChange',
   },
   created() {
     this.fetchUserCards();
@@ -149,10 +154,14 @@ export default defineComponent({
       this.closeInfoModal();
       this.fetchUserCards();
     },
+    changeIssueCardModalByStep(step: number) {
+      this.issueCardModalTitle =
+        step === 1 ? 'pages.user_dashboard.cards.issue_card_modal.title' : 'pages.user_dashboard.cards.issue_card_modal.title_second';
+    },
     async openIssueCardModal(): Promise<void> {
-      const isSubmitted = await this.issueCardModal.open();
+      const isSubmitted = await this.issueCardModal.openModal();
 
-      if (isSubmitted?.data && isSubmitted.data === true) {
+      if (isSubmitted) {
         this.openInfoModal();
       }
     },
@@ -195,6 +204,11 @@ export default defineComponent({
     userIssuedCardsChangeHandler(userCards: TUserIssuedCard[]) {
       this.getUserCardsDetail(userCards);
     },
+    onIssueCardModalVisibilityChange(visible: boolean) {
+      if (!visible) {
+        this.changeIssueCardModalByStep(1);
+      }
+    },
   },
 });
 </script>
@@ -219,6 +233,16 @@ export default defineComponent({
 
   .app-modal .app-modal__close {
     @apply text-blue-600;
+  }
+
+  .issue-card-modal {
+    .issue-card-form {
+      @apply pt-[20px] pb-[40px];
+    }
+
+    .issue-card-form-container {
+      @apply h-full overflow-visible;
+    }
   }
 }
 

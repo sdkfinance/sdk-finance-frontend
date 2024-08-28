@@ -16,7 +16,7 @@ export interface IExchangePayload {
   inCoinSerial: string;
   outCoinSerial: string;
   exchangeType?: TExchangeType;
-  amount: number;
+  amount: string;
 }
 
 export type TExecuteExchangeReserveOperationRequestPayload = {

@@ -1,3 +1,4 @@
+import config from '../config';
 import { moneyAmountFormat, prefixedMoneyAmount } from './moneyAmountFormat';
 
 type TAmountTypes = 'prefixedAmount' | 'displayAmount';
@@ -11,7 +12,7 @@ export function getDisplayAmount<T extends string | number>(
   type: TAmountTypes = 'displayAmount',
   symbolOrFormatNumberOptions: Intl.NumberFormatOptions | string = DEFAULT_PREFIX_SYMBOL,
 ): string | T {
-  if (!value) {
+  if (!value || value === config.emptyChar) {
     return value;
   }
 

@@ -1,3 +1,8 @@
+import type {
+  TVendorOperationCommissionRecord,
+  TVendorOperationCommissionRecordRule,
+} from '@sdk5/back-office/src/modules/vendors/types/vendor.types';
+
 import type { TCommissionDirection, TCommissionType, TQualifierType, TTimeUnit, TTxType } from '../../constants';
 import type { IApiResponse, IPaginationRequestOptions, IPaginationResponse, TSortType } from '../../types';
 import type { IOperationFlowRecord } from '../catalogs/Catalogs.types';
@@ -87,6 +92,47 @@ export interface ICommissionRecord {
   contract: IContractRecord;
   destinationCurrency?: ICurrencyShort;
   commissionRules: ICommissionRule[];
+}
+
+export type TCommissionProfileType = 'SYSTEM' | 'VENDOR';
+
+export interface ICommissionProfileRecord {
+  id: string;
+  type: TCommissionProfileType;
+  vendorId: string;
+  firstCurrencyId: string;
+  secondCurrencyId: string;
+  contractId: string;
+  flowId: string;
+  productId: string;
+  active: boolean;
+  createdAt: string;
+  updatedAt: string;
+  rules: IProviderCommissionRule[];
+  limitRules: IProviderCommissionLimitRule[];
+}
+export type TCommissionLimitQualifier = 'quantity' | 'amount';
+
+export interface ICommissionLimitRecord {
+  active: boolean;
+  timeUnit: TTimeUnit;
+  value: number;
+  name: string;
+  id: string;
+  qualifier: TCommissionLimitQualifier;
+}
+interface IProviderCommissionLimitRule extends Pick<ICommissionLimitRecord, 'id' | 'active' | 'value' | 'name' | 'qualifier' | 'timeUnit'> {
+  profileId: string;
+}
+
+interface IProviderCommissionRule {
+  id: string;
+  profileId: string;
+  active: boolean;
+  beginDate: string;
+  endDate: string;
+  direction: string;
+  conditions: ICommissionRuleCondition[];
 }
 
 export interface ICreateSystemCommission {
@@ -194,10 +240,94 @@ export type TViewGateCommissionProfilesRequestSort = {
   createdAt?: TSortType;
 };
 
+export interface ICommissionProfilesSortOptions {
+  createdAt?: TSortType;
+}
+
 export type TViewCommissionProfilesRequestPayload = IPaginationRequestOptions<
   TViewGateCommissionProfilesRequestFilters,
   TViewGateCommissionProfilesRequestSort
 >;
+
+export interface ICommissionProfileFilter {
+  active?: boolean;
+  type: TCommissionProfileType;
+  firstCurrency?: string;
+  secondCurrency?: string;
+  currencies?: string[];
+  operationType?: string;
+  productId?: string;
+  vendorId: string;
+  contractId?: string;
+  createdAtFrom?: string;
+  createdAtTo?: string;
+  profileId?: string;
+}
+
+export interface ICommissionProfileRulesViewFilter {
+  active: boolean;
+  beginAtFrom: string;
+  beginAtTo: string;
+  endAtFrom: string;
+  endAtTo: string;
+}
+
+export type ICommissionProfileRulesViewPayload = IPaginationRequestOptions<Partial<ICommissionProfileRulesViewFilter>, any>;
+
+export interface ICommissionProfileRule {
+  id: string;
+  profileId: string;
+  active: boolean;
+  beginDate: string;
+  endDate: string;
+  direction: TCommissionDirection;
+  conditions: ICommissionProfileRuleCondition[];
+}
+
+export interface ICommissionProfileRuleCondition {
+  id: string;
+  beginAmount: number;
+  endAmount: number;
+  value: ICommissionProfileRuleConditionValue;
+}
+
+export interface ICommissionProfileRuleConditionValue {
+  type: string;
+  valuePercent: number;
+  valueFixed: number;
+  maxAmount: number;
+  minAmount: number;
+  collector: string;
+}
+
+export interface ICommissionProfileTogglePayload {
+  active: boolean;
+}
+
+export interface ICommissionProfileRuleViewResponse {
+  records: ICommissionProfileRule[];
+}
+
+export interface IViewRuleCondition {
+  conditionType?: string;
+  amountFrom?: number;
+  amountTo?: number;
+  valueFixed?: number;
+  valuePercent?: number;
+  maxAmount?: number;
+  minAmount?: number;
+  createdAt?: string;
+  beginDate?: string;
+  endDate?: string;
+  ruleActive?: boolean;
+  ruleId?: string;
+  conditionId?: string;
+  direction?: TCommissionDirection;
+}
+
+export interface IViewLimitRule extends Pick<ICommissionLimitRecord, 'value' | 'qualifier' | 'timeUnit' | 'name' | 'active'> {
+  limitId: string;
+}
 
 export type IGateCommissionProfilesResponse = { records: IGateCommissionProfile[] };
 export type IGetGateCommissionProfilesApiResponse = IApiResponse<IGateCommissionProfilesResponse>;
@@ -206,8 +336,14 @@ export type TViewGateCommissionProfilesPaginationResponse = IApiResponse<IPagina
 export type ICommissionGateProfileResponse = { profile: IGateCommissionProfile };
 export type ICommissionGateProfileApiResponse = IApiResponse<ICommissionGateProfileResponse>;
 
+export type ICommissionProfileRuleViewApiPaginationResponse = IPaginationResponse<ICommissionProfileRule>;
+export type ICommissionProfileRuleViewApiResponse = IApiResponse<ICommissionProfileRuleViewApiPaginationResponse>;
+
+export type ICommissionProfilesOptions = IPaginationRequestOptions<Partial<ICommissionProfileFilter>, Partial<ICommissionProfilesSortOptions>>;
 export type ICommissionProfilesResponse = { records: ICommissionRecord[] };
+export type IVendorCommissionProfilesResponse = IPaginationResponse<ICommissionProfileRecord>;
 export type ICommissionProfilesApiResponse = IApiResponse<ICommissionProfilesResponse>;
+export type IVendorCommissionProfilesApiResponse = IApiResponse<IVendorCommissionProfilesResponse>;
 
 export type ICommissionRuleListResponse = { records: ICommissionRule[] };
 export type ICommissionRuleApiResponse = IApiResponse<ICommissionRuleListResponse>;
@@ -225,3 +361,18 @@ export type TProductCommissionRuleResponse = { records: IProductCommissionRule[]
 export type TProductCommissionRuleApiResponse = IApiResponse<TProductCommissionRuleResponse>;
 
 export type TUpdateProviderCommissionConditionResponse = IApiResponse<TProviderCommissionRuleListResponse>;
+
+export type IGetLimitRuleDataResponse = { records: ICommissionLimitRecord[] };
+export type IGetLimitRuleDataApiResponse = IApiResponse<IGetLimitRuleDataResponse>;
+
+export type IGetCommissionRulesDetailsResponse = { rule: TVendorOperationCommissionRecord };
+export type IGetCommissionRuleDetailsApiResponse = IApiResponse<IGetCommissionRulesDetailsResponse>;
+
+export type IGetCommissionRuleResponse = { rule: TVendorOperationCommissionRecord };
+export type IGetCommissionRuleApiResponse = IApiResponse<IGetCommissionRuleResponse>;
+
+export type ICommissionLimitResponse = { rule: ICommissionLimitRecord };
+export type ICommissionLimitApiResponse = IApiResponse<ICommissionLimitResponse>;
+
+export type ICommissionConditionCreateResponse = { condition: TVendorOperationCommissionRecordRule };
+export type ICommissionConditionCreateApiResponse = IApiResponse<ICommissionConditionCreateResponse>;

@@ -1,9 +1,9 @@
-import type { TCoinType, TTransactionType } from '../../constants';
+import type { TCoinType, TTransactionType, TTransactionTypeAll } from '../../constants';
 import type { IApiResponse } from '../../types';
 
 export interface IOperationFlowRecord {
   id: string;
-  code: string;
+  code: TTransactionTypeAll;
   transactionType: TTransactionType;
   processType: string;
   srcCoinType: TCoinType;

@@ -35,7 +35,8 @@ export const TRANSACTION_TYPES_ENUM = {
   gate_issue_card: 'gate_issue_card',
   exchange_reserve_top_up: 'exchange_reserve_top_up',
   exchange_reserve_withdraw: 'exchange_reserve_withdraw',
-};
+  gate_tokenization: 'gate_tokenization',
+} as const;
 
 export const TRANSACTION_TYPES = {
   [TRANSACTION_TYPES_ENUM.transfer]: 'entity.transaction_types.transfer',
@@ -79,3 +80,4 @@ export const ALL_TRANSACTION_TYPES_ARRAY = Object.keys(TRANSACTION_TYPES_ENUM).m
 );
 
 export type TTransactionType = keyof typeof TRANSACTION_TYPES;
+export type TTransactionTypeAll = keyof typeof TRANSACTION_TYPES_ENUM;

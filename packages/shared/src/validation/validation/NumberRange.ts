@@ -41,15 +41,15 @@ export const NumberRangeValidationRule = (
 export const SimpleNumberRangeValidationRule = (
   formatLabel: string = 'validation.invalid_value',
   requiredLabel: string = 'validation.is_required',
-  min: number = 0.01,
+  min: number = 0.00000000000000000001,
   max: number = Number.MAX_SAFE_INTEGER,
 ) =>
   NumberRangeValidationRule(
     formatLabel,
     requiredLabel,
-    min ?? 0.01,
+    min ?? 0.00000000000000000001,
     max ?? Number.MAX_SAFE_INTEGER,
-    2,
+    20,
     'validation.min_amount',
     'validation.max_amount',
     'blur',

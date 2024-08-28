@@ -87,7 +87,9 @@ export class UserCoins extends VuexModule {
   public async fetchCoinDetails(currencyId: string) {
     const request = await ReportsRequests.getCoinDetails(currencyId);
 
-    if (request.response) {
+    const isRoundedTotalAmountPresent = request.response?.roundedTotalAmount !== undefined;
+
+    if (request.response && isRoundedTotalAmountPresent) {
       const { roundedTotalAmount, coinsDetail, symbol } = request.response;
 
       this.context.commit(

@@ -5,7 +5,7 @@ type country = {
   oksm: string;
 };
 
-export const COUNTRIES: country[] = [
+const _COUNTRIES: country[] = [
   {
     code: 'AD',
     name: 'Andorra',
@@ -1507,3 +1507,5 @@ export const COUNTRIES: country[] = [
     oksm: '716',
   },
 ];
+
+export const COUNTRIES = _COUNTRIES.sort((aCountry, bCountry) => aCountry.name.toLowerCase().localeCompare(bCountry.name.toLowerCase()));

@@ -1,4 +1,4 @@
-import type { TOrganizationStatus, TRole } from '../../constants';
+import type { TOrganizationStatus, TProfileAddressType, TRole } from '../../constants';
 import type { IApiResponse } from '../../types';
 import type { TPersonTypes } from '../contracts';
 
@@ -23,6 +23,8 @@ export interface IUserAddress {
   city?: string;
   street?: string;
   houseNumber?: string;
+  region?: string;
+  addressType?: TProfileAddressType;
 }
 
 export interface IUserBusiness {
@@ -82,16 +84,25 @@ export type TUserProfileAdditional = {
   type: string;
   birthday?: string;
 };
+
+export type ILeadStatus = 'pending' | 'verified';
+export interface IIntegrationDto {
+  cardIssuingUserToken?: string;
+  openBankingCustomerId?: string;
+  leadStatus?: ILeadStatus;
+}
+
 export interface IUserInfoResponse {
   person: IUserInfo;
   contact: IUserLogin;
   type: TPersonTypes;
   status: TOrganizationStatus;
   business: IUserBusiness;
-  address: IUserAddress;
+  address: IUserAddress[];
   security: IUserSecurity;
   additional: TUserProfileAdditional;
   role: IUserRoleItem[];
+  integration?: IIntegrationDto;
 }
 
 export type TProfileMembership = {
@@ -139,5 +150,15 @@ export type TChangeUserIdentificationStatusRequestPayload = {
 
 export type TChangeUserIdentificationStatusResponse = IApiResponse<IGetUserInfoResponse>;
 
-export type TUpdateUserAddressPayload = Pick<IUserInfoResponse, 'address'>;
+export type TUpdateUserAddressPayload = {
+  address: Pick<IUserAddress, 'city' | 'country' | 'street' | 'zipCode' | 'houseNumber' | 'region'> & Required<Pick<IUserAddress, 'addressType'>>;
+};
 export type TUpdateProfileAdditionalPayload = Pick<IUserInfoResponse, 'additional'>;
+export interface IProfileContactUpdatePayload {
+  email?: string;
+  primaryPhoneNumber?: string;
+  additionalPhoneNumber?: string;
+}
+export interface ISentConfirmationResponse {
+  action: 'EMAIL_SENT' | 'SMS_SENT';
+}

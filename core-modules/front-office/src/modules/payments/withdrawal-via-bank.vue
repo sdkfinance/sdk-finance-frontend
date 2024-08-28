@@ -289,7 +289,7 @@ const handleFormSubmit = async () => {
 const calculateWithdrawalCommissionDebounced = useDebounceFn(calculateWithdrawalCommission, 900);
 const formCommissionFieldsChangeHandler = (formCommissionFieldsOption: Partial<TFormCommissionFields>) => {
   const { amount, coinSerial } = formCommissionFieldsOption;
-  const amountNumber = parseInt(`${amount}`, 10);
+  const amountNumber = parseFloat(`${amount}`);
 
   if (!Number.isNaN(amountNumber) && coinSerial) {
     calculateWithdrawalCommissionDebounced({ amount: amountNumber, coinSerial });

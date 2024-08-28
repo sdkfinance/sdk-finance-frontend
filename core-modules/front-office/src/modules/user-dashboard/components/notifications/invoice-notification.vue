@@ -8,7 +8,7 @@
 
 <script setup lang="ts">
 import { InvoicesRequests } from '@sdk5/shared';
-import { defineAsyncComponent, onMounted, ref } from 'vue';
+import { defineAsyncComponent, onBeforeUnmount, onMounted, ref } from 'vue';
 import type { RawLocation } from 'vue-router';
 import { onBeforeRouteUpdate } from 'vue-router/composables';
 
@@ -70,5 +70,10 @@ onBeforeRouteUpdate((to, from, next) => {
 
 onMounted(() => {
   getPendingInvoices();
+});
+onBeforeUnmount(() => {
+  if (getPendingInvoicesTimeout.value !== null) {
+    clearTimeout(getPendingInvoicesTimeout.value);
+  }
 });
 </script>

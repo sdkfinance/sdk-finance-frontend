@@ -24,7 +24,7 @@ export type TViewBusinessRequestsSortOptions = {
 };
 
 export type TChangeBusinessRequestStatusPayload = {
-  type: 'approve' | 'decline';
+  type: 'approve' | 'decline' | 'reject' | 'repeat';
   requestIdentifier: number;
 };
 

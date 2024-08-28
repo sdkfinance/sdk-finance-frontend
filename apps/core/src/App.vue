@@ -1,5 +1,9 @@
 <template>
-  <div id="app">
+  <root-layout>
     <router-view />
-  </div>
+  </root-layout>
 </template>
+
+<script setup lang="ts">
+import RootLayout from '@/layouts/root-layout.vue';
+</script>

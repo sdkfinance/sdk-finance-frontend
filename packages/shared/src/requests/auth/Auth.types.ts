@@ -8,15 +8,12 @@ export interface ILogin {
   password: string;
 }
 
-export interface ILoginConfirm {
-  login: string;
+export interface ILoginConfirm extends Pick<ILogin, 'login'> {
   otp: string;
 }
 
-export interface IPasswordRecoveryConfirmBody {
-  login: string;
+export interface IPasswordRecoveryConfirmBody extends ILoginConfirm {
   newUserPassword: string;
-  otp: string;
 }
 
 export interface IRegisterUser {
@@ -25,9 +22,7 @@ export interface IRegisterUser {
   legalType?: 'corporation' | 'individual';
 }
 
-export interface IConfirmUserByOtp {
-  login: string;
-  otp: string;
+export interface IConfirmUserByOtp extends ILoginConfirm {
   password: string;
 }
 

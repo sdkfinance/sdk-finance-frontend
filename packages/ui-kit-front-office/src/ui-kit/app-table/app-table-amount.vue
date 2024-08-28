@@ -26,21 +26,24 @@ const props = withDefaults(
 );
 
 const BASE_CLASS_NAME = 'app-table-amount-front-office';
-const TRANSACTION_WARN_STATUSES = [
+const TRANSACTION_ERROR_STATUSES = [
   BUSINESS_PROCESS_STATUS.error,
   BUSINESS_PROCESS_STATUS.declined,
   BUSINESS_PROCESS_STATUS.rejected,
+  BUSINESS_PROCESS_STATUS.limited,
 ] as TBusinessProcessStatus[];
+const TRANSACTION_WARN_STATUSES = [BUSINESS_PROCESS_STATUS.pending, BUSINESS_PROCESS_STATUS.waiting_for_approval] as TBusinessProcessStatus[];
 
 const isErrorOrDeclinedTransaction = computed(
-  () => props.transactionRecord?.status && TRANSACTION_WARN_STATUSES.includes(props.transactionRecord?.status),
+  () => props.transactionRecord?.status && TRANSACTION_ERROR_STATUSES.includes(props.transactionRecord?.status),
 );
-const isTopUp = computed(() => props.amount.startsWith('+'));
+const isPendingTransaction = computed(() => props.transactionRecord?.status && TRANSACTION_WARN_STATUSES.includes(props.transactionRecord?.status));
 const classList = computed(() =>
   classNames(BASE_CLASS_NAME, [
-    isTopUp.value && `${BASE_CLASS_NAME}--positive`,
     props.isBold && `${BASE_CLASS_NAME}--bold`,
-    isErrorOrDeclinedTransaction.value && `${BASE_CLASS_NAME}--warn`,
+    isErrorOrDeclinedTransaction.value && `${BASE_CLASS_NAME}--error`,
+    isPendingTransaction.value && `${BASE_CLASS_NAME}--warn`,
+    props.transactionRecord?.status === 'processed' && `${BASE_CLASS_NAME}--positive`,
     props.customClass && props.customClass,
   ]),
 );
@@ -60,6 +63,10 @@ const classList = computed(() =>
 
   &--warn {
     @apply text-orange-main;
+  }
+
+  &--error {
+    @apply text-red-main;
   }
 }
 </style>

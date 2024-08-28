@@ -1,13 +1,13 @@
 import { useDashboardNameByRole } from '@sdk5/shared/composables';
-import { UserInstance } from '@sdk5/shared/services';
+import { UserDataService } from '@sdk5/shared/services';
 import type { RouteMiddleware } from '@sdk5/shared/types';
 
 const { getDashboardName } = useDashboardNameByRole();
 
 export const redirectLogged: RouteMiddleware = ({ next, store }) => {
-  if (store.getters!['UserData/token']) {
+  if (UserDataService.token && UserDataService.role) {
     return next({
-      name: getDashboardName(UserInstance.role) || 'entrance',
+      name: getDashboardName(UserDataService.role) || 'entrance',
     });
   }
 

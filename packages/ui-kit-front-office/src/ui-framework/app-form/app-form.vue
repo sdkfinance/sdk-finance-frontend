@@ -31,7 +31,7 @@ export default defineComponent({
     rules: { type: Object as PropType<IPlainObject>, default: () => ({}) },
     loading: { type: Boolean, default: false },
     validateOnRuleChange: { type: Boolean, default: false },
-    serverErrors: { type: Array as PropType<any[]>, default: () => [] },
+    serverErrors: { type: Array as PropType<TServerError[]>, default: () => [] },
   },
   setup() {
     provide(serverFormErrors, state);

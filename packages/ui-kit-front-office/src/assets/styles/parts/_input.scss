@@ -87,8 +87,8 @@
 
   .el-textarea {
     @apply border
-     border-solid
-   border-blue-400
+    border-solid
+    border-blue-400
     bg-gray-100
     focus-within:border-primary
     before:border-[0.25rem]
@@ -110,7 +110,7 @@
 
     &.is-disabled {
       .el-textarea__inner {
-        @apply bg-transparent border-transparent text-gray-500;
+        @apply bg-transparent border-transparent text-gray-400;
       }
     }
   }

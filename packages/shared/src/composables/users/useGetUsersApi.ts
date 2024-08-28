@@ -1,9 +1,11 @@
-import { useQuery } from '@tanstack/vue-query';
-import { computed, type Ref } from 'vue';
+import { useQuery, useQueryClient } from '@tanstack/vue-query';
+import { refDefault } from '@vueuse/core';
+import { computed, isRef, type Ref, ref } from 'vue';
 
 import { QUERY_KEYS } from '../../constants';
 import type { IGetUsersOptions } from '../../requests';
 import { UsersRequests } from '../../requests';
+import type { MaybeRef } from '../../types';
 import { errorNotification } from '../../utils';
 
 export const useGetUsersApi = (options: Ref<IGetUsersOptions>) => {
@@ -27,13 +29,22 @@ export const useGetUsersApi = (options: Ref<IGetUsersOptions>) => {
   };
 };
 
-export const useGetSingleUserApi = (userId: Ref<string>) => {
+export const useGetSingleUserApi = (userId: MaybeRef<string>) => {
+  const queryClient = useQueryClient();
+
+  const userIdRef = isRef(userId) ? userId : refDefault(ref(userId), undefined);
+
+  const queryKey = computed(() => [QUERY_KEYS.getUsers, userIdRef.value]);
+  const isQueryEnabled = computed(() => !!userIdRef.value);
+
   const query = useQuery({
-    queryKey: [QUERY_KEYS.getUsers, userId],
+    queryKey,
+    enabled: isQueryEnabled,
+    refetchOnWindowFocus: false,
     queryFn: () => {
       return UsersRequests.getUsers({
         filter: {
-          ids: [userId.value],
+          ids: [userIdRef.value as string],
         },
       });
     },
@@ -48,8 +59,11 @@ export const useGetSingleUserApi = (userId: Ref<string>) => {
 
   const userData = computed(() => query.data?.value ?? null);
 
+  const invalidateGetSingleUserQuery = () => queryClient.invalidateQueries({ queryKey });
+
   return {
     ...query,
     userData,
+    invalidateGetSingleUserQuery,
   };
 };

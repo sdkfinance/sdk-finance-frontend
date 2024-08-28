@@ -1,5 +1,7 @@
 <template>
-  <div class="payment-operations">
+  <div
+    class="payment-operations max-w-520"
+    :class="rootClasses">
     <div class="payment-operations__title">
       <slot name="title" />
     </div>
@@ -15,17 +17,20 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-
-export default defineComponent({
-  name: 'PaymentOperationsLayout',
-});
+<script setup lang="ts">
+withDefaults(
+  defineProps<{
+    rootClasses?: string;
+  }>(),
+  {
+    rootClasses: 'max-w-520',
+  },
+);
 </script>
 
 <style lang="scss">
 .payment-operations {
-  @apply max-w-520 ml-auto mr-auto;
+  @apply ml-auto mr-auto;
 
   &__title {
     @apply font-semibold text-gray-500 text-center mb-64 text-2xl;

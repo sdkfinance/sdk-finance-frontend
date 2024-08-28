@@ -8,7 +8,11 @@
           {{ $t(key) }}
         </div>
         <div class="bank-details-list__item-value">
-          {{ displayValue }}
+          <slot
+            :name="key"
+            v-bind="{ value: displayValue }">
+            {{ displayValue }}
+          </slot>
         </div>
       </div>
     </template>

@@ -1,12 +1,14 @@
+import type { IServerError } from '@sdk5/shared';
+import { errorNotification, UserDataService } from '@sdk5/shared';
 import ApiConfigInstance, { UnsecureApiConfigInstance } from '@sdk5/shared/api';
-import { UserData } from '@sdk5/shared/store';
-import type { AxiosError, AxiosHeaders, AxiosResponse } from 'axios';
-import { getModule } from 'vuex-module-decorators';
+import type { AxiosHeaders, AxiosResponse } from 'axios';
+import { AxiosError } from 'axios';
 
-import store from '@/store';
+const isServerError = (value: unknown): value is IServerError => {
+  return !!(value as IServerError).mdcId || !!(value as IServerError).code;
+};
 
 function getSetupResponseInterceptorOptions() {
-  let userDataModule: any;
   return {
     onFulfilled: (response: AxiosResponse<any, any>) => {
       return Promise.resolve({
@@ -17,14 +19,15 @@ function getSetupResponseInterceptorOptions() {
       });
     },
     onRejected: async (error: any): Promise<AxiosError> => {
-      const { status, config } = error.response;
-
-      if (!userDataModule) {
-        userDataModule = getModule(UserData, store);
+      if (!isServerError(error) && error instanceof AxiosError) {
+        errorNotification(error.message);
+        return Promise.resolve(error);
       }
 
+      const { status, config } = error.response;
+
       if (status === 401 && config.url !== '/authorization') {
-        await userDataModule.logout();
+        await UserDataService.logout();
       }
 
       return Promise.resolve({

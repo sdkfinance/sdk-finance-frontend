@@ -3,6 +3,7 @@
     <el-form-item
       class="app-form-item"
       :prop="prop"
+      :rules="rules"
       :error="parentState?.errors[prop]"
       :class="{ 'is-large': isLarge }">
       <slot />
@@ -28,6 +29,7 @@ export default defineComponent({
   props: {
     prop: { type: String, required: true },
     isLarge: { type: Boolean, default: true },
+    rules: { type: Object, default: null },
   },
   setup() {
     const parentState = inject(serverFormErrors);

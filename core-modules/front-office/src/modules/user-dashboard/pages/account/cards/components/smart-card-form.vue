@@ -1,7 +1,7 @@
 <template>
   <app-form-wrapper>
     <template #title>
-      {{ $t('pages.user_dashboard.smart_cards.create_modal_title') }}
+      {{ $t('pages.user_dashboard.in_system_cards.create_modal_title') }}
     </template>
     <app-form
       ref="form"

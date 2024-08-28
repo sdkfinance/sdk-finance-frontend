@@ -5,6 +5,7 @@
       :trigger="trigger"
       :hide-on-click="hideOnClick"
       :placement="placement"
+      :disabled="disabled"
       @visible-change="onVisibleChange"
       @command="updateValue">
       <div
@@ -134,6 +135,10 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -254,6 +259,8 @@ export default defineComponent({
 
   &--secondary,
   &--filter-view {
+    @apply max-h-[50vw] overflow-auto;
+
     .app-dropdown {
       &__arrow,
       &__trigger i {

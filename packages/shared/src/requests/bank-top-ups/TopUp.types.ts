@@ -1,19 +1,8 @@
 import type { IApiResponse, IPaginationRequestOptions, IPaginationResponse, TSortType } from '../../types';
 import type { ITransactionsRecord } from '../transactions';
-import type { IClientCoin } from '../types';
 
 export interface ITopUpRecord extends ITransactionsRecord {
-  cashAmount: number;
-  children: any[];
-  clientCoin: IClientCoin;
-  createdAt: string;
   fullName: string;
-  iban: string;
-  id: string;
-  requestIdentifier: number;
-  requestStatus: string;
-  type: string;
-  updatedAt: string;
 }
 
 export interface ITopUpRecords {

@@ -15,6 +15,8 @@ import type {
   TUpdateProfileAdditionalPayload,
   TUpdateUserAddressPayload,
 } from './UserProfile.types';
+import type { IProfileContactUpdatePayload } from './UserProfile.types';
+import type { ISentConfirmationResponse } from './UserProfile.types';
 
 export const ProfileRequests = {
   getProfile(): Promise<IGetUserInfoApiResponse> {
@@ -29,11 +31,11 @@ export const ProfileRequests = {
     return api.patch(`/profiles/my/bank-accounts/${id}/with-bank`, accountDetails);
   },
 
-  updateMyLogin(login: string): Promise<IApiResponse<any>> {
-    return api.post('/profiles/my/contact', { login });
+  updateMyContactRequest(payload: IProfileContactUpdatePayload): Promise<IApiResponse<[ISentConfirmationResponse]>> {
+    return api.post('/profiles/my/contact', payload);
   },
 
-  confirmUpdateMyLogin(options: { login: string; otp: string }): Promise<IApiResponse<any>> {
+  confirmUpdateMyContactRequest(options: { login: string; otp: string }): Promise<IApiResponse<any>> {
     return api.post('/profiles/my/contact/confirm', options);
   },
 
@@ -65,8 +67,10 @@ export const ProfileRequests = {
     return api.delete(`profiles/my/bank-accounts/${id}`);
   },
 
-  declineIdentification(id: string): Promise<IApiResponse<any>> {
-    return api.post(`/profiles/${id}/decline`);
+  declineIdentification(id: string, comment?: string): Promise<IApiResponse<any>> {
+    return api.post(`/profiles/${id}/decline`, {
+      comment,
+    });
   },
 
   approveIdentification(id: string): Promise<IApiResponse<any>> {
@@ -77,8 +81,8 @@ export const ProfileRequests = {
     return api.post(`/profiles/${id}/reset`, payload);
   },
 
-  updateProfileContactAdmin(userId: string, data: { login: string }): Promise<IApiResponse<IGetUserInfoResponse>> {
-    return api.patch(`/profiles/${userId}/contact`, data);
+  updateProfileContact(userId: string, payload: IProfileContactUpdatePayload): Promise<IApiResponse<IGetUserInfoResponse>> {
+    return api.patch(`/profiles/${userId}/contact`, payload);
   },
 
   sendUserProfileToKycService(userId: string): Promise<IApiResponse<any>> {
@@ -95,5 +99,9 @@ export const ProfileRequests = {
   ): Promise<TChangeUserIdentificationStatusResponse> {
     const { notify, ...requestPayload } = payload;
     return api.patch(`/profiles/${userId}?notify=${!!notify}`, requestPayload);
+  },
+
+  resetUserPassword(userId: string): Promise<IApiResponse<never>> {
+    return api.post(`/profiles/${userId}/reset-password`);
   },
 };

@@ -13,95 +13,51 @@
   </aside>
 </template>
 
-<script lang="ts">
-import { UserData } from '@sdk5/shared/store';
+<script setup lang="ts">
+import { useI18n, UserDataService } from '@sdk5/shared';
 import type { IRouteConfig } from '@sdk5/shared/types';
-import { AppTooltip } from '@sdk5/ui-kit-front-office';
-import type { PropType } from 'vue';
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import { getModule } from 'vuex-module-decorators';
+import { useToggle } from '@vueuse/core';
+import { computed } from 'vue';
 
 import type { TFixedMenuAction, TFixedMenuLink } from '../types';
 import DashboardMenuFixed from './dashboard-menu-fixed.vue';
 import DashboardMenuHeader from './dashboard-menu-header.vue';
 import DashboardNav from './dashboard-nav.vue';
 
-const COMPONENTS = {
-  DashboardMenuHeader,
-  DashboardNav,
-  AppTooltip,
-  DashboardMenuFixed,
-} as const;
+defineProps<{
+  routes: IRouteConfig[];
+}>();
 
-@Component({
-  name: 'dashboard-menu',
-  components: COMPONENTS,
-})
-export default class DashboardMenu extends Vue {
-  static components: typeof COMPONENTS;
+const { t } = useI18n();
 
-  @Prop({
-    type: Array as PropType<IRouteConfig[]>,
-    required: true,
-  })
-  readonly routes!: IRouteConfig[];
+const [menuCollapsed, toggleMenuCollapsed] = useToggle(false);
 
-  $props!: {
-    routes: IRouteConfig[];
-  };
-
-  protected userDataModule = getModule(UserData, this.$store);
-
-  protected menuCollapsed = false;
-
-  protected fixedMenuLinks: TFixedMenuLink[] = [
-    {
-      to: '/front-office/dashboard',
-      icon: 'icon-home-alt',
-      tooltip: this.$t('sidebar.tooltip.main').toString(),
-    },
-    {
-      to: '/front-office/profile',
-      icon: 'icon-user-profile',
-      tooltip: this.$t('sidebar.tooltip.profile').toString(),
-    },
-  ];
-
-  protected get fixedMenuActions(): TFixedMenuAction[] {
-    return [
-      {
-        icon: this.currentCollapseMenuButtonIcon,
-        tooltip: 'Collapse',
-        actionFn: this.toggleMenuCollapsed,
-      },
-      {
-        icon: 'icon-logout-alt',
-        tooltip: 'Logout',
-        actionFn: this.logout,
-      },
-    ];
-  }
-
-  protected get isMenuFixedLogoVisible() {
-    return this.menuCollapsed;
-  }
-
-  protected get dashboardMenuClassNames() {
-    return ['dashboard-menu', this.menuCollapsed && 'dashboard-menu--collapsed'];
-  }
-
-  protected get currentCollapseMenuButtonIcon() {
-    return this.menuCollapsed ? 'icon-menu-opened' : 'icon-menu-closed';
-  }
-
-  protected logout() {
-    this.userDataModule.logout();
-  }
-
-  protected toggleMenuCollapsed() {
-    this.menuCollapsed = !this.menuCollapsed;
-  }
-}
+const dashboardMenuClassNames = computed(() => ['dashboard-menu', menuCollapsed.value && 'dashboard-menu--collapsed']);
+const currentCollapseMenuButtonIcon = computed(() => (menuCollapsed.value ? 'icon-menu-closed' : 'icon-menu-opened'));
+const fixedMenuLinks = computed<TFixedMenuLink[]>(() => [
+  {
+    to: '/dashboard',
+    icon: 'icon-home-alt',
+    tooltip: t('sidebar.tooltip.main').toString(),
+  },
+  {
+    to: '/profile',
+    icon: 'icon-user-profile',
+    tooltip: t('sidebar.tooltip.profile').toString(),
+  },
+]);
+const fixedMenuActions = computed<TFixedMenuAction[]>(() => [
+  {
+    icon: currentCollapseMenuButtonIcon.value,
+    tooltip: 'Collapse',
+    actionFn: toggleMenuCollapsed,
+  },
+  {
+    icon: 'icon-logout-alt',
+    tooltip: 'Logout',
+    actionFn: () => UserDataService.logout(),
+  },
+]);
 </script>
 
 <style lang="scss">
@@ -117,16 +73,16 @@ export default class DashboardMenu extends Vue {
 
   &__box {
     @apply flex
-      flex-col
-      gap-y-[1.375rem]
-      p-[1rem]
-      w-full
-      h-full
-      overflow-hidden
-      bg-white
-      border-r-[2px]
-      border-r-blue-300
-      ml-[var(--fixed-menu-width)];
+    flex-col
+    gap-y-[1.375rem]
+    p-[1rem]
+    w-full
+    h-full
+    overflow-hidden
+    bg-white
+    border-r-[2px]
+    border-r-blue-300
+    ml-[var(--fixed-menu-width)];
   }
 
   .el-loading-mask {

@@ -1,12 +1,12 @@
 import { useMutation } from '@tanstack/vue-query';
 
-import type { IUserAddress } from '../../requests';
+import type { TUpdateUserAddressPayload } from '../../requests';
 import { UserInfoRequests } from '../../requests';
 import { errorNotification, successNotification } from '../../utils';
 
 export const useUpdateUserAddressApi = () => {
   return useMutation({
-    mutationFn: (payload: IUserAddress & { userId: string }) => {
+    mutationFn: (payload: TUpdateUserAddressPayload & { userId: string }) => {
       const { userId, ...requestPayload } = payload;
       return UserInfoRequests.updateUserAddress(userId, requestPayload);
     },

@@ -16,12 +16,14 @@
       <app-dropdown
         ref="appDropdownRef"
         :options="foldedTableActionsWithoutIcons"
+        :disabled="isAllFoldedActionsDisabled"
         placement="bottom-end"
         secondary>
         <template #trigger>
           <app-button
             size="small"
             icon="icon-more"
+            :disabled="isAllFoldedActionsDisabled"
             outlined
             only-icon />
         </template>
@@ -46,7 +48,7 @@ import { AppButton } from '../app-button';
 import { AppDropdown } from '../app-dropdown';
 import AppTableActionButton from './app-table-action-button.vue';
 
-const MAXIMUM_VISIBLE_BUTTONS = 2;
+const DEFAULT_MAXIMUM_VISIBLE_BUTTONS = 2;
 
 export default defineComponent({
   name: 'AppTableActionsContainer',
@@ -64,6 +66,10 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    maxVisibleActions: {
+      type: Number,
+      default: DEFAULT_MAXIMUM_VISIBLE_BUTTONS,
+    },
   },
   setup(props) {
     const appDropdownRef = ref(null) as unknown as Ref<InstanceType<typeof AppDropdown>>;
@@ -79,11 +85,11 @@ export default defineComponent({
     });
 
     const tableActionsVisible = computed(() => {
-      return props.actionsAlwaysVisible ? tableActionsAvailable.value : tableActionsAvailable.value.slice(0, MAXIMUM_VISIBLE_BUTTONS);
+      return props.actionsAlwaysVisible ? tableActionsAvailable.value : tableActionsAvailable.value.slice(0, props.maxVisibleActions);
     });
 
     const tableActionsFolded = computed(() => {
-      return props.actionsAlwaysVisible ? [] : tableActionsAvailable.value.slice(MAXIMUM_VISIBLE_BUTTONS, tableActionsAvailable.value.length);
+      return props.actionsAlwaysVisible ? [] : tableActionsAvailable.value.slice(props.maxVisibleActions, tableActionsAvailable.value.length);
     });
 
     const foldedTableActionsWithoutIcons = computed(
@@ -92,6 +98,16 @@ export default defineComponent({
           ...action,
           icon: undefined,
         })) as unknown as IOption[],
+    );
+
+    const isAllFoldedActionsDisabled = computed(() =>
+      tableActionsFolded.value.every((action) => {
+        if (typeof action.isDisabled === 'function') {
+          return action.isDisabled(props.rowScope);
+        }
+
+        return action.isDisabled;
+      }),
     );
 
     const actionClickHandler = (option: IOption & { actionFn: (...args: any) => void }) => {
@@ -108,6 +124,7 @@ export default defineComponent({
       tableActionsVisible,
       foldedTableActionsWithoutIcons,
       appDropdownRef,
+      isAllFoldedActionsDisabled,
       actionClickHandler,
     };
   },

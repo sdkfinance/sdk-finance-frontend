@@ -57,9 +57,9 @@
 </template>
 
 <script setup lang="ts">
-import { useDashboardNameByRole, useGetVuexModule, useIsUaWebview } from '@sdk5/shared/composables';
+import { UserDataService } from '@sdk5/shared';
+import { useDashboardNameByRole, useIsUaWebview } from '@sdk5/shared/composables';
 import { ACCOUNTS, ENV_VARIABLES, WEB_VIEW_ACCOUNTS } from '@sdk5/shared/constants';
-import { UserData } from '@sdk5/shared/store';
 import type { IPlainObject } from '@sdk5/shared/types';
 import { errorNotification, successNotification } from '@sdk5/shared/utils';
 import { AppButton, AppForm, AppFormItem, AppInput, AppSelect } from '@sdk5/ui-kit-entrance';
@@ -79,7 +79,6 @@ const ACCOUNTS_PRODUCTION = AVAILABLE_ACCOUNTS.filter((account) =>
   ['Individual', 'Merchant', 'Administrator', 'Accountant', 'Compliance manager'].includes(account.label),
 );
 
-const userDataModule = useGetVuexModule(UserData);
 const { isWebview } = useIsUaWebview();
 const { getDashboardName } = useDashboardNameByRole();
 const { openDashboardRoute } = useOpenDashboardRoute();
@@ -95,7 +94,6 @@ const form = ref({
   otp: '',
 });
 
-const role = computed(() => userDataModule.role);
 const accounts = computed(() => {
   if (ENV_VARIABLES.availableRole) {
     const availableAccountByRole = AVAILABLE_ACCOUNTS.find((account) => account.label.toLowerCase() === ENV_VARIABLES.availableRole?.toLowerCase());
@@ -117,7 +115,7 @@ const handleAuth = async () => {
   const { login, password, otp } = form.value;
 
   isLoading.value = true;
-  const { response, error } = isOtpSend.value ? await userDataModule.loginConfirm({ login, otp }) : await userDataModule.login({ login, password });
+  const { response, error } = await (isOtpSend.value ? UserDataService.loginConfirm({ login, otp }) : UserDataService.login({ login, password }));
   isLoading.value = false;
 
   if (error !== null) {
@@ -136,7 +134,13 @@ const handleAuth = async () => {
     return;
   }
 
-  openDashboardRoute(getDashboardName(role.value));
+  const role = response?.members?.at(0)?.role;
+
+  if (!role) {
+    throw new Error('Role is not defined');
+  }
+
+  openDashboardRoute(getDashboardName(role));
 };
 
 onMounted(() => {

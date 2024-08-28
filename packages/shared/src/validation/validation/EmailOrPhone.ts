@@ -1,13 +1,13 @@
 import EmailRegExp from '../regexp/Email';
 import FormattedPhoneRegExp from '../regexp/FormattedPhone';
 import PhoneRegExp from '../regexp/Phone';
-import RegExpValidationRule from './RegExp';
+import { RegExpValidator } from './RegExp';
 
 export const EmailOrPhoneValidationRule = (required: boolean = true, trigger: string = 'blur') =>
-  RegExpValidationRule('validation.please_input_email_or_phone', 'validation.invalid_email_or_phone', trigger, [PhoneRegExp, EmailRegExp], required);
+  RegExpValidator('validation.please_input_email_or_phone', 'validation.invalid_email_or_phone', trigger, [PhoneRegExp, EmailRegExp], required);
 
 export const EmailOrFormattedPhoneValidationRule = (required: boolean = true) =>
-  RegExpValidationRule(
+  RegExpValidator(
     'validation.please_input_email_or_phone',
     'validation.invalid_email_or_phone',
     'validation.blur',
@@ -15,7 +15,7 @@ export const EmailOrFormattedPhoneValidationRule = (required: boolean = true) =>
     required,
   );
 
-export default RegExpValidationRule(
+export default RegExpValidator(
   'validation.please_input_email_or_phone',
   'validation.invalid_email_or-phone',
   'validation.blur',

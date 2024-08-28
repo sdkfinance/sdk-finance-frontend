@@ -3,7 +3,7 @@ import type { LocaleMessage } from 'vue-i18n';
 import { i18n } from '../../i18n';
 import type { IRExp } from '../../types';
 
-export default (
+export const RegExpValidator = (
   emptyLabel: string = 'validation.is_required',
   errorLabel: string,
   trigger: string = 'blur',

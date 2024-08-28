@@ -27,6 +27,8 @@ const CLASS_LIST = {
     BADGE_STATUSES.default,
     BADGE_STATUSES.done,
     BADGE_STATUSES.reconciliated,
+    BADGE_STATUSES.accepted,
+    BADGE_STATUSES.processing,
   ],
   [APP_BADGE_DISPLAY_STATUS.warning]: [
     BADGE_STATUSES.pending,
@@ -38,6 +40,7 @@ const CLASS_LIST = {
     BADGE_STATUSES.suspended,
     BADGE_STATUSES.limited,
     BADGE_STATUSES.inprogress,
+    BADGE_STATUSES.deleted,
   ],
   [APP_BADGE_DISPLAY_STATUS.danger]: [
     BADGE_STATUSES.rejected,
@@ -48,6 +51,7 @@ const CLASS_LIST = {
     BADGE_STATUSES.terminated,
     BADGE_STATUSES.unsupported,
     BADGE_STATUSES.warning,
+    BADGE_STATUSES.failed,
   ],
 };
 

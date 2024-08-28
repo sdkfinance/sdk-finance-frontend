@@ -96,10 +96,10 @@
 </template>
 
 <script setup lang="ts">
-import { useDashboardNameByRole, useGetVuexModule, useIsUaWebview } from '@sdk5/shared/composables';
+import { UserDataService } from '@sdk5/shared';
+import { useDashboardNameByRole, useIsUaWebview } from '@sdk5/shared/composables';
 import { ENV_VARIABLES, ROLES } from '@sdk5/shared/constants';
 import { AuthRequests } from '@sdk5/shared/requests';
-import { UserData } from '@sdk5/shared/store';
 import { checkMobile, errorNotification, successNotification } from '@sdk5/shared/utils';
 import { EmailOrPhoneValidationRule, SimpleRequiredValidationRule } from '@sdk5/shared/validation';
 import { AppButton, AppForm, AppFormItem, AppInput } from '@sdk5/ui-kit-entrance';
@@ -118,7 +118,6 @@ const rules = {
 };
 const route = useRoute();
 const { isWebview } = useIsUaWebview();
-const userDataModule = useGetVuexModule(UserData);
 const appFormRef = ref(null) as unknown as Ref<InstanceType<typeof AppForm>>;
 const isLoading = ref(false);
 const isOtpSend = ref(false);
@@ -129,7 +128,6 @@ const form = ref({
 });
 
 const isDemoMode = computed(() => import.meta.env.VUE_APP_DEMO_MODE === 'true');
-const role = computed(() => userDataModule.role);
 
 const resendOtp = async () => {
   const isValid = await appFormRef.value.validateField('login');
@@ -160,7 +158,7 @@ const handleAuth = async () => {
   const { login, password, otp } = form.value;
 
   isLoading.value = true;
-  const { response, error } = isOtpSend.value ? await userDataModule.loginConfirm({ login, otp }) : await userDataModule.login({ login, password });
+  const { response, error } = await (isOtpSend.value ? UserDataService.loginConfirm({ login, otp }) : UserDataService.login({ login, password }));
   isLoading.value = false;
 
   if (error) {
@@ -179,12 +177,18 @@ const handleAuth = async () => {
     return;
   }
 
-  if ((isWebview || checkMobile()) && role.value !== ROLES.individual) {
+  const role = response?.members?.at(0)?.role;
+
+  if (!role) {
+    throw new Error('Role is not defined');
+  }
+
+  if ((isWebview || checkMobile()) && role !== ROLES.individual) {
     errorNotification('notification.login_not_allowed_from_mobile');
     return;
   }
 
-  openDashboardRoute(getDashboardName(role.value));
+  openDashboardRoute(getDashboardName(role));
 };
 
 onMounted(() => {

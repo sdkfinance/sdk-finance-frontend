@@ -1,3 +1,5 @@
+import type { TValueLabelRecord } from './ValueLabelRecord.type';
+
 export type TFilterRange = 'from' | 'to';
 
 export interface IFilterRange {
@@ -5,22 +7,17 @@ export interface IFilterRange {
   param: string;
 }
 
-interface ISelectOption {
-  label: string;
-  value: any;
-}
-
 export type TSelectOptions =
-  | ISelectOption[]
+  | Pick<TValueLabelRecord, 'value' | 'label'>[]
   | {
       [key: string]: string | number;
     };
 
-type TFilteredSelectOptions = (options: { role: string }) => TSelectOptions;
+type TFilteredSelectOptions = (options: { role?: string | null }) => TSelectOptions;
 export type TTableFilterValueArrayType = (string | number)[];
 export type TTableFilterValue = boolean | string | number | TTableFilterValueArrayType | null;
 export type TTableFilterLabelPosition = 'before' | 'after';
-export type TTableFilterCheckFn = ({ role }: { role: string }) => boolean;
+export type TTableFilterCheckFn = ({ role }: { role?: string | null }) => boolean;
 export type TFilterOptions = TSelectOptions | TFilteredSelectOptions;
 export type TTableFilterValues = Record<ITableFilter['param'], TTableFilterValue>;
 

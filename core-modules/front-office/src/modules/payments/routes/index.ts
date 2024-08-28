@@ -2,6 +2,8 @@ import { ENV_VARIABLES } from '@sdk5/shared';
 import type { IRouteConfig } from '@sdk5/shared/types';
 import type { AsyncComponent } from 'vue';
 
+import BasePageLayout from '../../../layouts/base-page-layout.vue';
+
 const BaseLayout = () => import('../../../layouts/base-layout.vue');
 
 const MakePaymentOperations: AsyncComponent = () => import('../make-payment-operations.vue');
@@ -24,7 +26,13 @@ const MobileTopUp: AsyncComponent = () => import('../make-payment/mobile-top-up.
 
 const TopUpPaymentCardOperations: AsyncComponent = () => import('../top-up-payment-card-operations.vue');
 
-const TopUpResultPage = () => import('../top-up-result.vue');
+const TopUpResultSuccessPage = () => import('../top-up-result/success.vue');
+const TopUpResultPendingPage = () => import('../top-up-result/pending.vue');
+const TopUpResultFailPage = () => import('../top-up-result/fail.vue');
+
+const TokenizationResultSuccessPage = () => import('../tokenization-result/success.vue');
+const TokenizationResultPendingPage = () => import('../tokenization-result/pending.vue');
+const TokenizationResultFailPage = () => import('../tokenization-result/fail.vue');
 
 const WithdrawalOperationsPage = () => import('../withdrawal-operations.vue');
 const WithdrawalViaBankPage = () => import('../withdrawal-via-bank.vue');
@@ -167,6 +175,92 @@ const BANK_TRANSFER_ROUTE: IRouteConfig[] = [
 ];
 
 export const PAYMENT_OPERATIONS_CHILDREN: IRouteConfig[] = [
+  {
+    path: 'top-up-result',
+    name: 'user-top-up-result',
+    component: BasePageLayout,
+    meta: {
+      disableGuard: true,
+      layout: {
+        componentName: 'BasePageLayout',
+      },
+    },
+    children: [
+      {
+        path: 'success',
+        meta: {
+          disableGuard: true,
+          layout: {
+            componentName: 'BasePageLayout',
+          },
+        },
+        component: TopUpResultSuccessPage,
+      },
+      {
+        path: 'pending',
+        meta: {
+          disableGuard: true,
+          layout: {
+            componentName: 'BasePageLayout',
+          },
+        },
+        component: TopUpResultPendingPage,
+      },
+      {
+        path: 'fail',
+        meta: {
+          disableGuard: true,
+          layout: {
+            componentName: 'BasePageLayout',
+          },
+        },
+        component: TopUpResultFailPage,
+      },
+    ],
+  },
+  {
+    path: 'tokenization-result',
+    name: 'user-tokenization-result',
+    component: BasePageLayout,
+    meta: {
+      disableGuard: true,
+      layout: {
+        componentName: 'BasePageLayout',
+      },
+    },
+    children: [
+      {
+        path: 'success',
+        meta: {
+          disableGuard: true,
+          layout: {
+            componentName: 'BasePageLayout',
+          },
+        },
+        component: TokenizationResultSuccessPage,
+      },
+      {
+        path: 'pending',
+        meta: {
+          disableGuard: true,
+          layout: {
+            componentName: 'BasePageLayout',
+          },
+        },
+        component: TokenizationResultPendingPage,
+      },
+      {
+        path: 'fail',
+        meta: {
+          disableGuard: true,
+          layout: {
+            componentName: 'BasePageLayout',
+          },
+        },
+        component: TokenizationResultFailPage,
+      },
+    ],
+  },
   ...(ENV_VARIABLES.makePaymentOperationsVisible ? MAKE_PAYMENT_OPERATION_ROUTE : []),
   {
     path: 'top-up-operations',
@@ -208,17 +302,6 @@ export const PAYMENT_OPERATIONS_CHILDREN: IRouteConfig[] = [
     name: 'user-top-up-payment-card-operations',
     component: TopUpPaymentCardOperations,
     meta: {
-      layout: {
-        componentName: 'BasePageLayout',
-      },
-    },
-  },
-  {
-    path: 'top-up-result',
-    name: 'user-top-up-result',
-    component: TopUpResultPage,
-    meta: {
-      disableGuard: true,
       layout: {
         componentName: 'BasePageLayout',
       },

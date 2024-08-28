@@ -39,11 +39,35 @@
     </app-data-controller>
 
     <data-details
+      v-if="paymentDetails.data"
       ref="invoicesDetailsModalRef"
-      :data="modalData"
-      is-invoice
-      @data-changed="updateData"
-      @closed="onDataDetailsClosed" />
+      :data="paymentDetails.data"
+      :title="paymentDetails.title"
+      :date="paymentDetails.date"
+      :amount="paymentDetails.amount"
+      :lists="paymentDetails.lists"
+      @closed="onDataDetailsClosed">
+      <template
+        v-if="paymentDetails.invoice.description"
+        #description>
+        {{ paymentDetails.invoice.description }}
+      </template>
+      <template
+        v-if="paymentDetails.invoice.isPending"
+        #footer="{ close }">
+        <pending-invoice-form
+          :invoice-identifier="paymentDetails.invoice.invoiceIdentifier"
+          :invoice-currency="paymentDetails.invoice.invoiceCurrency"
+          @invoice-payed="
+            updateData();
+            close();
+          "
+          @invoice-rejected="
+            updateData();
+            close();
+          " />
+      </template>
+    </data-details>
   </div>
 </template>
 
@@ -62,7 +86,9 @@ import { DataExportRequests } from '../../../../../requests/data-export/DataExpo
 import { getViewInvoicesRequestFilterPayload } from '../../../../../utils';
 import DataDetails from '../../../components/data-details.vue';
 import InvoicesTable from '../../../components/invoices-table.vue';
+import PendingInvoiceForm from '../../../components/pending-invoice-form.vue';
 import { invoicesFilters } from '../../../filters/invoices';
+import { useInvoiceDetails } from './useInvoiceDetails';
 
 const router = useRouter();
 const route = useRoute();
@@ -82,6 +108,7 @@ const isExportLoading = ref(false);
 const isInvoicesEnable = ref(true);
 const isLoading = ref(false);
 const modalData = ref({} as IInvoicesRecord);
+const paymentDetails = useInvoiceDetails(modalData);
 
 const isInvoicesMapAvailable = computed(() => import.meta.env.VUE_APP_TRANSACTIONS_MAP_ENABLED === 'true');
 const isInvoiceSwitchVisible = computed(() => route.name === 'user-dashboard-invoices');

@@ -1,10 +1,10 @@
 import type { TRole } from '../constants';
 import { ROLES } from '../constants';
-import store from '../store';
+import { UserDataService } from './UserData.service';
 
 export class User {
-  public get role(): TRole {
-    return store.getters['UserData/role'];
+  public get role() {
+    return UserDataService.role;
   }
 
   public get isRole(): { [key: string]: boolean } {
@@ -16,6 +16,10 @@ export class User {
   }
 
   public hasNoRoles(roles: TRole[]): boolean {
+    if (!this.role) {
+      return false;
+    }
+
     return !roles.includes(this.role);
   }
 }

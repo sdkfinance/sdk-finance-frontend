@@ -43,13 +43,13 @@ import { RouterView } from 'vue-router';
 
 import { UserCoins } from '../../../../store/modules';
 import FrequentlyUsedActivities from '../../components/frequently-used-activities.vue';
-import { ACCOUNTS_ROUTE, SUMMARY_ROUTE, TRANSACTIONS_ROUTE } from '../../routes/TOTAL_BALANCE_CHILDREN';
+import { ACCOUNTS_ROUTE, OPEN_BANKING_ROUTE, SUMMARY_ROUTE, TRANSACTIONS_ROUTE } from '../../routes/TOTAL_BALANCE_CHILDREN';
 
 interface IRouterView {
   updateData?: Function;
 }
 
-const tabs: IRouteConfig[] = [ACCOUNTS_ROUTE, TRANSACTIONS_ROUTE, SUMMARY_ROUTE];
+const tabs: IRouteConfig[] = [ACCOUNTS_ROUTE, OPEN_BANKING_ROUTE, TRANSACTIONS_ROUTE, SUMMARY_ROUTE];
 
 const profileModule = useGetVuexModule(Profile);
 const userCoinsModule = useGetVuexModule(UserCoins);

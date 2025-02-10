@@ -1,5 +1,8 @@
 # SDK.finance core client
 
+## Author
+[SDK.finance](https://sdk.finance/)
+
 ---
 
 ## Project main libraries and services documentation
